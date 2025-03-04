@@ -1,4 +1,7 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is the README file for the AI Ads Gen Project using [Next.js](https://nextjs.org) bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Figma Design
+[View the Figma design here](https://www.figma.com/design/WQT88LFkfo65NqDHng2Kyd/New-AI-Ads-Gen?node-id=0-1&p=f&t=2jDnxBFVTgA56yiY-0)
 
 ## Getting Started
 
