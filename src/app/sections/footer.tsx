@@ -34,7 +34,7 @@ const featureLinks = [
 const footer = () => {
   return (
     <section className="my-[78px] bg-white">
-        <section className="gap-[96px] flex justify-center items-center">
+        <section className="gap-[96px] flex flex-col lg:flex-row justify-center items-center">
       <div className="flex flex-col">
         <Image src={footerLogo} alt="footerlogo" />
         <p className="text-[28px] font-nunito">
@@ -50,7 +50,7 @@ const footer = () => {
         </div>
         <p>Copyright. All rights reserved.</p>
       </div>
-      <div className="flex gap-[125px]">
+      <div className="flex gap-10 lg:gap-[125px] flex-col lg:flex-row">
       <div className="flex flex-col gap-5">
         <p className="font-nunito font-semibold text-[24px]">Company Info</p>
         <div className="flex flex-col gap-4">
@@ -83,8 +83,8 @@ const footer = () => {
       </div>
       </div>
       </section>
-      <div className="mx-[180px] mt-[68px] flex justify-center items-center">
-        <p className="font-nunito text-[20px] text-gray-500">Adgen AI helps you generate video and image advertisements tailored Adgen AI helps you generate video and image adements <br />
+      <div className="lg:mx-[180px] mx-[40px] mt-[68px] flex justify-center items-center">
+        <p className="font-nunito lg:text-[20px] text-gray-500">Adgen AI helps you generate video and image advertisements tailored Adgen AI helps you generate video and image adements <br />
         tailored for different platforms, audiences and cultural contexts, without needing design or marketing expertise different platforms, <br />
          audiences and cultural contexts, without needing design or marketing expertise</p>
       </div>

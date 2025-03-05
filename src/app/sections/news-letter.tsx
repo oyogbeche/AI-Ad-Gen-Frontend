@@ -39,7 +39,7 @@ export default function NewsletterForm() {
             type="email"
             placeholder="Enter your email"
             {...register("email")}
-            className="w-full px-4 py-3 border rounded-lg text-black focus:outline-none"
+            className="w-full px-4 py-3 border rounded-lg text-white focus:outline-none"
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
