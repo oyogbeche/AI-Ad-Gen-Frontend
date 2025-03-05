@@ -6,32 +6,26 @@ import Slider from "react-slick";
 
 const heroImages = [
   {
-    id: 1,
     src: "/fanta-ad.png",
     alt: "Fanta Orange Flavor Ad",
   },
   {
-    id: 2,
     src: "/sprite-ad.png",
     alt: "Sprite Fresh Ad",
   },
   {
-    id: 3,
     src: "/tech-ad.png",
     alt: "Technology Concept Ad",
   },
   {
-    id: 4,
     src: "/cosmetic-ad.png",
     alt: "Cosmetic Product Ad",
   },
   {
-    id: 5,
     src: "/landscape-ad.png",
     alt: "Landscape Concept Ad",
   },
   {
-    id: 6,
     src: "/cokead.png",
     alt: "Food Product Ad",
   },
@@ -39,7 +33,7 @@ const heroImages = [
 
 const HeroSection = () => {
   return (
-    <div className="  p-6 bg-cover bg-center bg-no-repeat relative w-full min-h-[800px] flex flex-col items-center justify-between  overflow-hidden">
+    <div className="   bg-cover bg-center bg-no-repeat relative w-full min-h-[800px] flex flex-col items-center justify-between  overflow-hidden">
       <div className="absolute inset-0 z-0  opacity-50"></div>
 
       <div className="relative z-10 max-w-4xl w-full px-4 mt-20 text-center mb-14 animate-in fade-in zoom-in duration-700">
@@ -57,9 +51,9 @@ const HeroSection = () => {
 
       <div className="w-full  px-4 slider-container -mb-8 mt-10">
         <Slider {...settings}>
-          {heroImages.map((image) => (
+          {heroImages.map((image, index) => (
             <div
-              key={image.id}
+              key={index}
               className="outline-none flex items-center justify-center h-[450px]"
             >
               <Image
