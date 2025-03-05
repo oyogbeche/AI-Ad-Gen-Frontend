@@ -10,21 +10,20 @@ const nunito = Nunito({
 
 export default function Pricing() {
   return (
-    <section
-      className={clsx(
-        "w-full py-16 px-4 md:px-6 lg:px-8 bg-white relative overflow-hidden",
-        nunito.variable
-      )}
-    >
+    <section className={"w-full xl:px-34 lg:py-25 px-4 py-10 md:px-6 bg-black"}>
       <div className="max-w-7xl mx-auto  relative">
         <div className="w-fit mx-auto flex flex-col">
           <div className="inline-block bg-[#eaf1fb] self-center text-[#458de1] px-6 py-2 rounded-2xl mb-6 font-semibold relative z-20">
-            FROM IDEA TO RESULT IN MINUTES
+            UNLOCK THE FULL POTENTIAL OF AI-ADGEN
           </div>
-
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-[#520052] mb-12 relative z-20">
-            Key Features Adgen-ai offers
-          </h2>
+          <div className="flex flex-col items-center gap-[3px]">
+            <h2 className="text-3xl md:text-4xl text-white text-center text-[40px] font-semibold leading-[48px]">
+              Pricing Plans
+            </h2>
+            <p className="text-white text-[18px] font-medium leading-[28px]">
+              Generate your ads for free and pay as you grow.
+            </p>
+          </div>
         </div>
 
         <PricingCard />
