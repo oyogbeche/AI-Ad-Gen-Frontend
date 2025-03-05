@@ -1,5 +1,4 @@
 import type React from "react";
-import Image from "next/image";
 import { Nunito } from "next/font/google";
 import clsx from "clsx";
 import FeatureCard from "@/components/key-features-card";
