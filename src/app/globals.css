@@ -132,6 +132,8 @@
 @theme {
   --color-dark-purple: #520052;
   --color-light-purple: #B800B8;
+  --color-blue: #10509A;
+  --color-rich-black: #121316;
   --font-nunito: "Nunito";  
   --font-manrope: "Manrope";
 }

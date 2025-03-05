@@ -11,7 +11,7 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <header className="w-full h-[80px] px-32 border-b border-[#F8E6F8] bg-white shadow-md">
+    <header className="w-full h-[80px] px-[80px] border-b border-[#F8E6F8] bg-white shadow-md sticky top-0 z-40">
       <div className=" flex items-center justify-between px-4 py-4 md:px-6 h-full">
         <div>
           <Link href="/">
@@ -26,7 +26,7 @@ const Header: React.FC = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-6 font-nunito text-gray-600">
+        <nav className="hidden md:flex space-x-6  font-nunito text-gray-600">
           <Link href="/features" className="hover:text-purple-700">
             Features
           </Link>
@@ -40,10 +40,10 @@ const Header: React.FC = () => {
 
         {/* Buttons */}
         <div className="hidden md:flex font-manrope text-[15px] items-center space-x-4 pr-4">
-            <Link href="/signin" className="text-[#520052] font-medium lg:hover:text-dark-purple/90">
+            <Link href="/signin" className="text-light-purple font-medium lg:hover:text-dark-purple/90">
               Sign in
             </Link>
-          <Button className="bg-dark-purple hover:bg-dark-purple/70" asChild>
+          <Button className="bg-light-purple hover:bg-dark-purple/70" asChild>
             <Link
               href="/signup"
               className=" text-white px-4 py-2 rounded-md"
