@@ -1,18 +1,12 @@
 import type React from "react";
-import { Nunito } from "next/font/google";
-import clsx from "clsx";
 import PricingCard from "@/components/pricing-card";
 
-const nunito = Nunito({
-  variable: "--font-nunito",
-  subsets: ["latin"],
-});
 
 export default function Pricing() {
   return (
     <section
       className={
-        "max-w-7xl m-20 xl:px-34 lg:py-25 px-4 py-10 md:px-6 mx-auto rounded-[14px] bg-[#1E1E1E]"
+        "max-w-7xl m-20 xl:px-34 lg:py-25 px-4 py-10 mx-auto rounded-[14px] bg-[#1E1E1E]"
       }
     >
       <div className="w-full relative">
