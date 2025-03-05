@@ -27,7 +27,7 @@ export default function FAQSection() {
 
   return (
     <section className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-12">
-      {/* Left Side */}
+      
       <div>
       <p className="font-semibold uppercase text-sm" style={{ color: '#B800B8' }}>
   QUESTIONS & ANSWERS
@@ -36,7 +36,7 @@ export default function FAQSection() {
         <p className="text-gray-600 mt-3">Got questions? We&apos;ve got answers. Browse our frequently asked questions to find what you&apos;re looking for.</p>
       </div>
       
-      {/* Right Side */}
+      
       <div>
         {faqs.map((faq, index) => (
           <div key={index} className="mb-4 border border-gray-300 rounded-lg overflow-hidden">
