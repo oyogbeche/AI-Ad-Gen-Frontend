@@ -10,10 +10,14 @@ const nunito = Nunito({
 
 export default function Pricing() {
   return (
-    <section className={"w-full xl:px-34 lg:py-25 px-4 py-10 md:px-6 bg-black"}>
-      <div className="max-w-7xl mx-auto  relative">
+    <section
+      className={
+        "max-w-7xl m-20 xl:px-34 lg:py-25 px-4 py-10 md:px-6 mx-auto rounded-[14px] bg-[#1E1E1E]"
+      }
+    >
+      <div className="w-full relative">
         <div className="w-fit mx-auto flex flex-col">
-          <div className="inline-block bg-[#eaf1fb] self-center text-[#458de1] px-6 py-2 rounded-2xl mb-6 font-semibold relative z-20">
+          <div className="text-[#F9F] font-nunito text-[16px] font-semibold leading-[32px]">
             UNLOCK THE FULL POTENTIAL OF AI-ADGEN
           </div>
           <div className="flex flex-col items-center gap-[3px]">
