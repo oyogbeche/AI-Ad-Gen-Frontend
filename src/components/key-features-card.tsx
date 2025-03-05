@@ -45,18 +45,18 @@ const FeatureCard = () => {
       {featuresData.map((feature, index) => (
         <Card
           key={index}
-          className="px-10 py-8 gap-6 items-start rounded-2xl border border-[#FCFCFC] bg-[#F8E6F8]/50"
+          className="px-10 py-8 rounded-2xl border border-[#EBECED] bg-[#F8FAFB] flex flex-col items-start gap-2 p-[32px_40px] flex-[1_0_0]"
         >
           {/* Card Header containing the feature title */}
           <CardHeader className="p-0">
-            <CardTitle className="text-[#520052] text-[32px] font-semibold leading-[40px] pr-28">
+            <CardTitle className="text-[#121316] p-0 text-[24px] font-bold leading-normal">
               {feature.title}
             </CardTitle>
           </CardHeader>
           {/* Card Content containing the feature description */}
           <CardContent className="p-0">
             <CardDescription
-              className={`text-[#7D7D7D] ${nunito.variable} text-2xl font-normal leading-[32px]`}
+              className={`${nunito.variable} text-[#787878] p-0 text-[16px] font-normal leading-[24px]`}
             >
               {feature.description}
             </CardDescription>

@@ -11,9 +11,9 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <header className="w-full h-[60px] border-b border-[#F8E6F8] bg-white shadow-md">
-      <div className="container mx-auto flex items-center justify-between px-4 py-4 md:px-6 h-full">
-        <div className="pl-4">
+    <header className="w-full h-[80px] px-32 border-b border-[#F8E6F8] bg-white shadow-md">
+      <div className=" flex items-center justify-between px-4 py-4 md:px-6 h-full">
+        <div>
           <Link href="/">
             <Image
               src={logo}
@@ -40,11 +40,9 @@ const Header: React.FC = () => {
 
         {/* Buttons */}
         <div className="hidden md:flex font-manrope text-[15px] items-center space-x-4 pr-4">
-          <Button className="hover:text-dark-purple/90" asChild>
-            <Link href="/signin" className="text-[#520052]">
+            <Link href="/signin" className="text-[#520052] font-medium lg:hover:text-dark-purple/90">
               Sign in
             </Link>
-          </Button>
           <Button className="bg-dark-purple hover:bg-dark-purple/70" asChild>
             <Link
               href="/signup"
