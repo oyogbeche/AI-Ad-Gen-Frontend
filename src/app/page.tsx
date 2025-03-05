@@ -3,6 +3,8 @@ import HeroSection from "@/app/sections/hero";
 import Pricing from "./sections/pricing";
 import Footer from "@/app/sections/footer";
 import CreateAds from "./sections/create-ads";
+import FAQ from "@/app/sections/FAQ";
+import CreateAd from "@/app/sections/createAD"; // Import the CreateAd component
 import NewsletterForm from "./sections/news-letter";
 
 export default function Home() {
@@ -11,7 +13,9 @@ export default function Home() {
       <HeroSection />
       <FeaturesSection />
       <CreateAds />
+      <CreateAd /> {/* Add the CreateAd component here */}
       <Pricing />
+      <FAQ />
       <NewsletterForm />
       <Footer />
     </main>
