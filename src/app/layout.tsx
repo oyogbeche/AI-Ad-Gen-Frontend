@@ -1,14 +1,14 @@
 import clsx from 'clsx';
 import type { Metadata } from 'next';
-
 import { Manrope } from 'next/font/google';
 
 import { TopProgressBarProvider } from '@/lib/nprogress/top-progress-bar-provider';
 import QueryProvider from '@/lib/react-query/query-provider';
-
 import { SonnerToaster } from '@/components/sonner-toaster';
-import './globals.css';
 
+import Header from '@/components/Header'; 
+
+import './globals.css';
 
 const manrope = Manrope({
   variable: '--font-manrope',
@@ -30,7 +30,10 @@ export default function RootLayout({
       <body className="dark font-manrope">
         <SonnerToaster />
         <QueryProvider>
-          <TopProgressBarProvider>{children}</TopProgressBarProvider>
+          <TopProgressBarProvider>
+            <Header /> {/*  Header component */}
+            {children}
+          </TopProgressBarProvider>
         </QueryProvider>
       </body>
     </html>
