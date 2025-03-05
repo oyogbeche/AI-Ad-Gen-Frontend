@@ -10,8 +10,8 @@ const HeroSection = () => {
         src={bgImg}
         alt="Hero Background"
       /> */}
-      <div className="flex flex-col items-center gap-10 z-10">
-        <hgroup className="text-[#5F5F5F] max-w-[1084px]">
+      <div className="flex flex-col items-center lg:gap-10 z-10">
+        <hgroup className="text-[#5F5F5F] lg:max-w-[1084px] mx-auto max-sm:mx-10 ">
           <h1 className="sm:text-[64px] font-manrope text-[24px] font-medium leading-6 sm:leading-[72px] text-center ">
             Generate High-converting, Smarter Adverts in minutes{" "}
             <span className="text-light-purple font-bold">with AI</span>
@@ -20,8 +20,8 @@ const HeroSection = () => {
             Create compelling, high-converting ads to maximize ROI
           </p>
         </hgroup>
-        <button className="px-6 py-3 rounded-[6px] gap-[10px] flex justify-center items-center cursor-pointer bg-light-purple text-white lg:hover:bg-light-purple/60">
-          <span className=" text-[18px] font-medium leading-7">
+        <button className="px-4 py-2 lg:px-6 lg:py-3 rounded-[6px] gap-2 lg:gap-[10px] flex justify-center items-center cursor-pointer bg-light-purple text-white lg:hover:bg-light-purple/60">
+          <span className="text-[14px] lg:text-[18px] font-medium leading-7">
             Generate New Ad
           </span>
           <Image src={Arrowright} alt="arrow" />

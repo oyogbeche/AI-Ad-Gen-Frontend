@@ -11,8 +11,8 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <header className="w-full h-[80px] px-[80px] border-b border-[#F8E6F8] bg-white shadow-md sticky top-0 z-40">
-      <div className=" flex items-center justify-between px-4 py-4 md:px-6 h-full">
+    <header className="w-full px-[40px] lg:h-[80px] lg:px-[80px] border-b border-[#F8E6F8] bg-white shadow-md sticky top-0 z-40">
+      <div className=" flex items-center justify-between md:px-6 h-full">
         <div>
           <Link href="/">
             <Image
@@ -65,7 +65,7 @@ const Header: React.FC = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white shadow-md border-t">
+        <div className="md:hidden bg-white shadow-md border-t absolute z-10 w-screen right-[20px]">
           <nav className="flex flex-col items-center py-4 space-y-4">
             <Link
               href="/features"
@@ -91,7 +91,7 @@ const Header: React.FC = () => {
               </Link>
             </Button>
             <Button
-              className="bg-[#520052] text-white px-4 py-2 rounded-md"
+              className="bg-dark-purple text-white px-4 py-2 rounded-md"
               asChild
             >
               <Link href="/signup">Create account</Link>
