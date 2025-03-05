@@ -1,15 +1,14 @@
 import type React from "react";
-import Image from "next/image";
 import { Nunito } from "next/font/google";
 import clsx from "clsx";
-import FeatureCard from "@/components/key-features-card";
+import PricingCard from "@/components/pricing-card";
 
 const nunito = Nunito({
   variable: "--font-nunito",
   subsets: ["latin"],
 });
 
-export default function FeaturesSection() {
+export default function Pricing() {
   return (
     <section
       className={clsx(
@@ -17,17 +16,6 @@ export default function FeaturesSection() {
         nunito.variable
       )}
     >
-      {/* Background wave pattern */}
-      <div className="absolute inset-0 z-20 ">
-        <Image
-          src="/waves-svg.svg"
-          alt="Background pattern"
-          fill
-          style={{ objectFit: "cover" }}
-          quality={100}
-        />
-      </div>
-
       <div className="max-w-7xl mx-auto  relative">
         <div className="w-fit mx-auto flex flex-col">
           <div className="inline-block bg-[#eaf1fb] self-center text-[#458de1] px-6 py-2 rounded-2xl mb-6 font-semibold relative z-20">
@@ -39,7 +27,7 @@ export default function FeaturesSection() {
           </h2>
         </div>
 
-        <FeatureCard />
+        <PricingCard />
       </div>
     </section>
   );
