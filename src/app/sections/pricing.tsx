@@ -24,7 +24,7 @@ export default function Pricing() {
             <h2 className="text-3xl md:text-4xl text-white text-center text-[40px] font-semibold leading-[48px]">
               Pricing Plans
             </h2>
-            <p className="text-white text-[18px] font-medium leading-[28px]">
+            <p className="text-white text-[18px] font-medium max-w-sm leading-[28px]">
               Generate your ads for free and pay as you grow.
             </p>
           </div>
