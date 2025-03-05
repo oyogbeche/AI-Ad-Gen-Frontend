@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={clsx(manrope.variable)}>
-      <body className="dark font-manrope">
+      <body className="font-manrope">
         <SonnerToaster />
         <QueryProvider>
           <Header />

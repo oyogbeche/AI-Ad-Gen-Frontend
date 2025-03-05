@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import logo from "@/components/images/logo.png"
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
@@ -15,7 +16,7 @@ const Header: React.FC = () => {
         <div className="pl-4">
           <Link href="/">
             <Image
-              src="/header-logo.svg"
+              src={logo}
               alt="Adgen AI Logo"
               width={150}
               height={40}
@@ -39,15 +40,15 @@ const Header: React.FC = () => {
 
         {/* Buttons */}
         <div className="hidden md:flex font-manrope text-[15px] items-center space-x-4 pr-4">
-          <Button variant="ghost" asChild>
+          <Button className="hover:text-dark-purple/90" asChild>
             <Link href="/signin" className="text-[#520052]">
               Sign in
             </Link>
           </Button>
-          <Button asChild>
+          <Button className="bg-dark-purple hover:bg-dark-purple/70" asChild>
             <Link
               href="/signup"
-              className="bg-[#520052] text-white px-4 py-2 rounded-md"
+              className=" text-white px-4 py-2 rounded-md"
             >
               Create account
             </Link>
