@@ -3,6 +3,7 @@ import React from "react";
 import caretRight from "@/components/icons/caret-right.svg"
 import footerLogo from "@/components/images/footerLogo.svg";
 import copyright from "@/components/images/copyright.svg";
+import bubble from "@/components/images/bubble.svg"
 import Link from "next/link";
 
 const companyInfoLinks = [
@@ -25,7 +26,8 @@ const featureLinks = [
   ];
 const footer = () => {
   return (
-    <section className="mx-[80px] my-[78px] gap-[96px] flex justify-evenly items-center bg-white">
+    <section className="my-[78px] bg-white">
+        <section className="gap-[96px] w-full flex justify-center items-center">
       <div className="flex flex-col">
         <Image src={footerLogo} alt="footerlogo" />
         <p className="text-[28px] font-nunito">
@@ -64,6 +66,13 @@ const footer = () => {
         ))}
         </div>
       </div>
+      </div>
+      </section>
+      <div className="mx-[180px] mt-[68px] flex justify-center items-center gap-9">
+        <Image src={bubble} alt="bubble" />
+        <p className="font-nunito text-[19px] text-gray-500">Adgen AI helps you generate video and image advertisements tailored Adgen AI helps you generate video and image adements <br />
+        tailored for different platforms, audiences and cultural contexts, without needing design or marketing expertise different platforms, <br />
+         audiences and cultural contexts, without needing design or marketing expertise</p>
       </div>
     </section>
   );
