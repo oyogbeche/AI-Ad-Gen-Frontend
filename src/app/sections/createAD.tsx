@@ -5,7 +5,7 @@ import { CheckCircle } from "lucide-react";
 const CreateAd: React.FC = () => {
   return (
     <section className="flex flex-col lg:flex-row items-center justify-between gap-10 px-6 lg:px-20 py-12">
-      {/* Text Section */}
+     
       <div className="max-w-lg">
   <p className="text-[#EC802E] font-semibold uppercase">
     Smarter Ads, Higher Engagements
@@ -35,13 +35,13 @@ const CreateAd: React.FC = () => {
 </div>
 
 
-      {/* Image Section */}
+     
       <div className="flex-shrink-0 w-4/5 lg:w-[45%] bg-[#FFF0E5] px-5 pt-5 pb-1 rounded-md flex items-end">
   <Image
     src={createAdSVG}
     alt="Create AI-Generated Ads"
-    width={500} // Adjust width as needed
-    height={300} // Adjust height as needed
+    width={500} 
+    height={300}
     className="w-auto h-auto mx-auto"
   />
 </div>
