@@ -33,7 +33,7 @@ export default function FAQSection() {
   QUESTIONS & ANSWERS
 </p>
         <h2 className="text-4xl font-bold mt-3">Frequently Asked <br/> Questions (FAQ)</h2>
-        <p className="text-gray-600 mt-3">Got questions? We've got answers. Browse our frequently asked questions to find what you're looking for.</p>
+        <p className="text-gray-600 mt-3">Got questions? We&apos;ve got answers. Browse our frequently asked questions to find what you&apos;re looking for.</p>
       </div>
       
       {/* Right Side */}
