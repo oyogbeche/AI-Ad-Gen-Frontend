@@ -52,7 +52,7 @@ interface ButtonProps
   target?: React.HTMLAttributeAnchorTarget;
 }
 
-function  Button({
+function Button({
   className,
   variant,
   size,
@@ -76,12 +76,14 @@ function  Button({
       className={cn(buttonVariants({ variant, size, width, className }))}
       {...(href ? anchorProps : buttonProps)}
     >
-      {children}
-      {icon && (
-        <span className="inline-flex items-center transition-transform duration-300 ease-in-out group-hover:translate-x-1">
-          {icon}
-        </span>
-      )}
+      <React.Fragment>
+        {children}
+        {icon && (
+          <span className="inline-flex items-center transition-transform duration-300 ease-in-out group-hover:translate-x-1">
+            {icon}
+          </span>
+        )}
+      </React.Fragment>
     </Comp>
   );
 }
