@@ -1,6 +1,11 @@
+import FeaturesSection from "@/app/sections/key-features";
+import HeroSection from "@/app/sections/hero";
 
 export default function Home() {
   return (
-      <h1 className="text-4xl py-6 text-center font-bold">AI Adgen</h1>
+    <main>
+      <HeroSection />
+      <FeaturesSection />
+    </main>
   );
 }

@@ -6,8 +6,12 @@ import { Manrope } from 'next/font/google';
 import { TopProgressBarProvider } from '@/lib/nprogress/top-progress-bar-provider';
 import QueryProvider from '@/lib/react-query/query-provider';
 
-import { SonnerToaster } from '@/components/sonner-toaster';
 import './globals.css';
+
+
+
+import Header from "@/app/sections/header";
+import { SonnerToaster } from './sections/sonner-toaster';
 
 
 const manrope = Manrope({
@@ -30,6 +34,7 @@ export default function RootLayout({
       <body className="dark font-manrope">
         <SonnerToaster />
         <QueryProvider>
+          <Header />
           <TopProgressBarProvider>{children}</TopProgressBarProvider>
         </QueryProvider>
       </body>
