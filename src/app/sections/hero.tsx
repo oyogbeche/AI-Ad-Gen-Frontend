@@ -1,6 +1,7 @@
 "use client";
 import { settings } from "@/helpers/slick-slider";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import Slider from "react-slick";
 
@@ -38,6 +39,7 @@ const heroImages = [
 ];
 
 const HeroSection = () => {
+
   return (
     <div className="  p-6 bg-cover bg-center bg-no-repeat relative w-full min-h-[800px] flex flex-col items-center justify-between  overflow-hidden">
       <div className="absolute inset-0 z-0  opacity-50"></div>
@@ -50,9 +52,12 @@ const HeroSection = () => {
         <p className="text-lg text-gray-600 mb-6">
           Create compelling, high-converting ads to maximize ROI
         </p>
-        <button className="bg-[#B800B8] cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-purple-700 transition-colors animate-in delay-150 duration-300">
+        <Link
+          href={"/ad-type"}
+          className="bg-[#B800B8] cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-purple-700 transition-colors animate-in delay-150 duration-300"
+        >
           Generate New Ad →
-        </button>
+        </Link>
       </div>
 
       <div className="w-full  px-4 slider-container -mb-8 mt-10">
