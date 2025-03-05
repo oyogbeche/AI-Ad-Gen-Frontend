@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils"; 
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
-import Logo from "@/components/icons/header-logo.svg";
+
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -16,10 +16,11 @@ const Header: React.FC = () => {
 
     <div className="container mx-auto flex items-center justify-between px-4 py-4 md:px-6 h-full">
     <div className="pl-4">
-    <Link href="/"> 
-    <Image src={Logo} alt="Adgen AI Logo" width={150} height={40} priority />
+    <Link href="/">
+    <Image src="/header-logo.svg" alt="Adgen AI Logo" width={150} height={40} priority />
     </Link>
     </div>
+
 
 
         {/* Desktop Navigation */}
