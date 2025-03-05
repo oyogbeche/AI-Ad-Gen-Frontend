@@ -12,6 +12,7 @@ import './globals.css';
 
 import Header from "@/app/sections/header";
 import { SonnerToaster } from './sections/sonner-toaster';
+import Footer from './sections/footer';
 
 
 const manrope = Manrope({
@@ -31,11 +32,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={clsx(manrope.variable)}>
+      <link
+        rel="stylesheet"
+        type="text/css"
+        charSet="UTF-8"
+        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+      />
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+      />
       <body className="font-nunito">
         <SonnerToaster />
         <QueryProvider>
           <Header />
           <TopProgressBarProvider>{children}</TopProgressBarProvider>
+          <Footer />
         </QueryProvider>
       </body>
     </html>

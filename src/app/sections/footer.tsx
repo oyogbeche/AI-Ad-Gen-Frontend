@@ -31,7 +31,7 @@ const featureLinks = [
     { name: "Instagram", img: instagramImg, href: "/" },
     { name: "Github", img: githubImg, href: "/" },
   ];
-const footer = () => {
+const Footer = () => {
   return (
     <section className="my-[78px] bg-white">
         <section className="gap-[96px] flex flex-col lg:flex-row justify-center items-center">
@@ -92,4 +92,4 @@ const footer = () => {
   );
 };
 
-export default footer;
+export default Footer;
