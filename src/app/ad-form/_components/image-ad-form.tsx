@@ -67,7 +67,7 @@ export const ImageAdForm = () => {
   return (
     <div className="min-h-full bg-[#F9FAFB] p-6 py-18 flex justify-center items-center">
       <Card className="w-full max-w-[890px]">
-        <CardContent className="p-14">
+        <CardContent className=" p-6 md:p-14">
           <div className="mb-8">
             <Link
               href="/ad-type"
