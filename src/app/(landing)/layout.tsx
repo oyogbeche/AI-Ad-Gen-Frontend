@@ -7,11 +7,11 @@ import QueryProvider from "@/lib/react-query/query-provider";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import "./globals.css";
+import "./../globals.css";
 
 import Header from "@/app/sections/header";
-import { SonnerToaster } from "./sections/sonner-toaster";
-import Footer from "./sections/footer";
+import { SonnerToaster } from "../sections/sonner-toaster";
+import Footer from "../sections/footer";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -30,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={clsx(manrope.variable)}>
-      <body className="font-nunito bg-[#F9FAFB]">
+      <body className="font-nunito bg-[#F9FAFB]" cz-shortcut-listen="true">
         <SonnerToaster />
         <QueryProvider>
           <Header />

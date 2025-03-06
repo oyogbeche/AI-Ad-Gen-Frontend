@@ -1,16 +1,14 @@
 "use client";
 
-import { useState } from "react";
+// import { useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
 import Image from "next/image";
 
 const Header: React.FC = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  // const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <header className="w-full  border-b border-[#F8E6F8] bg-white shadow-md py-2">
+    <header className="w-full  border-b border-[#F8E6F8] bg-white shadow-md py-2 sticky top-0 z-40">
       <div className="container mx-auto flex items-center justify-between px-4 py-4 md:px-6 h-full">
         <div className="pl-4">
           <Link href="/">
@@ -24,7 +22,7 @@ const Header: React.FC = () => {
           </Link>
         </div>
 
-        <nav className="hidden md:flex space-x-6 text-gray-600">
+        {/*         <nav className="hidden md:flex space-x-6 text-gray-600">
           <Link href="/features" className="hover:text-purple-700">
             Features
           </Link>
@@ -34,9 +32,9 @@ const Header: React.FC = () => {
           <Link href="/pricing" className="hover:text-purple-700">
             Pricing
           </Link>
-        </nav>
+        </nav> */}
 
-        <div className="hidden md:flex space-x-4 pr-4">
+        {/*       <div className="hidden md:flex space-x-4 pr-4">
           <Button variant="ghost" asChild>
             <Link href="/signin" className="text-[#520052]">
               Sign in
@@ -48,19 +46,19 @@ const Header: React.FC = () => {
           >
             <Link href="/signup">Create account</Link>
           </Button>
-        </div>
+        </div> */}
 
-        <button
+        {/*       <button
           className="md:hidden text-gray-700"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle Menu"
         >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        </button> */}
       </div>
 
-      {isOpen && (
-        <div className="md:hidden bg-white shadow-md border-t">
+      {/*   {isOpen && (
+        <div className="md:hidden bg-white shadow-md border-t absolute z-10 w-screen">
           <nav className="flex flex-col items-center py-4 space-y-4">
             <Link
               href="/features"
@@ -86,14 +84,14 @@ const Header: React.FC = () => {
               </Link>
             </Button>
             <Button
-              className="bg-[#520052] text-white px-4 py-2 rounded-md"
+              className="bg-dark-purple text-white px-4 py-2 rounded-md"
               asChild
             >
               <Link href="/signup">Create account</Link>
             </Button>
           </nav>
         </div>
-      )}
+      )} */}
     </header>
   );
 };

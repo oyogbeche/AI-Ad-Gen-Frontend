@@ -69,7 +69,7 @@ const CustomMultiSelect = ({
 
       {isMounted && isOpen && (
         <div className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg">
-          <div className="p-2 space-y-2">
+          <div className="p-2 space-y-6">
             {options.map((option) => (
               <div key={option.value} className="flex items-center space-x-2">
                 <input
@@ -77,7 +77,7 @@ const CustomMultiSelect = ({
                   id={option.value}
                   checked={selected.includes(option.value)}
                   onChange={() => handleSelect(option.value)}
-                  className="w-4 h-4 border-gray-300 rounded text-[#B800B8] focus:ring-[#B800B8]"
+                  className="w-4 h-4 border-gray-300 rounded text-[#B800B8] focus:ring-[#B800B8] accent-[#B800B8]"
                 />
                 <label htmlFor={option.value} className="text-sm">
                   {option.label}
