@@ -47,7 +47,7 @@ const HeroSection = () => {
           Create compelling, high-converting ads to maximize ROI
         </p>
         <Link
-          href={"/ad-type"}
+          href={"/create-ad"}
           className="bg-[#B800B8] cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-purple-700 transition-colors animate-in delay-150 duration-300"
         >
           Generate New Ad →

@@ -30,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={clsx(manrope.variable)}>
-      <body className="font-nunito bg-[#F9FAFB]">
+      <body className="font-nunito bg-[#F9FAFB]" cz-shortcut-listen="true">
         <SonnerToaster />
         <QueryProvider>
           <Header />

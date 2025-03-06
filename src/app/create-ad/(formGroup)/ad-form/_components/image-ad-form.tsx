@@ -63,26 +63,8 @@ export const ImageAdForm = () => {
   };
 
   return (
-    <div className="min-h-full bg-[#F9FAFB] p-6 py-18 flex justify-center items-center">
-      <Card className="w-full max-w-[890px]">
-        <CardContent className="p-14">
-          <div className="mb-8">
-            <Link
-              href="/ad-type"
-              className="flex items-center text-gray-600 hover:text-gray-800 cursor-pointer p-0"
-            >
-              <Image
-                src="/arrow-left.svg"
-                alt="Back"
-                className="w-5 h-5 mr-2"
-                width={10}
-                height={10}
-              />
-              <span>Back</span>
-            </Link>
-          </div>
-
-          <CardHeader className="p-0 mb-6 text-center">
+      <>
+          {/* <CardHeader className="p-0 mb-6 text-center">
             <CardTitle className="text-2xl font-bold">
               Let&apos;s set up your Ad
             </CardTitle>
@@ -109,7 +91,7 @@ export const ImageAdForm = () => {
 
               <div className="absolute right-0 h-2 bg-gray-300 rounded-r-full w-[48%]"></div>
             </div>
-          </div>
+          </div> */}
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -314,13 +296,11 @@ export const ImageAdForm = () => {
                       : "bg-gray-300 text-gray-500 cursor-not-allowed"
                   }`}
                 >
-                  <Link href='/preview'>Generate Ad</Link>
+                  <Link href='/create-ad/preview'>Generate Ad</Link>
                 </Button>
               </div>
             </form>
           </Form>
-        </CardContent>
-      </Card>
-    </div>
+      </>
   );
 };
