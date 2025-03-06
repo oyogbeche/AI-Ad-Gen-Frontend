@@ -1,21 +1,29 @@
+'use client'
+
 import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
 import { Suspense } from "react";
 import PreviewContent from "./_components/preview-content";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
+
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <section className="flex flex-col items-center justify-center gap-8 w-full max-w-[879px] mx-auto px-8 py-6 bg-white rounded-[20px] mt-10">
-        <Link
-          className="self-start flex gap-2.5 text-base font-semibold leading-6"
-          href="/"
+        <button
+          onClick={handleBack}
+          className="self-start flex gap-2.5 text-base font-semibold leading-6 cursor-pointer"
         >
           <ChevronLeft size={24} />
           Back
-        </Link>
+        </button>
         <h1 className="text-[28px] font-[600] leading-9 mt-[12px]">
-          Let's set up your Ad
+          Let&apos;s set up your Ad
         </h1>
         <p className="text-[#667185] text-[18px] mt-[-32px]">
           Fill in the details below, then AI generates your ad instantly.
