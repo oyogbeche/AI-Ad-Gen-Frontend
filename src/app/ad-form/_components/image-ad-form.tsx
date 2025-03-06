@@ -32,6 +32,7 @@ import {
   ageGroupOptions,
 } from "@/app/constants/step-one-form-options";
 import { ImageAdSchema } from "@/schemas/ad-schema";
+import Link from "next/link";
 
 type FormData = z.infer<typeof ImageAdSchema>;
 
@@ -311,7 +312,7 @@ export const ImageAdForm = () => {
                       : "bg-gray-300 text-gray-500 cursor-not-allowed"
                   }`}
                 >
-                  Generate Ad
+                  <Link href='/preview'>Generate Ad</Link>
                 </Button>
               </div>
             </form>
