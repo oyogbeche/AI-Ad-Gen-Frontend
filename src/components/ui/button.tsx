@@ -17,74 +17,49 @@ const buttonVariants = cva(
           "border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+        choosePlan:
+          "bg-[#B800B8] text-white hover:bg-[#990099] border border-white",
+        choosePlanOutline:
+          "border-[#B800B8] bg-white  border text-[#B800B8] hover:bg-[#B800B81A] ",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         purple:
           "bg-[#520052] text-white shadow-xs hover:bg-[#B800B8] focus-visible:ring-[#520052]/50",
       },
       size: {
-        default: "h-9 px-4 py-2 rounded-sm has-[>svg]:px-3",
-        sm: "h-8 rounded-sm gap-1.5 px-3 has-[>svg]:px-2.5",
-        lg: "h-10 rounded-sm px-6 has-[>svg]:px-4",
-        icon: "size-9 rounded-sm px-2",
-        xs: "h-6 px-2 text-xs rounded-sm has-[>svg]:px-1.5",
-      },
-      width: {
-        auto: "w-auto",
-        full: "w-full",
-        fixed: "w-48",
+        default: "h-9 px-4 py-2 has-[>svg]:px-3",
+        sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
+        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+        choosePlan: "rounded-md px-6 py-3",
+        icon: "size-9",
       },
     },
     defaultVariants: {
       variant: "default",
       size: "default",
-      width: "auto",
     },
   }
 );
-
-interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
-  href?: string;
-  icon?: React.ReactNode;
-  target?: React.HTMLAttributeAnchorTarget;
-}
 
 function Button({
   className,
   variant,
   size,
-  width,
   asChild = false,
-  href,
-  icon,
   children,
   ...props
-}: ButtonProps) {
-  const Comp = asChild ? Slot : href ? "a" : "button";
-
-  const buttonProps = !href ? props : {};
-  const anchorProps = href
-    ? { ...props, href, target: props.target || "_self" }
-    : {};
+}: React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean;
+  }) {
+  const Comp = asChild ? Slot : "button";
 
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, width, className }))}
-      {...(href ? anchorProps : buttonProps)}
-    >
-      <React.Fragment>
-        {children}
-        {icon && (
-          <span className="inline-flex items-center transition-transform duration-300 ease-in-out group-hover:translate-x-1">
-            {icon}
-          </span>
-        )}
-      </React.Fragment>
-    </Comp>
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    />
   );
 }
 

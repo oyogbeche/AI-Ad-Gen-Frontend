@@ -1,3 +1,7 @@
+/* FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
@@ -124,3 +128,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+@theme {
+  --color-dark-purple: #520052;
+  --color-light-purple: #B800B8;
+  --color-blue: #10509A;
+  --color-rich-black: #121316;
+  --font-nunito: "Nunito";  
+  --font-manrope: "Manrope";
+}
+

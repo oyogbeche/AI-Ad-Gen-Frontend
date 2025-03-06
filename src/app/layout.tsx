@@ -4,11 +4,12 @@ import { Manrope } from "next/font/google";
 
 import { TopProgressBarProvider } from "@/lib/nprogress/top-progress-bar-provider";
 import QueryProvider from "@/lib/react-query/query-provider";
-import { SonnerToaster } from "@/components/sonner-toaster";
-
-import Header from "@/components/Header";
 
 import "./globals.css";
+
+import Header from "@/app/sections/header";
+import { SonnerToaster } from "./sections/sonner-toaster";
+import Footer from "./sections/footer";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -27,15 +28,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={clsx(manrope.variable)}>
-      <body className="dark font-manrope">
+      <head>
+        <link
+          rel="stylesheet"
+          type="text/css"
+          charSet="UTF-8"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+        />
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+        />
+      </head>
+
+      <body className="font-nunito bg-[#F9FAFB]">
+        <SonnerToaster />
         <QueryProvider>
-          <TopProgressBarProvider>
-            <div className="flex flex-col min-h-screen">
-              <Header />
-              <main className="flex-grow">{children}</main>
-              <SonnerToaster />
-            </div>
-          </TopProgressBarProvider>
+          <Header />
+          <TopProgressBarProvider>{children}</TopProgressBarProvider>
+          <Footer />
         </QueryProvider>
       </body>
     </html>
