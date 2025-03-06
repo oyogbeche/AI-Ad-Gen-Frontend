@@ -9,10 +9,7 @@ import { Manrope } from "next/font/google";
 //   description: "Ad Selector page",
 // };
 
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-});
+
 
 const Page = ({
   children,
