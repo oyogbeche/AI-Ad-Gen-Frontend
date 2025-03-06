@@ -137,7 +137,7 @@ export function SignInForm() {
                 )}
               />
 
-              <Link href="/forgot-password" className="text-sm font-medium text-blue-600 hover:text-blue-500">
+              <Link href="/recover" className="text-sm font-medium text-blue-600 hover:text-blue-500">
                 Forgot Password?
               </Link>
             </div>
