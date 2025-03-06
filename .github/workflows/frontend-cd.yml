@@ -19,13 +19,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: next-build
-          path: |
-            .next
-            package.json
-            pnpm-lock.yaml
+          path: .next
           if-no-files-found: error
           include-hidden-files: true
           compression-level: 6
+          overwrite: false
 
       - name: Install sshpass
         run: sudo apt-get install -y sshpass
