@@ -8,7 +8,7 @@ const Page: React.FC<PageProps> = ({ children }) => {
     <>
         <div className="flex flex-col gap-4 text-center mb-4">
           <h1 className="text-[28px] font-[600] leading-9 mt-[12px]">
-            Let's set up your Ad
+            Let&apos;s set up your Ad
           </h1>
           <p className="text-[#667185] text-[18px]">
             Fill in the details below, then AI generates your ad instantly.

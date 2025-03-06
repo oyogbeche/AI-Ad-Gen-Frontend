@@ -1,9 +1,7 @@
 'use client'
-import { Metadata } from "next";
 import React, { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
 
 // export const metadata: Metadata = {
 //   title: "AI Adgen",

@@ -22,7 +22,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   demographicsOptions,
   regionOptions,
@@ -31,7 +30,6 @@ import {
   ageGroupOptions,
 } from "@/app/constants/step-one-form-options";
 import { ImageAdSchema } from "@/schemas/ad-schema";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 const DynamicMultiSelect = dynamic(
