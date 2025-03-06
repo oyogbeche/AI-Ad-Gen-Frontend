@@ -46,7 +46,7 @@ const Header: React.FC = () => {
             className="bg-[#520052] text-white px-4 py-2 rounded-md"
             asChild
           >
-            <Link href="/signup">Create account</Link>
+            <Link href="/auth/signup">Create account</Link>
           </Button>
         </div>
 
