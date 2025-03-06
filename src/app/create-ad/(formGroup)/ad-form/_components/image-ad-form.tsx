@@ -33,6 +33,7 @@ import {
 import { ImageAdSchema } from "@/schemas/ad-schema";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 const DynamicMultiSelect = dynamic(
   () => import("@/components/ui/multi-select"),
   {
@@ -43,7 +44,7 @@ const DynamicMultiSelect = dynamic(
 type FormData = z.infer<typeof ImageAdSchema>;
 
 export const ImageAdForm = () => {
-
+  const router = useRouter();
   const form = useForm<FormData>({
     resolver: zodResolver(ImageAdSchema),
     mode: "onChange",
@@ -60,6 +61,7 @@ export const ImageAdForm = () => {
 
   const onSubmit = (data: FormData) => {
     console.log("Image Ad Data:", data);
+    router.push("/preview");
   };
 
   return (
@@ -296,7 +298,11 @@ export const ImageAdForm = () => {
                       : "bg-gray-300 text-gray-500 cursor-not-allowed"
                   }`}
                 >
+<<<<<<< HEAD:src/app/create-ad/(formGroup)/ad-form/_components/image-ad-form.tsx
                   <Link href='/create-ad/preview'>Generate Ad</Link>
+=======
+                  Generate Ad
+>>>>>>> d1d56bae5e856c9c17358c26f26e9461e37367b8:src/app/ad-form/_components/image-ad-form.tsx
                 </Button>
               </div>
             </form>

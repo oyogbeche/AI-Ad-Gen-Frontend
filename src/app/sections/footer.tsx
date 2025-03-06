@@ -33,7 +33,7 @@ const socialLinks = [
 ];
 const Footer = () => {
   return (
-    <section className="my-[78px] bg-white">
+    <section className="py-[78px] bg-white">
       <section className="gap-[96px] flex flex-col lg:flex-row justify-center items-start p-10 lg:p-20">
         <div className="flex flex-col">
           <Image src={footerLogo} alt="footerlogo" />
