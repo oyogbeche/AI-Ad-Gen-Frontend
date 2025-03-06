@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import type { Metadata } from "next";
-import Head from "next/head"; 
 import { Manrope } from "next/font/google";
 
 import { TopProgressBarProvider } from "@/lib/nprogress/top-progress-bar-provider";

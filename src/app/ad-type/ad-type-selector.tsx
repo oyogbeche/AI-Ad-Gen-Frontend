@@ -43,7 +43,7 @@ const AdSelectorPage = () => {
         <h2 className="text-xl md:text-2xl font-bold mb-6">Select Ad Type</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          {/* Image Ad Card */}
+         
           <div
             className={`border p-6 rounded-lg cursor-pointer transition-all flex flex-col ${
               selectedAdType === "image"
@@ -61,7 +61,7 @@ const AdSelectorPage = () => {
             </div>
           </div>
 
-          {/* Video Ad Card */}
+          
           <div className="border p-6 rounded-lg flex flex-col border-gray-300 bg-gray-100 opacity-50 cursor-not-allowed">
             <Image src="/video.svg" alt="Video svg" width={30} height={30} />
             <div className="mt-4 flex flex-wrap items-center gap-2">
