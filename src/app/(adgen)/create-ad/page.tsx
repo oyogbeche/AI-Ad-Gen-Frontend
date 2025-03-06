@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const page = () => {
+const Page = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [selectedAdType, setSelectedAdType] = useState<string | null>(
@@ -150,4 +150,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
