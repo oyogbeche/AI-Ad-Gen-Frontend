@@ -1,28 +1,25 @@
-import clsx from 'clsx';
-import type { Metadata } from 'next';
+import clsx from "clsx";
+import type { Metadata } from "next";
 
-import { Manrope } from 'next/font/google';
+import { Manrope } from "next/font/google";
 
-import { TopProgressBarProvider } from '@/lib/nprogress/top-progress-bar-provider';
-import QueryProvider from '@/lib/react-query/query-provider';
+import { TopProgressBarProvider } from "@/lib/nprogress/top-progress-bar-provider";
+import QueryProvider from "@/lib/react-query/query-provider";
 
-import './globals.css';
-
-
+import "../globals.css";
 
 import Header from "@/app/sections/header";
-import { SonnerToaster } from './sections/sonner-toaster';
-import Footer from './sections/footer';
-
+import { SonnerToaster } from "../sections/sonner-toaster";
+import Footer from "../sections/footer";
 
 const manrope = Manrope({
-  variable: '--font-manrope',
-  subsets: ['latin'],
+  variable: "--font-manrope",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: 'AI Adgen',
-  description: 'AI Adgen',
+  title: "AI Adgen",
+  description: "AI Adgen",
 };
 
 export default function RootLayout({
