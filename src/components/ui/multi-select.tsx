@@ -23,6 +23,11 @@ const CustomMultiSelect = ({
   placeholder = "Select options",
 }: CustomMultiSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleSelect = (value: string) => {
     if (selected.includes(value)) {
@@ -62,7 +67,7 @@ const CustomMultiSelect = ({
         )}
       </div>
 
-      {isOpen && (
+      {isMounted && isOpen && (
         <div className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg">
           <div className="p-2 space-y-2">
             {options.map((option) => (

@@ -4,6 +4,8 @@ import { Manrope } from "next/font/google";
 
 import { TopProgressBarProvider } from "@/lib/nprogress/top-progress-bar-provider";
 import QueryProvider from "@/lib/react-query/query-provider";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import "./globals.css";
 
@@ -28,20 +30,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={clsx(manrope.variable)}>
-      <head>
-        <link
-          rel="stylesheet"
-          type="text/css"
-          charSet="UTF-8"
-          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
-        />
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
-        />
-      </head>
-
       <body className="font-nunito bg-[#F9FAFB]">
         <SonnerToaster />
         <QueryProvider>

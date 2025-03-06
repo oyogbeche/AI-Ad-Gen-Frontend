@@ -4,7 +4,6 @@ import clsx from "clsx";
 import FeatureCard from "@/components/key-features-card";
 import {
   AiAnalytics,
-  AiAnalytics2,
   GeneratedVisual,
 } from "@/components/icons/icon";
 
