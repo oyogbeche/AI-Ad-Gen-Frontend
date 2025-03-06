@@ -50,7 +50,7 @@ export const ImageAdForm = () => {
             </label>
             <input
               type="file"
-              accept="image/*"
+              // accept="image/*"
               {...register("image")}
               className={`w-full px-3 py-2 border rounded-md ${
                 errors.image
