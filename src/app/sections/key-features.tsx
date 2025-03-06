@@ -1,11 +1,9 @@
 import type React from "react";
-import Image from "next/image";
 import { Nunito } from "next/font/google";
 import clsx from "clsx";
 import FeatureCard from "@/components/key-features-card";
 import {
   AiAnalytics,
-  AiAnalytics2,
   GeneratedVisual,
 } from "@/components/icons/icon";
 
@@ -17,17 +15,12 @@ const tagData = [
   {
     icon: <GeneratedVisual />,
     text: "Generated Visuals",
-    textColor: "[#00A05E;]",
+    textColor: "text-[#00A05E]",
   },
   {
     icon: <AiAnalytics />,
     text: "AI Analytics",
-    textColor: "[#FF3F56]",
-  },
-  {
-    icon: <AiAnalytics2 />,
-    text: "AI Analytics",
-    textColor: "[#FF3F56]",
+    textColor: "text-[#FF3F56]",
   },
 ];
 export default function FeaturesSection() {
@@ -56,7 +49,7 @@ const Tags = () => {
       {tagData.map((tag, index) => (
         <div
           key={index}
-          className={`md:flex-row flex flex-col items-center gap-2  text-${tag.textColor}`}
+          className={`md:flex-row flex flex-col items-center gap-2 ${tag.textColor}`}
         >
           {tag.icon}
           <span className=" text-md lg:text-[25.695px] text-nowrap font-normal leading-[34.26px]">
