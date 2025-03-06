@@ -24,7 +24,7 @@ const notes = [
 
 const CreateAds = () => {
   return (
-    <section className="flex flex-col lg:flex-row justify-center items-center gap-10 lg:gap-[80px] px-6 p-20">
+    <section className="flex flex-col-reverse lg:flex-row justify-center items-center gap-10 lg:gap-[80px] px-6 p-20">
       <div className="max-w-[400px] md:max-w-[500px] lg:max-w-[595px] h-auto">
         <Image
           src={createadImg}
@@ -47,7 +47,7 @@ const CreateAds = () => {
           {notes.map((note, index) => (
             <div
               key={index}
-              className="flex flex-col-reverse  md:flex-row items-center md:items-start gap-4 md:gap-[30px] mb-6 md:mb-8"
+              className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-[30px] mb-6 md:mb-8"
             >
               <span className="text-rich-black flex justify-center items-center relative w-8 h-8 md:w-10 md:h-10">
                 <Image

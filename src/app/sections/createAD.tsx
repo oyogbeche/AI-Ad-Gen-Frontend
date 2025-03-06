@@ -1,6 +1,6 @@
 import Image from "next/image";
 import createAdSVG from "@/components/images/newcreate.svg";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle } from "@/components/icons/icon";
 
 const CreateAd: React.FC = () => {
   return (
@@ -15,20 +15,16 @@ const CreateAd: React.FC = () => {
         </h2>
         <ul className="mt-6 space-y-4">
           <li className="flex items-center gap-2">
-            <CheckCircle className="text-[#EC802E]" size={20} /> Create
-            compelling ads without hiring a team
+            <CheckCircle /> Create compelling ads without hiring a team
           </li>
           <li className="flex items-center gap-2">
-            <CheckCircle className="text-[#EC802E]" size={20} /> Generate
-            region-specific ads effortlessly
+            <CheckCircle /> Generate region-specific ads effortlessly
           </li>
           <li className="flex items-center gap-2">
-            <CheckCircle className="text-[#EC802E]" size={20} /> Launch
-            professional ads at affordable prices
+            <CheckCircle /> Launch professional ads at affordable prices
           </li>
           <li className="flex items-center gap-2">
-            <CheckCircle className="text-[#EC802E]" size={20} /> Optimize your
-            ads for sales and engagements
+            <CheckCircle /> Optimize your ads for sales and engagements
           </li>
         </ul>
       </div>
