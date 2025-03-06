@@ -2,7 +2,6 @@
 import React, { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import clsx from "clsx";
 import { Manrope } from "next/font/google";
 
 // export const metadata: Metadata = {
