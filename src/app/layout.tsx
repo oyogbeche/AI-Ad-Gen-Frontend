@@ -4,11 +4,14 @@ import { Manrope } from "next/font/google";
 
 import { TopProgressBarProvider } from "@/lib/nprogress/top-progress-bar-provider";
 import QueryProvider from "@/lib/react-query/query-provider";
-import { SonnerToaster } from "@/components/sonner-toaster";
-
-import Header from "@/components/Header";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import "./globals.css";
+
+import Header from "@/app/sections/header";
+import { SonnerToaster } from "./sections/sonner-toaster";
+import Footer from "./sections/footer";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -27,15 +30,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={clsx(manrope.variable)}>
-      <body className="dark font-manrope">
+      <body className="font-nunito bg-[#F9FAFB]" cz-shortcut-listen="true">
+        <SonnerToaster />
         <QueryProvider>
-          <TopProgressBarProvider>
-            <div className="flex flex-col min-h-screen">
-              <Header />
-              <main className="flex-grow">{children}</main>
-              <SonnerToaster />
-            </div>
-          </TopProgressBarProvider>
+          <Header />
+          <TopProgressBarProvider>{children}</TopProgressBarProvider>
+          <Footer />
         </QueryProvider>
       </body>
     </html>
