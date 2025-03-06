@@ -314,7 +314,7 @@ export const ImageAdForm = () => {
                       : "bg-gray-300 text-gray-500 cursor-not-allowed"
                   }`}
                 >
-                  Generate Ad
+                  <Link href='/preview'>Generate Ad</Link>
                 </Button>
               </div>
             </form>

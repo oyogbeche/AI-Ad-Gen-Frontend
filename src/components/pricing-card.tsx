@@ -65,11 +65,11 @@ const tiers: Tier[] = [
 
 export default function PricingCard() {
   return (
-    <div className="mx-auto max-w-md mt-10 grid grid-cols-1 gap-6 lg:max-w-6xl lg:grid-cols-3">
+    <div className="mx-auto max-w-md mt-10 grid grid-cols-1 gap-6 lg:max-w-6xl  xl:grid-cols-3">
       {tiers.map((tier) => (
         <Card
           key={tier.id}
-          className={`relative rounded-2xl border gap-0 border-[#E3E3E3] shadow-[0px_1px_3px_2px_rgba(0,0,0,0.06)] px-[1.65rem] py-10  
+          className={`relative w-full max-w-[381px] mx-auto rounded-2xl border gap-0 border-[#E3E3E3] shadow-[0px_1px_3px_2px_rgba(0,0,0,0.06)] px-[1.65rem] py-10  
             ${tier.mostPopular ? "bg-[#CF54CF]" : "bg-white "} 
             ${
               tier.id === "tier-basic"
@@ -124,7 +124,7 @@ export default function PricingCard() {
               {tier.features.map((feature) => (
                 <li
                   key={feature}
-                  className={`flex items-center gap-x-[0.9rem] text-nowrap ${
+                  className={`flex items-center gap-x-[0.9rem]  ${
                     tier.mostPopular ? "text-white" : "text-black"
                   } text-base font-normal leading-6`}
                 >
