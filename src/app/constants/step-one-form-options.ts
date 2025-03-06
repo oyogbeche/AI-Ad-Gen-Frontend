@@ -1,9 +1,14 @@
 export const regionOptions = [
   { value: "global", label: "Global" },
+  { value: "africa", label: "Africa" },
+  { value: "south-america", label: "South America" },
   { value: "north-america", label: "North America" },
-  { value: "europe", label: "Europe" },
   { value: "asia", label: "Asia" },
-  { value: "australia", label: "Australia" },
+  { value: "europe", label: "Europe" },
+  { value: "middle-east", label: "Middle East" },
+  { value: "australia", label: "Australia & Oceania"},
+  
+  
 ];
 
 export const ageGroupOptions = [
@@ -78,10 +83,14 @@ export const adSizeOptions = [
 
 export const languageOptions = [
   { value: "english", label: "English" },
-  { value: "spanish", label: "Spanish" },
   { value: "french", label: "French" },
+  { value: "spanish", label: "Spanish" },
   { value: "german", label: "German" },
+  { value: "portuguese", label: "Portuguese" },
+  { value: "arabic", label: "Arabic" },
   { value: "chinese", label: "Chinese" },
+  { value: "japanese", label: "Japanese" },
+
 ];
 
 export const demographicsOptions = [
