@@ -31,9 +31,8 @@ import {
   ageGroupOptions,
 } from "@/app/constants/step-one-form-options";
 import { ImageAdSchema } from "@/schemas/ad-schema";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import BackButton from "@/components/back-button";
 const DynamicMultiSelect = dynamic(
   () => import("@/components/ui/multi-select"),
   {
@@ -61,28 +60,14 @@ export const ImageAdForm = () => {
 
   const onSubmit = (data: FormData) => {
     console.log("Image Ad Data:", data);
-    router.push("/preview");
+    router.push("/create-ad/preview");
   };
 
   return (
     <div className="min-h-full bg-[#F9FAFB] p-6 py-18 flex justify-center items-center">
       <Card className="w-full max-w-[890px]">
         <CardContent className="p-14">
-          <div className="mb-8">
-            <Link
-              href="/ad-type"
-              className="flex items-center text-gray-600 hover:text-gray-800 cursor-pointer p-0"
-            >
-              <Image
-                src="/arrow-left.svg"
-                alt="Back"
-                className="w-5 h-5 mr-2"
-                width={10}
-                height={10}
-              />
-              <span>Back</span>
-            </Link>
-          </div>
+          <BackButton className="mb-8" />
 
           <CardHeader className="p-0 mb-6 text-center">
             <CardTitle className="text-2xl font-bold">

@@ -12,7 +12,7 @@ import "./../globals.css";
 import Header from "@/app/sections/header";
 import { SonnerToaster } from "../sections/sonner-toaster";
 
-import Page from "./container";
+
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -36,9 +36,9 @@ export default function RootLayout({
         <QueryProvider>
           <Header />
           <TopProgressBarProvider>
-            <Page>
+            
             {children}
-            </Page>
+            
             </TopProgressBarProvider>
          
         </QueryProvider>
