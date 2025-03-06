@@ -34,6 +34,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: next-build
-          path: "${{ env.NEXT_PATH }}/*"
+          path: |
+            .next/
+            package.json
+            pnpm-lock.yaml
           if-no-files-found: error
           include-hidden-files: true
+          compression-level: 6
