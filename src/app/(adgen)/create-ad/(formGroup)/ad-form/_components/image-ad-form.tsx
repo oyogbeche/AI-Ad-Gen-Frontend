@@ -61,7 +61,7 @@ export const ImageAdForm = () => {
 
   const onSubmit = (data: FormData) => {
     console.log("Image Ad Data:", data);
-    router.push("/preview");
+    router.push("/create-ad/preview");
   };
 
   return (
