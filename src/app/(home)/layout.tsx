@@ -1,5 +1,9 @@
 import clsx from "clsx";
 import type { Metadata } from "next";
+<<<<<<< HEAD:src/app/layout.tsx
+=======
+
+>>>>>>> semjo/feat/forgot-password-flow:src/app/(home)/layout.tsx
 import { Manrope } from "next/font/google";
 
 import { TopProgressBarProvider } from "@/lib/nprogress/top-progress-bar-provider";
@@ -10,6 +14,11 @@ import "./globals.css";
 import Header from "@/app/sections/header";
 import { SonnerToaster } from "./sections/sonner-toaster";
 import Footer from "./sections/footer";
+import "../globals.css";
+
+import Header from "@/app/sections/header";
+import { SonnerToaster } from "../sections/sonner-toaster";
+import Footer from "../sections/footer";
 
 const manrope = Manrope({
   variable: "--font-manrope",
