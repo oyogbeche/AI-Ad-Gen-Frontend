@@ -1,14 +1,14 @@
-import React, { Suspense } from 'react'
-import AdType from '../components/ad-type'
+import React, { Suspense } from "react";
+import AdType from "../components/ad-type";
 
 const page = () => {
   return (
-    <div>
+    <div className="overflow-hidden h-screen">
       <Suspense fallback={<div>Loading...</div>}>
         <AdType />
       </Suspense>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
