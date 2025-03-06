@@ -7,9 +7,9 @@ import QueryProvider from "@/lib/react-query/query-provider";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import "./globals.css";
+import "./../globals.css";
 
-import Header from "@/app/sections/header";
+import Header from "@/app/(landing)/sections/header";
 import { SonnerToaster } from "./sections/sonner-toaster";
 import Footer from "./sections/footer";
 

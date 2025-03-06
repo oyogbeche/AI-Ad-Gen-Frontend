@@ -1,9 +1,9 @@
-import FeaturesSection from "@/app/sections/key-features";
-import HeroSection from "@/app/sections/hero";
+import FeaturesSection from "@/app/(landing)/sections/key-features";
+import HeroSection from "@/app/(landing)/sections/hero";
 import Pricing from "./sections/pricing";
 import CreateAds from "./sections/create-ads";
-import FAQ from "@/app/sections/FAQ";
-import CreateAd from "@/app/sections/createAD"; 
+import FAQ from "@/app/(landing)/sections/FAQ";
+import CreateAd from "@/app/(landing)/sections/createAD"; 
 import NewsletterForm from "./sections/news-letter";
 
 export default function Home() {
