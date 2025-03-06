@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 const Page = () => {
     const router = useRouter();
@@ -25,14 +26,15 @@ const Page = () => {
 
 
   return (
-    <>
+     <>
+   
       <h2 className="text-xl md:text-2xl font-bold mb-6">Select Ad Type</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="flex justify-center items-center gap-6 mb-8">
         <div
-          className={`border p-6 rounded-lg cursor-pointer transition-all flex justify-between  ${
+          className={` border-2 p-6 rounded-lg cursor-pointer transition-all flex justify-between  ${
             selectedAdType === "image"
-              ? "border-[#B800B8] bg-[#F3E8F3]"
+              ? "border-[#B7D3F3] bg-[#F3F8FD]"
               : "border-gray-300 hover:border-[#B800B8]/50"
           }`}
           onClick={() => handleAdTypeSelect("image")}
@@ -57,7 +59,7 @@ const Page = () => {
           <div
             className={`w-3 h-3 rounded-full border-2 flex items-center justify-center ${
               selectedAdType === "image"
-                ? "border-[#B800B8] bg-[#B800B8]"
+                ? "border-[#458DE1] bg-[#458DE1]"
                 : "border-gray-300"
             }`}
           >
@@ -119,7 +121,7 @@ const Page = () => {
   </div>
 </div> */}
 
-        <div className="border p-6 rounded-lg flex flex-col border-gray-300 bg-gray-100 opacity-50 cursor-not-allowed">
+     {/*    <div className="border p-6 rounded-lg flex flex-col border-gray-300 bg-gray-100 opacity-50 cursor-not-allowed">
           <Image src="/video.svg" alt="Video svg" width={30} height={30} />
           <div className="mt-4 flex flex-wrap items-center gap-2">
             <h3 className="font-semibold text-base">Video Ad</h3>
@@ -130,12 +132,12 @@ const Page = () => {
           <p className="text-sm text-gray-600">
             Animated ads with motion and sound.
           </p>
-        </div>
+        </div> */}
       </div>
 
-      <div className="flex justify-end">
+      <div className="w-full flex justify-center">
         <button
-          className={`px-6 py-3 rounded-md transition-colors cursor-pointer ${
+          className={`w-fit px-30 py-3 rounded-md transition-colors cursor-pointer ${
             selectedAdType
               ? "bg-[#B800B8] text-white hover:bg-[#960096]"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
