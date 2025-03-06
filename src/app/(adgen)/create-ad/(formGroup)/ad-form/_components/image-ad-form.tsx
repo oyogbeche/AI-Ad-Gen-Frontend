@@ -1,16 +1,14 @@
 "use client";
-import React from "react";
-import dynamic from "next/dynamic";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  adSizeOptions,
+  ageGroupOptions,
+  demographicsOptions,
+  languageOptions,
+  regionOptions,
+} from "@/app/constants/step-one-form-options";
+import BackButton from "@/components/back-button";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -20,25 +18,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MultiSelect } from "@/components/ui/multi-select";
 import {
-  demographicsOptions,
-  regionOptions,
-  adSizeOptions,
-  languageOptions,
-  ageGroupOptions,
-} from "@/app/constants/step-one-form-options";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { ImageAdSchema } from "@/schemas/ad-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import BackButton from "@/components/back-button";
-const DynamicMultiSelect = dynamic(
-  () => import("@/components/ui/multi-select"),
-  {
-    ssr: false,
-  }
-);
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 type FormData = z.infer<typeof ImageAdSchema>;
 
@@ -187,11 +180,12 @@ export const ImageAdForm = () => {
                         Target Age Group
                       </FormLabel>
                       <FormControl>
-                        <DynamicMultiSelect
+                        <MultiSelect
                           options={ageGroupOptions}
                           selected={field.value || []}
                           onChange={field.onChange}
                           placeholder="Select Age Group"
+                          emptyMessage="No age groups found."
                         />
                       </FormControl>
                       <FormMessage className="text-red-500 text-xs mt-1" />
@@ -225,7 +219,6 @@ export const ImageAdForm = () => {
                           {adSizeOptions.map((option) => (
                             <SelectItem key={option.value} value={option.value}>
                               <div className="flex items-center space-x-2">
-                                {/* Shape Indicator */}
                                 <div
                                   className={`border border-gray-500 ${option.aspectRatio} bg-gray-200`}
                                 />

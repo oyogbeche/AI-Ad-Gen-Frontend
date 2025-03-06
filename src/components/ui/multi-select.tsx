@@ -1,94 +1,143 @@
 "use client";
 
-import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Check, ChevronsUpDown, X } from "lucide-react";
+import * as React from "react";
 
-interface OptionType {
-  value: string;
+export type OptionType = {
   label: string;
-  display: string;
-}
+  value: string;
+};
 
-interface CustomMultiSelectProps {
+type MultiSelectProps = {
   options: OptionType[];
   selected: string[];
-  onChange: (selected: string[]) => void;
+  onChange: (values: string[]) => void;
   placeholder?: string;
-}
+  emptyMessage?: string;
+  className?: string;
+  disabled?: boolean;
+};
 
-const CustomMultiSelect = ({
-  options,
+export const MultiSelect = ({
+  options = [],
   selected = [],
   onChange,
-  placeholder = "Select options",
-}: CustomMultiSelectProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+  placeholder = "Select options...",
+  emptyMessage = "No options found.",
+  className,
+  disabled = false,
+}: MultiSelectProps) => {
+  const [open, setOpen] = React.useState(false);
+  const [searchValue, setSearchValue] = React.useState("");
 
-  React.useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  // Ensure options and selected are always arrays
+  const safeOptions = Array.isArray(options) ? options : [];
+  const safeSelected = Array.isArray(selected) ? selected : [];
+
+  const filteredOptions = React.useMemo(() => {
+    return safeOptions.filter((option) =>
+      option.label.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }, [safeOptions, searchValue]);
 
   const handleSelect = (value: string) => {
-    if (selected.includes(value)) {
-      onChange(selected.filter((item) => item !== value));
-    } else {
-      onChange([...selected, value]);
-    }
+    const newSelected = safeSelected.includes(value)
+      ? safeSelected.filter((item) => item !== value)
+      : [...safeSelected, value];
+
+    onChange(newSelected);
+  };
+
+  const handleRemove = (value: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    onChange(safeSelected.filter((item) => item !== value));
   };
 
   return (
-    <div className="relative">
-      <div
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex flex-wrap items-center gap-2 p-2 border border-gray-300 rounded-md cursor-pointer hover:border-[#B800B8] focus:border-[#B800B8] focus:ring-[#B800B8]"
-      >
-        {selected.length > 0 ? (
-          selected.map((value) => {
-            const option = options.find((opt) => opt.value === value);
-            return (
-              <Badge
-                key={value}
-                variant="secondary"
-                className="flex items-center gap-1"
-              >
-                {option?.display || option?.label || value}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleSelect(value);
-                  }}
-                ></button>
-              </Badge>
-            );
-          })
-        ) : (
-          <span className="text-muted-foreground">{placeholder}</span>
-        )}
-      </div>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className={cn("w-full min-h-10 h-auto justify-between", className)}
+          disabled={disabled}
+          type="button"
+        >
+          <div className="flex flex-wrap gap-1 items-center overflow-hidden">
+            {safeSelected.length === 0 && (
+              <span className="text-muted-foreground">{placeholder}</span>
+            )}
 
-      {isMounted && isOpen && (
-        <div className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg">
-          <div className="p-2 space-y-6">
-            {options.map((option) => (
-              <div key={option.value} className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id={option.value}
-                  checked={selected.includes(option.value)}
-                  onChange={() => handleSelect(option.value)}
-                  className="w-4 h-4 border-gray-300 rounded text-[#B800B8] focus:ring-[#B800B8] accent-[#B800B8]"
-                />
-                <label htmlFor={option.value} className="text-sm">
+            {safeSelected.map((value) => {
+              const option = safeOptions.find((opt) => opt.value === value);
+              return option ? (
+                <Badge key={value} variant="secondary" className="mr-1 mb-1">
                   {option.label}
-                </label>
+                  <button
+                    className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 cursor-pointer"
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onClick={(e) => handleRemove(value, e)}
+                    type="button"
+                  >
+                    <X className="h-3 w-3" />
+                    <span className="sr-only">Remove {option.label}</span>
+                  </button>
+                </Badge>
+              ) : null;
+            })}
+          </div>
+          <ChevronsUpDown className="h-4 w-4 opacity-50 ml-2 shrink-0" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-full p-2" align="start">
+        <div className="flex flex-col gap-2">
+          <Input
+            placeholder="Search options..."
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            className="h-9"
+          />
+
+          <div className="max-h-64 overflow-y-auto">
+            {filteredOptions.length === 0 ? (
+              <div className="py-6 text-center text-sm text-muted-foreground">
+                {emptyMessage}
               </div>
-            ))}
+            ) : (
+              filteredOptions.map((option) => (
+                <div
+                  key={option.value}
+                  onClick={() => handleSelect(option.value)}
+                  className={cn(
+                    "flex items-center justify-between px-2 py-1.5 text-sm rounded-md cursor-pointer",
+                    safeSelected.includes(option.value)
+                      ? "bg-accent text-accent-foreground"
+                      : "hover:bg-muted"
+                  )}
+                >
+                  <span>{option.label}</span>
+                  {safeSelected.includes(option.value) && (
+                    <Check className="h-4 w-4" />
+                  )}
+                </div>
+              ))
+            )}
           </div>
         </div>
-      )}
-    </div>
+      </PopoverContent>
+    </Popover>
   );
 };
-
-export default CustomMultiSelect;
