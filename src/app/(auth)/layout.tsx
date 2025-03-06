@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: "Get electrical services",
 };
 
-export default function DashboardLayout({
+export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -29,9 +29,9 @@ export default function DashboardLayout({
     <html lang="en">
       <body className={inter.className}>
 
-      <div className="flex flex-col min-h-screen ">
-  <AuthNav />
-        <main className="">{children}</main>
+      <div className="flex flex-col min-h-screen items-center gap-8 bg-[#F9FAFB]">
+        <AuthNav />
+          <main className="">{children}</main>
 
         <AuthFooter />
         </div>

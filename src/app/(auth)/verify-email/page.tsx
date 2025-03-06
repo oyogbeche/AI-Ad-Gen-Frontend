@@ -97,7 +97,7 @@ export default function EmailVerify() {
       console.log("Verification success:", response);
       setError("");
 
-      router.push("/auth/set-password");
+      router.push("/set-password");
     } catch (err) {
       setError("Invalid OTP code. Please try again.");
     } finally {
@@ -110,7 +110,7 @@ export default function EmailVerify() {
   return (
     <div className={nunito.className}>
       <Card className="space-y-4 md:w-[555px] w-[450px] md:h-[534px]">
-        <Link href="/auth/signup">
+        <Link href="/signup">
         <p className="flex gap-2 pl-5 cursor-pointer">
           <ArrowLeft /> Back
         </p>
@@ -179,9 +179,7 @@ export default function EmailVerify() {
         </CardContent>
       </Card>
 
-      <p className="text-gray-500 text-center fixed bottom-0 left-1/2 transform -translate-x-1/2 mb-4">
-        © 2025 Adgen-AI. All rights reserved
-      </p>
+
     </div>
   );
 }

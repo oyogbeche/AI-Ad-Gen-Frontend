@@ -28,14 +28,14 @@ export default function SetPassword() {
 
 
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (isButtonDisabled) return;
 
     setLoading(true);
 
     setTimeout(() => {
-      router.push("/auth/completed");
+      router.push("/completed");
     }, 2000);
   };
   
@@ -43,7 +43,7 @@ export default function SetPassword() {
   return (
     <div className={nunito.className}>
       <Card className="space-y-4 md:w-[555px]  flex-grow">
-        <Link href="/auth/verify-email">
+        <Link href="/verify-email">
         <p className="flex gap-2 pl-5 cursor-pointer">
           <ArrowLeft /> Back
         </p>
@@ -118,9 +118,7 @@ export default function SetPassword() {
         </CardContent>
       </Card>
 
-      <p className="text-gray-500 text-center fixed bottom-0 left-1/2 transform -translate-x-1/2 mb-4">
-        © 2025 Adgen-AI. All rights reserved
-      </p>
+
     </div>
   );
 }

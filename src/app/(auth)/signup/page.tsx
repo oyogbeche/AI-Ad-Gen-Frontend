@@ -20,7 +20,7 @@ export default function SignUp() {
   const isButtonDisabled = !email || !isValidEmail(email);
 
   return (
-    <div className={nunito.className}>
+    <div className={`my-20 ${nunito.className}`}>
       <Card className="space-y-4 md:w-[555px] w-[330px] md:h-[534px]">
         <Link href="/">
         <p className="flex gap-2 pl-5 cursor-pointer">
@@ -51,7 +51,7 @@ export default function SignUp() {
               </div>
             </div>
 
-            <Link href="/auth/verify-email">
+            <Link href="/verify-email">
             <Button
               type="submit"
               className={`w-full py-6 mt-5 font-light ${
@@ -66,16 +66,17 @@ export default function SignUp() {
 
           <p className="text-center mt-10">
             Already have an account?{" "}
+            <Link href="/signin">
             <span className="text-blue-500 font-bold cursor-pointer">
               Sign in
+             
             </span>
+            </Link>
           </p>
         </CardContent>
       </Card>
 
-      <p className="text-gray-500 text-center fixed bottom-0 left-1/2 transform -translate-x-1/2 mb-4">
-        © 2025 Adgen-AI. All rights reserved
-      </p>
+  
     </div>
   );
 }

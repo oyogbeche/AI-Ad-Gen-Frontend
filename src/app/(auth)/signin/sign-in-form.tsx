@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { LoadingButton } from "@/app/signin/components/loading-button"
+import { LoadingButton } from "@/app/(auth)/components/loading-button"
 
 // Define the form schema with Zod
 const formSchema = z.object({
@@ -31,6 +31,7 @@ export function SignInForm() {
   // Initialize react-hook-form with zod resolver
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
+    mode: "onChange",
     defaultValues: {
       email: "",
       password: "",
@@ -145,13 +146,14 @@ export function SignInForm() {
               type="submit"
               className="w-full bg-[#b800b8] hover:bg-purple-300 text-white"
               isLoading={isLoading}
+              disabled={!form.formState.isValid || isLoading}
             >
               Sign In
             </LoadingButton>
 
             <div className="text-center text-sm">
               Don&apos;t have an account?{" "}
-              <Link href="/create-account" className="text-blue-600 hover:text-blue-500 font-medium">
+              <Link href="/signup" className="text-blue-600 hover:text-blue-500 font-medium">
                 Create account
               </Link>
             </div>

@@ -1,6 +1,6 @@
 "use client"
 
-import {SignInForm} from "./sign-in-form";
+import { SignInForm } from "@/app/(auth)/signin/sign-in-form";
 //import { useRouter } from "next/navigation";
 //import { useEffect } from "react";
 
