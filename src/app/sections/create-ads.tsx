@@ -36,7 +36,7 @@ const CreateAds = () => {
       </div>
 
       <div className="flex flex-col text-center lg:text-left">
-        <p className="text-light-purple text-sm md:text-base">
+        <p className="text-[#10509A] text-sm md:text-base">
           CREATE ADS YOURSELF EASILY
         </p>
         <p className="text-[28px] md:text-[36px] lg:text-[48px] font-bold leading-tight">
