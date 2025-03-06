@@ -42,7 +42,7 @@ export default function RootLayout({
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
         />
       </Head>
-      <body className="font-nunito">
+      <body className="font-nunito bg-[#F9FAFB]">
         <SonnerToaster />
         <QueryProvider>
           <Header />
