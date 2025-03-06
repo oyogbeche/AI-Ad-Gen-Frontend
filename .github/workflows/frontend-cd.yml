@@ -15,11 +15,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Download Build Artifacts
-        uses: actions/download-artifact@v4
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: next-build
-          path: .next
+          path: |
+            .next
+            package.json
+            pnpm-lock.yaml
+          if-no-files-found: error
+          include-hidden-files: true
+          compression-level: 6
 
       - name: Install sshpass
         run: sudo apt-get install -y sshpass
