@@ -29,7 +29,7 @@ import {
   adSizeOptions,
   languageOptions,
   ageGroupOptions,
-} from "@/app/(landing)/constants/step-one-form-options";
+} from "@/app/constants/step-one-form-options";
 import { ImageAdSchema } from "@/schemas/ad-schema";
 import Image from "next/image";
 import Link from "next/link";
