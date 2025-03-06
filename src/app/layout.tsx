@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={clsx(manrope.variable)}>
-      <Head>
+      
         <link
           rel="stylesheet"
           type="text/css"
@@ -41,7 +41,7 @@ export default function RootLayout({
           type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
         />
-      </Head>
+      
       <body className="font-nunito bg-[#F9FAFB]">
         <SonnerToaster />
         <QueryProvider>
