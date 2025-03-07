@@ -13,7 +13,7 @@ const Header: React.FC = () => {
         <div className="pl-4">
           <Link href="/">
             <Image
-              src="/header-logo.svg"
+              src="/genz-logo.svg"
               alt="Adgen AI Logo"
               width={150}
               height={40}
