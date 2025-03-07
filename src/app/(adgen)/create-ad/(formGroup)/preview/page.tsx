@@ -33,7 +33,7 @@ export default function Page() {
 
             <CardHeader className="mb-6 md:mb-8 text-left md:text-center px-0">
               <CardTitle className="text-[28px] leading-[36px] text-[#121316] font-semibold">
-                All Done! All Done!
+                All Done!
               </CardTitle>
               <p className="text-[#667185] text-[14px] md:text-[18px] font-normal mt-1">
                 Below is your AI generated Ad Campaign
@@ -61,10 +61,10 @@ export default function Page() {
                 </div>
               </div>
 
-              <div className="relative w-full h-2.5 bg-white-200 rounded-full mt-6">
+              {/* <div className="relative w-full h-2.5 bg-white-200 rounded-full mt-6">
                 <div className="absolute left-0 h-2 bg-[#1467C5] rounded-full w-[47%] md:w-[49%]"></div>
                 <div className="absolute right-0 h-2 bg-[#1467c5] rounded-full w-[47%] md:w-[49%]"></div>
-              </div>
+              </div> */}
             </div>
 
             <SinglePreview />
