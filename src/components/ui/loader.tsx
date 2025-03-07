@@ -31,7 +31,7 @@ const Loader: React.FC<LoaderProps> = ({
             />
           ))}
         </div>
-        {message && <p className="mt-4 text-white text-base font-medium">{message}</p>}
+        {message && <p className="mt-4 text-base font-medium">{message}</p>}
       </div>
       <style>
         {`

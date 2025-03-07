@@ -1,12 +1,51 @@
 "use client";
 
-import { useState } from "react";
+import React from "react";
 import Image from "next/image";
+import { SinglePreviewProps } from "@/types";
 
-const images: string[] = ["/images/hng-wig-2.png"];
+// const images: string[] = ["/images/hng-wig-2.png"];
 
-export default function SinglePreview() {
-  const [selectedImage, setSelectedImage] = useState<string>(images[0]);
+export default function SinglePreview({ imageData }: SinglePreviewProps) {
+  // console.log("imagedata", imageData);
+
+  // const base64ImageData = imageData.image?.image_data;
+
+  // const images = imageData.image?.image_data
+  //   ? [imageData.image?.image_data]
+  //   : [];
+
+  const images = React.useMemo(() => {
+    const baseImages = imageData?.image_url ? [imageData.image_url] : [];
+    if (
+      imageData?.additionalImages &&
+      Array.isArray(imageData.additionalImages)
+    ) {
+      return [...baseImages, ...imageData.additionalImages];
+    }
+    return baseImages;
+  }, [imageData]);
+
+  // console.log("images", images);
+
+  const [selectedImage, setSelectedImage] = React.useState<string>(
+    images[0] || ""
+  );
+
+  // Update selectedImage when imageData changes
+  React.useEffect(() => {
+    if (images.length > 0) {
+      setSelectedImage(images[0]);
+    }
+  }, [images]);
+
+  if (!imageData) {
+    return <div>No image data available</div>;
+  }
+
+  if (images.length === 0) {
+    return <div>No images available for preview</div>;
+  }
 
   const generateAltText = (imagePath: string) => {
     const fileName = imagePath.split("/").pop()?.split(".")[0] || "Image";
@@ -25,6 +64,7 @@ export default function SinglePreview() {
           width={815}
           alt={generateAltText(selectedImage)}
           priority
+          unoptimized
         />
       </div>
 
@@ -44,6 +84,7 @@ export default function SinglePreview() {
                 height={80}
                 width={80}
                 alt={`Thumbnail ${index + 1}`}
+                unoptimized
               />
             </div>
           ))}
