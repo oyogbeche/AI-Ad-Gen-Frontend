@@ -154,7 +154,7 @@ const AdType = () => {
 
       <div className="w-full flex justify-center">
         <button
-          className={`w-fit px-30 py-3 rounded-md transition-colors cursor-pointer ${
+          className={`w-full max-w-[320px] py-3 rounded-md transition-colors cursor-pointer ${
             selectedAdType
               ? "bg-[#B800B8] text-white hover:bg-[#960096]"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"

@@ -33,68 +33,68 @@ const socialLinks = [
 ];
 const Footer = () => {
   return (
-    <section className="py-[78px] bg-white">
-      <section className="gap-[96px] flex flex-col lg:flex-row justify-center items-start p-10 lg:p-20">
+    <section>
+      <section className="gap-[1rem] flex flex-wrap justify-between sm:justify-around items-start p-4">
         <div className="flex flex-col">
-          <Image src={footerLogo} alt="footerlogo" />
-          <p className="text-[28px] font-nunito">
+          <Image src={footerLogo} className="w-[150px]" alt="footerlogo" />
+          <p className="text-[18px] font-nunito">
             <span className="text-light-purple">Smarter Ads,</span> Faster
             Results
           </p>
-          <div className="flex gap-9 mt-[50px] mb-[30px]">
+          <div className="flex gap-2 mt-[12px] mb-[8px]">
             {socialLinks.map((link) => (
               <Link
                 href={link.href}
                 key={link.name}
-                className="flex items-center gap-3 text-[18px] font-manrope hover:text-light-purple"
+                className="flex items-center gap-3 text-[16px] font-manrope hover:text-light-purple"
               >
                 <Image width={24} height={24} src={link.img} alt={link.name} />
               </Link>
             ))}
-          </div>
-          <p>Copyright. All rights reserved.</p>
+          </div>  
+          <p className="text-[14px]">Copyright. All rights reserved.</p>
         </div>
-        <div className="flex gap-10 lg:gap-[125px] flex-col lg:flex-row">
-          <div className="flex flex-col gap-5">
-            <p className="font-nunito font-semibold text-[24px]">
+        <div className="flex gap-4 justify-between flex-wrap w-full max-w-[540px]">
+          <div className="flex flex-col gap-4">
+            <p className="font-nunito font-semibold text-[18px]">
               Company Info
             </p>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
               {companyInfoLinks.map((link) => (
                 <Link
                   href={link.href}
                   key={link.name}
-                  className="text-[18px] font-manrope font-medium hover:text-light-purple"
+                  className="text-[14px] font-manrope font-medium hover:text-light-purple"
                 >
                   {link.name}
                 </Link>
               ))}
             </div>
           </div>
-          <div className="flex flex-col gap-5">
-            <p className="font-nunito font-semibold text-[24px]">Features</p>
-            <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4">
+            <p className="font-nunito font-semibold text-[18px]">Features</p>
+            <div className="flex flex-col gap-2">
               {featureLinks.map((link) => (
                 <Link
                   href={link.href}
                   key={link.name}
-                  className="text-[18px] font-medium flex items-center gap-5 font-manrope hover:text-light-purple"
+                  className="text-[14px] font-medium flex items-center gap-5 font-manrope hover:text-light-purple"
                 >
                   {link.name}
                 </Link>
               ))}
             </div>
           </div>
-          <div className="flex flex-col gap-5">
-            <p className="font-nunito font-semibold text-[24px]">
+          <div className="flex flex-col gap-4">
+            <p className="font-nunito font-semibold text-[18px]">
               Support & Resources
             </p>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
               {supportLinks.map((link) => (
                 <Link
                   href={link.href}
                   key={link.name}
-                  className="text-[18px] font-medium font-manrope hover:text-light-purple"
+                  className="text-[14px] font-medium font-manrope hover:text-light-purple"
                 >
                   {link.name}
                 </Link>
@@ -103,13 +103,12 @@ const Footer = () => {
           </div>
         </div>
       </section>
-      <div className="lg:mx-[180px] mx-[40px] mt-[68px] flex justify-center items-center">
-        <p className="font-nunito lg:text-[20px] text-gray-500">
+      <div className="flex p-4 justify-center items-center">
+        <p className="font-nunito lg:text-[16px] text-gray-500 text-justify w-full max-w-[960px] mx-auto">
           Adgen AI helps you generate video and image advertisements tailored
-          Adgen AI helps you generate video and image adements <br />
+          Adgen AI helps you generate video and image adements
           tailored for different platforms, audiences and cultural contexts,
           without needing design or marketing expertise different platforms,{" "}
-          <br />
           audiences and cultural contexts, without needing design or marketing
           expertise
         </p>
