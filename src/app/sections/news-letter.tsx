@@ -54,7 +54,7 @@ export default function NewsletterForm() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="bg-[#C23CC3] text-white font-semibold px-6 py-3 rounded-lg transition hover:bg-[#a72ca7]"
+          className="bg-[#C23CC3] text-white cursor-pointer font-semibold px-6 py-3 rounded-lg transition hover:bg-[#a72ca7]"
         >
           Subscribe Now
         </button>
