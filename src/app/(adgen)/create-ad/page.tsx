@@ -4,7 +4,7 @@ import AdType from "../components/ad-type";
 
 const page = () => {
   return (
-    <div className="overflow-hidden h-screen flex items-center justify-center">
+    <div>
       <Suspense
         fallback={
           <div className="flex items-center justify-center h-full">
