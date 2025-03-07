@@ -148,39 +148,25 @@ export const ImageAdForm = () => {
         <CardContent className="px-4 md:px-8 py-6">
           <BackButton className="mb-8" />
 
-          <CardHeader className="mb-6 md:mb-8 text-left md:text-center px-0">
+          <CardHeader className="mb-6 md:mb-10 text-left md:text-center px-0">
             <CardTitle className="text-[28px] leading-[36px] text-[#121316] font-semibold">
-              Let&apos;s set up your Image Ad
+              Let&apos;s set up your Ad
             </CardTitle>
-            <p className="text-[#667185] text-[18px] font-normal mt-1">
+            <p className="text-[#667185] text-sm md:text-[18px] font-normal mt-1">
               Fill in the details below, then AI generates your ad instantly.
             </p>
           </CardHeader>
 
-          <div className="mb-6 md:mb-8">
-            <div className="flex justify-around items-center max-md:mr-4">
-              <div className="text-center">
-                <p className="text-xs font-semibold leading-4 text-[#121316]">
-                  STEP 1
-                </p>
-                <p className="text-sm mt-[3px] font-bold leading-5 text-[#121316]">
-                  Set Ad goals
-                </p>
-              </div>
-              <div className="text-center">
-                <p className="text-xs font-semibold leading-4 text-[#CFCFCF]">
-                  STEP 2
-                </p>
-                <p className="text-sm mt-[3px] font-bold leading-5 text-[#CFCFCF]">
-                  Preview
-                </p>
-              </div>
+          <div className="max-w-[342px] w-full mx-auto flex flex-col gap-6 mb-6 md:mb-10">
+            <div className="flex items-center justify-center gap-1 :max-w-[295px] w-full mx-auto ">
+              <div className="w-6 h-6 border-3 border-[#458DE1] rounded-full"></div>
+              <div className="h-1 max-w-[230px] md:max-w-[239px] w-full bg-[#458DE1] rounded-full"></div>
+              <div className="w-6 h-6 border-3 border-[#CFCFCF] rounded-full"></div>
             </div>
 
-            <div className="relative w-full h-2.5 bg-white-200 rounded-full mt-6">
-              <div className="absolute left-0 h-2 bg-[#1467C5] rounded-full w-[47%] md:w-[48%]"></div>
-
-              <div className="absolute right-0 h-2 bg-[#E8F1FB] rounded-full w-[47%] md:w-[48%]"></div>
+            <div className="w-full flex items-center justify-between text-base font-bold leading-5">
+              <p className="text-[#1671D9]">Enter Ad Details</p>
+              <p className="text-[#A1A1A1]">Your Generated Ad</p>
             </div>
           </div>
 
