@@ -41,7 +41,7 @@ export default function FAQSection() {
         <h2 className="text-2xl lg:text-[48px] font-medium mt-3">
           Frequently Asked <br /> Questions (FAQ)
         </h2>
-        <p className="text-gray-600 mt-3 text-sm md:text-base">
+        <p className="text-gray-600 mt-3 text-sm  md:text-base">
           Got questions? We&apos;ve got answers. Browse our frequently asked
           questions to find what you&apos;re looking for.
         </p>

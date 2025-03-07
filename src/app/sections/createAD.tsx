@@ -37,7 +37,7 @@ const CreateAd: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="flex bg-white flex-col lg:flex-row justify-between items-center gap-10 lg:gap-[80px] p-20 px-6 md:px-24"
+      className="flex  bg-white flex-col lg:flex-row justify-between items-center gap-10 lg:gap-[80px] py-20 px-10 md:px-[250px] md:-mx-40"
     >
       <motion.div
         className="max-w-[600px] w-fit px-6"
