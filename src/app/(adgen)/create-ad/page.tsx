@@ -1,3 +1,4 @@
+
 import Loader from "@/components/ui/loader";
 import { Suspense } from "react";
 import AdType from "../components/ad-type";

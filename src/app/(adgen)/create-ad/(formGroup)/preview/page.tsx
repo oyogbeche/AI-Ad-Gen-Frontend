@@ -59,5 +59,6 @@ export default function Page() {
         </Card>
       </section>
     </Suspense>
+
   );
 }

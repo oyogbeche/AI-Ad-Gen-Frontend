@@ -1,4 +1,5 @@
 "use client";
+
 import {
   adSizeOptions,
   ageGroupOptions,
@@ -9,6 +10,7 @@ import {
 import BackButton from "@/components/back-button";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 import {
   Form,
   FormControl,
@@ -18,6 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+
 import {
   Select,
   SelectContent,
@@ -36,11 +39,13 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const DesktopMultiSelect = dynamic(
+
   () => import("@/components/ui/multi-select"),
   {
     ssr: false,
   }
 );
+
 
 const MobileSelectBottomSheet = dynamic(
   () => import("@/components/ui/mobile-select"),
@@ -56,10 +61,12 @@ const MobileMultiSelectBottomSheet = dynamic(
   }
 );
 
+
 type FormData = z.infer<typeof ImageAdSchema>;
 
 export const ImageAdForm = () => {
   const router = useRouter();
+
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [isFormLoaded, setIsFormLoaded] = useState(false);
 
@@ -76,6 +83,7 @@ export const ImageAdForm = () => {
       adGoal: "",
     },
   });
+
 
   // Load saved data after component mounts
   useEffect(() => {
@@ -153,6 +161,7 @@ export const ImageAdForm = () => {
               Let&apos;s set up your Image Ad
             </CardTitle>
             <p className="text-[#667185] text-[18px] font-normal mt-1">
+
               Fill in the details below, then AI generates your ad instantly.
             </p>
           </CardHeader>
@@ -187,18 +196,23 @@ export const ImageAdForm = () => {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border py-8 md:py-10 px-4 md:px-6 rounded-[8px] border-[#ECECEC]">
+
                 <FormField
                   control={form.control}
                   name="productName"
                   render={({ field }) => (
                     <FormItem>
+
                       <FormLabel className="text-sm font-normal text-[#121316]">
+
                         Product Name
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter Ad Title"
+
                           className="w-full border-[#E4E7EC] text-sm font-normal leading-5 focus:ring-[#B800B8] focus:border-[#E9B0E9] h-11 md:h-[56px] outline-0 focus:cursor-c"
+
                           {...field}
                         />
                       </FormControl>
@@ -212,6 +226,7 @@ export const ImageAdForm = () => {
                   name="demographics"
                   render={({ field }) => (
                     <FormItem>
+
                       <FormLabel className="text-sm font-normal text-[#121316]">
                         Demographics
                       </FormLabel>
@@ -251,6 +266,7 @@ export const ImageAdForm = () => {
                           </Select>
                         )}
                       </FormControl>
+
                       <FormMessage className="text-red-500 text-xs mt-1" />
                     </FormItem>
                   )}
@@ -261,6 +277,7 @@ export const ImageAdForm = () => {
                   name="region"
                   render={({ field }) => (
                     <FormItem>
+
                       <FormLabel className="text-sm font-normal text-[#121316]">
                         Target Region
                       </FormLabel>
@@ -297,6 +314,7 @@ export const ImageAdForm = () => {
                           </Select>
                         )}
                       </FormControl>
+
                       <FormMessage className="text-red-500 text-xs mt-1" />
                     </FormItem>
                   )}
@@ -307,6 +325,7 @@ export const ImageAdForm = () => {
                   name="ageGroup"
                   render={({ field }) => (
                     <FormItem>
+
                       <FormLabel className="text-sm font-normal text-[#121316]">
                         Target Age Group (2 max)
                       </FormLabel>
@@ -327,6 +346,7 @@ export const ImageAdForm = () => {
                             placeholder="Select Age Group"
                           />
                         )}
+
                       </FormControl>
                       <FormMessage className="text-red-500 text-xs mt-1" />
                     </FormItem>
@@ -338,6 +358,7 @@ export const ImageAdForm = () => {
                   name="adSize"
                   render={({ field }) => (
                     <FormItem>
+
                       <FormLabel className="text-sm font-normal text-[#121316]">
                         Ad Size
                       </FormLabel>
@@ -379,6 +400,7 @@ export const ImageAdForm = () => {
                           </Select>
                         )}
                       </FormControl>
+
                       <FormMessage className="text-red-500 text-xs mt-1" />
                     </FormItem>
                   )}
@@ -389,6 +411,7 @@ export const ImageAdForm = () => {
                   name="language"
                   render={({ field }) => (
                     <FormItem>
+
                       <FormLabel className="text-sm font-normal text-[#121316]">
                         Ad Language
                       </FormLabel>
@@ -445,16 +468,20 @@ export const ImageAdForm = () => {
                           {...field}
                         />
                       </FormControl>
+
                       <FormMessage className="text-red-500 text-xs mt-1" />
                     </FormItem>
                   )}
                 />
               </div>
 
+
+
               <div className="flex justify-end">
                 <Button
                   type="submit"
                   disabled={!form.formState.isValid}
+
                   className={`px-6 py-3 h-12 text-base rounded-md transition-colors text-white shadow-none md:mt-[13px] w-full md:w-fit ${
                     form.formState.isValid
                       ? "bg-[#B800B8]  hover:bg-[#960096] cursor-pointer"
@@ -462,10 +489,12 @@ export const ImageAdForm = () => {
                   }`}
                 >
                   Generate Ad
+
                 </Button>
               </div>
             </form>
           </Form>
+
         </CardContent>
       </Card>
     </div>

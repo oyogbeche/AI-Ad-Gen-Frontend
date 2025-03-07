@@ -21,7 +21,7 @@ const Footer = () => {
           2025 genz.ad. All rights reserved.
         </p>
       </div>
-    </footer>
+    </section>
   );
 };
 
