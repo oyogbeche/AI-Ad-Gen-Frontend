@@ -1,16 +1,14 @@
 "use client";
-import React from "react";
-import dynamic from "next/dynamic";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  adSizeOptions,
+  ageGroupOptions,
+  demographicsOptions,
+  languageOptions,
+  regionOptions,
+} from "@/app/constants/step-one-form-options";
+import BackButton from "@/components/back-button";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -20,20 +18,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  demographicsOptions,
-  regionOptions,
-  adSizeOptions,
-  languageOptions,
-  ageGroupOptions,
-} from "@/app/constants/step-one-form-options";
-import { ImageAdSchema } from "@/schemas/ad-schema";
-import { useRouter } from "next/navigation";
-import BackButton from "@/components/back-button";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { ImageAdSchema } from "@/schemas/ad-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 // Import desktop components
 const DesktopMultiSelect = dynamic(
@@ -125,13 +124,13 @@ export const ImageAdForm = () => {
                   name="productName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
+                      <FormLabel className="text-sm font-normal text-[#121316]">
                         Product Name
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter Ad Title"
-                          className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]"
+                          className="w-full border-[#E4E7EC] text-sm font-normal leading-5 focus:ring-[#B800B8] focus:border-[#E9B0E9] h-[56px] outline-0"
                           {...field}
                         />
                       </FormControl>
@@ -145,7 +144,7 @@ export const ImageAdForm = () => {
                   name="demographics"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
+                      <FormLabel className="text-sm font-normal text-[#121316]">
                         Demographics
                       </FormLabel>
                       <FormControl>
@@ -162,7 +161,7 @@ export const ImageAdForm = () => {
                             onValueChange={field.onChange}
                             defaultValue={field.value}
                           >
-                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]">
+                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
                               <SelectValue placeholder="Select demographics" />
                             </SelectTrigger>
                             <SelectContent>
@@ -170,6 +169,7 @@ export const ImageAdForm = () => {
                                 <SelectItem
                                   key={option.value}
                                   value={option.value}
+                                  className="py-2"
                                 >
                                   {option.label}
                                 </SelectItem>
@@ -188,7 +188,7 @@ export const ImageAdForm = () => {
                   name="region"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
+                      <FormLabel className="text-sm font-normal text-[#121316]">
                         Target Region
                       </FormLabel>
                       <FormControl>
@@ -205,7 +205,7 @@ export const ImageAdForm = () => {
                             onValueChange={field.onChange}
                             defaultValue={field.value}
                           >
-                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]">
+                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
                               <SelectValue placeholder="Select Region" />
                             </SelectTrigger>
                             <SelectContent>
@@ -231,7 +231,7 @@ export const ImageAdForm = () => {
                   name="ageGroup"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
+                      <FormLabel className="text-sm font-normal text-[#121316]">
                         Target Age Group
                       </FormLabel>
                       <FormControl>
@@ -262,7 +262,7 @@ export const ImageAdForm = () => {
                   name="adSize"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
+                      <FormLabel className="text-sm font-normal text-[#121316]">
                         Ad Size
                       </FormLabel>
                       <FormControl>
@@ -279,7 +279,7 @@ export const ImageAdForm = () => {
                             onValueChange={field.onChange}
                             defaultValue={field.value}
                           >
-                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center">
+                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center h-[56px]">
                               <SelectValue placeholder="Choose Ad Size">
                                 {field.value
                                   ? adSizeOptions.find(
@@ -294,9 +294,9 @@ export const ImageAdForm = () => {
                                   key={option.value}
                                   value={option.value}
                                 >
-                                  <div className="flex items-center space-x-2">
+                                  <div className="flex items-center space-x-2 py-1">
                                     <div
-                                      className={`border border-gray-500 ${option.aspectRatio} bg-gray-200`}
+                                      className={`border border-[#121316] ${option.aspectRatio}`}
                                     />
                                     <span>{option.label}</span>
                                   </div>
@@ -316,7 +316,7 @@ export const ImageAdForm = () => {
                   name="language"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
+                      <FormLabel className="text-sm font-normal text-[#121316]">
                         Ad Language
                       </FormLabel>
                       <FormControl>
@@ -333,7 +333,7 @@ export const ImageAdForm = () => {
                             onValueChange={field.onChange}
                             defaultValue={field.value}
                           >
-                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]">
+                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
                               <SelectValue placeholder="Select a Language" />
                             </SelectTrigger>
                             <SelectContent>
@@ -360,13 +360,13 @@ export const ImageAdForm = () => {
                 name="adGoal"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-medium text-gray-700">
+                    <FormLabel className="text-sm font-normal text-[#121316]">
                       Ad Goal
                     </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Describe your Ad goal and message"
-                        className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]"
+                        className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]"
                         {...field}
                       />
                     </FormControl>
