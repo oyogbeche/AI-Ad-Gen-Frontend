@@ -41,7 +41,7 @@ export default function FAQSection() {
         {faqs.map((faq, index) => (
           <div key={index} className="mb-4 border border-gray-300 rounded-lg overflow-hidden">
             <button
-              className={`flex justify-between w-full text-left  px-5 py-4 text-sm md:text-lg font-medium transition-all duration-300 ${openIndex === index ? 'bg-[#520052] text-white' : 'bg-white text-gray-900'}`}
+              className={`flex justify-between w-full text-left  px-5 py-4 text-sm md:text-lg font-medium transition-all cursor-pointer duration-300 ${openIndex === index ? 'bg-[#520052] text-white' : 'bg-white text-gray-900'}`}
               onClick={() => setOpenIndex(openIndex === index ? null : index)}
             >
               {faq.question}
