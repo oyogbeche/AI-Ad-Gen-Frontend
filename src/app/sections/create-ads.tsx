@@ -8,21 +8,19 @@ import { useRef } from "react";
 
 const notes = [
   {
-    name: "Input Brand Details",
+    name: "AI-Powered Generation",
     description:
-      "Define your brand name, product details, target audience, select the size of your ad",
+      "Create high-quality image ads instantly with AI—no design skills needed.",
   },
   {
-    name: "Enter Audience Info",
-    description: "Enter the details of your target audience",
+    name: "Simple Campaign Input",
+    description:
+      "Enter product details, target audience, language, and ad goal to create your ad.",
   },
   {
-    name: "Select ad size",
-    description: "Select the size of your ad",
-  },
-  {
-    name: "Generate Ads",
-    description: "Receive your ad instantly as soon as you're done!",
+    name: "Instant Ad Preview",
+    description:
+      "See your AI-generated ad in real-time before taking the next step.",
   },
 ];
 
@@ -52,7 +50,7 @@ const CreateAds = () => {
       </motion.div>
 
       <motion.div
-        className="flex flex-col text-center lg:text-left"
+        className="flex flex-col text-left"
         initial={{ opacity: 0, x: 50 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
         transition={{ duration: 0.8 }}
@@ -64,10 +62,10 @@ const CreateAds = () => {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          CREATE ADS YOURSELF EASILY
+          HOW TO USE
         </motion.p>
         <motion.p
-          className="text-[28px] md:text-[36px] lg:text-[48px] font-semibold leading-tight"
+          className="text-[28px] md:text-[36px] lg:text-[48px] font-medium leading-tight"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
