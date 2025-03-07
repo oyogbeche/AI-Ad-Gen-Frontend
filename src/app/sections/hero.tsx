@@ -79,7 +79,7 @@ const HeroSection = () => {
       </motion.div>
 
       <motion.div
-        className="w-full px-4 slider-container -mb-8 mt-4 md:mt-10"
+        className="w-full slider-container -mb-8 mt-4 md:mt-10"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, duration: 0.8 }}
