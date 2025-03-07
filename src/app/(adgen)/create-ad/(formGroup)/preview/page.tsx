@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Loader from "@/components/ui/loader";
+import Image from "next/image";
 import { Suspense } from "react";
 import SinglePreview from "./_components/single-image-preview";
 import AdPreviewNavigation, {
@@ -32,7 +33,7 @@ export default function Page() {
 
             <CardHeader className="mb-6 md:mb-8 text-left md:text-center px-0">
               <CardTitle className="text-[28px] leading-[36px] text-[#121316] font-semibold">
-                All Done!
+                All Done! All Done!
               </CardTitle>
               <p className="text-[#667185] text-[14px] md:text-[18px] font-normal mt-1">
                 Below is your AI generated Ad Campaign
@@ -40,22 +41,23 @@ export default function Page() {
             </CardHeader>
 
             <div className="mb-6 md:mb-8">
-              <div className="flex justify-around items-center max-md:mr-4">
-                <div className="text-center">
-                  <p className="text-xs font-semibold leading-4 text-[#121316]">
-                    STEP 1
-                  </p>
-                  <p className="text-sm mt-[3px] font-bold leading-5 text-[#121316]">
-                    Set Ad goals
-                  </p>
+              <div className="max-w-[342px] w-full mx-auto flex flex-col gap-6 ">
+                <div className="flex items-center justify-center gap-1 :max-w-[295px] w-full mx-auto ">
+                  <Image
+                    className=""
+                    src="/preview-tick.svg"
+                    height={24}
+                    width={24}
+                    alt="Tick icon"
+                    priority
+                  />
+                  <div className="h-1 max-w-[230px] md:max-w-[239px] w-full bg-[#458DE1] rounded-full"></div>
+                  <div className="w-6 h-6 border-3 border-[#458DE1] rounded-full"></div>
                 </div>
-                <div className="text-center">
-                  <p className="text-xs font-semibold leading-4 text-[#121316]">
-                    STEP 2
-                  </p>
-                  <p className="text-sm mt-[3px] font-bold leading-5 text-[#121316]">
-                    Preview
-                  </p>
+
+                <div className="w-full flex items-center justify-between text-base font-bold leading-5 text-[#458DE1]">
+                  <p>Enter Ad Details</p>
+                  <p>Your Generated Ad</p>
                 </div>
               </div>
 
