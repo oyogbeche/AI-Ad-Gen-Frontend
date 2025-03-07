@@ -40,9 +40,9 @@ export default function Page() {
             </div>
 
             <div className="relative w-full h-2.5 bg-white-200 rounded-full mt-6">
-              <div className="absolute left-0 h-2 bg-[#1467C5] rounded-full w-[48%] md:w-[49%]"></div>
+              <div className="absolute left-0 h-2 bg-[#1467C5] rounded-full w-[47%] md:w-[49%]"></div>
 
-              <div className="absolute right-0 h-2 bg-[#1467c5] rounded-full w-[48%] md:w-[49%]"></div>
+              <div className="absolute right-0 h-2 bg-[#1467c5] rounded-full w-[47%] md:w-[49%]"></div>
             </div>
           </div>
           <PreviewContent />
