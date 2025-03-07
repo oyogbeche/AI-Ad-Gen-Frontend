@@ -5,10 +5,10 @@ import ImageGrid from "./image-grid";
 import SelectedImagePreview from "./selected-image-preview";
 
 const images: string[] = [
-  "/images/man-holding-juice.jpg",
-  "/images/sdyc.jpg",
-  "/images/coca-cola.jpg",
-  "/images/orange-juice.jpg",
+  "/images/hng-wig-1.png",
+  "/images/hng-wig-2.png",
+  "/images/hng-wig-3.png",
+  "/images/hng-wig-4.png",
 ];
 
 export default function PreviewContent() {

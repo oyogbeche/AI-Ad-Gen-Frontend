@@ -33,8 +33,26 @@ import {
 import { ImageAdSchema } from "@/schemas/ad-schema";
 import { useRouter } from "next/navigation";
 import BackButton from "@/components/back-button";
-const DynamicMultiSelect = dynamic(
+import { useMediaQuery } from "@/hooks/use-media-query";
+
+// Import desktop components
+const DesktopMultiSelect = dynamic(
   () => import("@/components/ui/multi-select"),
+  {
+    ssr: false,
+  }
+);
+
+// Import mobile components with bottom sheet style
+const MobileSelectBottomSheet = dynamic(
+  () => import("@/components/ui/MobileSelect"),
+  {
+    ssr: false,
+  }
+);
+
+const MobileMultiSelectBottomSheet = dynamic(
+  () => import("@/components/ui/MobileMultiSelect"),
   {
     ssr: false,
   }
@@ -44,6 +62,8 @@ type FormData = z.infer<typeof ImageAdSchema>;
 
 export const ImageAdForm = () => {
   const router = useRouter();
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
   const form = useForm<FormData>({
     resolver: zodResolver(ImageAdSchema),
     mode: "onChange",
@@ -66,7 +86,7 @@ export const ImageAdForm = () => {
   return (
     <div className="min-h-full bg-[#F9FAFB] p-6 py-18 flex justify-center items-center">
       <Card className="w-full max-w-[890px]">
-        <CardContent className="p-14">
+        <CardContent className="p-6 sm:p-14">
           <BackButton className="mb-8" />
 
           <CardHeader className="p-0 mb-6 text-center">
@@ -93,7 +113,6 @@ export const ImageAdForm = () => {
 
             <div className="relative w-full h-2 bg-white-200 rounded-full mt-4 mb-4">
               <div className="absolute left-0 h-2 bg-[#1467C5] rounded-l-full w-[48%]"></div>
-
               <div className="absolute right-0 h-2 bg-gray-300 rounded-r-full w-[48%]"></div>
             </div>
           </div>
@@ -120,6 +139,7 @@ export const ImageAdForm = () => {
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
                   name="demographics"
@@ -128,27 +148,41 @@ export const ImageAdForm = () => {
                       <FormLabel className="text-sm font-medium text-gray-700">
                         Demographics
                       </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]">
-                            <SelectValue placeholder="Select demographics" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {demographicsOptions.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <FormControl>
+                        {isMobile ? (
+                          <MobileSelectBottomSheet
+                            options={demographicsOptions}
+                            selected={field.value}
+                            onChange={field.onChange}
+                            placeholder="Select demographics"
+                            title="Target Audience Demographics"
+                          />
+                        ) : (
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]">
+                              <SelectValue placeholder="Select demographics" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {demographicsOptions.map((option) => (
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                >
+                                  {option.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      </FormControl>
                       <FormMessage className="text-red-500 text-xs mt-1" />
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
                   name="region"
@@ -157,27 +191,41 @@ export const ImageAdForm = () => {
                       <FormLabel className="text-sm font-medium text-gray-700">
                         Target Region
                       </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]">
-                            <SelectValue placeholder="Select Region" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {regionOptions.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <FormControl>
+                        {isMobile ? (
+                          <MobileSelectBottomSheet
+                            options={regionOptions}
+                            selected={field.value}
+                            onChange={field.onChange}
+                            placeholder="Select Region"
+                            title="Target Audience Region"
+                          />
+                        ) : (
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]">
+                              <SelectValue placeholder="Select Region" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {regionOptions.map((option) => (
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                >
+                                  {option.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      </FormControl>
                       <FormMessage className="text-red-500 text-xs mt-1" />
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
                   name="ageGroup"
@@ -187,17 +235,28 @@ export const ImageAdForm = () => {
                         Target Age Group
                       </FormLabel>
                       <FormControl>
-                        <DynamicMultiSelect
-                          options={ageGroupOptions}
-                          selected={field.value || []}
-                          onChange={field.onChange}
-                          placeholder="Select Age Group"
-                        />
+                        {isMobile ? (
+                          <MobileMultiSelectBottomSheet
+                            options={ageGroupOptions}
+                            selected={field.value || []}
+                            onChange={field.onChange}
+                            placeholder="Select Age Group"
+                            title="Target Age Group"
+                          />
+                        ) : (
+                          <DesktopMultiSelect
+                            options={ageGroupOptions}
+                            selected={field.value || []}
+                            onChange={field.onChange}
+                            placeholder="Select Age Group"
+                          />
+                        )}
                       </FormControl>
                       <FormMessage className="text-red-500 text-xs mt-1" />
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
                   name="adSize"
@@ -206,35 +265,47 @@ export const ImageAdForm = () => {
                       <FormLabel className="text-sm font-medium text-gray-700">
                         Ad Size
                       </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center">
-                            <SelectValue placeholder="Choose Ad Size">
-                              {field.value
-                                ? adSizeOptions.find(
-                                    (opt) => opt.value === field.value
-                                  )?.display
-                                : "Choose Ad Size"}
-                            </SelectValue>
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {adSizeOptions.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              <div className="flex items-center space-x-2">
-                                {/* Shape Indicator */}
-                                <div
-                                  className={`border border-gray-500 ${option.aspectRatio} bg-gray-200`}
-                                />
-                                <span>{option.label}</span>
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <FormControl>
+                        {isMobile ? (
+                          <MobileSelectBottomSheet
+                            options={adSizeOptions}
+                            selected={field.value}
+                            onChange={field.onChange}
+                            placeholder="Choose Ad Size"
+                            title="Ad Size"
+                          />
+                        ) : (
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center">
+                              <SelectValue placeholder="Choose Ad Size">
+                                {field.value
+                                  ? adSizeOptions.find(
+                                      (opt) => opt.value === field.value
+                                    )?.display
+                                  : "Choose Ad Size"}
+                              </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                              {adSizeOptions.map((option) => (
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                >
+                                  <div className="flex items-center space-x-2">
+                                    <div
+                                      className={`border border-gray-500 ${option.aspectRatio} bg-gray-200`}
+                                    />
+                                    <span>{option.label}</span>
+                                  </div>
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      </FormControl>
                       <FormMessage className="text-red-500 text-xs mt-1" />
                     </FormItem>
                   )}
@@ -248,23 +319,36 @@ export const ImageAdForm = () => {
                       <FormLabel className="text-sm font-medium text-gray-700">
                         Ad Language
                       </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]">
-                            <SelectValue placeholder="Select a Language" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {languageOptions.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <FormControl>
+                        {isMobile ? (
+                          <MobileSelectBottomSheet
+                            options={languageOptions}
+                            selected={field.value}
+                            onChange={field.onChange}
+                            placeholder="Select a Language"
+                            title="Ad Language"
+                          />
+                        ) : (
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]">
+                              <SelectValue placeholder="Select a Language" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {languageOptions.map((option) => (
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                >
+                                  {option.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      </FormControl>
                       <FormMessage className="text-red-500 text-xs mt-1" />
                     </FormItem>
                   )}
@@ -311,3 +395,5 @@ export const ImageAdForm = () => {
     </div>
   );
 };
+
+export default ImageAdForm;
