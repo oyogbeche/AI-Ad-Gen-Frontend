@@ -93,23 +93,33 @@ export const ImageAdForm = () => {
             </p>
           </CardHeader>
 
-          <div className="mb-6 md:mb-[47px]">
-            <div className="flex justify-around items-center">
-              <div className="text-center">
-                <p className="text-sm text-black font-medium">STEP 1</p>
-                <p className="text-xs mt-1 text-gray-700">Set Ad goals</p>
-              </div>
-
-              <div className="text-center">
-                <p className="text-sm text-gray-400 font-medium">STEP 2</p>
-                <p className="text-xs mt-1 text-gray-400">Preview</p>
-              </div>
+          <div className="flex items-center justify-between gap-2 mt-8 w-full ">
+            <div className="relative flex flex-col justify-center items-center text-center w-1/2 pb-6">
+              <p className="text-sm text-black font-medium">STEP 1</p>
+              <p className="text-xs mt-1 text-gray-700">Set Ad goals</p>
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-1.5 bg-[#1467C5] rounded-full"></div>
             </div>
+            <svg
+              width="2"
+              height="24"
+              viewBox="0 0 2 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <line
+                x1="1"
+                y1="4.37114e-08"
+                x2="0.999999"
+                y2="24"
+                stroke="#CFCFCF"
+                strokeWidth="2"
+              />
+            </svg>
 
-            <div className="relative w-full h-2 bg-white-200 rounded-full mt-4 mb-4">
-              <div className="absolute left-0 h-2 bg-[#1467C5] rounded-full w-[48%]"></div>
-
-              <div className="absolute right-0 h-2 bg-gray-300 rounded-full w-[48%]"></div>
+            <div className="relative flex flex-col justify-center items-center text-center w-1/2 pb-6">
+              <p className="text-sm text-gray-400 font-medium">STEP 2</p>
+              <p className="text-xs mt-1 text-gray-400">Preview</p>
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-1.5 bg-[#1467C5] rounded-full"></div>
             </div>
           </div>
 
@@ -320,7 +330,7 @@ export const ImageAdForm = () => {
             <Button
               type="submit"
               disabled={!form.formState.isValid}
-              className={`px-6 py-4 text-base leading-6 rounded-[6px] font-manrope transition-colors w-full ${
+              className={`px-6 py-5 text-base leading-6 rounded-[6px] font-manrope transition-colors max-md:w-full ${
                 form.formState.isValid
                   ? "bg-[#B800B8] text-white hover:bg-[#960096] cursor-pointer"
                   : "bg-[#EAC8F0] text-white  cursor-not-allowed"
