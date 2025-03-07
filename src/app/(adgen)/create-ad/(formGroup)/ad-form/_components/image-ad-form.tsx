@@ -34,7 +34,6 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-// Import desktop components
 const DesktopMultiSelect = dynamic(
   () => import("@/components/ui/multi-select"),
   {
@@ -42,7 +41,6 @@ const DesktopMultiSelect = dynamic(
   }
 );
 
-// Import mobile components with bottom sheet style
 const MobileSelectBottomSheet = dynamic(
   () => import("@/components/ui/MobileSelect"),
   {
@@ -84,41 +82,49 @@ export const ImageAdForm = () => {
 
   return (
     <div className="min-h-full bg-[#F9FAFB] p-6 py-18 flex justify-center items-center">
-      <Card className="w-full max-w-[890px]">
-        <CardContent className="p-6 sm:p-14">
+      <Card className="w-full max-w-[890px] border-none shadow-none py-0">
+        <CardContent className="px-4 md:px-8 py-6">
           <BackButton className="mb-8" />
 
-          <CardHeader className="p-0 mb-6 text-center">
-            <CardTitle className="text-2xl font-bold">
-              Let&apos;s set up your Ad
+          <CardHeader className="mb-6 md:mb-8 text-left md:text-center px-0">
+            <CardTitle className="text-[28px] leading-[36px] text-[#121316] font-semibold">
+              Let&apos;s set up your Image Ad
             </CardTitle>
-            <p className="text-gray-500 mt-2">
+            <p className="text-[#667185] text-[18px] font-normal mt-1">
               Fill in the details below, then AI generates your ad instantly.
             </p>
           </CardHeader>
 
-          <div className="mb-8">
-            <div className="flex justify-around items-center">
+          <div className="mb-6 md:mb-8">
+            <div className="flex justify-around items-center max-md:mr-4">
               <div className="text-center">
-                <p className="text-sm text-black font-medium">STEP 1</p>
-                <p className="text-xs mt-1 text-gray-700">Set Ad goals</p>
+                <p className="text-xs font-semibold leading-4 text-[#121316]">
+                  STEP 1
+                </p>
+                <p className="text-sm mt-[3px] font-bold leading-5 text-[#121316]">
+                  Set Ad goals
+                </p>
               </div>
-
               <div className="text-center">
-                <p className="text-sm text-gray-400 font-medium">STEP 2</p>
-                <p className="text-xs mt-1 text-gray-400">Preview</p>
+                <p className="text-xs font-semibold leading-4 text-[#121316]">
+                  STEP 2
+                </p>
+                <p className="text-sm mt-[3px] font-bold leading-5 text-[#121316]">
+                  Preview
+                </p>
               </div>
             </div>
 
-            <div className="relative w-full h-2 bg-white-200 rounded-full mt-4 mb-4">
-              <div className="absolute left-0 h-2 bg-[#1467C5] rounded-l-full w-[48%]"></div>
-              <div className="absolute right-0 h-2 bg-gray-300 rounded-r-full w-[48%]"></div>
+            <div className="relative w-full h-2.5 bg-white-200 rounded-full mt-6">
+              <div className="absolute left-0 h-2 bg-[#1467C5] rounded-full w-[47%] md:w-[48%]"></div>
+
+              <div className="absolute right-0 h-2 bg-[#E8F1FB] rounded-full w-[47%] md:w-[48%]"></div>
             </div>
           </div>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border py-8 md:py-10 px-4 md:px-6 rounded-[8px] border-[#ECECEC]">
                 <FormField
                   control={form.control}
                   name="productName"
@@ -130,7 +136,7 @@ export const ImageAdForm = () => {
                       <FormControl>
                         <Input
                           placeholder="Enter Ad Title"
-                          className="w-full border-[#E4E7EC] text-sm font-normal leading-5 focus:ring-[#B800B8] focus:border-[#E9B0E9] h-[56px] outline-0"
+                          className="w-full border-[#E4E7EC] text-sm font-normal leading-5 focus:ring-[#B800B8] focus:border-[#E9B0E9] h-11 md:h-[56px] outline-0 focus:cursor-c"
                           {...field}
                         />
                       </FormControl>
@@ -169,7 +175,7 @@ export const ImageAdForm = () => {
                                 <SelectItem
                                   key={option.value}
                                   value={option.value}
-                                  className="py-2"
+                                  className="py-2 hover:bg-[#F6F6F6]"
                                 >
                                   {option.label}
                                 </SelectItem>
@@ -213,6 +219,7 @@ export const ImageAdForm = () => {
                                 <SelectItem
                                   key={option.value}
                                   value={option.value}
+                                  className="py-2 hover:bg-[#F6F6F6]"
                                 >
                                   {option.label}
                                 </SelectItem>
@@ -232,7 +239,7 @@ export const ImageAdForm = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm font-normal text-[#121316]">
-                        Target Age Group
+                        Target Age Group (2 max)
                       </FormLabel>
                       <FormControl>
                         {isMobile ? (
@@ -293,6 +300,7 @@ export const ImageAdForm = () => {
                                 <SelectItem
                                   key={option.value}
                                   value={option.value}
+                                  className="py-2 hover:bg-[#F6F6F6] text-[#9882B3]"
                                 >
                                   <div className="flex items-center space-x-2 py-1">
                                     <div
@@ -341,6 +349,7 @@ export const ImageAdForm = () => {
                                 <SelectItem
                                   key={option.value}
                                   value={option.value}
+                                  className="py-2 hover:bg-[#F6F6F6] text-[#9882B3]"
                                 >
                                   {option.label}
                                 </SelectItem>
@@ -353,36 +362,36 @@ export const ImageAdForm = () => {
                     </FormItem>
                   )}
                 />
-              </div>
 
-              <FormField
-                control={form.control}
-                name="adGoal"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm font-normal text-[#121316]">
-                      Ad Goal
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Describe your Ad goal and message"
-                        className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-500 text-xs mt-1" />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="adGoal"
+                  render={({ field }) => (
+                    <FormItem className="col-span-1 md:col-span-2">
+                      <FormLabel className="text-sm font-normal text-[#121316]">
+                        Ad Goal
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Describe your Ad goal and message"
+                          className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] text-sm leading-5 text-[#9882B3]"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-red-500 text-xs mt-1" />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               <div className="flex justify-end">
                 <Button
                   type="submit"
                   disabled={!form.formState.isValid}
-                  className={`px-6 py-3 rounded-md transition-colors ${
+                  className={`px-6 py-3 h-12 text-base rounded-md transition-colors text-white shadow-none md:mt-[13px] w-full md:w-fit ${
                     form.formState.isValid
-                      ? "bg-[#B800B8] text-white hover:bg-[#960096] cursor-pointer"
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      ? "bg-[#B800B8]  hover:bg-[#960096] cursor-pointer"
+                      : "bg-[#EAC8F0] cursor-not-allowed"
                   }`}
                 >
                   Generate Ad

@@ -50,11 +50,11 @@ const MultiSelect = ({
   );
 
   const handleSelect = (value: string) => {
-    const newSelected = safeSelected.includes(value)
-      ? safeSelected.filter((item) => item !== value)
-      : [...safeSelected, value];
-
-    onChange(newSelected);
+    if (safeSelected.includes(value)) {
+      onChange(safeSelected.filter((item) => item !== value));
+    } else if (safeSelected.length < 2) {
+      onChange([...safeSelected, value]);
+    }
   };
 
   const handleRemove = (value: string, e: React.MouseEvent) => {
@@ -123,7 +123,7 @@ const MultiSelect = ({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-full p-2"
+        className="w-full p-2 max-h-80 overflow-y-auto"
         align="start"
         side="bottom"
         alignOffset={0}
