@@ -1,16 +1,16 @@
 "use client";
 
-import * as React from "react";
-import { X, ChevronDown, ChevronUp } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
+import { ChevronDown, ChevronUp, X } from "lucide-react";
+import * as React from "react";
 
 export type OptionType = {
   label: string;
@@ -38,7 +38,6 @@ const MultiSelect = ({
 }: MultiSelectProps) => {
   const [open, setOpen] = React.useState(false);
 
-  // Ensure options and selected are always arrays with stable references
   const safeOptions = React.useMemo(
     () => (Array.isArray(options) ? options : []),
     [options]
@@ -50,11 +49,11 @@ const MultiSelect = ({
   );
 
   const handleSelect = (value: string) => {
-    const newSelected = safeSelected.includes(value)
-      ? safeSelected.filter((item) => item !== value)
-      : [...safeSelected, value];
-
-    onChange(newSelected);
+    if (safeSelected.includes(value)) {
+      onChange(safeSelected.filter((item) => item !== value));
+    } else if (safeSelected.length < 2) {
+      onChange([...safeSelected, value]);
+    }
   };
 
   const handleRemove = (value: string, e: React.MouseEvent) => {
@@ -70,13 +69,13 @@ const MultiSelect = ({
           role="combobox"
           aria-expanded={open}
           className={cn(
-            "w-full min-h-10 h-auto justify-between border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] bg-white text-left font-normal",
+            "w-full min-h-10 justify-between border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] bg-white text-left font-normal h-[56px]",
             className
           )}
           disabled={disabled}
           type="button"
         >
-          <div className="flex flex-wrap gap-1 items-center overflow-hidden">
+          <div className="flex flex-wrap gap-2 rounded-full items-center overflow-hidden">
             {safeSelected.length === 0 && (
               <span className="text-gray-500">{placeholder}</span>
             )}
@@ -87,7 +86,7 @@ const MultiSelect = ({
                 <Badge
                   key={value}
                   variant="secondary"
-                  className="mr-1 mb-1 bg-gray-100 text-gray-800 hover:bg-gray-200"
+                  className="rounded-[20px] border border-[#E9E9E9] bg-[#F6F6F6] text-[#5F5F5F] hover:bg-gray-200 px-2 py-1 text-xs leading-4"
                 >
                   {option.label}
                   <span
@@ -106,7 +105,7 @@ const MultiSelect = ({
                       }
                     }}
                   >
-                    <X className="h-3 w-3" />
+                    <X className="h-[14px] w-[14px]" />
                     <span className="sr-only">Remove {option.label}</span>
                   </span>
                 </Badge>
@@ -123,14 +122,14 @@ const MultiSelect = ({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-full p-2"
+        className="w-full p-2 max-h-80 overflow-y-auto"
         align="start"
         side="bottom"
         alignOffset={0}
         sideOffset={5}
         style={{ zIndex: 50 }}
       >
-        <div className="max-h-64 overflow-y-auto">
+        <div className="max-h-80 overflow-y-auto">
           {safeOptions.length === 0 ? (
             <div className="py-6 text-center text-sm text-gray-500">
               {emptyMessage}
@@ -139,7 +138,7 @@ const MultiSelect = ({
             safeOptions.map((option) => (
               <div
                 key={option.value}
-                className="flex items-center space-x-2 px-2 py-1.5 hover:bg-gray-100 rounded-md cursor-pointer mb-3"
+                className="flex items-center space-x-2 px-2 py-2 hover:bg-gray-100 rounded-md cursor-pointer mb-3"
                 onClick={() => handleSelect(option.value)}
                 role="button"
                 tabIndex={0}

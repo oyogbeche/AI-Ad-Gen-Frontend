@@ -1,9 +1,9 @@
-import PreviewContent from "./_components/preview-content";
 
 import BackButton from "@/components/back-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Loader from "@/components/ui/loader";
 import { Suspense } from "react";
+import SinglePreview from "./_components/single-image-preview";
 
 export default function Page() {
   return (
@@ -54,7 +54,7 @@ export default function Page() {
                 <div className="absolute right-0 h-2 bg-[#1467c5] rounded-full w-[47%] md:w-[49%]"></div>
               </div>
             </div>
-            <PreviewContent />
+            <SinglePreview />
           </CardContent>
         </Card>
       </section>

@@ -36,10 +36,10 @@ const CreateAd: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="flex bg-white flex-col lg:flex-row justify-center items-center gap-10 lg:gap-[80px] px-6 p-20"
+      className="flex  bg-white flex-col lg:flex-row justify-between items-center gap-10 lg:gap-[80px] py-20 px-10 md:px-[250px] md:-mx-40"
     >
       <motion.div
-        className="max-w-[600px] w-fit"
+        className="max-w-[600px] w-full"
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.8 }}
@@ -85,7 +85,7 @@ const CreateAd: React.FC = () => {
       </motion.div>
 
       <motion.div
-        className="flex-shrink-0 w-4/5 lg:w-[45%] bg-[#FFF0E5] px-5 pt-5 pb-1 rounded-md flex items-end overflow-hidden"
+        className="flex-shrink-0 w-4/5 lg:w-[40%] bg-[#FFF0E5] px-10 pt-[72px] rounded-md flex justify-center align-end overflow-hidden"
         initial={{ opacity: 0, x: 50 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
         transition={{ duration: 0.8, delay: 0.3 }}
@@ -101,7 +101,7 @@ const CreateAd: React.FC = () => {
             alt="Create AI-Generated Ads"
             width={500}
             height={300}
-            className="w-auto h-auto mx-auto"
+            className="w-full h-auto mx-auto"
           />
         </motion.div>
       </motion.div>

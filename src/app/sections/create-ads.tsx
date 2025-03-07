@@ -10,15 +10,15 @@ const notes = [
   {
     name: "Input Brand Details",
     description:
-      "Define your brand name, product details, target audience, upload your brand assets",
+      "Define your brand name, product details, target audience, select the size of your ad",
   },
   {
     name: "Enter Audience Info",
     description: "Enter the details of your target audience",
   },
   {
-    name: "Customize Ads",
-    description: "Personalize details to match your brand's style",
+    name: "Select ad size",
+    description: "Select the size of your ad",
   },
   {
     name: "Generate Ads",
@@ -33,10 +33,10 @@ const CreateAds = () => {
   return (
     <section
       ref={sectionRef}
-      className="flex flex-col-reverse lg:flex-row justify-center items-center gap-10 lg:gap-[80px] px-6 pt-6 md:p-20"
+      className="flex flex-col-reverse lg:flex-row justify-between items-center gap-10 lg:gap-[80px] px-6 pt-6 p-10 md:p-28"
     >
       <motion.div
-        className="max-w-[400px] md:max-w-[500px] lg:max-w-[595px] h-auto"
+        className="max-w-[400px] md:max-w-[500px] lg:max-w-[596px] h-auto bg-[#E5EEFF] pt-[105px] px-[26px]"
         initial={{ opacity: 0, x: -50 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
         transition={{ duration: 0.8 }}
@@ -45,8 +45,8 @@ const CreateAds = () => {
         <Image
           src={createadImg}
           alt="createads"
-          height={681}
-          width={595}
+          height={552}
+          width={542}
           className="object-cover"
         />
       </motion.div>
@@ -72,7 +72,7 @@ const CreateAds = () => {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          How to Make Ads Using <br className="hidden md:block" /> Adgen-AI
+          How to Make Ads Using <br className="hidden md:block" /> genz.ad
         </motion.p>
 
         <motion.div
