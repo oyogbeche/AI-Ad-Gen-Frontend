@@ -17,7 +17,7 @@ const nunito = Nunito({
 const tagData = [
   {
     icon: <GeneratedVisual className="size-[14px] sm:size-[16px]" />,
-    text: "Generated Visuals",
+    text: "CREATE ADS YOURSELF EASILY",
     textColor: "text-[#00A05E]",
   },
 ];
@@ -53,7 +53,7 @@ export default function FeaturesSection() {
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Powerful AI Features to Supercharge Your Ads
+            Who can benefit from genz.ad
           </motion.h1>
         </motion.div>
       </motion.div>
