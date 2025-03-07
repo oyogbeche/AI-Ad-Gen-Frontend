@@ -30,7 +30,7 @@ export default function FeaturesSection() {
     <section
       ref={sectionRef}
       className={clsx(
-        "px-1 md:px-6 bg-white flex flex-col items-center justify-end gap-10 lg:px-16 py-10 lg:py-24 lg:-mx-36",
+        "md:px-6 bg-white flex flex-col items-center justify-end gap-10 lg:px-16 py-10 lg:py-24 lg:-mx-36",
         nunito.variable
       )}
     >

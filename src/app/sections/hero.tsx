@@ -39,14 +39,14 @@ const HeroSection = () => {
       <div className="absolute inset-0 z-0"></div>
 
       <motion.div
-        className="relative z-10 max-w-[1035px] w-full px-4 mt-16 md:mt-[120px] text-center "
+        className="relative z-10 max-w-[1035px] mt-16 md:mt-[120px] text-center "
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         exit={{ opacity: 0, y: -20 }}
       >
         <motion.h1
-          className="text-3xl md:text-[64px] px-5 font-medium text-[#121316] tracking-tight mb-4"
+          className="text-3xl md:text-[64px] font-medium text-[#121316] tracking-tight mb-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
