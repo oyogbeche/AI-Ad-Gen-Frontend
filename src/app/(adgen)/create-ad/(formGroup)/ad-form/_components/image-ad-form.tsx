@@ -62,7 +62,6 @@ export const ImageAdForm = () => {
     },
   });
 
-  // Custom handler for age group selection to enforce max 2 limit
   const handleAgeGroupChange = (values: string[]) => {
     if (values.length > 2) {
       setAgeGroupError("You can select a maximum of 2 age groups");
@@ -93,7 +92,7 @@ export const ImageAdForm = () => {
             </p>
           </CardHeader>
 
-          <div className="flex items-center justify-between gap-2 mt-8 w-full ">
+          <div className="flex items-center justify-between gap-2 mt-8 w-full mb-[47px]">
             <div className="relative flex flex-col justify-center items-center text-center w-1/2 pb-6">
               <p className="text-sm text-black font-medium">STEP 1</p>
               <p className="text-xs mt-1 text-gray-700">Set Ad goals</p>
@@ -119,7 +118,7 @@ export const ImageAdForm = () => {
             <div className="relative flex flex-col justify-center items-center text-center w-1/2 pb-6">
               <p className="text-sm text-gray-400 font-medium">STEP 2</p>
               <p className="text-xs mt-1 text-gray-400">Preview</p>
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-1.5 bg-[#1467C5] rounded-full"></div>
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-1.5 bg-[#E8F1FB] rounded-full"></div>
             </div>
           </div>
 
@@ -140,7 +139,7 @@ export const ImageAdForm = () => {
                       <FormControl>
                         <Input
                           placeholder="Enter Ad Title"
-                          className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] py-[18px] px-4 text-sm"
+                          className="w-full border-gray-300 border-1 outline-none focus:ring-[#B800B8] focus:border-[#B800B8] py-[18px] px-4 text-sm"
                           {...field}
                         />
                       </FormControl>
@@ -330,7 +329,7 @@ export const ImageAdForm = () => {
             <Button
               type="submit"
               disabled={!form.formState.isValid}
-              className={`px-6 py-5 text-base leading-6 rounded-[6px] font-manrope transition-colors max-md:w-full ${
+              className={`px-6 py-5 text-base leading-6 rounded-[6px] transition-colors max-md:w-full ${
                 form.formState.isValid
                   ? "bg-[#B800B8] text-white hover:bg-[#960096] cursor-pointer"
                   : "bg-[#EAC8F0] text-white  cursor-not-allowed"

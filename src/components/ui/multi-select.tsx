@@ -93,13 +93,12 @@ export const MultiSelect = ({
                   className="flex items-center bg-gray-100 rounded-md px-2 py-1"
                 >
                   <span className="text-sm">{getLabelForValue(value)}</span>
-                  <button
-                    type="button"
+                  <span
                     onClick={(e) => handleRemove(value, e)}
                     className="ml-1 text-gray-500 hover:text-gray-700 cursor-pointer"
                   >
                     <X className="h-3 w-3" />
-                  </button>
+                  </span>
                 </div>
               ))
             )}
