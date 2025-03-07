@@ -30,8 +30,8 @@ export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="flex bg-white flex-col lg:flex-row justify-between items-center gap-10 lg:gap-[80px] p-20 px-6 md:px-24">
-      <div className="max-w-[386px] w-fit">
+    <section className="flex bg-ash flex-col lg:flex-row justify-between items-center gap-10 lg:gap-[80px] p-20 md:px-[250px] md:-mx-40">
+      <div className="max-w-[406px] w-screen px-5 ml-3">
         <p
           className="font-semibold uppercase text-sm"
           style={{ color: "#B800B8" }}
@@ -41,13 +41,13 @@ export default function FAQSection() {
         <h2 className="text-2xl md:text-[48px] font-medium mt-3">
           Frequently Asked <br /> Questions (FAQ)
         </h2>
-        <p className="text-gray-600 mt-3 text-sm md:text-base">
+        <p className="text-gray-600 mt-3 text-sm  md:text-base">
           Got questions? We&apos;ve got answers. Browse our frequently asked
           questions to find what you&apos;re looking for.
         </p>
       </div>
 
-      <div className="flex-shrink-0 lg:w-[40%]  w-full px-8 md:px-0">
+      <div className="flex-shrink-0 lg:w-[40%] w-screen px-6 md:px-0">
         {faqs.map((faq, index) => (
           <div
             key={index}

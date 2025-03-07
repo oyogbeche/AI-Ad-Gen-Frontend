@@ -9,7 +9,7 @@ const Header: React.FC = () => {
 
   return (
     <header className="w-full  border-b border-[#F8E6F8] bg-white sticky top-0 z-40">
-      <div className="px-[180px] flex items-center justify-between py-4 h-full">
+      <div className="flex items-center max-sm:justify-center lg:ml-[100px] py-4 h-full">
         <div>
           <Link href="/">
             <Image
