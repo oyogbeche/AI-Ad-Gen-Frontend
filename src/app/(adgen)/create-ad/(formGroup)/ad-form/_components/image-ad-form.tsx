@@ -77,26 +77,17 @@ export const ImageAdForm = () => {
     },
   });
 
-  // Load saved data after component mounts
   useEffect(() => {
     const savedData = localStorage.getItem("imageAdData");
     if (savedData) {
       try {
         const parsedData = JSON.parse(savedData) as FormData;
 
-        // Set each form field value explicitly to ensure proper handling
-        form.setValue("productName", parsedData.productName || "");
-        form.setValue("demographics", parsedData.demographics || "");
-        form.setValue("region", parsedData.region || "");
-        form.setValue("ageGroup", parsedData.ageGroup || []);
-        form.setValue("adSize", parsedData.adSize || "");
-        form.setValue("language", parsedData.language || "");
-        form.setValue("adGoal", parsedData.adGoal || "");
+        form.reset(parsedData);
 
-        // Trigger validation after setting values
-        Object.keys(parsedData).forEach((key) => {
-          form.trigger(key as keyof FormData);
-        });
+        setTimeout(() => {
+          form.trigger();
+        }, 0);
       } catch (error) {
         console.error("Error parsing saved data:", error);
       }
