@@ -36,12 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-<<<<<<< HEAD
     <html lang="en" className={clsx(manrope.variable, nunito.variable)}>
-=======
-    <html lang="en">
-
->>>>>>> 76ca2f23c5cf8b180a00538ac6e24a266d1a4b6f
       <body className="font-nunito bg-[#F9FAFB] overflow-x-hidden" cz-shortcut-listen="true">
         <SonnerToaster />
         <QueryProvider>
