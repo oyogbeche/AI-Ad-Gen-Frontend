@@ -12,8 +12,8 @@ import Footer from "../sections/footer";
 import { SonnerToaster } from "../sections/sonner-toaster";
 
 export const metadata: Metadata = {
-  title: "AI Adgen",
-  description: "AI Adgen",
+  title: "genz.ad",
+  description: "genz.ad",
 };
 
 export default function RootLayout({
@@ -23,6 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+
       <body className="font-nunito bg-[#F9FAFB] overflow-x-hidden" cz-shortcut-listen="true">
         <SonnerToaster />
         <QueryProvider>
