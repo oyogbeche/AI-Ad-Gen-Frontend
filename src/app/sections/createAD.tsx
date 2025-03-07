@@ -5,16 +5,17 @@ import { CheckCircle } from "@/components/icons/icon";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import Link from "next/link";
 
 const CreateAd: React.FC = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   const listItems = [
-    "Create compelling ads without hiring a team",
-    "Generate region-specific ads effortlessly",
-    "Launch professional ads at affordable prices",
-    "Optimize your ads for sales and engagements",
+    "Create high quality ads in seconds, not hours.",
+    "No experience needed. Our AI handles the visuals.",
+    "Launch your ad campaign  with zero costs",
+    "Optimize your Ads for sales and engagements",
   ];
 
   const containerVariants = {
@@ -39,27 +40,26 @@ const CreateAd: React.FC = () => {
       className="flex bg-white flex-col lg:flex-row justify-between items-center gap-10 lg:gap-[80px] p-20 px-6 md:px-24"
     >
       <motion.div
-        className="max-w-[600px] w-fit"
+        className="max-w-[600px] w-fit px-6"
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.8 }}
       >
         <motion.p
-          className="text-[#EC802E] text-center text-sm md:text-base md:text-left font-semibold uppercase"
+          className="text-[#EC802E] text-sm md:text-base text-left uppercase"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          Smarter Ads, Higher Engagements
+          WHY USE GENZ.AD?
         </motion.p>
         <motion.h2
-          className="text-[27px] px-2 md:text-4xl text-center md:text-left font-semibold lg:text-5xl mt-2 md:leading-14"
+          className="text-[27px] pr-2 md:text-4xl text-left font-medium lg:text-5xl mt-2 md:leading-14"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          Create, Customize and Publish{" "}
-          <span className="text-black-600">AI-Generated Ads</span> in Minutes
+          Why Genz.ad is the best tool for easy high quality Ad creation
         </motion.h2>
 
         <motion.ul
@@ -71,7 +71,7 @@ const CreateAd: React.FC = () => {
           {listItems.map((item, index) => (
             <motion.li
               key={index}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 text-[#667185]"
               variants={itemVariants}
               whileHover={{ x: 5 }}
             >
@@ -82,6 +82,21 @@ const CreateAd: React.FC = () => {
             </motion.li>
           ))}
         </motion.ul>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.9, duration: 0.5 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="pt-5"
+        >
+          <Link
+            href={"/create-ad"}
+            className="bg-[#B800B8] cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-[#520052] transition-colors inline-block"
+          >
+            Generate New Ad →
+          </Link>
+        </motion.div>
       </motion.div>
 
       <motion.div

@@ -30,15 +30,15 @@ export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="flex bg-white flex-col lg:flex-row justify-between items-center gap-10 lg:gap-[80px] p-20 px-6 md:px-24">
-      <div className="max-w-[386px] w-fit">
+    <section className="flex flex-col lg:flex-row justify-between items-center md:items-start gap-10 lg:gap-[80px] p-20 px-6 md:px-24">
+      <div className="md:max-w-[386px] px-6 md:px-0">
         <p
           className="font-semibold uppercase text-sm"
           style={{ color: "#B800B8" }}
         >
           QUESTIONS & ANSWERS
         </p>
-        <h2 className="text-2xl md:text-[48px] font-medium mt-3">
+        <h2 className="text-2xl lg:text-[48px] font-medium mt-3">
           Frequently Asked <br /> Questions (FAQ)
         </h2>
         <p className="text-gray-600 mt-3 text-sm md:text-base">
@@ -47,14 +47,14 @@ export default function FAQSection() {
         </p>
       </div>
 
-      <div className="flex-shrink-0 lg:w-[40%]  w-full px-8 md:px-0">
+      <div className="flex-shrink-0 lg:w-[45%] px-8 md:px-0">
         {faqs.map((faq, index) => (
           <div
             key={index}
             className="mb-4 border border-gray-300 rounded-lg overflow-hidden"
           >
             <button
-              className={`flex justify-between w-full text-left  px-6 py-6 text-sm md:text-lg font-medium transition-all cursor-pointer duration-300 ${
+              className={`flex justify-between w-full text-left  px-6 py-4 text-sm md:text-base font-medium transition-all cursor-pointer duration-300 ${
                 openIndex === index
                   ? "bg-[#520052] text-white"
                   : "bg-white text-gray-900"
@@ -71,7 +71,7 @@ export default function FAQSection() {
               />
             </button>
             <div
-              className={`bg-gray-100 text-gray-700 px-5 text-sm md:text-base border-t border-gray-300 transition-all duration-300 ease-in-out overflow-hidden ${
+              className={` text-gray-700 px-5 text-sm md:text-base border-t border-gray-300 transition-all duration-300 ease-in-out overflow-hidden ${
                 openIndex === index
                   ? "max-h-[500px] opacity-100 py-3"
                   : "max-h-0 opacity-0 py-0"

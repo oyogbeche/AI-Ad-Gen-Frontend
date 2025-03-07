@@ -19,18 +19,16 @@ const nunito = Nunito({
 
 const featuresData: Feature[] = [
   {
-    title: "AI-powered Visuals",
-    description: "Get automated image suggestions that fit your campaign",
+    title: "Small Businesses",
+    description: "Easily create professional ads without any deisign skills.",
   },
   {
-    title: "Smart Customization",
-    description:
-      "Select target audience, gender, and add goals for precise audience engagement.",
+    title: "Marketers & Advertisers",
+    description: "Launch campaigns faster with AI- generated ad creatives.",
   },
   {
-    title: "Quick Ad Creation",
-    description:
-      "Generate professional ad creatives in seconds, saving time and effort.",
+    title: "Creators & Influencers",
+    description: "Promote products and brands with instant ad generation.",
   },
 ];
 
