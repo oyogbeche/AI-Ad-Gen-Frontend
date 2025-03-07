@@ -62,6 +62,7 @@ export const ImageAdForm = () => {
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [isFormLoaded, setIsFormLoaded] = useState(false);
+  const [allRequiredFieldsFilled, setAllRequiredFieldsFilled] = useState(false);
 
   const form = useForm<FormData>({
     resolver: zodResolver(ImageAdSchema),
@@ -83,17 +84,50 @@ export const ImageAdForm = () => {
       try {
         const parsedData = JSON.parse(savedData) as FormData;
 
-        form.reset(parsedData);
+        // Set each form field value explicitly to ensure proper handling
+        form.setValue("productName", parsedData.productName || "");
+        form.setValue("demographics", parsedData.demographics || "");
+        form.setValue("region", parsedData.region || "");
+        form.setValue("ageGroup", parsedData.ageGroup || []);
+        form.setValue("adSize", parsedData.adSize || "");
+        form.setValue("language", parsedData.language || "");
+        form.setValue("adGoal", parsedData.adGoal || "");
 
-        setTimeout(() => {
-          form.trigger();
-        }, 0);
+        // Trigger validation after setting values
+        form.trigger();
       } catch (error) {
         console.error("Error parsing saved data:", error);
       }
     }
 
     setIsFormLoaded(true);
+  }, [form]);
+
+  // Check if all required fields are filled
+  useEffect(() => {
+    const checkRequiredFields = () => {
+      const { productName, demographics, region, ageGroup, adSize, language } =
+        form.getValues();
+
+      const requiredFieldsFilled =
+        !!productName &&
+        !!demographics &&
+        !!region &&
+        ageGroup.length > 0 &&
+        !!adSize &&
+        !!language;
+
+      setAllRequiredFieldsFilled(requiredFieldsFilled);
+    };
+
+    // Subscribe to form changes
+    const subscription = form.watch(checkRequiredFields);
+
+    // Run once initially
+    checkRequiredFields();
+
+    // Cleanup subscription
+    return () => subscription.unsubscribe();
   }, [form]);
 
   const onSubmit = (data: FormData) => {
@@ -413,7 +447,7 @@ export const ImageAdForm = () => {
                   render={({ field }) => (
                     <FormItem className="col-span-1 md:col-span-2">
                       <FormLabel className="text-sm font-normal text-[#121316]">
-                        Ad Goal
+                        Ad Goal (Optional)
                       </FormLabel>
                       <FormControl>
                         <Textarea
@@ -431,10 +465,10 @@ export const ImageAdForm = () => {
               <div className="flex justify-end">
                 <Button
                   type="submit"
-                  disabled={!form.formState.isValid}
+                  disabled={!allRequiredFieldsFilled}
                   className={`px-6 py-3 h-12 text-base rounded-md transition-colors text-white shadow-none md:mt-[13px] w-full md:w-fit ${
-                    form.formState.isValid
-                      ? "bg-[#B800B8]  hover:bg-[#960096] cursor-pointer"
+                    allRequiredFieldsFilled
+                      ? "bg-[#B800B8] hover:bg-[#960096] cursor-pointer"
                       : "bg-[#EAC8F0] cursor-not-allowed"
                   }`}
                 >
