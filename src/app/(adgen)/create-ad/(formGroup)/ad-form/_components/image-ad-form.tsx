@@ -69,6 +69,7 @@ export const ImageAdForm = () => {
 
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [isFormLoaded, setIsFormLoaded] = useState(false);
+  const [allRequiredFieldsFilled, setAllRequiredFieldsFilled] = useState(false);
 
   const form = useForm<FormData>({
     resolver: zodResolver(ImageAdSchema),
@@ -84,8 +85,6 @@ export const ImageAdForm = () => {
     },
   });
 
-
-  // Load saved data after component mounts
   useEffect(() => {
     const savedData = localStorage.getItem("imageAdData");
     if (savedData) {
@@ -102,15 +101,40 @@ export const ImageAdForm = () => {
         form.setValue("adGoal", parsedData.adGoal || "");
 
         // Trigger validation after setting values
-        Object.keys(parsedData).forEach((key) => {
-          form.trigger(key as keyof FormData);
-        });
+        form.trigger();
       } catch (error) {
         console.error("Error parsing saved data:", error);
       }
     }
 
     setIsFormLoaded(true);
+  }, [form]);
+
+  // Check if all required fields are filled
+  useEffect(() => {
+    const checkRequiredFields = () => {
+      const { productName, demographics, region, ageGroup, adSize, language } =
+        form.getValues();
+
+      const requiredFieldsFilled =
+        !!productName &&
+        !!demographics &&
+        !!region &&
+        ageGroup.length > 0 &&
+        !!adSize &&
+        !!language;
+
+      setAllRequiredFieldsFilled(requiredFieldsFilled);
+    };
+
+    // Subscribe to form changes
+    const subscription = form.watch(checkRequiredFields);
+
+    // Run once initially
+    checkRequiredFields();
+
+    // Cleanup subscription
+    return () => subscription.unsubscribe();
   }, [form]);
 
   const onSubmit = (data: FormData) => {
@@ -156,40 +180,25 @@ export const ImageAdForm = () => {
         <CardContent className="px-4 md:px-8 py-6">
           <BackButton className="mb-8" />
 
-          <CardHeader className="mb-6 md:mb-8 text-left md:text-center px-0">
+          <CardHeader className="mb-6 md:mb-10 text-left md:text-center px-0">
             <CardTitle className="text-[28px] leading-[36px] text-[#121316] font-semibold">
-              Let&apos;s set up your Image Ad
+              Let&apos;s set up your Ad
             </CardTitle>
-            <p className="text-[#667185] text-[18px] font-normal mt-1">
-
+            <p className="text-[#667185] text-sm md:text-[18px] font-normal mt-1">
               Fill in the details below, then AI generates your ad instantly.
             </p>
           </CardHeader>
 
-          <div className="mb-6 md:mb-8">
-            <div className="flex justify-around items-center max-md:mr-4">
-              <div className="text-center">
-                <p className="text-xs font-semibold leading-4 text-[#121316]">
-                  STEP 1
-                </p>
-                <p className="text-sm mt-[3px] font-bold leading-5 text-[#121316]">
-                  Set Ad goals
-                </p>
-              </div>
-              <div className="text-center">
-                <p className="text-xs font-semibold leading-4 text-[#CFCFCF]">
-                  STEP 2
-                </p>
-                <p className="text-sm mt-[3px] font-bold leading-5 text-[#CFCFCF]">
-                  Preview
-                </p>
-              </div>
+          <div className="max-w-[342px] w-full mx-auto flex flex-col gap-6 mb-6 md:mb-10">
+            <div className="flex items-center justify-center gap-1 :max-w-[295px] w-full mx-auto ">
+              <div className="w-6 h-6 border-3 border-[#458DE1] rounded-full"></div>
+              <div className="h-1 max-w-[230px] md:max-w-[239px] w-full bg-[#458DE1] rounded-full"></div>
+              <div className="w-6 h-6 border-3 border-[#CFCFCF] rounded-full"></div>
             </div>
 
-            <div className="relative w-full h-2.5 bg-white-200 rounded-full mt-6">
-              <div className="absolute left-0 h-2 bg-[#1467C5] rounded-full w-[47%] md:w-[48%]"></div>
-
-              <div className="absolute right-0 h-2 bg-[#E8F1FB] rounded-full w-[47%] md:w-[48%]"></div>
+            <div className="w-full flex items-center justify-between text-base font-bold leading-5">
+              <p className="text-[#1671D9]">Enter Ad Details</p>
+              <p className="text-[#A1A1A1]">Your Generated Ad</p>
             </div>
           </div>
 
@@ -459,7 +468,7 @@ export const ImageAdForm = () => {
                   render={({ field }) => (
                     <FormItem className="col-span-1 md:col-span-2">
                       <FormLabel className="text-sm font-normal text-[#121316]">
-                        Ad Goal
+                        Ad Goal (Optional)
                       </FormLabel>
                       <FormControl>
                         <Textarea
@@ -480,11 +489,10 @@ export const ImageAdForm = () => {
               <div className="flex justify-end">
                 <Button
                   type="submit"
-                  disabled={!form.formState.isValid}
-
+                  disabled={!allRequiredFieldsFilled}
                   className={`px-6 py-3 h-12 text-base rounded-md transition-colors text-white shadow-none md:mt-[13px] w-full md:w-fit ${
-                    form.formState.isValid
-                      ? "bg-[#B800B8]  hover:bg-[#960096] cursor-pointer"
+                    allRequiredFieldsFilled
+                      ? "bg-[#B800B8] hover:bg-[#960096] cursor-pointer"
                       : "bg-[#EAC8F0] cursor-not-allowed"
                   }`}
                 >
