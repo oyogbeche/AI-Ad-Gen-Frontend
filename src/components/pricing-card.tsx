@@ -73,7 +73,7 @@ export default function PricingCard() {
             ${tier.mostPopular ? "bg-[#CF54CF]" : "bg-white "} 
             ${
               tier.id === "tier-basic"
-                ? "bg-[url('/basic-price-bg.svg')] bg-cover bg-center text-white before:absolute before:inset-0 before:bg-black/0 before:z-0"
+                ? "bg-[url('/basic-price-bg.svg')] bg-cover bg-center text-white before:absolute before:inset-0 before:bg-black/0 before:-z-10 before:pointer-events-none"
                 : ""
             }`}
         >
@@ -136,7 +136,7 @@ export default function PricingCard() {
           </CardContent>
 
           {/* Card Footer with Button */}
-          <CardFooter>
+          <CardFooter className="relative z-10">
             <Button
               className="mt-13 mx-auto text-base font-medium leading-[24px]"
               variant={tier.mostPopular ? "choosePlanOutline" : "choosePlan"}
