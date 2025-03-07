@@ -23,7 +23,7 @@ export default function SelectedImagePreview({
   return (
     <div className="flex flex-col gap-2 w-full">
       <Image
-        className="rounded-[8px] w-full h-[374px] object-cover"
+        className="rounded-lg md:rounded-[8px] w-full h-[180px] md:h-[374px] object-cover"
         src={selectedImage}
         height={374}
         width={815}
@@ -38,7 +38,7 @@ export default function SelectedImagePreview({
             onClick={() => onSelect(image)}
           >
             <Image
-              className={`rounded-[8px] object-cover ${
+              className={`rounded-[8px] h-20 md:h-30 w-[81.px] md:w-[177.75px] object-cover ${
                 selectedImage === image
                   ? "border-3 border-[#121316] transform scale-105"
                   : ""

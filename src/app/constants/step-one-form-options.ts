@@ -41,43 +41,43 @@ export const adSizeOptions = [
     value: "instagram",
     label: "Instagram post (1:1)",
     display: "Instagram Post",
-    aspectRatio: "w-5 h-5",
+    aspectRatio: "w-4 h-4",
   },
   {
     value: "facebook",
     label: "Facebook Ad (4:5)",
     display: "Facebook",
-    aspectRatio: "w-4 h-5",
+    aspectRatio: "w-3 h-4",
   },
   {
     value: "landscape",
     label: "Landscape (1.91:1)",
     display: "Landscape",
-    aspectRatio: "w-8 h-4",
+    aspectRatio: "w-[21px] h-[18px]",
   },
   {
     value: "linkedin",
     label: "LinkedIn Profile Banner (4:1)",
     display: "LinkedIn Banner",
-    aspectRatio: "w-10 h-3",
+    aspectRatio: "w-[11px] h-[19px]",
   },
   {
     value: "company",
     label: "Company Page Banner (1.91:1)",
     display: "Company Banner",
-    aspectRatio: "w-8 h-4",
+    aspectRatio: "w-5 h-3",
   },
   {
     value: "leaderboard",
     label: "Google Ads Leaderboard (8:1)",
     display: "Leaderboard",
-    aspectRatio: "w-16 h-2",
+    aspectRatio: "w-5 h-3",
   },
   {
     value: "skyscraper",
     label: "Google Ads Skyscraper (1:3.75)",
     display: "Skyscraper",
-    aspectRatio: "w-3 h-12",
+    aspectRatio: "w-5 h-3",
   },
 ];
 
@@ -94,8 +94,7 @@ export const languageOptions = [
 ];
 
 export const demographicsOptions = [
-  { value: "general", label: "General" },
   { value: "male", label: "Male" },
   { value: "female", label: "Female" },
-  { value: "young-adult", label: "Young Adult" },
+  { value: "others", label: "Others" },
 ];

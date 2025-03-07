@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="py-10 bg-white px-2">
+    <footer className="py-7 bg-white">
       <div className="flex flex-col items-center justify-center text-center gap-4">
         <Image width={200} height={200} src="/genz-logo.svg" alt="logo" />
 

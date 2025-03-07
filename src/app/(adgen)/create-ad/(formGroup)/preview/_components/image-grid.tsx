@@ -26,6 +26,7 @@ export default function ImageGrid({ images, onSelect }: ImageGridProps) {
             width={404}
             alt={generateAltText(image)}
             onClick={() => onSelect(image)}
+            priority
           />
         </div>
       ))}
