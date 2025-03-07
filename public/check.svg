@@ -1,4 +1,6 @@
-<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="8" cy="8" r="7.5" fill="white" stroke="#DE8ADE"/>
-<circle cx="8" cy="8" r="4" fill="#B800B8"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Component 3">
+<circle id="Ellipse 5" cx="12" cy="12" r="11.5" fill="white" stroke="#94BEEE"/>
+<circle id="Ellipse 6" cx="12" cy="12" r="6" fill="#458DE1"/>
+</g>
 </svg>
