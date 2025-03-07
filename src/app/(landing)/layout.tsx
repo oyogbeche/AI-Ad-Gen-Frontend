@@ -1,16 +1,15 @@
-import clsx from "clsx";
 import type { Metadata } from "next";
 
 import { TopProgressBarProvider } from "@/lib/nprogress/top-progress-bar-provider";
 import QueryProvider from "@/lib/react-query/query-provider";
-import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 
 import "./../globals.css";
 
 import Header from "@/app/sections/header";
-import { SonnerToaster } from "../sections/sonner-toaster";
 import Footer from "../sections/footer";
+import { SonnerToaster } from "../sections/sonner-toaster";
 
 export const metadata: Metadata = {
   title: "AI Adgen",
