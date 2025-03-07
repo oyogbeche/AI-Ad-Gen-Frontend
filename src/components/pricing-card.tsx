@@ -172,7 +172,7 @@ export default function PricingCard() {
               ${tier.mostPopular ? "bg-[#CF54CF]" : "bg-white "} 
               ${
                 tier.id === "tier-basic"
-                ? "bg-[url('/basic-price-bg.svg')] bg-cover bg-center text-white before:absolute before:inset-0 before:bg-black/0 before:-z-10 before:pointer-events-none"
+                  ? "bg-[url('/basic-price-bg.svg')] bg-cover bg-center text-white before:absolute before:inset-0 before:bg-black/0 before:z-0"
                   : ""
               }`}
           >
@@ -269,7 +269,7 @@ export default function PricingCard() {
               </motion.ul>
             </CardContent>
 
-            <CardFooter className="relative z-10">
+            <CardFooter>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
