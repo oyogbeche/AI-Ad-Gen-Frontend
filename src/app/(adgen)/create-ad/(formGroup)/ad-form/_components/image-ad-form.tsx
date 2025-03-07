@@ -61,23 +61,33 @@ export const ImageAdForm = () => {
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
+
+  const savedData =
+    typeof window !== "undefined" ? localStorage.getItem("imageAdData") : null;
   const form = useForm<FormData>({
     resolver: zodResolver(ImageAdSchema),
     mode: "onChange",
-    defaultValues: {
-      productName: "",
-      demographics: "",
-      region: "",
-      ageGroup: [],
-      adSize: "",
-      language: "",
-      adGoal: "",
-    },
+    defaultValues: savedData
+      ? JSON.parse(savedData)
+      : {
+          productName: "",
+          demographics: "",
+          region: "",
+          ageGroup: [],
+          adSize: "",
+          language: "",
+          adGoal: "",
+        },
   });
 
   const onSubmit = (data: FormData) => {
-    console.log("Image Ad Data:", data);
-    router.push("/create-ad/preview");
+    try {
+      localStorage.setItem("imageAdData", JSON.stringify(data));
+      console.log("Image Ad Data:", data);
+      router.push("/create-ad/preview");
+    } catch (error) {
+      console.error("Error saving to localStorage", error);
+    }
   };
 
   return (
@@ -106,10 +116,10 @@ export const ImageAdForm = () => {
                 </p>
               </div>
               <div className="text-center">
-                <p className="text-xs font-semibold leading-4 text-[#121316]">
+                <p className="text-xs font-semibold leading-4 text-[#CFCFCF]">
                   STEP 2
                 </p>
-                <p className="text-sm mt-[3px] font-bold leading-5 text-[#121316]">
+                <p className="text-sm mt-[3px] font-bold leading-5 text-[#CFCFCF]">
                   Preview
                 </p>
               </div>

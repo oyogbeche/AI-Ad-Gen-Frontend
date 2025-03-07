@@ -80,11 +80,11 @@ const MobileSelect = ({
       </Button>
 
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="bottom" className="px-0 py-0 h-[60vh] rounded-t-xl">
-          <SheetHeader className="px-8 py-5 sticky top-0 bg-transparent z-10">
+        <SheetContent side="bottom" className="px-0 py-0 h-auto max-h-[80vh] rounded-t-xl">
+          <SheetHeader className="px-8 py-5 sticky top-0 bg-transparent">
             <SheetTitle className="font-medium">{title}</SheetTitle>
           </SheetHeader>
-          <div className="overflow-y-auto h-full">
+          <div className="overflow-y-auto h-auto">
             {options.map((option) => (
               <div
                 key={option.value}
@@ -96,9 +96,9 @@ const MobileSelect = ({
               >
                 <div className="flex-1">
                   {option.aspectRatio ? (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-3">
                       <div
-                        className={`${option.aspectRatio} bg-gray-200 w-6 h-6`}
+                        className={`${option.aspectRatio} border border-black w-6 h-6`}
                       />
                       <span>{option.label}</span>
                     </div>
