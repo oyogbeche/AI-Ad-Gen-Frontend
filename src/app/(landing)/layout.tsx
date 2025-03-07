@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-nunito bg-[#F9FAFB]" cz-shortcut-listen="true">
+      <body className="font-nunito bg-[#F9FAFB] overflow-x-hidden" cz-shortcut-listen="true">
         <SonnerToaster />
         <QueryProvider>
           <Header />
