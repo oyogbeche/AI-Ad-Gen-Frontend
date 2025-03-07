@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Slider from "react-slick";
+import { motion } from "framer-motion";
 
 const heroImages = [
   {
@@ -33,33 +34,65 @@ const heroImages = [
 ];
 
 const HeroSection = () => {
-
   return (
-    <div className="   bg-cover bg-center bg-no-repeat relative w-full min-h-[800px] flex flex-col items-center justify-between  overflow-hidden">
-      <div className="absolute inset-0 z-0  opacity-50"></div>
+    <div className="bg-cover bg-center bg-no-repeat relative w-full md:min-h-[800px] flex flex-col items-center justify-between overflow-hidden">
+      <div className="absolute inset-0 z-0 opacity-50"></div>
 
-      <div className="relative z-10 max-w-4xl w-full px-4 mt-20 text-center mb-14 animate-in fade-in zoom-in duration-700">
-        <h1 className="text-4xl md:text-5xl font-medium text-[#5F5F5F] tracking-tight mb-4">
+      <motion.div
+        className="relative z-10 max-w-4xl w-full px-4 mt-16 md:mt-20 text-center mb-14"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        exit={{ opacity: 0, y: -20 }}
+      >
+        <motion.h1
+          className="text-3xl md:text-5xl font-medium text-[#5F5F5F] tracking-tight mb-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+        >
           Generate High-converting, Smarter Adverts in minutes
           <span className="text-[#520052] ml-2">with AI</span>
-        </h1>
-        <p className="text-lg text-gray-600 mb-6">
-          Create compelling, high-converting ads to maximize ROI
-        </p>
-        <Link
-          href={"/create-ad"}
-          className="bg-[#B800B8] cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-purple-700 transition-colors animate-in delay-150 duration-300"
+        </motion.h1>
+        <motion.p
+          className="text-lg text-gray-600 mb-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
         >
-          Generate New Ad →
-        </Link>
-      </div>
+          Create compelling, high-converting ads to maximize ROI
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.9, duration: 0.5 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Link
+            href={"/create-ad"}
+            className="bg-[#B800B8] cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-[#520052] transition-colors inline-block"
+          >
+            Generate New Ad →
+          </Link>
+        </motion.div>
+      </motion.div>
 
-      <div className="w-full  px-4 slider-container -mb-8 mt-10">
+      <motion.div
+        className="w-full slider-container -mb-8 mt-4 md:mt-10"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.7, duration: 0.8 }}
+        exit={{ opacity: 0, y: 50 }}
+      >
         <Slider {...settings}>
           {heroImages.map((image, index) => (
-            <div
+            <motion.div
               key={index}
-              className="outline-none flex items-center justify-center h-[450px]"
+              className="outline-none flex items-center justify-center h-[200px] md:h-[450px]"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 * index, duration: 0.5 }}
             >
               <Image
                 src={image.src}
@@ -69,10 +102,10 @@ const HeroSection = () => {
                 width={1000}
                 height={500}
               />
-            </div>
+            </motion.div>
           ))}
         </Slider>
-      </div>
+      </motion.div>
     </div>
   );
 };

@@ -24,9 +24,9 @@ export default function NewsletterForm() {
   };
 
   return (
-    <div className="bg-black text-white py-25 px-4 text-center flex flex-col gap-8">
+    <div className="bg-black text-white py-14 px-4 text-center flex flex-col gap-8">
       {/* Heading */}
-      <p className="text-white text-xl md:text-[28px] font-semibold leading-[36px] text-center px-6 lg:px-11 md:max-w-3xl mx-auto">
+      <p className="text-white text-md md:text-[28px] font-semibold leading-[36px] text-center px-6 lg:px-11 md:max-w-3xl mx-auto">
         Subscribe to our newsletter for the latest trends, AI-powered advert
         strategies, and exclusive offers
       </p>
@@ -54,7 +54,7 @@ export default function NewsletterForm() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="bg-[#C23CC3] text-white font-semibold px-6 py-3 rounded-lg transition hover:bg-[#a72ca7]"
+          className="bg-[#C23CC3] cursor-pointer text-white font-semibold px-6 py-3 rounded-lg transition hover:bg-[#a72ca7]"
         >
           Subscribe Now
         </button>
