@@ -79,16 +79,16 @@ export const ImageAdForm = () => {
   };
 
   return (
-    <div className="min-h-full bg-[#F9FAFB] p-6 pt-10 pb-18 flex justify-center items-center">
+    <div className="min-h-full bg-[#F9FAFB] px-6 p-[36px] md:pt-10 pb-10 md:pb-18 flex justify-center items-center">
       <Card className="w-full max-w-[890px] shadow-none border-none">
-        <CardContent>
+        <CardContent className="px-4 md:px-6">
           <BackButton className="mb-8" />
 
-          <CardHeader className="p-0 mb-6 text-center">
-            <CardTitle className="text-2xl font-bold">
+          <CardHeader className="p-0 mb-6 text-left md:text-center">
+            <CardTitle className="text-[28px] font-semibold leading-[36px]">
               Let&apos;s set up your Ad
             </CardTitle>
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-500 mt-1">
               Fill in the details below, then AI generates your ad instantly.
             </p>
           </CardHeader>
@@ -116,7 +116,7 @@ export const ImageAdForm = () => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-6 py-10 px-6 border border-[#ECECEC] rounded-[8px]"
+              className="space-y-6 py-6 md:py-10 px-4 md:px-6 border border-[#ECECEC] rounded-[8px]"
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <FormField
@@ -305,7 +305,7 @@ export const ImageAdForm = () => {
                     <FormControl>
                       <Textarea
                         placeholder="Describe your Ad goal and message"
-                        className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] py-[18px] px-4 text-sm"
+                        className="w-full min-h-[163px] md:min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] py-3 md:py-[18px] px-4 text-sm"
                         {...field}
                       />
                     </FormControl>
@@ -320,7 +320,7 @@ export const ImageAdForm = () => {
             <Button
               type="submit"
               disabled={!form.formState.isValid}
-              className={`px-6 py-3 text-base leading-6 rounded-[6px] font-manrope transition-colors ${
+              className={`px-6 py-4 text-base leading-6 rounded-[6px] font-manrope transition-colors w-full ${
                 form.formState.isValid
                   ? "bg-[#B800B8] text-white hover:bg-[#960096] cursor-pointer"
                   : "bg-[#EAC8F0] text-white  cursor-not-allowed"
