@@ -91,7 +91,7 @@ const CreateAd: React.FC = () => {
           className="pt-5"
         >
           <Link
-            href={"/create-ad"}
+            href={"/create-ad/ad-form?type=image"}
             className="bg-[#B800B8] cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-[#520052] transition-colors inline-block"
           >
             Generate New Ad →
