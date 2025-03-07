@@ -31,6 +31,7 @@ import { ImageAdSchema } from "@/schemas/ad-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -60,25 +61,49 @@ type FormData = z.infer<typeof ImageAdSchema>;
 export const ImageAdForm = () => {
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const [isFormLoaded, setIsFormLoaded] = useState(false);
 
-
-  const savedData =
-    typeof window !== "undefined" ? localStorage.getItem("imageAdData") : null;
   const form = useForm<FormData>({
     resolver: zodResolver(ImageAdSchema),
     mode: "onChange",
-    defaultValues: savedData
-      ? JSON.parse(savedData)
-      : {
-          productName: "",
-          demographics: "",
-          region: "",
-          ageGroup: [],
-          adSize: "",
-          language: "",
-          adGoal: "",
-        },
+    defaultValues: {
+      productName: "",
+      demographics: "",
+      region: "",
+      ageGroup: [],
+      adSize: "",
+      language: "",
+      adGoal: "",
+    },
   });
+
+  // Load saved data after component mounts
+  useEffect(() => {
+    const savedData = localStorage.getItem("imageAdData");
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData) as FormData;
+
+        // Set each form field value explicitly to ensure proper handling
+        form.setValue("productName", parsedData.productName || "");
+        form.setValue("demographics", parsedData.demographics || "");
+        form.setValue("region", parsedData.region || "");
+        form.setValue("ageGroup", parsedData.ageGroup || []);
+        form.setValue("adSize", parsedData.adSize || "");
+        form.setValue("language", parsedData.language || "");
+        form.setValue("adGoal", parsedData.adGoal || "");
+
+        // Trigger validation after setting values
+        Object.keys(parsedData).forEach((key) => {
+          form.trigger(key as keyof FormData);
+        });
+      } catch (error) {
+        console.error("Error parsing saved data:", error);
+      }
+    }
+
+    setIsFormLoaded(true);
+  }, [form]);
 
   const onSubmit = (data: FormData) => {
     try {
@@ -89,6 +114,33 @@ export const ImageAdForm = () => {
       console.error("Error saving to localStorage", error);
     }
   };
+
+  interface SelectOption {
+    label: string;
+    value: string;
+    display?: string;
+    aspectRatio?: string;
+  }
+
+  const getSelectLabel = (options: SelectOption[], value: string): string => {
+    if (!value) return "";
+    const option = options.find((opt) => opt.value === value);
+    return option ? option.label : "";
+  };
+
+  const getAdSizeLabel = (value: string): string => {
+    if (!value) return "Choose Ad Size";
+    const option = adSizeOptions.find((opt) => opt.value === value);
+    return option ? option.display : "Choose Ad Size";
+  };
+
+  if (!isFormLoaded) {
+    return (
+      <div className="min-h-full bg-[#F9FAFB] p-6 py-18 flex justify-center items-center">
+        <p>Loading form...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-full bg-[#F9FAFB] p-6 py-18 flex justify-center items-center">
@@ -175,10 +227,15 @@ export const ImageAdForm = () => {
                         ) : (
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            value={field.value}
                           >
                             <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
-                              <SelectValue placeholder="Select demographics" />
+                              <SelectValue placeholder="Select demographics">
+                                {getSelectLabel(
+                                  demographicsOptions,
+                                  field.value
+                                )}
+                              </SelectValue>
                             </SelectTrigger>
                             <SelectContent>
                               {demographicsOptions.map((option) => (
@@ -219,10 +276,12 @@ export const ImageAdForm = () => {
                         ) : (
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            value={field.value}
                           >
                             <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
-                              <SelectValue placeholder="Select Region" />
+                              <SelectValue placeholder="Select Region">
+                                {getSelectLabel(regionOptions, field.value)}
+                              </SelectValue>
                             </SelectTrigger>
                             <SelectContent>
                               {regionOptions.map((option) => (
@@ -294,15 +353,11 @@ export const ImageAdForm = () => {
                         ) : (
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            value={field.value}
                           >
                             <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center h-[56px]">
                               <SelectValue placeholder="Choose Ad Size">
-                                {field.value
-                                  ? adSizeOptions.find(
-                                      (opt) => opt.value === field.value
-                                    )?.display
-                                  : "Choose Ad Size"}
+                                {getAdSizeLabel(field.value)}
                               </SelectValue>
                             </SelectTrigger>
                             <SelectContent>
@@ -349,10 +404,12 @@ export const ImageAdForm = () => {
                         ) : (
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            value={field.value}
                           >
                             <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
-                              <SelectValue placeholder="Select a Language" />
+                              <SelectValue placeholder="Select a Language">
+                                {getSelectLabel(languageOptions, field.value)}
+                              </SelectValue>
                             </SelectTrigger>
                             <SelectContent>
                               {languageOptions.map((option) => (
