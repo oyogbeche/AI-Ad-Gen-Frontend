@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 interface BackButtonProps {
@@ -38,11 +38,13 @@ const BackButton: React.FC<BackButtonProps> = ({
         <Image
           src="/arrow-left.svg"
           alt="Back"
-          className="w-5 h-5 mr-2"
-          width={20}
-          height={20}
+          className="w-6 h-6 mr-2"
+          width={24}
+          height={24}
         />
-        <span>{label}</span>
+        <span className="text-[#121316] font-medium text-base leading-6">
+          {label}
+        </span>
       </button>
     </div>
   );

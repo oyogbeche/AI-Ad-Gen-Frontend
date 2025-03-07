@@ -3,7 +3,8 @@ import type React from "react";
 import { Nunito } from "next/font/google";
 import clsx from "clsx";
 import FeatureCard from "@/components/key-features-card";
-import { AiAnalytics, GeneratedVisual } from "@/components/icons/icon";
+// import { AiAnalytics } from "@/components/icons/icon";
+import { GeneratedVisual } from "@/components/icons/icon";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
@@ -15,14 +16,9 @@ const nunito = Nunito({
 
 const tagData = [
   {
-    icon: <GeneratedVisual className="size-5 sm:size-10" />,
+    icon: <GeneratedVisual className="size-[14px] sm:size-[16px]" />,
     text: "Generated Visuals",
     textColor: "text-[#00A05E]",
-  },
-  {
-    icon: <AiAnalytics className="size-5 sm:size-8" />,
-    text: "AI Analytics",
-    textColor: "text-[#FF3F56]",
   },
 ];
 
@@ -34,7 +30,7 @@ export default function FeaturesSection() {
     <section
       ref={sectionRef}
       className={clsx(
-        "w-full px-1 md:px-6 bg-white flex flex-col items-center justify-end gap-10 lg:px-16 py-10 md:py-20",
+        "px-1 md:px-6 bg-white flex flex-col items-center justify-end gap-10 lg:px-16 py-10 lg:py-24 lg:-mx-36",
         nunito.variable
       )}
     >
@@ -50,15 +46,15 @@ export default function FeaturesSection() {
           animate={isInView ? { y: 0 } : { y: 50 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
+          <AnimatedTags isInView={isInView} />
           <motion.h1
-            className="text-[#121316] text-3xl lg:text-[40px] text-center font-medium"
+            className="text-[#121316] text-2xl lg:text-[40px] max-w-[504px] text-center font-medium p-[24px]"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             Powerful AI Features to Supercharge Your Ads
           </motion.h1>
-          <AnimatedTags isInView={isInView} />
         </motion.div>
       </motion.div>
       <motion.div
@@ -79,7 +75,7 @@ const AnimatedTags = ({ isInView }: any) => {
       {tagData.map((tag, index) => (
         <motion.div
           key={index}
-          className={`flex items-center gap-2 md:gap-4 text-sm md:text-base ${tag.textColor}`}
+          className={`flex items-center gap-[6px] md:gap-4 text-sm md:text-base ${tag.textColor}`}
           initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
           animate={
             isInView
@@ -97,7 +93,7 @@ const AnimatedTags = ({ isInView }: any) => {
             {tag.icon}
           </motion.div>
           <motion.span
-            className="text-md md:text-[20px] text-nowrap font-normal leading-[34.26px]"
+            className="text-[14px] md:text-[18px] text-nowrap font-normal leading-[34.26px]"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.6, delay: 0.5 + index * 0.2 }}
