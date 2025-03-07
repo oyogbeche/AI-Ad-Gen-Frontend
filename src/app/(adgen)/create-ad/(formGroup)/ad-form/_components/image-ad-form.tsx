@@ -42,14 +42,14 @@ const DesktopMultiSelect = dynamic(
 );
 
 const MobileSelectBottomSheet = dynamic(
-  () => import("@/components/ui/MobileSelect"),
+  () => import("@/components/ui/mobile-select"),
   {
     ssr: false,
   }
 );
 
 const MobileMultiSelectBottomSheet = dynamic(
-  () => import("@/components/ui/MobileMultiSelect"),
+  () => import("@/components/ui/mobile-multi-select"),
   {
     ssr: false,
   }

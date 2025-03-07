@@ -1,15 +1,15 @@
 "use client";
 
-import React from "react";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
+import React from "react";
 
 export type OptionType = {
   label: string;
@@ -44,7 +44,6 @@ const MobileSelect = ({
     setOpen(false);
   };
 
-  // Find the currently selected option
   const selectedOption = options.find((opt) => opt.value === selected);
 
   return (

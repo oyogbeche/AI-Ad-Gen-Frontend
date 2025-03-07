@@ -38,7 +38,6 @@ const MultiSelect = ({
 }: MultiSelectProps) => {
   const [open, setOpen] = React.useState(false);
 
-  // Ensure options and selected are always arrays with stable references
   const safeOptions = React.useMemo(
     () => (Array.isArray(options) ? options : []),
     [options]
@@ -76,7 +75,7 @@ const MultiSelect = ({
           disabled={disabled}
           type="button"
         >
-          <div className="flex flex-wrap gap-1 items-center overflow-hidden">
+          <div className="flex flex-wrap gap-2 rounded-full items-center overflow-hidden">
             {safeSelected.length === 0 && (
               <span className="text-gray-500">{placeholder}</span>
             )}
@@ -87,7 +86,7 @@ const MultiSelect = ({
                 <Badge
                   key={value}
                   variant="secondary"
-                  className="mr-1 mb-1 bg-gray-100 text-gray-800 hover:bg-gray-200"
+                  className="rounded-[20px] border border-[#E9E9E9] bg-[#F6F6F6] text-[#5F5F5F] hover:bg-gray-200 px-2 py-1 text-xs leading-4"
                 >
                   {option.label}
                   <span
@@ -106,7 +105,7 @@ const MultiSelect = ({
                       }
                     }}
                   >
-                    <X className="h-3 w-3" />
+                    <X className="h-[14px] w-[14px]" />
                     <span className="sr-only">Remove {option.label}</span>
                   </span>
                 </Badge>
