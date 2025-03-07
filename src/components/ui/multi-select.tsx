@@ -90,18 +90,25 @@ const MultiSelect = ({
                   className="mr-1 mb-1 bg-gray-100 text-gray-800 hover:bg-gray-200"
                 >
                   {option.label}
-                  <button
-                    className="ml-1 text-gray-500 hover:text-gray-700 focus:outline-none"
+                  <span
+                    className="ml-1 text-gray-500 hover:text-gray-700 focus:outline-none inline-flex cursor-pointer"
                     onMouseDown={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                     }}
                     onClick={(e) => handleRemove(value, e)}
-                    type="button"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        handleRemove(value, e as unknown as React.MouseEvent);
+                      }
+                    }}
                   >
                     <X className="h-3 w-3" />
                     <span className="sr-only">Remove {option.label}</span>
-                  </button>
+                  </span>
                 </Badge>
               ) : null;
             })}
@@ -118,6 +125,8 @@ const MultiSelect = ({
       <PopoverContent
         className="w-full p-2"
         align="start"
+        side="bottom"
+        alignOffset={0}
         sideOffset={5}
         style={{ zIndex: 50 }}
       >
@@ -130,7 +139,7 @@ const MultiSelect = ({
             safeOptions.map((option) => (
               <div
                 key={option.value}
-                className="flex items-center space-x-2 px-2 py-1.5 hover:bg-white rounded-md cursor-pointer mb-3"
+                className="flex items-center space-x-2 px-2 py-1.5 hover:bg-gray-100 rounded-md cursor-pointer mb-3"
                 onClick={() => handleSelect(option.value)}
                 role="button"
                 tabIndex={0}
