@@ -30,15 +30,26 @@ import { Textarea } from "@/components/ui/textarea";
 import { ImageAdSchema } from "@/schemas/ad-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-type FormData = z.infer<typeof ImageAdSchema>;
+const ModifiedImageAdSchema = ImageAdSchema.refine(
+  (data) => !data.ageGroup || data.ageGroup.length <= 2,
+  {
+    message: "You can select a maximum of 2 age groups",
+    path: ["ageGroup"],
+  }
+);
+
+type FormData = z.infer<typeof ModifiedImageAdSchema>;
 
 export const ImageAdForm = () => {
   const router = useRouter();
+  const [ageGroupError, setAgeGroupError] = useState("");
+
   const form = useForm<FormData>({
-    resolver: zodResolver(ImageAdSchema),
+    resolver: zodResolver(ModifiedImageAdSchema),
     mode: "onChange",
     defaultValues: {
       productName: "",
@@ -51,15 +62,26 @@ export const ImageAdForm = () => {
     },
   });
 
+  // Custom handler for age group selection to enforce max 2 limit
+  const handleAgeGroupChange = (values: string[]) => {
+    if (values.length > 2) {
+      setAgeGroupError("You can select a maximum of 2 age groups");
+      form.setValue("ageGroup", values.slice(0, 2));
+    } else {
+      setAgeGroupError("");
+      form.setValue("ageGroup", values);
+    }
+  };
+
   const onSubmit = (data: FormData) => {
     console.log("Image Ad Data:", data);
     router.push("/create-ad/preview");
   };
 
   return (
-    <div className="min-h-full bg-[#F9FAFB] p-6 py-18 flex justify-center items-center">
-      <Card className="w-full max-w-[890px]">
-        <CardContent className="p-14">
+    <div className="min-h-full bg-[#F9FAFB] p-6 pt-10 pb-18 flex justify-center items-center">
+      <Card className="w-full max-w-[890px] shadow-none border-none">
+        <CardContent>
           <BackButton className="mb-8" />
 
           <CardHeader className="p-0 mb-6 text-center">
@@ -71,7 +93,7 @@ export const ImageAdForm = () => {
             </p>
           </CardHeader>
 
-          <div className="mb-8">
+          <div className="mb-6 md:mb-[47px]">
             <div className="flex justify-around items-center">
               <div className="text-center">
                 <p className="text-sm text-black font-medium">STEP 1</p>
@@ -85,27 +107,30 @@ export const ImageAdForm = () => {
             </div>
 
             <div className="relative w-full h-2 bg-white-200 rounded-full mt-4 mb-4">
-              <div className="absolute left-0 h-2 bg-[#1467C5] rounded-l-full w-[48%]"></div>
+              <div className="absolute left-0 h-2 bg-[#1467C5] rounded-full w-[48%]"></div>
 
-              <div className="absolute right-0 h-2 bg-gray-300 rounded-r-full w-[48%]"></div>
+              <div className="absolute right-0 h-2 bg-gray-300 rounded-full w-[48%]"></div>
             </div>
           </div>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-6 py-10 px-6 border border-[#ECECEC] rounded-[8px]"
+            >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="productName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
+                      <FormLabel className="text-sm font-medium leading-6 text-[#121316]">
                         Product Name
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter Ad Title"
-                          className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]"
+                          className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] py-[18px] px-4 text-sm"
                           {...field}
                         />
                       </FormControl>
@@ -118,7 +143,7 @@ export const ImageAdForm = () => {
                   name="demographics"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
+                      <FormLabel className="text-sm font-medium leading-6 text-[#121316]">
                         Demographics
                       </FormLabel>
                       <Select
@@ -126,7 +151,7 @@ export const ImageAdForm = () => {
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]">
+                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] py-[18px] px-4 text-sm">
                             <SelectValue placeholder="Select demographics" />
                           </SelectTrigger>
                         </FormControl>
@@ -147,7 +172,7 @@ export const ImageAdForm = () => {
                   name="region"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
+                      <FormLabel className="text-sm font-medium leading-6 text-[#121316]">
                         Target Region
                       </FormLabel>
                       <Select
@@ -155,7 +180,7 @@ export const ImageAdForm = () => {
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]">
+                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] py-[18px] px-4 text-sm">
                             <SelectValue placeholder="Select Region" />
                           </SelectTrigger>
                         </FormControl>
@@ -176,18 +201,23 @@ export const ImageAdForm = () => {
                   name="ageGroup"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
-                        Target Age Group
+                      <FormLabel className="text-sm font-medium leading-6 text-[#121316]">
+                        Target Age Group (2 max)
                       </FormLabel>
                       <FormControl>
                         <MultiSelect
                           options={ageGroupOptions}
                           selected={field.value || []}
-                          onChange={field.onChange}
+                          onChange={handleAgeGroupChange}
                           placeholder="Select Age Group"
                           emptyMessage="No age groups found."
                         />
                       </FormControl>
+                      {ageGroupError && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {ageGroupError}
+                        </p>
+                      )}
                       <FormMessage className="text-red-500 text-xs mt-1" />
                     </FormItem>
                   )}
@@ -197,7 +227,7 @@ export const ImageAdForm = () => {
                   name="adSize"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
+                      <FormLabel className="text-sm font-medium leading-6 text-[#121316]">
                         Ad Size
                       </FormLabel>
                       <Select
@@ -205,7 +235,7 @@ export const ImageAdForm = () => {
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center">
+                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center py-[18px] px-4 text-sm">
                             <SelectValue placeholder="Choose Ad Size">
                               {field.value
                                 ? adSizeOptions.find(
@@ -238,7 +268,7 @@ export const ImageAdForm = () => {
                   name="language"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
+                      <FormLabel className="text-sm font-medium leading-6 text-[#121316]">
                         Ad Language
                       </FormLabel>
                       <Select
@@ -246,7 +276,7 @@ export const ImageAdForm = () => {
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]">
+                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] py-[18px] px-4 text-sm">
                             <SelectValue placeholder="Select a Language" />
                           </SelectTrigger>
                         </FormControl>
@@ -269,13 +299,13 @@ export const ImageAdForm = () => {
                 name="adGoal"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-medium text-gray-700">
+                    <FormLabel className="text-sm font-medium leading-6 text-[#121316]">
                       Ad Goal
                     </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Describe your Ad goal and message"
-                        className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8]"
+                        className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] py-[18px] px-4 text-sm"
                         {...field}
                       />
                     </FormControl>
@@ -283,22 +313,22 @@ export const ImageAdForm = () => {
                   </FormItem>
                 )}
               />
-
-              <div className="flex justify-end">
-                <Button
-                  type="submit"
-                  disabled={!form.formState.isValid}
-                  className={`px-6 py-3 rounded-md transition-colors ${
-                    form.formState.isValid
-                      ? "bg-[#B800B8] text-white hover:bg-[#960096] cursor-pointer"
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  }`}
-                >
-                  Generate Ad
-                </Button>
-              </div>
             </form>
           </Form>
+
+          <div className="flex justify-end mt-6 md:mt-[47px]">
+            <Button
+              type="submit"
+              disabled={!form.formState.isValid}
+              className={`px-6 py-3 text-base leading-6 rounded-[6px] font-manrope transition-colors ${
+                form.formState.isValid
+                  ? "bg-[#B800B8] text-white hover:bg-[#960096] cursor-pointer"
+                  : "bg-[#EAC8F0] text-white  cursor-not-allowed"
+              }`}
+            >
+              Generate Ad
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>
