@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   description: "AI Adgen",
 };
 
+
 export default function RootLayout({
   children,
 }: Readonly<{

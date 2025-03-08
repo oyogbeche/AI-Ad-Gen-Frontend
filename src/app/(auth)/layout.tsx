@@ -11,8 +11,8 @@ import AuthFooter from "./components/AuthFooter";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "LIberty Electric",
-  description: "Get electrical services",
+   title: "AI Adgen",
+  description: "AI Adgen"
 };
 
 export default function AuthLayout({
