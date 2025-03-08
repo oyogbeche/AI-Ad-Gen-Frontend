@@ -17,8 +17,8 @@ const nunito = Nunito({
 const tagData = [
   {
     icon: <GeneratedVisual className="size-[14px] sm:size-[16px]" />,
-    text: "Generated Visuals",
-    textColor: "text-[#00A05E]",
+    text: "CREATE ADS YOURSELF EASILY",
+    textColor: "text-[#10509A]",
   },
 ];
 
@@ -30,12 +30,12 @@ export default function FeaturesSection() {
     <section
       ref={sectionRef}
       className={clsx(
-        "md:px-6 bg-white flex flex-col items-center justify-end gap-10 lg:px-16 py-10 lg:py-24 lg:-mx-36",
+        "px-[20px] md:px-[30px] lg:[60px] bg-white flex flex-col items-center gap-10 py-10 lg:py-24",
         nunito.variable
       )}
     >
       <motion.div
-        className="max-w-7xl mx-auto relative"
+        className="w-full lg:max-w-7xl relative"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.8 }}
@@ -53,7 +53,7 @@ export default function FeaturesSection() {
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Powerful AI Features to Supercharge Your Ads
+            Who can benefit from genz.ad
           </motion.h1>
         </motion.div>
       </motion.div>

@@ -19,30 +19,28 @@ const nunito = Nunito({
 
 const featuresData: Feature[] = [
   {
-    title: "AI-powered Visuals",
-    description: "Get automated image suggestions that fit your campaign",
+    title: "Small Businesses",
+    description: "Easily create professional ads without any deisign skills.",
   },
   {
-    title: "Smart Customization",
-    description:
-      "Select target audience, gender, and add goals for precise audience engagement.",
+    title: "Marketers & Advertisers",
+    description: "Launch campaigns faster with AI- generated ad creatives.",
   },
   {
-    title: "Quick Ad Creation",
-    description:
-      "Generate professional ad creatives in seconds, saving time and effort.",
+    title: "Creators & Influencers",
+    description: "Promote products and brands with instant ad generation.",
   },
 ];
 
 const FeatureCard = () => {
   return (
     <div
-      className={`grid lg:grid-cols-3 grid-cols-1 font-${nunito.variable}  gap-4 max-w-7xl bg-white mx-auto px-8`}
+      className={`flex flex-col md:flex-row font-${nunito.variable}  gap-4 bg-white w-full lg:max-w-[1168px]`}
     >
       {featuresData.map((feature, index) => (
         <Card
           key={index}
-          className="px-10 py-8 rounded-2xl border border-[#EBECED] bg-[#F8FAFB] flex flex-col items-start gap-2 p-[32px_40px] flex-[1_0_0]"
+          className="px-10 py-8 rounded-2xl border border-[#EBECED] bg-[#F8FAFB] flex flex-col gap-2 p-[32px_40px] w-full flex-[1]"
         >
           <CardHeader className="p-0">
             <CardTitle className="text-[#121316] p-0 text-[24px] font-bold leading-normal">
