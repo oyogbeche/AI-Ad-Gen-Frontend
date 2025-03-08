@@ -8,21 +8,19 @@ import { useRef } from "react";
 
 const notes = [
   {
-    name: "Input Brand Details",
+    name: "AI-Powered Generation",
     description:
-      "Define your brand name, product details, target audience, upload your brand assets",
+      "Create high-quality image ads instantly with AI—no design skills needed.",
   },
   {
-    name: "Enter Audience Info",
-    description: "Enter the details of your target audience",
+    name: "Simple Campaign Input",
+    description:
+      "Enter product details, target audience, language, and ad goal to create your ad.",
   },
   {
-    name: "Customize Ads",
-    description: "Personalize details to match your brand's style",
-  },
-  {
-    name: "Generate Ads",
-    description: "Receive your ad instantly as soon as you're done!",
+    name: "Instant Ad Preview",
+    description:
+      "See your AI-generated ad in real-time before taking the next step.",
   },
 ];
 
@@ -33,10 +31,10 @@ const CreateAds = () => {
   return (
     <section
       ref={sectionRef}
-      className="flex flex-col-reverse lg:flex-row justify-center items-center gap-10 lg:gap-[80px] px-6 pt-6 md:p-20"
+      className="flex flex-col-reverse lg:flex-row justify-between items-center gap-10 lg:gap-[80px] px-6 pt-6 p-10 md:p-28"
     >
       <motion.div
-        className="max-w-[400px] md:max-w-[500px] lg:max-w-[595px] h-auto"
+        className="max-w-[400px] md:max-w-[500px] lg:max-w-[596px] h-auto bg-[#E5EEFF] pt-[105px] px-[26px]"
         initial={{ opacity: 0, x: -50 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
         transition={{ duration: 0.8 }}
@@ -45,14 +43,14 @@ const CreateAds = () => {
         <Image
           src={createadImg}
           alt="createads"
-          height={681}
-          width={595}
+          height={552}
+          width={542}
           className="object-cover"
         />
       </motion.div>
 
       <motion.div
-        className="flex flex-col text-center lg:text-left"
+        className="flex flex-col text-left"
         initial={{ opacity: 0, x: 50 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
         transition={{ duration: 0.8 }}
@@ -64,15 +62,15 @@ const CreateAds = () => {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          CREATE ADS YOURSELF EASILY
+          HOW TO USE
         </motion.p>
         <motion.p
-          className="text-[28px] md:text-[36px] lg:text-[48px] font-semibold leading-tight"
+          className="text-[28px] md:text-[36px] lg:text-[48px] font-medium leading-tight"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          How to Make Ads Using <br className="hidden md:block" /> Adgen-AI
+          How to Make Ads Using <br className="hidden md:block" /> genz.ad
         </motion.p>
 
         <motion.div

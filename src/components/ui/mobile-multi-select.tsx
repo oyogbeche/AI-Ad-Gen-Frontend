@@ -1,17 +1,17 @@
 "use client";
 
-import * as React from "react";
-import { X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
+import { X } from "lucide-react";
+import * as React from "react";
 
 export type OptionType = {
   label: string;
@@ -42,7 +42,6 @@ const MobileMultiSelect = ({
   const [open, setOpen] = React.useState(false);
   const [localSelected, setLocalSelected] = React.useState<string[]>(selected);
 
-  // Only reset local selection when external selected prop changes or when dialog opens
   React.useEffect(() => {
     setLocalSelected(selected);
   }, [selected, open]);
@@ -63,12 +62,10 @@ const MobileMultiSelect = ({
 
   const handleRemove = (value: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    // This removes from the external state
     const newSelected = selected.filter((item) => item !== value);
     onChange(newSelected);
   };
 
-  // Ensure options and selected are always arrays with stable references
   const safeOptions = React.useMemo(
     () => (Array.isArray(options) ? options : []),
     [options]
@@ -156,12 +153,12 @@ const MobileMultiSelect = ({
           setOpen(isOpen);
         }}
       >
-        <SheetContent side="bottom" className="px-0 py-0 h-[60vh] rounded-t-xl">
+        <SheetContent side="bottom" className="px-0 py-0 h-auto max-h-[60vh] rounded-t-xl">
           <SheetHeader className="px-8 py-5 sticky top-0 bg-transparent z-10">
             <SheetTitle className="font-medium">{title}</SheetTitle>
           </SheetHeader>
 
-          <div className="overflow-y-auto h-full">
+          <div className="overflow-y-auto h-auto">
             {safeOptions.length === 0 ? (
               <div className="py-6 text-center text-sm text-gray-500">
                 {emptyMessage}

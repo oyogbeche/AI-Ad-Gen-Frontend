@@ -8,9 +8,9 @@ const Header: React.FC = () => {
   // const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <header className="w-full  border-b border-[#F8E6F8] bg-white shadow-md py-2 sticky top-0 z-40">
-      <div className="container mx-auto flex items-center justify-between px-4 py-4 md:px-6 h-full">
-        <div className="pl-4">
+    <header className="w-full flex justify-center border-b border-[#F8E6F8] bg-white sticky top-0 z-40">
+      <div className="m-auto w-full max-w-[1580px] lg:px-[180px] px-10 md:px-[60px] flex items-center justify-between py-4 h-full">
+        <div>
           <Link href="/">
             <Image
               src="/genz-logo.svg"

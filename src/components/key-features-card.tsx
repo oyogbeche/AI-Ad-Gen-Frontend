@@ -19,29 +19,28 @@ const nunito = Nunito({
 
 const featuresData: Feature[] = [
   {
-    title: "AI-powered Visuals",
-    description:
-      "Get automated image and video suggestions that fit your campaign.",
+    title: "Small Businesses",
+    description: "Easily create professional ads without any deisign skills.",
   },
   {
-    title: "Analytics Insights",
-    description: "AI analyzes your past campaigns to enhance future ads.",
+    title: "Marketers & Advertisers",
+    description: "Launch campaigns faster with AI- generated ad creatives.",
   },
   {
-    title: "Multi-Platform",
-    description: "Download Ads in the perfect format for every platform.",
+    title: "Creators & Influencers",
+    description: "Promote products and brands with instant ad generation.",
   },
 ];
 
 const FeatureCard = () => {
   return (
     <div
-      className={`grid lg:grid-cols-3 grid-cols-1 font-${nunito.variable} gap-4 max-w-7xl bg-white mx-auto px-8`}
+      className={`grid lg:grid-cols-3 grid-cols-1 font-${nunito.variable}  gap-4 max-w-7xl bg-white mx-auto px-8`}
     >
       {featuresData.map((feature, index) => (
         <Card
           key={index}
-          className="px-10 py-8 rounded-2xl border border-[#EBECED] bg-[#F8FAFB] flex flex-col items-start gap-2 p-[32px_40px] flex-[1_0_0] hover:scale-105 transition-transform duration-700 " 
+          className="px-10 py-8 rounded-2xl border border-[#EBECED] bg-[#F8FAFB] flex flex-col items-start gap-2 p-[32px_40px] flex-[1_0_0]"
         >
           <CardHeader className="p-0">
             <CardTitle className="text-[#121316] p-0 text-[24px] font-bold leading-normal">

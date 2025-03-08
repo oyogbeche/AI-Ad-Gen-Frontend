@@ -1,9 +1,11 @@
 name: Frontend CI/CD
+
 on:
   push:
     branches:
       - setup
       - main
+
 jobs:
   test-and-build:
     runs-on: aiadgen
@@ -21,12 +23,16 @@ jobs:
         with:
           version: latest
 
+      - name: Create .env File
+        run: |
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
+
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Build Frontend
         run: pnpm build
-
+        
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -41,8 +47,9 @@ jobs:
 #              
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: aiadgen
     needs: [test-and-build]
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -55,7 +62,7 @@ jobs:
 
       - name: Deploy to Production Server
         run: |
-          echo "🚀 Deploying .next build to server..."
+          echo "Deploying .next build to server..."
           sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no -r .next package.json pnpm-lock.yaml \
           "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend"
       

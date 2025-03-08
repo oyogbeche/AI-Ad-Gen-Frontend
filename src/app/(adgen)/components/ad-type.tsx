@@ -29,7 +29,7 @@ const AdType = () => {
       <div
         className={`w-full bg-[#F9FAFB] flex flex-col justify-center items-center max-md:px-6 max-md:py-8 overflow-hidden`}
       >
-        <div className="w-full max-w-lg md:max-w-3xl bg-white border rounded-[8px] px-4 py-8 md:px-10 md:pb-11 overflow-auto max-h-[90vh]">
+        <div className="w-full max-w-lg md:max-w-3xl bg-white rounded-[8px] px-4 py-8 md:px-10 md:pb-11 overflow-auto max-h-[90vh]">
           <BackButton />
           <h2 className="text-[28px] leading-[36px] md:text-2xl text-[#121316] font-semibold md:text-center mb-6 md:mb-8 -mt:2 md:mt-16">
             Select Ad Type
