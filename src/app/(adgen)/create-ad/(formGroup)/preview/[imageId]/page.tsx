@@ -5,17 +5,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Loader from "@/components/ui/loader";
 import React, { Suspense } from "react";
 import SinglePreview from "../_components/single-image-preview";
-import { useGetCampaignImage } from "@/hooks/use-image-ad";
+import { useGetCampaignImage, useSubmitCampaign } from "@/hooks/use-image-ad";
 import { useParams } from "next/navigation";
 import AdPreviewNavigation, {
   MobileGenerateButton,
 } from "@/components/ad-preview-navigation";
+import { FormData } from "../../ad-form/_components/image-ad-form";
 
 export default function Page() {
   const { imageId } = useParams();
-  const handleGenerateNewAd = () => {
-    // Handle generating a new ad
-  };
+  const mutation = useSubmitCampaign();
 
   // add data to the hook query to get the image data  i didnt add it because of the build error and the backedn tp get the image datais not ready yet
 
@@ -31,6 +30,26 @@ export default function Page() {
   }, []);
 
   const imageData = localData;
+  const handleGenerateNewAd = (data: FormData) => {
+    // Handle generating a new ad
+    try {
+      localStorage.getItem("imageAdData");
+
+      const formatPayload = (formData: FormData) => ({
+        product_name: formData.productName,
+        ad_goal: formData.adGoal,
+        ad_size: formData.adSize,
+        target_region: formData.region,
+        demographic: formData.demographics,
+        target_age_groups: formData.ageGroup,
+        ad_language: formData.language,
+      });
+      const response = mutation.mutate(formatPayload(data));
+      console.log("Response:", response);
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+    }
+  };
 
   return (
     <Suspense
