@@ -28,9 +28,9 @@ export const metadata: Metadata = {
     'Ad services',
     'on-demand services',
   ],
-  authors: [{ name: 'Phoenix Inc' }],
-  creator: 'Phoenix Inc',
-  publisher: 'Phoenix Inc',
+  authors: [{ name: 'HNG12 - Genz.ad' }],
+  creator: 'HNG12 - Genz.ad',
+  publisher: 'HNG12 - Genz.ad',
   formatDetection: {
     email: false,
     address: false,
