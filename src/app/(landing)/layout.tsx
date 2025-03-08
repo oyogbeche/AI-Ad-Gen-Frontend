@@ -7,7 +7,6 @@ import "slick-carousel/slick/slick.css";
 
 import "./../globals.css";
 
-
 import Header from "@/app/sections/header";
 import Footer from "../sections/footer";
 import { SonnerToaster } from "../sections/sonner-toaster";
@@ -25,14 +24,12 @@ export default function RootLayout({
   return (
     <html lang="en">
 
-
       <body className="font-nunito bg-[#F9FAFB] overflow-x-hidden" cz-shortcut-listen="true">
         <SonnerToaster />
         <QueryProvider>
           <Header />
           <TopProgressBarProvider>{children}</TopProgressBarProvider>
           <Footer />
-
         </QueryProvider>
       </body>
     </html>

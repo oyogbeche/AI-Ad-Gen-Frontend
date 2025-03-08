@@ -1,5 +1,4 @@
 "use client";
-
 import {
   adSizeOptions,
   ageGroupOptions,
@@ -10,7 +9,6 @@ import {
 import BackButton from "@/components/back-button";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 import {
   Form,
   FormControl,
@@ -39,13 +37,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const DesktopMultiSelect = dynamic(
-
   () => import("@/components/ui/multi-select"),
   {
     ssr: false,
   }
 );
-
 
 const MobileSelectBottomSheet = dynamic(
   () => import("@/components/ui/mobile-select"),
@@ -60,7 +56,6 @@ const MobileMultiSelectBottomSheet = dynamic(
     ssr: false,
   }
 );
-
 
 type FormData = z.infer<typeof ImageAdSchema>;
 
