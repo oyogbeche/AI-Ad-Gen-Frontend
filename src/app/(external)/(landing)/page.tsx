@@ -1,10 +1,10 @@
 "use client";
 import FeaturesSection from "@/domains/external/components/key-features";
 import HeroSection from "@/domains/external/components/hero";
-import CreateAds from "../../domains/external/components/create-ads";
+import CreateAds from "../../../domains/external/components/create-ads";
 import { FAQ } from "@/domains/external/components/faq";
 import CreateAd from "@/domains/external/components/create-ad";
-import Cta from "../../domains/external/components/cta";
+import Cta from "../../../domains/external/components/cta";
 import { useEffect } from "react";
 
 export default function Home() {
