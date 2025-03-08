@@ -14,16 +14,20 @@ const AdPreviewNavigation: React.FC<AdPreviewNavigationProps> = ({
   onGenerateNewAd,
 }) => {
   const router = useRouter();
-
   const handleBack = () => {
     try {
       router.back();
     } catch {
       router.push("/");
+    } finally {
+      if (window.location.pathname === "/") {
+        localStorage.removeItem("imageAdData");
+      }
     }
   };
 
   const handleGoHome = () => {
+    localStorage.removeItem("imageAdData");
     router.push("/");
   };
 
