@@ -46,7 +46,7 @@ const HeroSection = () => {
         exit={{ opacity: 0, y: -20 }}
       >
         <motion.h1
-          className="text-3xl md:text-[64px] px-5 font-medium text-[#121316] tracking-tight mb-4"
+          className="text-3xl md:text-[64px] font-medium text-[#121316] tracking-tight mb-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
