@@ -22,7 +22,7 @@ export default function EmailVerify() {
   const router = useRouter();
 
   useEffect(() => {
-    let countdown;
+    let countdown: ReturnType<typeof setInterval>
     if (timer > 0) {
       countdown = setInterval(() => {
         setTimer((prev) => prev - 1);
@@ -31,7 +31,7 @@ export default function EmailVerify() {
     return () => clearInterval(countdown);
   }, [timer]);
 
-  const handleChange = (index, value) => {
+  const handleChange = (index: number, value:string) => {
     if (!/^[0-9]?$/.test(value)) return;
     const newOtp = [...otp];
     const newShowOtp = [...showOtp];
@@ -50,23 +50,23 @@ export default function EmailVerify() {
     setShowOtp(newShowOtp);
 
     if (value && index < otp.length - 1) {
-      document.getElementById(`otp-${index + 1}`).focus();
+      document.getElementById(`otp-${index + 1}`)?.focus();
     }
 
     if (!value && index > 0) {
-      document.getElementById(`otp-${index - 1}`).focus();
+      document.getElementById(`otp-${index - 1}`)?.focus();
     }
   };
 
-  const handleKeyDown = (index, e) => {
+  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
-      document.getElementById(`otp-${index - 1}`).focus();
+      document.getElementById(`otp-${index - 1}`)?.focus();
     }
     if (e.key === "ArrowRight" && index < otp.length - 1) {
-      document.getElementById(`otp-${index + 1}`).focus();
+      document.getElementById(`otp-${index + 1}`)?.focus();
     }
     if (e.key === "ArrowLeft" && index > 0) {
-      document.getElementById(`otp-${index - 1}`).focus();
+      document.getElementById(`otp-${index - 1}`)?.focus();
     }
   };
 
@@ -78,7 +78,7 @@ export default function EmailVerify() {
     }
   };
 
-  const handleVerify = async (e) => {
+  const handleVerify = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -90,7 +90,7 @@ export default function EmailVerify() {
       // Simulate an API call for OTP verification
       const response = await new Promise((resolve, reject) => {
         setTimeout(() => {
-          otpCode === "12345" ? resolve("success") : reject("Invalid OTP");
+         return otpCode === "12345" ? resolve("success") : reject("Invalid OTP");
         }, 1500);
       });
 
@@ -99,6 +99,7 @@ export default function EmailVerify() {
 
       router.push("/set-password");
     } catch (err) {
+      console.error("Verification error:", err);
       setError("Invalid OTP code. Please try again.");
     } finally {
       setLoading(false);

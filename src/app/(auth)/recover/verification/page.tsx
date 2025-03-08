@@ -19,7 +19,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-const page = () => {
+const Page = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const email = searchParams.get("email");
@@ -140,4 +140,4 @@ const page = () => {
     </main>
   );
 };
-export default page;
+export default Page;

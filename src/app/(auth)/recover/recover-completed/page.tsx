@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const hancleClick = () => {
     router.push("/");
@@ -37,4 +37,4 @@ const page = () => {
     </main>
   );
 };
-export default page;
+export default Page;

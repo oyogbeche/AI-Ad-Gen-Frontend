@@ -17,7 +17,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-const page = () => {
+const Page = () => {
   const [isVisible, setIsVisible] = useState([false, false]);
   const router = useRouter();
   const handleBack = () => {
@@ -43,6 +43,7 @@ const page = () => {
 
   const handleSubmit = (data: { password: string }) => {
     router.push(`/recover/recover-completed`);
+    console.log(data);
   };
   const handleVisible = (num: number) => {
     const tab = [...isVisible];
@@ -150,4 +151,4 @@ const page = () => {
     </main>
   );
 };
-export default page;
+export default Page;

@@ -1,5 +1,5 @@
 "use client"
-import react, { useState } from "react";
+import React, { useState } from "react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -22,13 +22,13 @@ export default function SetPassword() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const isPasswordMatch = password && confirmPassword && password === confirmPassword;
   const isButtonDisabled = !password || !confirmPassword || !isPasswordMatch;
-  const maskPassword = (value) => value.replace(/./g, "×");
+  const maskPassword = (value: string) => value.replace(/./g, "×");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
 
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isButtonDisabled) return;
 
@@ -63,7 +63,7 @@ export default function SetPassword() {
                 <label htmlFor="password">Choose password</label>
                 <div className="relative">
                   <input
-                    type="text"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     placeholder="Create a password"
                     value={showPassword ? password : maskPassword(password)}
@@ -100,7 +100,7 @@ export default function SetPassword() {
                   </button>
                 </div>
                 {!isPasswordMatch && confirmPassword && (
-                  <p className="text-red-500 mt-1">Password doesn't match</p>
+                  <p className="text-red-500 mt-1">Password doesn&apos;t match</p>
                 )}
               </div>
             </div>

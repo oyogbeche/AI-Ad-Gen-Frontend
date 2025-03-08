@@ -1,10 +1,11 @@
 "use client"
-import react, { useState } from "react";
+
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Nunito } from "next/font/google";
 import CheckIcon from "@/components/images/check.svg";
 import Link from "next/link";
+import Image from "next/image";
 
 
 const nunito = Nunito({
@@ -19,10 +20,10 @@ export default function Complete() {
       <Card className="space-y-4 md:w-[555px] w-[330px] md:p-10">
 
         <CardHeader className="space-y-3 mt-5 flex justify-center items-center">
-            <img src={CheckIcon.src} alt="check-icon" />
+            <Image src={CheckIcon.src} alt="check-icon" />
           <h1 className="text-3xl font-bold">Awesome!</h1>
           <p className="text-sm text-gray-400">
-            You're in
+            You&apos;re in
           </p>
         </CardHeader>
 
@@ -33,7 +34,7 @@ export default function Complete() {
               type="submit"
               className="bg-[#B800B8] cursor-pointer hover:bg-[#b800b8e7 w-full py-6 mt-5 font-light"
             >
-              Let's get started
+              Let&apos;s get started
             </Button>
           </Link>
         </CardContent>
