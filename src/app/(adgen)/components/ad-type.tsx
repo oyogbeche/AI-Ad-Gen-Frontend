@@ -19,7 +19,7 @@ const AdType = () => {
 
   const handleContinue = () => {
     if (selectedAdType) {
-      console.log(`Selected ad type: ${selectedAdType}`);
+      // console.log(`Selected ad type: ${selectedAdType}`);
       router.push(`/create-ad/ad-form?type=${selectedAdType}`);
     }
   };

@@ -7,24 +7,22 @@ import React from "react";
 
 interface AdPreviewNavigationProps {
   className?: string;
+  isLoading?: boolean;
   onGenerateNewAd?: (data: FormData) => void; // Updated to accept FormData parameter
 }
 
 const AdPreviewNavigation: React.FC<AdPreviewNavigationProps> = ({
   className = "",
   onGenerateNewAd,
+  isLoading,
 }) => {
   const router = useRouter();
   const handleBack = () => {
-    try {
-      router.back();
-    } catch {
-      router.push("/");
-    } finally {
-      if (window.location.pathname === "/") {
-        localStorage.removeItem("imageAdData");
-      }
-    }
+    router.push("/create-ad/ad-form?type=image");
+    // try {
+    // } catch {
+    //   router.back();
+    // }
   };
 
   const handleGoHome = () => {
@@ -33,6 +31,7 @@ const AdPreviewNavigation: React.FC<AdPreviewNavigationProps> = ({
   };
 
   const handleGenerateNewAd = () => {
+    if (isLoading) return;
     try {
       const storedData = localStorage.getItem("imageAdData");
       if (storedData && onGenerateNewAd) {

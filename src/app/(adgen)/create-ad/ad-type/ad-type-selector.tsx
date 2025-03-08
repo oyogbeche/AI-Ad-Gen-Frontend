@@ -19,7 +19,6 @@ const AdSelectorPage = () => {
     }
   };
 
-
   const handleContinue = () => {
     if (selectedAdType) {
       setIsLoading(true);
