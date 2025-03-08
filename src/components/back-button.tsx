@@ -18,9 +18,9 @@ const BackButton: React.FC<BackButtonProps> = ({
   const router = useRouter();
 
   const handleBack = () => {
-    // App Router doesn't provide a way to check history length
-    // so we can use window.history directly
     try {
+      // Set a flag in sessionStorage to indicate we're navigating back
+      sessionStorage.setItem("navigatingBack", "true");
       router.back();
     } catch {
       // If back navigation fails, go to fallback URL

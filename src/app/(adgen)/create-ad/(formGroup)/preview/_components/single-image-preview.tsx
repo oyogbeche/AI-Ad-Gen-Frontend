@@ -3,20 +3,27 @@
 import React from "react";
 import Image from "next/image";
 import { SinglePreviewProps } from "@/types";
+import Loader from "@/components/ui/loader";
 
-// const images: string[] = ["/images/hng-wig-2.png"];
-
-export default function SinglePreview({ imageData }: SinglePreviewProps) {
+export default function SinglePreview({
+  imageData,
+  isLoading,
+}: SinglePreviewProps & { isLoading?: boolean }) {
   // console.log("imagedata", imageData);
 
-  // const base64ImageData = imageData.image?.image_data;
+  const fullImageUrl = imageData?.display_url
+    ? `${process.env.NEXT_PUBLIC_API_URL}${imageData.display_url.replace(
+        /^\/api\/v1/,
+        ""
+      )}`
+    : "";
 
-  // const images = imageData.image?.image_data
-  //   ? [imageData.image?.image_data]
-  //   : [];
+  // console.log("fullImageUrl", fullImageUrl);
+
+  const altText = imageData?.image?.prompt || "Advertisement Image";
 
   const images = React.useMemo(() => {
-    const baseImages = imageData?.image_url ? [imageData.image_url] : [];
+    const baseImages = fullImageUrl ? [fullImageUrl] : [];
     if (
       imageData?.additionalImages &&
       Array.isArray(imageData.additionalImages)
@@ -24,35 +31,21 @@ export default function SinglePreview({ imageData }: SinglePreviewProps) {
       return [...baseImages, ...imageData.additionalImages];
     }
     return baseImages;
-  }, [imageData]);
-
-  // console.log("images", images);
+  }, [fullImageUrl, imageData]);
 
   const [selectedImage, setSelectedImage] = React.useState<string>(
     images[0] || ""
   );
 
-  // Update selectedImage when imageData changes
   React.useEffect(() => {
     if (images.length > 0) {
       setSelectedImage(images[0]);
     }
   }, [images]);
 
-  if (!imageData) {
-    return <div>No image data available</div>;
+  if (!imageData || isLoading) {
+    return <Loader fullscreen={false} />;
   }
-
-  if (images.length === 0) {
-    return <div>No images available for preview</div>;
-  }
-
-  const generateAltText = (imagePath: string) => {
-    const fileName = imagePath.split("/").pop()?.split(".")[0] || "Image";
-    return fileName
-      .replace(/-/g, " ")
-      .replace(/\b\w/g, (char) => char.toUpperCase());
-  };
 
   return (
     <div className="flex flex-col w-full">
@@ -62,7 +55,7 @@ export default function SinglePreview({ imageData }: SinglePreviewProps) {
           src={selectedImage}
           height={374}
           width={815}
-          alt={generateAltText(selectedImage)}
+          alt={altText}
           priority
           unoptimized
         />

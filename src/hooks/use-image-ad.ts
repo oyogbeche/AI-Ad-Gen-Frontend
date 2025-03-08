@@ -35,12 +35,12 @@ export const useSubmitCampaign = () => {
 export const useGetCampaignImage = (imageId: string | null) => {
   return useQuery({
     queryKey: ["campaignImage", imageId],
-    // queryFn: () => getRequest(`/campaign/${imageId}`),
-    queryFn: () => {
+    queryFn: async () => {
       if (!imageId) {
         throw new Error("Image ID is required");
       }
-      return getRequest(`/image/${imageId}`);
+      const response = await getRequest(`/image/${imageId}`);
+      return response.data;
     },
     enabled: !!imageId,
     staleTime: 5 * 60 * 1000,

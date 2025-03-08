@@ -8,6 +8,7 @@ export interface User {
 
 export interface SinglePreviewProps {
   imageData?: {
+    display_url: string;
     imageUrl: string;
     image_url: string;
     title?: string;

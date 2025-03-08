@@ -1,30 +1,46 @@
 "use client";
 
+import { FormData } from "@/app/(adgen)/create-ad/(formGroup)/ad-form/_components/image-ad-form";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 interface AdPreviewNavigationProps {
   className?: string;
-  onGenerateNewAd?: () => void;
+  isLoading?: boolean;
+  onGenerateNewAd?: (data: FormData) => void; // Updated to accept FormData parameter
 }
 
 const AdPreviewNavigation: React.FC<AdPreviewNavigationProps> = ({
   className = "",
   onGenerateNewAd,
+  isLoading,
 }) => {
   const router = useRouter();
-
   const handleBack = () => {
-    try {
-      router.back();
-    } catch {
-      router.push("/");
-    }
+    router.push("/create-ad/ad-form?type=image");
+    // try {
+    // } catch {
+    //   router.back();
+    // }
   };
 
   const handleGoHome = () => {
+    localStorage.removeItem("imageAdData");
     router.push("/");
+  };
+
+  const handleGenerateNewAd = () => {
+    if (isLoading) return;
+    try {
+      const storedData = localStorage.getItem("imageAdData");
+      if (storedData && onGenerateNewAd) {
+        const parsedData = JSON.parse(storedData) as FormData;
+        onGenerateNewAd(parsedData);
+      }
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+    }
   };
 
   return (
@@ -52,7 +68,7 @@ const AdPreviewNavigation: React.FC<AdPreviewNavigationProps> = ({
 
         {/* Generate New Ad button - hidden on mobile */}
         <button
-          onClick={onGenerateNewAd}
+          onClick={handleGenerateNewAd}
           className="hidden md:flex items-center text-[#B800B8] hover:text-[#B800B8] font-medium cursor-pointer"
           type="button"
         >
@@ -95,12 +111,24 @@ const AdPreviewNavigation: React.FC<AdPreviewNavigationProps> = ({
 
 // Separate component for mobile generate button
 export const MobileGenerateButton: React.FC<{
-  onGenerateNewAd?: () => void;
+  onGenerateNewAd?: (data: FormData) => void; // Updated to accept FormData parameter
   className?: string;
 }> = ({ onGenerateNewAd, className = "" }) => {
+  const handleGenerateNewAd = () => {
+    try {
+      const storedData = localStorage.getItem("imageAdData");
+      if (storedData && onGenerateNewAd) {
+        const parsedData = JSON.parse(storedData) as FormData;
+        onGenerateNewAd(parsedData);
+      }
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+    }
+  };
+
   return (
     <button
-      onClick={onGenerateNewAd}
+      onClick={handleGenerateNewAd}
       className={`md:hidden flex items-center justify-center text-[#B800B8] hover:text-[#B800B8] font-medium cursor-pointer w-full py-3 mt-6 border-0 rounded-lg ${className}`}
       type="button"
     >

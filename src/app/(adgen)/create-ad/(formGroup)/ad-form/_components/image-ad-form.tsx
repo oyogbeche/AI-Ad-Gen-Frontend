@@ -57,7 +57,7 @@ const MobileMultiSelectBottomSheet = dynamic(
   }
 );
 
-type FormData = z.infer<typeof ImageAdSchema>;
+export type FormData = z.infer<typeof ImageAdSchema>;
 
 export const ImageAdForm = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -188,7 +188,7 @@ export const ImageAdForm = () => {
         <CardContent className="px-4 md:px-8 py-6">
           <BackButton className="mb-8" />
 
-          <CardHeader className="mb-6 md:mb-10 text-left md:text-center px-0">
+          <CardHeader className="mb-6 md:mb-10 text-center px-0">
             <CardTitle className="text-[28px] leading-[36px] text-[#121316] font-semibold">
               Let&apos;s set up your Ad
             </CardTitle>
@@ -198,15 +198,15 @@ export const ImageAdForm = () => {
           </CardHeader>
 
           <div className="max-w-[342px] w-full mx-auto flex flex-col gap-6 mb-6 md:mb-10">
-            <div className="flex items-center justify-center gap-1 :max-w-[295px] w-full mx-auto ">
+            <div className="flex items-center justify-center gap-1 max-w-[295px] w-full mx-auto ">
               <div className="w-6 h-6 border-3 border-[#458DE1] rounded-full"></div>
-              <div className="h-1 max-w-[230px] md:max-w-[239px] w-full bg-[#458DE1] rounded-full"></div>
+              <div className="h-[3px] max-w-[180px] sm:max-w-[239px] w-full bg-[#458DE1] rounded-full"></div>
               <div className="w-6 h-6 border-3 border-[#CFCFCF] rounded-full"></div>
             </div>
 
-            <div className="w-full flex items-center justify-between text-base font-bold leading-5">
-              <p className="text-[#1671D9]">Enter Ad Details</p>
-              <p className="text-[#A1A1A1]">Your Generated Ad</p>
+            <div className="w-full flex items-center justify-between text-base font-bold">
+              <p className="text-[#1671D9] leading-5">Enter Ad Details</p>
+              <p className="text-[#A1A1A1] leading-6">Your Generated Ad</p>
             </div>
           </div>
           {isLoading ? (

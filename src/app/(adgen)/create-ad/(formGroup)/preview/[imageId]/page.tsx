@@ -1,30 +1,68 @@
 "use client";
 
-import BackButton from "@/components/back-button";
+// import BackButton from "@/components/back-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Loader from "@/components/ui/loader";
 import React, { Suspense } from "react";
 import SinglePreview from "../_components/single-image-preview";
-import { useGetCampaignImage } from "@/hooks/use-image-ad";
+import { useGetCampaignImage, useSubmitCampaign } from "@/hooks/use-image-ad";
 import { useParams } from "next/navigation";
+import AdPreviewNavigation, {
+  MobileGenerateButton,
+} from "@/components/ad-preview-navigation";
+import { FormData } from "../../ad-form/_components/image-ad-form";
 
 export default function Page() {
   const { imageId } = useParams();
+  const mutation = useSubmitCampaign();
+  const [isGenerating, setIsGenerating] = React.useState(false);
 
-  // add data to the hook query to get the image data  i didnt add it because of the build error and the backedn tp get the image datais not ready yet
+  const {
+    data: imageData,
+    isLoading,
+    error,
+  } = useGetCampaignImage(imageId as string);
 
-  const { isLoading, error } = useGetCampaignImage(imageId as string);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [localData, setLocalData] = React.useState<any>(null);
 
-  React.useEffect(() => {
-    const storedData = localStorage.getItem("campaignData");
-    if (storedData) {
-      setLocalData(JSON.parse(storedData));
+  // React.useEffect(() => {
+  //   const storedData = localStorage.getItem("campaignData");
+  //   if (storedData) {
+  //     setLocalData(JSON.parse(storedData));
+  //   }
+  // }, []);
+
+  // const imageData = localData;
+  const handleGenerateNewAd = (data: FormData) => {
+    setIsGenerating(true);
+    try {
+      localStorage.getItem("imageAdData");
+
+      const formatPayload = (formData: FormData) => ({
+        product_name: formData.productName,
+        ad_goal: formData.adGoal,
+        ad_size: formData.adSize,
+        target_region: formData.region,
+        demographic: formData.demographics,
+        target_age_groups: formData.ageGroup,
+        ad_language: formData.language,
+      });
+      mutation.mutate(formatPayload(data), {
+        onSuccess: (response) => {
+          console.log("Response:", response);
+          setIsGenerating(false);
+        },
+        onError: (error) => {
+          console.error("Error generating new ad:", error);
+          setIsGenerating(false);
+        },
+      });
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+    } finally {
+      setIsGenerating(false);
     }
-  }, []);
-
-  const imageData = localData;
+  };
 
   return (
     <Suspense
@@ -37,7 +75,11 @@ export default function Page() {
       <section className="flex flex-col items-center justify-center gap-8 w-full max-w-[879px] mx-auto rounded-[20px] pt-10 pb-[103px] px-6">
         <Card className="w-full max-w-[890px] border-none shadow-none py-0">
           <CardContent className="py-6 px-4 md:px-8">
-            <BackButton className="mb-8" />
+            <AdPreviewNavigation
+              className="my-10"
+              onGenerateNewAd={handleGenerateNewAd}
+              isLoading={isGenerating}
+            />
 
             <CardHeader className="mb-6 md:mb-8 text-left md:text-center px-0">
               <CardTitle className="text-[28px] leading-[36px] text-[#121316] font-semibold">
@@ -75,17 +117,18 @@ export default function Page() {
               </div>
             </div>
 
-            {isLoading ? (
+            {isLoading || isGenerating ? (
               <div className="flex items-center justify-center p-10">
-                <Loader />
+                <Loader fullscreen={false} />
               </div>
             ) : error ? (
               <div className="text-red-500 text-center p-4">
                 Error loading image: {(error as Error).message}
               </div>
             ) : (
-              <SinglePreview imageData={imageData} />
+              <SinglePreview imageData={imageData} isLoading={isGenerating} />
             )}
+            <MobileGenerateButton onGenerateNewAd={handleGenerateNewAd} />
           </CardContent>
         </Card>
       </section>
