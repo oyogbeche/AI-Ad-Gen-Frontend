@@ -37,10 +37,10 @@ const CreateAd: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="flex  bg-white flex-col lg:flex-row justify-between items-center gap-10 lg:gap-[80px] py-20 px-10 md:px-[250px] md:-mx-40"
+      className="flex  bg-white flex-col lg:flex-row justify-between items-center gap-10 lg:gap-[80px] py-20 px-[40px] md:px-[60px] lg:px-[80px]"
     >
       <motion.div
-        className="max-w-[600px] w-fit px-6"
+        className="w-full lg:max-w-[600px]"
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.8 }}
@@ -54,7 +54,7 @@ const CreateAd: React.FC = () => {
           WHY USE GENZ.AD?
         </motion.p>
         <motion.h2
-          className="text-[27px] pr-2 md:text-4xl text-left font-medium lg:text-5xl mt-2 md:leading-14"
+          className="text-[27px] md:text-4xl text-left font-medium lg:text-5xl mt-2 md:leading-14"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
@@ -100,7 +100,7 @@ const CreateAd: React.FC = () => {
       </motion.div>
 
       <motion.div
-        className="flex-shrink-0 w-4/5 lg:w-[40%] bg-[#FFF0E5] px-10 pt-[72px] rounded-md flex justify-center align-end overflow-hidden"
+        className="flex-shrink-0 w-full lg:w-[40%] bg-[#FFF0E5] px-10 pt-[72px] rounded-md flex justify-center align-end overflow-hidden"
         initial={{ opacity: 0, x: 50 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
         transition={{ duration: 0.8, delay: 0.3 }}

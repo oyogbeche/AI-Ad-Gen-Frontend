@@ -148,7 +148,7 @@ export const ImageAdForm = () => {
     try {
       localStorage.setItem("imageAdData", JSON.stringify(data));
       mutation.mutate(formatPayload(data));
-      console.log("Image Ad Data:", data);
+      // console.log("Image Ad Data:", data);
       // router.push("/create-ad/preview");
     } catch (error) {
       console.error("Error saving to localStorage", error);

@@ -7,7 +7,7 @@ import { SinglePreviewProps } from "@/types";
 // const images: string[] = ["/images/hng-wig-2.png"];
 
 export default function SinglePreview({ imageData }: SinglePreviewProps) {
-  console.log("imagedata", imageData);
+  // console.log("imagedata", imageData);
 
   // const base64ImageData = imageData.image?.image_data;
 
@@ -26,7 +26,7 @@ export default function SinglePreview({ imageData }: SinglePreviewProps) {
     return baseImages;
   }, [imageData]);
 
-  console.log("images", images);
+  // console.log("images", images);
 
   const [selectedImage, setSelectedImage] = React.useState<string>(
     images[0] || ""

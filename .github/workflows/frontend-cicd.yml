@@ -9,7 +9,6 @@ on:
 jobs:
   test-and-build:
     runs-on: aiadgen
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -23,6 +22,10 @@ jobs:
         uses: pnpm/action-setup@v3
         with:
           version: latest
+
+      - name: Create .env File
+        run: |
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -59,10 +62,10 @@ jobs:
 
       - name: Deploy to Production Server
         run: |
-          echo "🚀 Deploying .next build to server..."
+          echo "Deploying .next build to server..."
           sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no -r .next package.json pnpm-lock.yaml \
           "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend"
-
+      
       - name: Start Application on Server
         run: |
           sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no \

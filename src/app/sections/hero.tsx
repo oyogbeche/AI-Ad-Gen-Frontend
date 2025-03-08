@@ -35,11 +35,11 @@ const heroImages = [
 
 const HeroSection = () => {
   return (
-    <div className="bg-cover bg-center bg-no-repeat relative lg:-mx-36 md:min-h-[800px] flex flex-col items-center justify-between overflow-hidden">
+    <div className="bg-cover bg-center bg-no-repeat relative md:min-h-[800px] flex flex-col items-center justify-between overflow-hidden">
       <div className="absolute inset-0 z-0"></div>
 
       <motion.div
-        className="relative z-10 max-w-[1035px] w-full px-4 mt-16 md:mt-[120px] text-center "
+        className="relative z-10 max-w-[1037px] w-full px-4 mt-16 md:mt-[120px] text-center "
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -52,7 +52,7 @@ const HeroSection = () => {
           transition={{ delay: 0.3, duration: 0.8 }}
         >
           Generate High-converting, Smarter Adverts in minutes
-          <span className="text-[#520052] ml-2">with AI</span>
+          <span className="text-[#B800B8] ml-2 font-semibold">with AI</span>
         </motion.h1>
         <motion.p
           className="text-lg text-gray-600 mb-6"

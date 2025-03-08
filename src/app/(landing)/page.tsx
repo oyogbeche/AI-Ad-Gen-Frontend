@@ -5,6 +5,7 @@ import HeroSection from "@/app/sections/hero";
 import CreateAds from "../sections/create-ads";
 import FAQ from "@/app/sections/FAQ";
 import CreateAd from "@/app/sections/createAD";
+import Cta from "../sections/cta";
 import { useEffect } from "react";
 // import NewsletterForm from "../sections/news-letter";
 
@@ -27,6 +28,7 @@ export default function Home() {
       {/* <Pricing /> */}
       <FAQ />
       {/* <NewsletterForm /> */}
+      <Cta />
     </main>
   );
 }

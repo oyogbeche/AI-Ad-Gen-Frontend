@@ -13,7 +13,7 @@ export const useSubmitCampaign = () => {
     mutationFn: (formData: Record<string, any>) =>
       postRequest("/image/generate", formData),
     onSuccess: (data) => {
-      console.log("Response:", data);
+      // console.log("Response:", data);
 
       // if (data.status_code === 201 && data.data.success) {
       //   router.push(`/preview/${data.data.image_id}`);
