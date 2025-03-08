@@ -1,13 +1,12 @@
 "use client";
 
-import AdPreviewNavigation, {
-  MobileGenerateButton,
-} from "@/components/ad-preview-navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Loader from "@/components/ui/loader";
 import Image from "next/image";
 import { Suspense } from "react";
-import SinglePreview from "./_components/single-image-preview";
+import SinglePreview from "@/domains/ads-gen/components/single-image-preview";
+import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
+import { MobileGenerateButton } from "@/domains/external/components/mobile-generate-button";
 
 export default function Page() {
   const handleGenerateNewAd = () => {
@@ -26,7 +25,7 @@ export default function Page() {
       <section className="flex flex-col items-center justify-center gap-8 w-full max-w-[879px] mx-auto rounded-[20px] pt-10 pb-[103px] px-4 md:px-6">
         <Card className="w-full max-w-[890px] border-none shadow-none py-0 px-4">
           <CardContent className="py-6 px-2 md:px-8">
-            <AdPreviewNavigation
+            <DesktopAdPreviewNavigation
               className="my-10"
               onGenerateNewAd={handleGenerateNewAd}
             />
