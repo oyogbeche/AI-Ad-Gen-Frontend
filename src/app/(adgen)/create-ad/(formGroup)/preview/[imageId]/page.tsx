@@ -15,23 +15,26 @@ import { FormData } from "../../ad-form/_components/image-ad-form";
 export default function Page() {
   const { imageId } = useParams();
   const mutation = useSubmitCampaign();
+  const [isGenerating, setIsGenerating] = React.useState(false);
 
-  // add data to the hook query to get the image data  i didnt add it because of the build error and the backedn tp get the image datais not ready yet
+  const {
+    data: imageData,
+    isLoading,
+    error,
+  } = useGetCampaignImage(imageId as string);
 
-  const { isLoading, error } = useGetCampaignImage(imageId as string);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [localData, setLocalData] = React.useState<any>(null);
 
-  React.useEffect(() => {
-    const storedData = localStorage.getItem("campaignData");
-    if (storedData) {
-      setLocalData(JSON.parse(storedData));
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   const storedData = localStorage.getItem("campaignData");
+  //   if (storedData) {
+  //     setLocalData(JSON.parse(storedData));
+  //   }
+  // }, []);
 
-  const imageData = localData;
+  // const imageData = localData;
   const handleGenerateNewAd = (data: FormData) => {
-    // Handle generating a new ad
+    setIsGenerating(true);
     try {
       localStorage.getItem("imageAdData");
 
@@ -44,10 +47,20 @@ export default function Page() {
         target_age_groups: formData.ageGroup,
         ad_language: formData.language,
       });
-      const response = mutation.mutate(formatPayload(data));
-      console.log("Response:", response);
+      mutation.mutate(formatPayload(data), {
+        onSuccess: (response) => {
+          console.log("Response:", response);
+          setIsGenerating(false);
+        },
+        onError: (error) => {
+          console.error("Error generating new ad:", error);
+          setIsGenerating(false);
+        },
+      });
     } catch (error) {
       console.error("Error parsing JSON:", error);
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -65,6 +78,7 @@ export default function Page() {
             <AdPreviewNavigation
               className="my-10"
               onGenerateNewAd={handleGenerateNewAd}
+              isLoading={isGenerating}
             />
 
             <CardHeader className="mb-6 md:mb-8 text-left md:text-center px-0">
@@ -103,16 +117,16 @@ export default function Page() {
               </div>
             </div>
 
-            {isLoading ? (
+            {isLoading || isGenerating ? (
               <div className="flex items-center justify-center p-10">
-                <Loader />
+                <Loader fullscreen={false} />
               </div>
             ) : error ? (
               <div className="text-red-500 text-center p-4">
                 Error loading image: {(error as Error).message}
               </div>
             ) : (
-              <SinglePreview imageData={imageData} />
+              <SinglePreview imageData={imageData} isLoading={isGenerating} />
             )}
             <MobileGenerateButton onGenerateNewAd={handleGenerateNewAd} />
           </CardContent>
