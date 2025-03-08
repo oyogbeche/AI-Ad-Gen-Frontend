@@ -1,12 +1,6 @@
 import React, { Suspense } from "react";
-import { Metadata } from "next";
-import AdFormPage from "./_components/ad-form";
 import Loader from "@/components/ui/loader";
-
-export const metadata: Metadata = {
-  title: "AI Adgen",
-  description: "Ad Form",
-};
+import { AdForm } from "@/domains/ads-gen/components/ad-form";
 
 const Page = () => {
   return (
@@ -17,8 +11,7 @@ const Page = () => {
         </div>
       }
     >
-      {" "}
-      <AdFormPage />
+      <AdForm />
     </Suspense>
   );
 };

@@ -1,44 +1,32 @@
 "use client";
 
-// import BackButton from "@/components/back-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Loader from "@/components/ui/loader";
 import React, { Suspense } from "react";
-import SinglePreview from "../_components/single-image-preview";
-import { useGetCampaignImage, useSubmitCampaign } from "@/hooks/use-image-ad";
+import { useSubmitCampaign } from "@/domains/ads-gen/api/use-submit-campaign";
+import { useCampaignImage } from "@/domains/ads-gen/api/use-campaign-image";
 import { useParams } from "next/navigation";
-import AdPreviewNavigation, {
-  MobileGenerateButton,
-} from "@/components/ad-preview-navigation";
-import { FormData } from "../../ad-form/_components/image-ad-form";
+import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
+import { MobileGenerateButton } from "@/domains/external/components/mobile-generate-button";
+import SinglePreview from "@/domains/ads-gen/components/single-image-preview";
+import { ImageAdFormData } from "@/domains/ads-gen/types";
 
 export default function Page() {
   const { imageId } = useParams();
   const mutation = useSubmitCampaign();
   const [isGenerating, setIsGenerating] = React.useState(false);
-
   const {
     data: imageData,
     isLoading,
     error,
-  } = useGetCampaignImage(imageId as string);
+  } = useCampaignImage(imageId as string);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
-  // React.useEffect(() => {
-  //   const storedData = localStorage.getItem("campaignData");
-  //   if (storedData) {
-  //     setLocalData(JSON.parse(storedData));
-  //   }
-  // }, []);
-
-  // const imageData = localData;
-  const handleGenerateNewAd = (data: FormData) => {
+  const handleGenerateNewAd = (data: ImageAdFormData) => {
     setIsGenerating(true);
     try {
       localStorage.getItem("imageAdData");
 
-      const formatPayload = (formData: FormData) => ({
+      const formatPayload = (formData: ImageAdFormData) => ({
         product_name: formData.productName,
         ad_goal: formData.adGoal,
         ad_size: formData.adSize,
@@ -47,7 +35,10 @@ export default function Page() {
         target_age_groups: formData.ageGroup,
         ad_language: formData.language,
       });
-      mutation.mutate(formatPayload(data), {
+
+      const payload = formatPayload(data);
+
+      mutation.mutate(payload, {
         onSuccess: (response) => {
           console.log("Response:", response);
           setIsGenerating(false);
@@ -75,7 +66,7 @@ export default function Page() {
       <section className="flex flex-col items-center justify-center gap-8 w-full max-w-[879px] mx-auto rounded-[20px] pt-10 pb-[103px] px-6">
         <Card className="w-full max-w-[890px] border-none shadow-none py-0">
           <CardContent className="py-6 px-4 md:px-8">
-            <AdPreviewNavigation
+            <DesktopAdPreviewNavigation
               className="my-10"
               onGenerateNewAd={handleGenerateNewAd}
               isLoading={isGenerating}
