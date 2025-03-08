@@ -57,7 +57,7 @@ const MobileMultiSelectBottomSheet = dynamic(
   }
 );
 
-type FormData = z.infer<typeof ImageAdSchema>;
+export type FormData = z.infer<typeof ImageAdSchema>;
 
 export const ImageAdForm = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
