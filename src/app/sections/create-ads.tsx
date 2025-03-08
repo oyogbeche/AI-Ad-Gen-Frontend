@@ -31,10 +31,10 @@ const CreateAds = () => {
   return (
     <section
       ref={sectionRef}
-      className="flex flex-col-reverse lg:flex-row justify-between items-center gap-10 lg:gap-[80px] px-6 pt-6 p-10 md:p-28"
+      className="flex flex-col-reverse lg:flex-row justify-between gap-10 lg:gap-[80px] px-[40px] md:px-[60px] lg:px-[80px] py-10 md:py-28 bg-[#FCFCFC]"
     >
       <motion.div
-        className="max-w-[400px] md:max-w-[500px] lg:max-w-[596px] h-auto bg-[#E5EEFF] pt-[105px] px-[26px]"
+        className="w-full h-auto lg:max-w-[596px] bg-[#E5EEFF] pt-[105px]"
         initial={{ opacity: 0, x: -50 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
         transition={{ duration: 0.8 }}
@@ -45,7 +45,7 @@ const CreateAds = () => {
           alt="createads"
           height={552}
           width={542}
-          className="object-cover"
+          className="m-auto"
         />
       </motion.div>
 
@@ -105,7 +105,7 @@ const CreateAds = () => {
                 <p className="text-rich-black font-bold text-[18px] md:text-[22px] lg:text-[24px]">
                   {note.name}
                 </p>
-                <p className="text-gray-500 max-w-md font-medium text-[14px] md:text-[16px] lg:text-[18px] text-start md:text-left">
+                <p className="text-gray-500 w-full lg:max-w-md font-medium text-[14px] md:text-[16px] lg:text-[18px] text-start md:text-left">
                   {note.description}
                 </p>
               </div>
