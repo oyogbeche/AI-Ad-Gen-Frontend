@@ -6,10 +6,8 @@ import React, { Suspense } from "react";
 import { useSubmitCampaign } from "@/domains/ads-gen/api/use-submit-campaign";
 import { useCampaignImage } from "@/domains/ads-gen/api/use-campaign-image";
 import { useParams } from "next/navigation";
-import {
-  DesktopAdPreviewNavigation,
-  MobileGenerateButton,
-} from "@/domains/external/components/mobile-generate-button";
+import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
+import { MobileGenerateButton } from "@/domains/external/components/mobile-generate-button";
 import SinglePreview from "@/domains/ads-gen/components/single-image-preview";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
 
