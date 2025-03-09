@@ -1,8 +1,7 @@
 "use client";
 // import { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
 import { Google, Logo } from "@/components/icons/icon";
+import Link from "next/link";
 
 const Header: React.FC = () => {
   // const [isOpen, setIsOpen] = useState<boolean>(false);
