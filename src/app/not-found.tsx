@@ -1,20 +1,34 @@
+"use client";
 import Link from "next/link";
 import Header from "@/domains/external/components/header";
-import Footer from "@/domains/external/components/footer";
+import { motion } from "framer-motion";
+import Image from "next/image";
 export default function NotFound() {
   return (
     <>
       <Header />
-      <div className="flex flex-col items-center justify-center h-[70vh] py-2">
-        <h2 className="text-4xl font-bold mb-4">404 - Page Not Found</h2>
-        <p className="text-xl mb-4">
-          The page you&apos;re looking for doesn&apos;t exist.
-        </p>
-        <Link href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return Home
-        </Link>
+      <div className="flex flex-col items-center justify-center h-[568px] py-2 mt-[10vh] max-w-[727px] m-auto px-[20px] md:px-[111px] pt-[40px] md:pt-[138px] mb-[40px] md:mb-[138px]">
+      <div className="max-w-[505px] flex flex-col items-center text-center gap-[16px] md:gap-[28px] pb-[25px] md:pb-[50px]">
+        <h1 className="text-[56px] md:text-[96px] font-black bg-gradient-to-b from-[#B800B8] to-[#E692E6] bg-clip-text text-transparent">Oops!</h1>
+        <h2 className="text-[24px] md:text-[36px] font-semibold">404-page not found</h2>
+        <p className="text-[16px] md:text-[20px]">The page you’re looking for might have been removed or had it’s name changed or temporarily unavailable</p>
       </div>
-      <Footer />
+      <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.9, duration: 0.5 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Link
+            href={"/"}
+            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors inline-block flex"
+          >
+            Go to home <Image src="/arrow-right.svg" alt="Go to home Icon" height={24} width={24} className="pl-[10px] inline-block" />
+          </Link>
+        </motion.div>
+      </div>
+      
     </>
   );
 }
