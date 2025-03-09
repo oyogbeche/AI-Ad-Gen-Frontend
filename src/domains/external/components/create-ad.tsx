@@ -14,8 +14,8 @@ const CreateAd = () => {
   const listItems = [
     "Create high quality ads in seconds, not hours.",
     "No experience needed. Our AI handles the visuals.",
-    "Launch your ad campaign  with zero costs",
-    "Optimize your Ads for sales and engagements",
+    "Launch your ad campaign  with zero costs.",
+    "Optimize your Ads for sales and engagements.",
   ];
 
   const containerVariants = {
