@@ -35,7 +35,7 @@ import { useForm } from "react-hook-form";
 import { ImageAdFormData } from "../types";
 import BackButton from "./back-button";
 import { useSubmitCampaign } from "../api/use-submit-campaign";
-import { X } from "lucide-react";
+import { Link, X } from "lucide-react";
 
 const DesktopMultiSelect = dynamic(
   () => import("@/components/ui/multi-select"),
@@ -76,7 +76,9 @@ const Popup = (props: { show: boolean; onClick: MouseEventHandler<HTMLButtonElem
         <p className="text-[22.5px] opacity-56">Don’t lose your current progress! Sign up to continue your work</p>
         <div className="flex justify-between">
           <Button className="text-[#333] border-[#B800B8] py-4" variant={'outline'}>Maybe Later</Button>
-          <Button className="bg-[#B800B8] py-4">Sign Up Now</Button>
+          <Link href="/signup">
+            <Button className="bg-[#B800B8] py-4">Sign Up Now</Button>
+          </Link>
         </div>
       </div>
     </div> : null
