@@ -1,20 +1,40 @@
 "use client";
 
 import { ImageAdFormData } from "@/domains/ads-gen/types";
-import Image from "next/image";
+import {
+  ArrowLeft,
+  Check,
+  ChevronDown,
+  Download,
+  House,
+  RotateCw,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState, useRef } from "react";
+import { toast } from "sonner";
 
 interface DesktopAdPreviewNavigationProps {
   className?: string;
   isLoading?: boolean;
   onGenerateNewAd?: (data: ImageAdFormData) => void;
+  imageUrl?: string;
+  imageName?: string;
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
   DesktopAdPreviewNavigationProps
-> = ({ className = "", onGenerateNewAd, isLoading }) => {
+> = ({
+  className = "",
+  onGenerateNewAd,
+  isLoading,
+  imageUrl,
+  imageName = "ad",
+}) => {
   const router = useRouter();
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const handleBack = () => {
     router.push("/create-ad/ad-form?type=image");
   };
@@ -37,73 +57,188 @@ export const DesktopAdPreviewNavigation: React.FC<
     }
   };
 
+  const downloadImage = async (format: "png" | "jpg") => {
+    if (!imageUrl || isDownloading) return;
+
+    setIsDownloading(true);
+    setIsOpen(false);
+
+    try {
+      // Fetch the image
+      const response = await fetch(
+        "https://cors-anywhere.herokuapp.com/" + imageUrl
+      );
+      const blob = await response.blob();
+
+      // Create a new blob with the desired format
+      const extension = format === "png" ? "png" : "jpeg";
+      const mimeType = `image/${extension}`;
+
+      // For demonstration, we're using the blob directly
+      const imageBlob = new Blob([blob], { type: mimeType });
+
+      // Create download link
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(imageBlob);
+      link.download = `${imageName}.${extension}`;
+      link.click();
+
+      // Cleanup
+      window.URL.revokeObjectURL(link.href);
+
+      // toast.success("Download Success!", {
+      //   description: "Your Image Ad has been downloaded as PNG",
+      // });
+      toast.custom(() => (
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+                <Check className="h-4 w-4 text-white" />
+              </div>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-900 mb-2">
+                  Download Success!
+                </p>
+                <p className="text-xs text-gray-500">
+                  Your Image Ad has been downloaded as PNG
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ));
+    } catch (error) {
+      console.error("Error downloading image:", error);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
+  // Handle clicks outside the dropdown to close it
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
     <div className={`w-full ${className}`}>
       <div className="flex justify-between items-center w-full">
         <button
           onClick={handleBack}
-          className="flex items-center text-gray-600 hover:text-gray-800 cursor-pointer p-0"
+          className="flex items-center text-[#650065] hover:text-gray-800 cursor-pointer p-0"
           type="button"
         >
-          <Image
-            src="/arrow-left.svg"
-            alt="Back"
-            className="w-6 h-6 mr-2"
-            width={24}
-            height={24}
-          />
-          <span className="text-[#121316] font-medium text-base leading-6">
+          <ArrowLeft className="w-6 h-6 mr-2" />
+          <span className="hidden md:block text-[#650065] font-medium text-base leading-6">
             Back
           </span>
         </button>
 
-        {/* Vertical line after back button - desktop only */}
-        <div className="hidden md:block w-px h-8 bg-gray-200"></div>
+        {/* Vertical line - desktop only */}
+        <div className=" w-px h-8 bg-gray-200"></div>
 
         {/* Generate New Ad button - hidden on mobile */}
         <button
           onClick={handleGenerateNewAd}
           disabled={isLoading}
-          className={`hidden md:flex items-center font-medium cursor-pointer ${
+          className={`flex items-center font-medium cursor-pointer ${
             isLoading
               ? "text-[#D19AD1] cursor-not-allowed"
-              : "text-[#B800B8] hover:text-[#B800B8]"
+              : "text-[#650065] hover:text-[#650065]"
           }`}
           type="button"
         >
-          <span>{isLoading ? "Generating..." : "Generate New Ad"}</span>
-          <Image
-            src="/rotate-cw.svg"
-            alt="Generate"
-            className={`w-5 h-5 ml-2 ${isLoading ? "animate-spin" : ""}`}
-            width={20}
-            height={20}
-          />
+          <span className="hidden md:block">
+            {isLoading ? "Generating..." : "Generate New Ad"}
+          </span>
+          <RotateCw className="w-5 h-5 ml-2" />
         </button>
 
-        {/* Vertical line after generate button - desktop only */}
-        <div className="hidden md:block w-px h-8 bg-gray-200"></div>
+        {/* Vertical line - desktop only */}
+        <div className="w-px h-8 bg-gray-200"></div>
 
         <button
           onClick={handleGoHome}
-          className="flex items-center text-gray-600 hover:text-gray-800 cursor-pointer"
+          className="flex items-center text-[#650065] hover:text-gray-800 cursor-pointer"
           type="button"
         >
-          <Image
-            src="/home.svg"
-            alt="Home"
-            className="w-5 h-5 mr-2"
-            width={20}
-            height={20}
-          />
-          <span className="text-[#121316] font-medium text-base leading-6">
+          <House className="w-6 h-6 mr-2" />
+          <span className="hidden md:block font-medium text-base leading-6">
             Go back Home
           </span>
         </button>
+
+        {/* Vertical line - desktop only */}
+        <div className=" w-px h-8 bg-gray-200"></div>
+
+        {/* Download button - also hidden on mobile */}
+        {imageUrl && (
+          <>
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                disabled={isDownloading || isLoading}
+                className={`flex items-center font-medium cursor-pointer border border-[#650065] py-2 px-6 md:px-8 rounded-md text-[#650065] ${
+                  isDownloading || isLoading
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "text-[#650065] hover:text-[#650065]"
+                }`}
+                type="button"
+              >
+                <Download className="w-5 h-5 mr-0 md:mr-2 text-[#650065]" />
+
+                <span className="hidden md:block">
+                  {isDownloading ? "Downloading..." : "Download"}
+                </span>
+                <ChevronDown className="hidden md:block w-5 h-5 ml-3" />
+
+                {isDownloading && (
+                  <span className="ml-2 w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></span>
+                )}
+              </button>
+
+              {isOpen && (
+                <div className="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                  <div className="py-1">
+                    <button
+                      className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center"
+                      onClick={() => downloadImage("png")}
+                    >
+                      Export As PNG
+                    </button>
+                    <button
+                      className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center"
+                      onClick={() => downloadImage("jpg")}
+                    >
+                      Export as JPG
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Horizontal line underneath the entire navigation */}
-      <div className="hidden md:block h-0.5 bg-gray-200 w-full mt-8"></div>
+      <div className="h-0.5 bg-gray-200 w-full mt-8"></div>
     </div>
   );
 };
