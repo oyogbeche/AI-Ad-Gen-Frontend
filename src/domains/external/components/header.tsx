@@ -1,26 +1,29 @@
 "use client";
-
 // import { useState } from "react";
+import { Google, Logo } from "@/components/icons/icon";
 import Link from "next/link";
-import Image from "next/image";
 
 const Header: React.FC = () => {
   // const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <header className="w-full border-b border-[#F8E6F8] bg-white sticky top-0 z-40">
-      <div className="max-w-[1440px] m-auto py-4">
-        <div className="px-[40px] md:px-[60px] lg:px-[80px]">
+      <div className="max-w-[1440px] m-auto  flex justify-between w-full px-6 py-4  lg:pl-20 lg:pr-9">
+        <div className="w-fit">
           <Link href="/">
-            <Image
-              src="/genz-logo.svg"
-              alt="Adgen AI Logo"
-              width={150}
-              height={40}
-              priority
-            />
+            <Logo className="w-32 md:w-auto" />
           </Link>
         </div>
+
+        <Link
+          href="#"
+          className="flex items-center gap-[10px] rounded-md border border-[#B7D3F3] px-3 py-2 bg-white md:px-4 md:py-3  hover:bg-[#F6F6F6]"
+        >
+          <Google />
+          <span className="text-[#1F1F1F] font-roboto text-xs md:text-sm font-medium leading-normal text-nowrap">
+            Sign Up with Google
+          </span>
+        </Link>
 
         {/*         <nav className="hidden md:flex space-x-6 text-gray-600">
           <Link href="/features" className="hover:text-purple-700">

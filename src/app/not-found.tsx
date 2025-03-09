@@ -11,7 +11,7 @@ export default function NotFound() {
       <div className="max-w-[505px] flex flex-col items-center text-center gap-[16px] md:gap-[28px] pb-[25px] md:pb-[50px]">
         <h1 className="text-[56px] md:text-[96px] font-black bg-gradient-to-b from-[#B800B8] to-[#E692E6] bg-clip-text text-transparent">Oops!</h1>
         <h2 className="text-[24px] md:text-[36px] font-semibold">404-page not found</h2>
-        <p className="text-[16px] md:text-[20px]">The page you’re looking for might have been removed or had it’s name changed or temporarily unavailable</p>
+        <p className="text-[16px] md:text-[20px]">The page you&apos;re looking for might have been removed or had it’s name changed or temporarily unavailable</p>
       </div>
       <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -22,7 +22,7 @@ export default function NotFound() {
         >
           <Link
             href={"/"}
-            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors inline-block flex"
+            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors inline-block "
           >
             Go to home <Image src="/arrow-right.svg" alt="Go to home Icon" height={24} width={24} className="pl-[10px] inline-block" />
           </Link>
