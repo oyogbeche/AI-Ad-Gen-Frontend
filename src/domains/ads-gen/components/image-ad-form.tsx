@@ -107,8 +107,15 @@ export const ImageAdForm = () => {
   // Check if all required fields are filled
   useEffect(() => {
     const checkRequiredFields = () => {
-      const { productName, demographics, region, ageGroup, adSize, language } =
-        form.getValues();
+      const {
+        productName,
+        demographics,
+        region,
+        ageGroup,
+        adSize,
+        language,
+        adGoal,
+      } = form.getValues();
 
       const requiredFieldsFilled =
         !!productName &&
@@ -116,7 +123,9 @@ export const ImageAdForm = () => {
         !!region &&
         ageGroup.length > 0 &&
         !!adSize &&
-        !!language;
+        !!language &&
+        !!adGoal &&
+        adGoal.length >= 10;
 
       setAllRequiredFieldsFilled(requiredFieldsFilled);
     };
@@ -465,11 +474,11 @@ export const ImageAdForm = () => {
                     render={({ field }) => (
                       <FormItem className="col-span-1 md:col-span-2">
                         <FormLabel className="text-sm font-normal text-[#121316]">
-                          Ad Goal (Optional)
+                          Ad Goal
                         </FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Describe your Ad goal and message"
+                            placeholder="Describe your Ad goal and message (min 10 characters)"
                             className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] text-sm leading-5 text-[#9882B3]"
                             {...field}
                           />

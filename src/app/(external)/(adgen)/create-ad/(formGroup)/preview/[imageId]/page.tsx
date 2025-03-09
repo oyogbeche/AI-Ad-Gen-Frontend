@@ -24,8 +24,6 @@ export default function Page() {
   const handleGenerateNewAd = (data: ImageAdFormData) => {
     setIsGenerating(true);
     try {
-      localStorage.getItem("imageAdData");
-
       const formatPayload = (formData: ImageAdFormData) => ({
         product_name: formData.productName,
         ad_goal: formData.adGoal,
@@ -50,7 +48,6 @@ export default function Page() {
       });
     } catch (error) {
       console.error("Error parsing JSON:", error);
-    } finally {
       setIsGenerating(false);
     }
   };
@@ -108,7 +105,7 @@ export default function Page() {
               </div>
             </div>
 
-            {isLoading || isGenerating ? (
+            {isLoading ? (
               <div className="flex items-center justify-center p-10">
                 <Loader fullscreen={false} />
               </div>
@@ -119,7 +116,11 @@ export default function Page() {
             ) : (
               <SinglePreview imageData={imageData} isLoading={isGenerating} />
             )}
-            <MobileGenerateButton onGenerateNewAd={handleGenerateNewAd} />
+
+            <MobileGenerateButton
+              onGenerateNewAd={handleGenerateNewAd}
+              isLoading={isGenerating}
+            />
           </CardContent>
         </Card>
       </section>
