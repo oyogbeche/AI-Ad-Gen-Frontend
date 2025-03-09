@@ -11,11 +11,9 @@ interface DesktopAdPreviewNavigationProps {
   onGenerateNewAd?: (data: ImageAdFormData) => void;
 }
 
-export const DesktopAdPreviewNavigation: React.FC<DesktopAdPreviewNavigationProps> = ({
-  className = "",
-  onGenerateNewAd,
-  isLoading,
-}) => {
+export const DesktopAdPreviewNavigation: React.FC<
+  DesktopAdPreviewNavigationProps
+> = ({ className = "", onGenerateNewAd, isLoading }) => {
   const router = useRouter();
   const handleBack = () => {
     router.push("/create-ad/ad-form?type=image");
@@ -65,14 +63,19 @@ export const DesktopAdPreviewNavigation: React.FC<DesktopAdPreviewNavigationProp
         {/* Generate New Ad button - hidden on mobile */}
         <button
           onClick={handleGenerateNewAd}
-          className="hidden md:flex items-center text-[#B800B8] hover:text-[#B800B8] font-medium cursor-pointer"
+          disabled={isLoading}
+          className={`hidden md:flex items-center font-medium cursor-pointer ${
+            isLoading
+              ? "text-[#D19AD1] cursor-not-allowed"
+              : "text-[#B800B8] hover:text-[#B800B8]"
+          }`}
           type="button"
         >
-          <span>Generate New Ad</span>
+          <span>{isLoading ? "Generating..." : "Generate New Ad"}</span>
           <Image
             src="/rotate-cw.svg"
             alt="Generate"
-            className="w-5 h-5 ml-2"
+            className={`w-5 h-5 ml-2 ${isLoading ? "animate-spin" : ""}`}
             width={20}
             height={20}
           />

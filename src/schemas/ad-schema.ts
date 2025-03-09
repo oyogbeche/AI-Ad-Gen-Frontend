@@ -9,6 +9,6 @@ export const ImageAdSchema = z.object({
   language: z.string().min(1, "Ad language is required"),
   adGoal: z
     .string()
-    .max(500, "Ad goal must be less than 500 characters")
-    .optional(),
+    .min(10, "Ad goal must be at least 10 characters")
+    .max(500, "Ad goal must be less than 500 characters"),
 });

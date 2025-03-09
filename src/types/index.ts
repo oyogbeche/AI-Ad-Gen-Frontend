@@ -21,7 +21,7 @@ export interface SinglePreviewProps {
 export interface ImageData {
   id: string;
   created_at: string;
-  image_data: string;
+  image_url: string;
   prompt: string;
   updated_at: string;
 }
