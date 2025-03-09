@@ -158,7 +158,7 @@ const MultiSelect = ({
                 />
                 <label
                   htmlFor={`option-${option.value}`}
-                  className="text-sm flex-grow cursor-pointer"
+                  className="text-sm flex-grow cursor-pointer text-[#121316]"
                   onClick={(e) => e.preventDefault()}
                 >
                   {option.label}
