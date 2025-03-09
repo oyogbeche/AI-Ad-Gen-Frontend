@@ -1,6 +1,6 @@
-# AI Ad Gen
+# Genz.ad
 
-This is the official README file for the AI Ads Gen Project using [Next.js](https://nextjs.org) bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is the official README file for the Genz.ad Project using [Next.js](https://nextjs.org) bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Figma Design
 [View the Figma design here](https://www.figma.com/design/WQT88LFkfo65NqDHng2Kyd/New-AI-Ads-Gen?node-id=0-1&p=f&t=2jDnxBFVTgA56yiY-0)
@@ -27,42 +27,33 @@ For the Newsletter section, a simple form validation should be implemented using
 ### Design Implementation
 Create PIXEL PERFECT DESIGNS, it can not be iterated enough!!
 
-## Team Instructions: Using Forks for Adgen-ai Frontend Development
-As a team lead, I want to ensure our code meets high standards before merging to the main branch of the adgen-ai-frontend repository. Use forks and follow these steps to work on your issues, show your progress, and get my approval:
+## Team Instructions: Using PRs for Genz.ad frontend Development
+As a team lead, I want to ensure our code meets high standards before merging to the main branch of the adgen-ai-frontend repository. Follow these these steps to work on your allocated tasks, show your progress, and get my approval:
 
-### 1. Fork the Repository
-Go to the adgen-ai-frontend repository on GitHub (e.g., https://github.com/yourusername/adgen-ai-frontend).
+### 1. Clone the Repository to your PC
+Go to the adgen-ai-frontend repository on GitHub https://github.com/hngprojects/AI-Ad-Gen-Frontend/
 
 Click the Fork button in the top-right corner.
 
-Choose your personal GitHub account to create a fork (e.g., https://github.com/yourusername/adgen-ai-frontend).
+Choose your personal GitHub account to create a fork ([Genz.ad repo](https://github.com/hngprojects/AI-Ad-Gen-Frontend/)).
 
-### 2. Clone Your Fork Locally
-Open a terminal and clone your fork:
+Open a terminal and clone the repo:
 ```bash
-
-git clone https://github.com/[your-username]/adgen-ai-frontend.git
+git clone https://github.com/hngprojects/AI-Ad-Gen-Frontend/edit/main/README.md
 cd adgen-ai-frontend
 ```
-Add the upstream (main) repository as a remote to sync later:
+
+
+### 2. Create a Feature Branch in the repo
+For an allocated task (e.g., "Implement Header with Navigation"), create a branch for it
+
 ```bash
-
-git remote add upstream https://github.com/[your-username]/adgen-ai-frontend.git
-git fetch upstream
-```
-
-### 3. Create a Feature Branch in Your Fork
-For your assigned issue (e.g., "Implement Header with Navigation"), create a branch from main:
-```bash
-
-git checkout main
-git pull upstream main
 git checkout -b feature/header-navigation
 ```
 
 Name your branch descriptively (e.g., feature/your-issue-title).
 
-### 4. Develop Your Code
+### 3. Develop Your Code
 Work on your component or section in this branch.
 
 Use Next.js, TypeScript, Shadcn UI, and Tailwind CSS as outlined in the issue.
@@ -80,7 +71,7 @@ Follows Next.js conventions (e.g., src/components/, src/pages/).
 
 Test locally with npm run dev and check for console errors.
 
-### 5. Commit and Push to Your Fork
+### 4. Commit and Push to the branch you created
 Commit frequently with clear messages:
 ```bash
 
@@ -88,13 +79,13 @@ git add .
 git commit -m "feat(header): Implement navigation with logo and links"
 ```
 
-Push to your fork (not the main repo):
+Push to your branch(not the main repo):
 ```bash
 
 git push origin feature/header-navigation
 ```
 
-### 6. Create a Pull Request (PR) to the Main Repository
+### 5. Create a Pull Request (PR) to the Main Repository
 Go to your fork on GitHub, click Pull requests → New pull request.
 
 Select your branch (e.g., feature/header-navigation) and compare it with the main repo’s main branch (e.g., yourusername/adgen-ai-frontend:main).
@@ -106,17 +97,14 @@ A link to the issue (e.g., #1 for Issue 1).
 
 A summary of changes (e.g., "Added Header component with sticky navigation, responsive design, and Tailwind styling").
 
-Screenshots or a Loom video showing the component in action (optional but helpful).
-
-Set the base repository to yourusername/adgen-ai-frontend and base branch to main.
 
 Click Create pull request.
 
-### 7. Notify Me for Review
+### 6. Notify Me for Review
 I’ll review the code, check the design match, and ensure it is good to go.
 
 
-### 8. Wait for My Approval
+### 7. Wait for My Approval
 I’ll review the PR, focusing on:
 Code quality (TypeScript, linting, formatting).
 
