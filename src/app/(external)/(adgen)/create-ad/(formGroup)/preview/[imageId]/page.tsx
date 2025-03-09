@@ -7,7 +7,7 @@ import { useSubmitCampaign } from "@/domains/ads-gen/api/use-submit-campaign";
 import { useCampaignImage } from "@/domains/ads-gen/api/use-campaign-image";
 import { useParams } from "next/navigation";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
-import { MobileGenerateButton } from "@/domains/external/components/mobile-generate-button";
+// import { MobileGenerateButton } from "@/domains/external/components/mobile-generate-button";
 import SinglePreview from "@/domains/ads-gen/components/single-image-preview";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
 
@@ -52,6 +52,11 @@ export default function Page() {
     }
   };
 
+  // Extract image URL and product name for the download feature
+  const imageUrl = imageData?.image?.image_url || "";
+  const productName = imageData?.image?.product_name || "ad";
+  const imageName = productName.toLowerCase().replace(/\s+/g, "-");
+
   return (
     <Suspense
       fallback={
@@ -67,14 +72,16 @@ export default function Page() {
               className="my-10"
               onGenerateNewAd={handleGenerateNewAd}
               isLoading={isGenerating}
+              imageUrl={!isLoading && !error ? imageUrl : undefined}
+              imageName={imageName}
             />
 
             <CardHeader className="mb-6 md:mb-8 text-left md:text-center px-0">
               <CardTitle className="text-[28px] leading-[36px] text-[#121316] font-semibold">
-                Let&apos;s set up your Image Ad
+                All Done!
               </CardTitle>
               <p className="text-[#667185] text-[18px] font-normal mt-1">
-                Fill in the details below, then AI generates your ad instantly.
+                Below is your AI generated Ad Campaign
               </p>
             </CardHeader>
 
@@ -100,7 +107,6 @@ export default function Page() {
 
               <div className="relative w-full h-2.5 bg-white-200 rounded-full mt-6">
                 <div className="absolute left-0 h-2 bg-[#1467C5] rounded-full w-[47%] md:w-[49%]"></div>
-
                 <div className="absolute right-0 h-2 bg-[#1467c5] rounded-full w-[47%] md:w-[49%]"></div>
               </div>
             </div>
@@ -117,10 +123,10 @@ export default function Page() {
               <SinglePreview imageData={imageData} isLoading={isGenerating} />
             )}
 
-            <MobileGenerateButton
+            {/* <MobileGenerateButton
               onGenerateNewAd={handleGenerateNewAd}
               isLoading={isGenerating}
-            />
+            /> */}
           </CardContent>
         </Card>
       </section>
