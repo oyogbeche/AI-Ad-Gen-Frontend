@@ -236,7 +236,7 @@ export const ImageAdForm = () => {
                         <FormControl>
                           <Input
                             placeholder="Enter Ad Title"
-                            className="w-full border-[#E4E7EC] text-sm font-normal leading-5 focus:ring-[#B800B8] focus:border-[#E9B0E9] h-11 md:h-[56px] outline-0 focus:cursor-c"
+                            className="w-full border-[#E4E7EC] text-[#121316] text-sm font-normal leading-5 focus:ring-[#B800B8] focus:border-[#E9B0E9] h-11 md:h-[56px] outline-0 focus:cursor-c"
                             {...field}
                           />
                         </FormControl>
@@ -280,7 +280,7 @@ export const ImageAdForm = () => {
                                   <SelectItem
                                     key={option.value}
                                     value={option.value}
-                                    className="py-2 hover:bg-[#F6F6F6]"
+                                    className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
                                   >
                                     {option.label}
                                   </SelectItem>
@@ -326,7 +326,7 @@ export const ImageAdForm = () => {
                                   <SelectItem
                                     key={option.value}
                                     value={option.value}
-                                    className="py-2 hover:bg-[#F6F6F6]"
+                                    className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
                                   >
                                     {option.label}
                                   </SelectItem>
@@ -403,7 +403,7 @@ export const ImageAdForm = () => {
                                   <SelectItem
                                     key={option.value}
                                     value={option.value}
-                                    className="py-2 hover:bg-[#F6F6F6] text-[#9882B3]"
+                                    className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
                                   >
                                     <div className="flex items-center space-x-2 py-1">
                                       <div
@@ -454,7 +454,7 @@ export const ImageAdForm = () => {
                                   <SelectItem
                                     key={option.value}
                                     value={option.value}
-                                    className="py-2 hover:bg-[#F6F6F6] text-[#9882B3]"
+                                    className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
                                   >
                                     {option.label}
                                   </SelectItem>
@@ -479,7 +479,7 @@ export const ImageAdForm = () => {
                         <FormControl>
                           <Textarea
                             placeholder="Describe your Ad goal and message (min 10 characters)"
-                            className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] text-sm leading-5 text-[#9882B3]"
+                            className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] text-sm leading-5 text-[#121316]"
                             {...field}
                           />
                         </FormControl>

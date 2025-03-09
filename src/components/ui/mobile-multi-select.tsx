@@ -153,7 +153,10 @@ const MobileMultiSelect = ({
           setOpen(isOpen);
         }}
       >
-        <SheetContent side="bottom" className="px-0 py-0 h-auto max-h-[60vh] rounded-t-xl">
+        <SheetContent
+          side="bottom"
+          className="px-0 py-0 h-auto max-h-[60vh] rounded-t-xl"
+        >
           <SheetHeader className="px-8 py-5 sticky top-0 bg-transparent z-10">
             <SheetTitle className="font-medium">{title}</SheetTitle>
           </SheetHeader>
@@ -183,7 +186,7 @@ const MobileMultiSelect = ({
                     onClick={(e) => e.stopPropagation()} // Prevent duplicate clicks
                   />
                   <div className="flex-1">
-                    <span>{option.label}</span>
+                    <span className="text-[#121316]">{option.label}</span>
                   </div>
                 </div>
               ))
