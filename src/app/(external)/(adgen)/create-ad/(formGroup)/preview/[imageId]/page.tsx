@@ -10,6 +10,7 @@ import { DesktopAdPreviewNavigation } from "@/domains/external/components/deskto
 // import { MobileGenerateButton } from "@/domains/external/components/mobile-generate-button";
 import SinglePreview from "@/domains/ads-gen/components/single-image-preview";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
+import Image from "next/image";
 
 export default function Page() {
   const { imageId } = useParams();
@@ -85,7 +86,7 @@ export default function Page() {
               </p>
             </CardHeader>
 
-            <div className="mb-6 md:mb-8">
+            {/* <div className="mb-6 md:mb-8">
               <div className="flex justify-around items-center max-md:mr-4">
                 <div className="text-center">
                   <p className="text-xs font-semibold leading-4 text-[#121316]">
@@ -108,6 +109,28 @@ export default function Page() {
               <div className="relative w-full h-2.5 bg-white-200 rounded-full mt-6">
                 <div className="absolute left-0 h-2 bg-[#1467C5] rounded-full w-[47%] md:w-[49%]"></div>
                 <div className="absolute right-0 h-2 bg-[#1467c5] rounded-full w-[47%] md:w-[49%]"></div>
+              </div>
+            </div> */}
+
+            <div className="mb-6 md:mb-8">
+              <div className="max-w-[342px] w-full mx-auto flex flex-col gap-6 ">
+                <div className="flex items-center justify-center gap-1 max-w-[295px] w-full mx-auto ">
+                  <Image
+                    className=""
+                    src="/preview-tick.svg"
+                    height={24}
+                    width={24}
+                    alt="Tick icon"
+                    priority
+                  />
+                  <div className="h-[3px] max-w-[180px] sm:max-w-[239px] w-full bg-[#458DE1] rounded-full"></div>
+                  <div className="w-6 h-6 border-3 border-[#458DE1] rounded-full"></div>
+                </div>
+
+                <div className="w-full flex items-center justify-between leading-6 text-base text-[#458DE1]">
+                  <p className="font-normal">Enter Ad Details</p>
+                  <p className=" font-bold">Your Generated Ad</p>
+                </div>
               </div>
             </div>
 
