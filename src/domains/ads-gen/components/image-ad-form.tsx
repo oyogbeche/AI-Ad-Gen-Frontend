@@ -90,7 +90,7 @@ export const ImageAdForm = () => {
   const [isFormLoaded, setIsFormLoaded] = useState(false);
   const [allRequiredFieldsFilled, setAllRequiredFieldsFilled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [limitReached, setLimitReached] = useState(false)
+  const [limitReached, setLimitReached] = useState(true)
   const [limits, setLimits] = useState('')
 
 
