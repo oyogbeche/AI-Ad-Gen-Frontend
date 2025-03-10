@@ -13,6 +13,7 @@ export const postRequest = async (
       ...headers,
     },
     body: JSON.stringify(data),
+    credentials: "include",
   });
 
   const responseData = await response.json();
@@ -33,6 +34,7 @@ export const getRequest = async (
       "Content-Type": "application/json",
       ...headers,
     },
+    credentials: "include",
   });
 
   try {
