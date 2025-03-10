@@ -15,7 +15,6 @@ import Image from "next/image";
 export default function Page() {
   const { imageId } = useParams();
   const mutation = useSubmitCampaign();
-  const [isGenerating, setIsGenerating] = React.useState(false);
   const {
     data: imageData,
     isLoading,
@@ -23,7 +22,6 @@ export default function Page() {
   } = useCampaignImage(imageId as string);
 
   const handleGenerateNewAd = (data: ImageAdFormData) => {
-    setIsGenerating(true);
     try {
       const formatPayload = (formData: ImageAdFormData) => ({
         product_name: formData.productName,
@@ -37,19 +35,10 @@ export default function Page() {
 
       const payload = formatPayload(data);
 
-      mutation.mutate(payload, {
-        onSuccess: (response) => {
-          console.log("Response:", response);
-          setIsGenerating(false);
-        },
-        onError: (error) => {
-          console.error("Error generating new ad:", error);
-          setIsGenerating(false);
-        },
-      });
+      // The mutation already handles all success/error/loading states internally
+      mutation.mutate(payload);
     } catch (error) {
       console.error("Error parsing JSON:", error);
-      setIsGenerating(false);
     }
   };
 
@@ -72,7 +61,7 @@ export default function Page() {
             <DesktopAdPreviewNavigation
               className="my-10"
               onGenerateNewAd={handleGenerateNewAd}
-              isLoading={isGenerating}
+              isLoading={mutation.isPending}
               imageUrl={!isLoading && !error ? imageUrl : undefined}
               imageName={imageName}
             />
@@ -85,32 +74,6 @@ export default function Page() {
                 Below is your AI generated Ad Campaign
               </p>
             </CardHeader>
-
-            {/* <div className="mb-6 md:mb-8">
-              <div className="flex justify-around items-center max-md:mr-4">
-                <div className="text-center">
-                  <p className="text-xs font-semibold leading-4 text-[#121316]">
-                    STEP 1
-                  </p>
-                  <p className="text-sm mt-[3px] font-bold leading-5 text-[#121316]">
-                    Set Ad goals
-                  </p>
-                </div>
-                <div className="text-center">
-                  <p className="text-xs font-semibold leading-4 text-[#121316]">
-                    STEP 2
-                  </p>
-                  <p className="text-sm mt-[3px] font-bold leading-5 text-[#121316]">
-                    Preview
-                  </p>
-                </div>
-              </div>
-
-              <div className="relative w-full h-2.5 bg-white-200 rounded-full mt-6">
-                <div className="absolute left-0 h-2 bg-[#1467C5] rounded-full w-[47%] md:w-[49%]"></div>
-                <div className="absolute right-0 h-2 bg-[#1467c5] rounded-full w-[47%] md:w-[49%]"></div>
-              </div>
-            </div> */}
 
             <div className="mb-6 md:mb-8">
               <div className="max-w-[342px] w-full mx-auto flex flex-col gap-6 ">
@@ -143,12 +106,15 @@ export default function Page() {
                 Error loading image: {(error as Error).message}
               </div>
             ) : (
-              <SinglePreview imageData={imageData} isLoading={isGenerating} />
+              <SinglePreview
+                imageData={imageData}
+                isLoading={mutation.isPending}
+              />
             )}
 
             {/* <MobileGenerateButton
               onGenerateNewAd={handleGenerateNewAd}
-              isLoading={isGenerating}
+              isLoading={mutation.isPending}
             /> */}
           </CardContent>
         </Card>
