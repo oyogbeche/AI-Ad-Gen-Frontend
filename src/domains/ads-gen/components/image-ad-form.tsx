@@ -30,12 +30,14 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { ImageAdSchema } from "@/schemas/ad-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 // import {  MouseEventHandler } from "react";
 import { useForm } from "react-hook-form";
 import { ImageAdFormData } from "../types";
 import BackButton from "./back-button";
 import { useSubmitCampaign } from "../api/use-submit-campaign";
+import { X } from "lucide-react";
+import Link from "next/link";
 
 // import { X } from "lucide-react";
 // import Link from "next/link";
@@ -61,54 +63,58 @@ const MobileMultiSelectBottomSheet = dynamic(
   }
 );
 
-// interface PopupProps {
-//   show: boolean;
-//   onClick: MouseEventHandler<HTMLButtonElement> | undefined;
-// }
+interface PopupProps {
+  limits: string;
+  show: boolean;
+  onClick: MouseEventHandler<HTMLButtonElement> | undefined;
+}
 
-// const Popup = (props: PopupProps) => {
-//   return props.show ? (
-//     <div className="bg-[#2e33388d] fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center px-4 h-[100vh]">
-//       <div className="bg-white p-5 rounded-[20px] w-full max-w-[740px] flex flex-col gap-[15px] sm:gap-[30px]">
-//         {/* Close Icon */}
-//         <button className="self-end cursor-pointer" onClick={props.onClick}>
-//           <X />
-//         </button>
-//         <h2 className="font-[600] text-[24px] leading-[40px]">
-//           Daily Generation Limit Reached
-//         </h2>
-//         <p className="font-[400] opacity-56 text-[17.5px] leading-[140%]">
-//           You&apos;ve used all 5 of your daily ad generations.
-//         </p>
-//         <div className="flex flex-col gap-[20px] p-[20px] sm:p-[40px] bg-[#F4F8FC] rounded-[10px]">
-//           <h3 className="text-[25px] font-[600] leading-[35px]">You have options</h3>
-//           <ol className="font-[400] opacity-56 text-[17.5px] leading-[140%] flex flex-col gap-[20px]">
-//             <li>1. Sign up for an account to get unlimited access</li>
-//             <li>2. Wait for 8 hours for more free generations.</li>
-//           </ol>
-//         </div>
-//         <p className="text-[22.5px] opacity-56">
-//           Don&apos;t lose your current progress! Sign up to continue your work
-//         </p>
-//         {/* Button container aligned to the left with reduced button size */}
-//         <div className="flex justify-start">
-//           <Link href="/signup" className="inline-block">
-//             <button className="text-[#333] border border-[#B800B8] py-2 px-4 rounded-md hover:bg-[#F0F0F0]">
-//              Sign up
-//             </button>
-//           </Link>
-//         </div>
-//       </div>
-//     </div>
-//   ) : null;
-// };
+const Popup = (props: PopupProps) => {
+  return props.show ? (
+    <div className="bg-[#2e33388d] fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center px-4 h-[100vh]">
+      <div className="bg-white p-6 sm:p-10 rounded-[8px] sm:rounded-[20px] w-full max-w-[745px] flex flex-col">
+        {/* Close Icon */}
+        <button className="self-end cursor-pointer" onClick={props.onClick}>
+          <X />
+        </button>
+        <h2 className="font-[600] text-[20px] sm:text-[24px] leading-[32px] mb-4">
+          {Number(props.limits) === 1 ? 'You are Close to Your Limit' : 'Daily Generation Limit Reached'}
+        </h2>
+        <p className="font-[400] text-[#7D7D7D] text-[16px] leading-[24px] mb-5">
+          {Number(props.limits) === 1 ? 'You have 1 free trial left of your daily ad generations.' : `You've used all 5 of your daily ad generations.`}
+        </p>
+        <div className="flex flex-col gap-[20px] p-[20px] sm:p-[40px] bg-[#F4F8FC] rounded-[10px] mb-6">
+          <h3 className="text-[18px] font-[600] leading-[28px]">You have options</h3>
+          <ol className="font-[400] text-[#7D7D7D] text-[14px] leading-[20px] flex flex-col gap-[8px]">
+            <li>1. Sign up for an account to get unlimited access</li>
+            <li>2. Wait for 8 hours for more free generations.</li>
+          </ol>
+        </div>
+        <p className="text-4 text-[#7D7D7D] mb-8">
+          Don&apos;t lose your current progress! Sign up to continue your work
+        </p>
+        {/* Button container aligned to the left with reduced button size */}
+        <div className="flex justify-between">
+          <button onClick={props.onClick} className="text-[#333] border border-[#520052] cursor-pointer py-[12px] px-6 rounded-md hover:bg-[#F0F0F0]">
+            Maybe Later
+          </button>
+          <Link href="/signup" className="inline-block">
+            <button className="text-[#fff] border bg-[#B800B8] hover:bg-[#520052] cursor-pointer py-[12px] px-6 rounded-md">
+             Sign Up Now
+            </button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  ) : null;
+};
 
 export const ImageAdForm = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [isFormLoaded, setIsFormLoaded] = useState(false);
   const [allRequiredFieldsFilled, setAllRequiredFieldsFilled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  // const [limitReached, setLimitReached] = useState(true);
+  const [limitReached, setLimitReached] = useState(false);
   const [limits, setLimits] = useState("");
 
   const mutation = useSubmitCampaign();
@@ -190,17 +196,21 @@ export const ImageAdForm = () => {
 
   const onSubmit = (data: ImageAdFormData) => {
     if (Number(limits) > 0) {
+      if (Number(limits) === 2){
+        setLimitReached(true);
+      }
       setIsLoading(true);
       try {
         localStorage.setItem("imageAdData", JSON.stringify(data));
         const limitsLeft = Number(localStorage.getItem("limitsLeft"));
         localStorage.setItem("limitsLeft", String(limitsLeft <= 0 ? limitsLeft : limitsLeft - 1));
+        setLimits(String(limitsLeft <= 0 ? limitsLeft : limitsLeft - 1))
         mutation.mutate(formatPayload(data));
       } catch (error) {
         console.error("Error saving to localStorage", error);
       }
-    } else {
-      // setLimitReached(true);
+    }else {
+      setLimitReached(true);
     }
   };
 
@@ -244,11 +254,10 @@ export const ImageAdForm = () => {
   }
 
   return (
-    <div className="min-h-full bg-[#F9FAFB] py-6 pt-10 flex flex-col justify-center items-center">
-      {/* <Popup show={limitReached} onClick={() => setLimitReached(false)} />
+    <div className="min-h-full bg-[#F9FAFB] py-6 pt-0 flex flex-col justify-center items-center">
+      <Popup show={limitReached} onClick={() => setLimitReached(false)} limits={limits} />
       <div className="p-2 bg-[#E8F1FB] flex items-center justify-center gap-2 mb-10 sticky top-[75px] w-full text-center">
         <svg
-          onClick={() => setLimitReached(true)}
           width="24"
           height="24"
           viewBox="0 0 24 24"
@@ -257,8 +266,8 @@ export const ImageAdForm = () => {
         >
           <path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2m0 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m0-9a1 1 0 0 0-.993.883L11 7v6a1 1 0 0 0 1.993.117L13 13V7a1 1 0 0 0-1-1" fill="#1671D9" />
         </svg>
-        <span>{limits} of 5 free trials left</span>
-      </div> */}
+        <span>{(limits)} of 5 free trials left</span>
+      </div>
       <Card className="w-full max-w-[890px] border-none shadow-none py-0">
         <CardContent className="px-4 md:px-8 py-6">
           <BackButton className="mb-8" />
