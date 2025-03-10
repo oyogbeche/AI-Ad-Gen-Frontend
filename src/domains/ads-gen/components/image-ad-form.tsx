@@ -241,7 +241,7 @@ export const ImageAdForm = () => {
     <div className="min-h-full bg-[#F9FAFB] py-6 pt-0 flex flex-col justify-center items-center">
       <Popup show={limitReached} onClick={() => setLimitReached(false)} />
       <div className="p-2 bg-[#E8F1FB] flex items-center justify-center gap-2 mb-10 sticky top-[75px] w-full text-center">
-        <svg onClick={() => setLimitReached(true)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2m0 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m0-9a1 1 0 0 0-.993.883L11 7v6a1 1 0 0 0 1.993.117L13 13V7a1 1 0 0 0-1-1" fill="#1671D9"/></svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2m0 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m0-9a1 1 0 0 0-.993.883L11 7v6a1 1 0 0 0 1.993.117L13 13V7a1 1 0 0 0-1-1" fill="#1671D9"/></svg>
         <span>{limits} of 5 free trials left</span>
       </div>
       <Card className="w-full max-w-[890px] border-none shadow-none py-0">
