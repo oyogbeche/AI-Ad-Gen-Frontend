@@ -77,7 +77,7 @@ const Popup = (props: PopupProps) => {
           Daily Generation Limit Reached
         </h2>
         <p className="font-[400] opacity-56 text-[17.5px] leading-[140%]">
-          You’ve used all 5 of your daily ad generations.
+          You&apos;ve used all 5 of your daily ad generations.
         </p>
         <div className="flex flex-col gap-[20px] p-[20px] sm:p-[40px] bg-[#F4F8FC] rounded-[10px]">
           <h3 className="text-[25px] font-[600] leading-[35px]">You have options</h3>
@@ -87,7 +87,7 @@ const Popup = (props: PopupProps) => {
           </ol>
         </div>
         <p className="text-[22.5px] opacity-56">
-          Don’t lose your current progress! Sign up to continue your work
+          Don&apos;t lose your current progress! Sign up to continue your work
         </p>
         {/* Button container aligned to the left with reduced button size */}
         <div className="flex justify-start">
