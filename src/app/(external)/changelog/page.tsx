@@ -1,3 +1,4 @@
+import Version from "@/domains/external/components/version";
 import Image from "next/image";
 
 interface Shape {
@@ -30,8 +31,8 @@ const shapes: Shape[] = [
 
 const ChangeLogPage = () => {
   return (
-    <main>
-      <section className="w-full px-10 py-[37.5px] md:py-[93px] flex flex-col items-center bg-[#520052] relative overflow-hidden gap-4">
+    <main className="flex  flex-col items-center">
+      <section className="w-full px-10 py-[37.5px] md:py-[93px] flex flex-col items-center bg-[#520052] relative overflow-hidden gap-4 m-auto">
         {shapes.map((image) => (
           <picture key={image.picture[0]} className={image.positionSize}>
             <Image
@@ -67,6 +68,13 @@ const ChangeLogPage = () => {
             experience.
           </p>
         </div>
+      </section>
+      <section className="flex flex-col gap-6 md:gap-14 lg:gap-20 max-w-[960px] lg:mt-[103px] pb-[54px] lg:pb-24 mx-[40px] md:mx-[60px] lg:mx-[80px]">
+        <Version />
+        <Version />
+        <Version />
+        <Version />
+        <Version />
       </section>
     </main>
   );
