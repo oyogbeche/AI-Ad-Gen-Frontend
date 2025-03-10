@@ -1,14 +1,8 @@
 "use client";
 
+import { DownloadButton } from "@/domains/ads-gen/components/download-button";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
-import {
-  ArrowLeft,
-  Check,
-  ChevronDown,
-  Download,
-  House,
-  RotateCw,
-} from "lucide-react";
+import { ArrowLeft, Check, House, RotateCw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState, useRef } from "react";
 import { toast } from "sonner";
@@ -189,52 +183,12 @@ export const DesktopAdPreviewNavigation: React.FC<
         <div className=" w-px h-8 bg-gray-200"></div>
 
         {/* Download button - also hidden on mobile */}
-        {imageUrl && (
-          <>
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                disabled={isDownloading || isLoading}
-                className={`flex items-center font-medium cursor-pointer border border-[#650065] py-2 px-6 md:px-8 rounded-md text-[#650065] ${
-                  isDownloading || isLoading
-                    ? "text-gray-400 cursor-not-allowed"
-                    : "text-[#650065] hover:text-[#650065]"
-                }`}
-                type="button"
-              >
-                <Download className="w-5 h-5 mr-0 md:mr-2 text-[#650065]" />
-
-                <span className="hidden md:block">
-                  {isDownloading ? "Downloading..." : "Download"}
-                </span>
-                <ChevronDown className="hidden md:block w-5 h-5 ml-3" />
-
-                {isDownloading && (
-                  <span className="ml-2 w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></span>
-                )}
-              </button>
-
-              {isOpen && (
-                <div className="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-md shadow-lg z-10">
-                  <div className="py-1">
-                    <button
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center"
-                      onClick={() => downloadImage("png")}
-                    >
-                      Export As PNG
-                    </button>
-                    <button
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center"
-                      onClick={() => downloadImage("jpg")}
-                    >
-                      Export as JPG
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </>
-        )}
+        <DownloadButton
+          imageUrl={imageUrl}
+          downloadImage={downloadImage}
+          isDownloading={isDownloading}
+          isLoading={isLoading}
+        />
       </div>
 
       {/* Horizontal line underneath the entire navigation */}

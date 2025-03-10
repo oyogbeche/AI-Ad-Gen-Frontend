@@ -1,12 +1,12 @@
 "use client";
 // import { useState } from "react";
 import { Google, Logo } from "@/components/icons/icon";
-import { useGoogleAuth } from "@/domains/auth/use-google-auth";
+import { Button } from "@/components/ui/button";
+import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
 import Link from "next/link";
 
 const Header: React.FC = () => {
-  // const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { handleGoogleSignIn, isLoggedIn, user } = useGoogleAuth();
+  const { handleGoogleLogin, isLoading } = useGoogleAuth();
 
   return (
     <header className="w-full border-b border-[#F8E6F8] bg-white sticky top-0 z-40">
@@ -17,20 +17,18 @@ const Header: React.FC = () => {
           </Link>
         </div>
 
-        {isLoggedIn ? (
-          <p>Welcome, {user?.name}!</p>
-        ) : (
-          <Link
-            href="#"
-            onClick={handleGoogleSignIn}
-            className="flex items-center gap-[10px] rounded-md border border-[#B7D3F3] px-3 py-2 bg-white md:px-4 md:py-3  hover:bg-[#F6F6F6]"
-          >
-            <Google />
-            <span className="text-[#1F1F1F] font-roboto text-xs md:text-sm font-medium leading-normal text-nowrap">
-              Sign Up with Google
-            </span>
-          </Link>
-        )}
+        <Button
+          onClick={handleGoogleLogin}
+          className="flex items-center gap-[10px] rounded-md border border-[#B7D3F3] px-3 py-2 bg-white md:px-4 md:py-3  hover:bg-[#F6F6F6]"
+        >
+          <Google />
+          <span className="text-[#1F1F1F] font-roboto text-xs md:text-sm font-medium leading-normal text-nowrap">
+            {isLoading ? "Signing in..." : "Sign Up with Google"}
+          </span>
+          {isLoading && (
+            <span className="ml-2 w-4 h-4 border-2 border-gray-300 border-t-[#1F1F1F] rounded-full animate-spin"></span>
+          )}
+        </Button>
 
         {/*         <nav className="hidden md:flex space-x-6 text-gray-600">
           <Link href="/features" className="hover:text-purple-700">

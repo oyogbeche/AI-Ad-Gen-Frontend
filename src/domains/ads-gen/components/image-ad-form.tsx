@@ -30,11 +30,14 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { ImageAdSchema } from "@/schemas/ad-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ImageAdFormData } from "../types";
 import BackButton from "./back-button";
 import { useSubmitCampaign } from "../api/use-submit-campaign";
+
+import { X } from "lucide-react";
+import Link from "next/link";
 
 const DesktopMultiSelect = dynamic(
   () => import("@/components/ui/multi-select"),
@@ -57,11 +60,55 @@ const MobileMultiSelectBottomSheet = dynamic(
   }
 );
 
+interface PopupProps {
+  show: boolean;
+  onClick: MouseEventHandler<HTMLButtonElement> | undefined;
+}
+
+const Popup = (props: PopupProps) => {
+  return props.show ? (
+    <div className="bg-[#2e33388d] fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center px-4 h-[100vh]">
+      <div className="bg-white p-5 rounded-[20px] w-full max-w-[740px] flex flex-col gap-[15px] sm:gap-[30px]">
+        {/* Close Icon */}
+        <button className="self-end cursor-pointer" onClick={props.onClick}>
+          <X />
+        </button>
+        <h2 className="font-[600] text-[24px] leading-[40px]">
+          Daily Generation Limit Reached
+        </h2>
+        <p className="font-[400] opacity-56 text-[17.5px] leading-[140%]">
+          You&apos;ve used all 5 of your daily ad generations.
+        </p>
+        <div className="flex flex-col gap-[20px] p-[20px] sm:p-[40px] bg-[#F4F8FC] rounded-[10px]">
+          <h3 className="text-[25px] font-[600] leading-[35px]">You have options</h3>
+          <ol className="font-[400] opacity-56 text-[17.5px] leading-[140%] flex flex-col gap-[20px]">
+            <li>1. Sign up for an account to get unlimited access</li>
+            <li>2. Wait for 8 hours for more free generations.</li>
+          </ol>
+        </div>
+        <p className="text-[22.5px] opacity-56">
+          Don&apos;t lose your current progress! Sign up to continue your work
+        </p>
+        {/* Button container aligned to the left with reduced button size */}
+        <div className="flex justify-start">
+          <Link href="/signup" className="inline-block">
+            <button className="text-[#333] border border-[#B800B8] py-2 px-4 rounded-md hover:bg-[#F0F0F0]">
+             Sign up
+            </button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  ) : null;
+};
+
 export const ImageAdForm = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [isFormLoaded, setIsFormLoaded] = useState(false);
   const [allRequiredFieldsFilled, setAllRequiredFieldsFilled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [limitReached, setLimitReached] = useState(true);
+  const [limits, setLimits] = useState("");
 
   const mutation = useSubmitCampaign();
 
@@ -84,8 +131,6 @@ export const ImageAdForm = () => {
     if (savedData) {
       try {
         const parsedData = JSON.parse(savedData) as ImageAdFormData;
-
-        // Set each form field value explicitly to ensure proper handling
         form.setValue("productName", parsedData.productName || "");
         form.setValue("demographics", parsedData.demographics || "");
         form.setValue("region", parsedData.region || "");
@@ -93,14 +138,11 @@ export const ImageAdForm = () => {
         form.setValue("adSize", parsedData.adSize || "");
         form.setValue("language", parsedData.language || "");
         form.setValue("adGoal", parsedData.adGoal || "");
-
-        // Trigger validation after setting values
         form.trigger();
       } catch (error) {
         console.error("Error parsing saved data:", error);
       }
     }
-
     setIsFormLoaded(true);
   }, [form]);
 
@@ -130,13 +172,8 @@ export const ImageAdForm = () => {
       setAllRequiredFieldsFilled(requiredFieldsFilled);
     };
 
-    // Subscribe to form changes
     const subscription = form.watch(checkRequiredFields);
-
-    // Run once initially
     checkRequiredFields();
-
-    // Cleanup subscription
     return () => subscription.unsubscribe();
   }, [form]);
 
@@ -151,14 +188,18 @@ export const ImageAdForm = () => {
   });
 
   const onSubmit = (data: ImageAdFormData) => {
-    setIsLoading(true);
-    try {
-      localStorage.setItem("imageAdData", JSON.stringify(data));
-      mutation.mutate(formatPayload(data));
-      //console.log("Image Ad Data:", data);
-      // router.push("/create-ad/preview");
-    } catch (error) {
-      console.error("Error saving to localStorage", error);
+    if (Number(limits) > 0) {
+      setIsLoading(true);
+      try {
+        localStorage.setItem("imageAdData", JSON.stringify(data));
+        const limitsLeft = Number(localStorage.getItem("limitsLeft"));
+        localStorage.setItem("limitsLeft", String(limitsLeft <= 0 ? limitsLeft : limitsLeft - 1));
+        mutation.mutate(formatPayload(data));
+      } catch (error) {
+        console.error("Error saving to localStorage", error);
+      }
+    } else {
+      setLimitReached(true);
     }
   };
 
@@ -181,6 +222,18 @@ export const ImageAdForm = () => {
     return option ? option.display : "Choose Ad Size";
   };
 
+  useEffect(() => {
+    const limitsLeft = localStorage.getItem("limitsLeft");
+    if (limitsLeft) {
+      setLimits(limitsLeft);
+    } else {
+      localStorage.setItem("limitsLeft", "5");
+      if (limitsLeft) {
+        setLimits(limitsLeft);
+      }
+    }
+  }, [limits]);
+
   if (!isFormLoaded) {
     return (
       <div className="min-h-full bg-[#F9FAFB] p-6 py-18 flex justify-center items-center">
@@ -190,11 +243,24 @@ export const ImageAdForm = () => {
   }
 
   return (
-    <div className="min-h-full bg-[#F9FAFB] p-6 py-18 flex justify-center items-center">
+    <div className="min-h-full bg-[#F9FAFB] py-6 pt-0 flex flex-col justify-center items-center">
+      <Popup show={limitReached} onClick={() => setLimitReached(false)} />
+      <div className="p-2 bg-[#E8F1FB] flex items-center justify-center gap-2 mb-10 sticky top-[75px] w-full text-center">
+        <svg
+          onClick={() => setLimitReached(true)}
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2m0 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m0-9a1 1 0 0 0-.993.883L11 7v6a1 1 0 0 0 1.993.117L13 13V7a1 1 0 0 0-1-1" fill="#1671D9" />
+        </svg>
+        <span>{limits} of 5 free trials left</span>
+      </div>
       <Card className="w-full max-w-[890px] border-none shadow-none py-0">
         <CardContent className="px-4 md:px-8 py-6">
           <BackButton className="mb-8" />
-
           <CardHeader className="mb-6 md:mb-10 text-center px-0">
             <CardTitle className="text-[28px] leading-[36px] text-[#121316] font-semibold">
               Let&apos;s set up your Ad
@@ -203,14 +269,12 @@ export const ImageAdForm = () => {
               Fill in the details below, then AI generates your ad instantly.
             </p>
           </CardHeader>
-
           <div className="max-w-[342px] w-full mx-auto flex flex-col gap-6 mb-6 md:mb-10">
             <div className="flex items-center justify-center gap-1 max-w-[295px] w-full mx-auto ">
               <div className="w-6 h-6 border-3 border-[#458DE1] rounded-full"></div>
               <div className="h-[3px] max-w-[180px] sm:max-w-[239px] w-full bg-[#458DE1] rounded-full"></div>
               <div className="w-6 h-6 border-3 border-[#CFCFCF] rounded-full"></div>
             </div>
-
             <div className="w-full flex items-center justify-between text-base font-bold">
               <p className="text-[#1671D9] leading-5">Enter Ad Details</p>
               <p className="text-[#A1A1A1] leading-6">Your Generated Ad</p>
@@ -220,10 +284,7 @@ export const ImageAdForm = () => {
             <Loader fullscreen={false} message="Generating Ad Please wait..." />
           ) : (
             <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6"
-              >
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border py-8 md:py-10 px-4 md:px-6 rounded-[8px] border-[#ECECEC]">
                   <FormField
                     control={form.control}
@@ -236,7 +297,7 @@ export const ImageAdForm = () => {
                         <FormControl>
                           <Input
                             placeholder="Enter Ad Title"
-                            className="w-full border-[#E4E7EC] text-[#121316] text-sm font-normal leading-5 focus:ring-[#B800B8] focus:border-[#E9B0E9] h-11 md:h-[56px] outline-0 focus:cursor-c"
+                            className="w-full border-[#E4E7EC] text-[#121316] text-sm font-normal leading-5 focus:ring-[#B800B8] focus:border-[#E9B0E9] h-11 md:h-[56px] outline-0"
                             {...field}
                           />
                         </FormControl>
@@ -244,7 +305,6 @@ export const ImageAdForm = () => {
                       </FormItem>
                     )}
                   />
-
                   <FormField
                     control={form.control}
                     name="demographics"
@@ -263,16 +323,10 @@ export const ImageAdForm = () => {
                               title="Target Audience Demographics"
                             />
                           ) : (
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
+                            <Select onValueChange={field.onChange} value={field.value}>
                               <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
                                 <SelectValue placeholder="Select demographics">
-                                  {getSelectLabel(
-                                    demographicsOptions,
-                                    field.value
-                                  )}
+                                  {getSelectLabel(demographicsOptions, field.value)}
                                 </SelectValue>
                               </SelectTrigger>
                               <SelectContent>
@@ -293,7 +347,6 @@ export const ImageAdForm = () => {
                       </FormItem>
                     )}
                   />
-
                   <FormField
                     control={form.control}
                     name="region"
@@ -312,10 +365,7 @@ export const ImageAdForm = () => {
                               title="Target Audience Region"
                             />
                           ) : (
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
+                            <Select onValueChange={field.onChange} value={field.value}>
                               <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
                                 <SelectValue placeholder="Select Region">
                                   {getSelectLabel(regionOptions, field.value)}
@@ -339,7 +389,6 @@ export const ImageAdForm = () => {
                       </FormItem>
                     )}
                   />
-
                   <FormField
                     control={form.control}
                     name="ageGroup"
@@ -370,7 +419,6 @@ export const ImageAdForm = () => {
                       </FormItem>
                     )}
                   />
-
                   <FormField
                     control={form.control}
                     name="adSize"
@@ -389,10 +437,7 @@ export const ImageAdForm = () => {
                               title="Ad Size"
                             />
                           ) : (
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
+                            <Select onValueChange={field.onChange} value={field.value}>
                               <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center h-[56px]">
                                 <SelectValue placeholder="Choose Ad Size">
                                   {getAdSizeLabel(field.value)}
@@ -406,9 +451,7 @@ export const ImageAdForm = () => {
                                     className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
                                   >
                                     <div className="flex items-center space-x-2 py-1">
-                                      <div
-                                        className={`border border-[#121316] ${option.aspectRatio}`}
-                                      />
+                                      <div className={`border border-[#121316] ${option.aspectRatio}`} />
                                       <span>{option.label}</span>
                                     </div>
                                   </SelectItem>
@@ -421,7 +464,6 @@ export const ImageAdForm = () => {
                       </FormItem>
                     )}
                   />
-
                   <FormField
                     control={form.control}
                     name="language"
@@ -440,10 +482,7 @@ export const ImageAdForm = () => {
                               title="Ad Language"
                             />
                           ) : (
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
+                            <Select onValueChange={field.onChange} value={field.value}>
                               <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
                                 <SelectValue placeholder="Select a Language">
                                   {getSelectLabel(languageOptions, field.value)}
@@ -467,7 +506,6 @@ export const ImageAdForm = () => {
                       </FormItem>
                     )}
                   />
-
                   <FormField
                     control={form.control}
                     name="adGoal"
@@ -488,7 +526,6 @@ export const ImageAdForm = () => {
                     )}
                   />
                 </div>
-
                 <div className="flex justify-end">
                   <Button
                     type="submit"
