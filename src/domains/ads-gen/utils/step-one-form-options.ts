@@ -54,7 +54,7 @@ export const adSizeOptions = [
     aspectRatio: "w-[21px] h-[18px] rounded-[2px]",
   },
   {
-    value: "lLinkedIn Profile Banner (4:1)",
+    value: "LinkedIn Profile Banner (4:1)",
     label: "LinkedIn Profile Banner (4:1)",
     display: "LinkedIn Banner",
     aspectRatio: "w-[16px] h-[16px] rounded-[2px]",
