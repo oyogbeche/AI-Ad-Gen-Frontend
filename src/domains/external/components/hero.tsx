@@ -6,6 +6,7 @@ import Link from "next/link";
 import React from "react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 const heroImages = [
   {
