@@ -1,6 +1,7 @@
 "use client";
 // import { useState } from "react";
 import { Logo } from "@/components/icons/icon";
+import { ArrowRight } from "lucide-react";
 // import { Google } from "@/components/icons/icon";
 // import { Button } from "@/components/ui/button";
 // import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
@@ -17,6 +18,15 @@ const Header: React.FC = () => {
             <Logo className="w-32 md:w-auto" />
           </Link>
         </div>
+
+    
+        <Link
+              href={"/signin"}
+              className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex justify-center items-center gap-2"
+            >
+              <p>Generate Your Ad</p> <ArrowRight />
+            </Link>
+
 
         {/* <Button
           onClick={handleGoogleLogin}

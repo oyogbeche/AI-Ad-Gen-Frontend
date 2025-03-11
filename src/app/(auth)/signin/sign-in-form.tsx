@@ -1,25 +1,27 @@
 "use client";
 
-import { useState } from "react";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Link from "next/link";
-import { ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft} from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
+//import { Button } from "@/components/ui/button";
+//import { Input } from "@/components/ui/input";
+//import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+
 } from "@/components/ui/form";
 import { LoadingButton } from "@/domains/auth/components/loading-button";
+import Image from "next/image";
+import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
+import { Button } from "@/components/ui/button";
+
+//import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
+
 
 // Define the form schema with Zod
 const formSchema = z.object({
@@ -34,8 +36,10 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export function SignInForm() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  //const [showPassword, setShowPassword] = useState(false);
+  //const [isLoading, setIsLoading] = useState(false);
+
+  const {handleGoogleLogin, isLoading: isGoogleLoading} = useGoogleAuth();
 
   // Initialize react-hook-form with zod resolver
   const form = useForm<FormValues>({
@@ -49,7 +53,7 @@ export function SignInForm() {
   });
 
   // Handle form submission
-  const onSubmit = async (data: FormValues) => {
+  /* const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
 
     try {
@@ -62,10 +66,10 @@ export function SignInForm() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }; */
 
   return (
-    <Card className="w-full max-w-md mx-auto border rounded-lg shadow-sm">
+    <Card className="w-full max-w-[550px] mx-auto border rounded-lg shadow-sm">
       <CardContent className="pt-6 pb-8 px-8">
         <div className="mb-8">
           <Button
@@ -82,15 +86,16 @@ export function SignInForm() {
         </div>
 
         <div className="space-y-2 mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">Welcome back</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Welcome</h1>
           <p className="text-muted-foreground">
-            Enter your email and password to access your account
+            Continue in with google
           </p>
         </div>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
+       <Form {...form}>
+          <form onSubmit={() => {}} className="space-y-6">
+         
+          {/*    <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
@@ -174,18 +179,32 @@ export function SignInForm() {
               >
                 Forgot Password?
               </Link>
-            </div>
+            </div> */}
 
-            <LoadingButton
+    {/*         <LoadingButton
               type="submit"
               className="w-full bg-[#b800b8] hover:bg-purple-300 text-white"
               isLoading={isLoading}
               disabled={!form.formState.isValid || isLoading}
             >
               Sign In
-            </LoadingButton>
+            </LoadingButton> */}
 
-            <div className="text-center text-sm">
+      <div className="w-full flex flex-col items-center justify-center space-y-4">
+            <LoadingButton
+                      type="button"
+                      className="w-[400px] border-[1px] border-[#E9E9E9] bg-white hover:bg-gray-100 text-black my-2 py-6 mx-auto"
+                      isLoading={isGoogleLoading}
+                      onClick={handleGoogleLogin}
+                    >
+                    <Image src="/google.svg" alt="Google" width={20} height={20} /> <p>Continue With Google</p>
+            </LoadingButton>
+            </div>
+
+         
+            
+
+        {/*     <div className="text-center text-sm">
               Don&apos;t have an account?{" "}
               <Link
                 href="/signup"
@@ -193,9 +212,12 @@ export function SignInForm() {
               >
                 Create account
               </Link>
-            </div>
+            </div> */}
           </form>
         </Form>
+
+           {/* Google Sign-In Button */}
+   
       </CardContent>
     </Card>
   );
