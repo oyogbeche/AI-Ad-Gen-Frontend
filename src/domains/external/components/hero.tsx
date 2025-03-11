@@ -6,6 +6,7 @@ import Link from "next/link";
 import React from "react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 const heroImages = [
   {
@@ -73,9 +74,9 @@ const HeroSection = () => {
           >
             <Link
               href={"/generate-ad"}
-              className="cursor-pointer px-6 py-3 rounded-sm text-[#520052] transition-colors inline-block border border-[#B800B8] hover:bg-[#cf54cf21]"
+              className="cursor-pointer px-6 py-3 rounded-sm text-[#520052] transition-colors flex justify-center items-center gap-2 border border-[#B800B8] hover:bg-[#cf54cf21]"
             >
-              Try a Demo Ad →
+               <p>Try a Demo Ad</p> <ArrowRight />
             </Link>
           </motion.div>
           <motion.div
@@ -85,11 +86,12 @@ const HeroSection = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
+            
             <Link
               href={"/signin"}
-              className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors inline-block"
+              className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2"
             >
-              Generate Your Ad →
+              <p>Generate Your Ad</p> <ArrowRight />
             </Link>
           </motion.div>
         </div>
