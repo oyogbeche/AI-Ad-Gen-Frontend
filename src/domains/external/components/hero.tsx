@@ -6,6 +6,7 @@ import Link from "next/link";
 import React from "react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 const heroImages = [
   {
@@ -69,12 +70,14 @@ const HeroSection = () => {
           transition={{ delay: 0.9, duration: 0.5 }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          className="flex gap-10 items-center w-fit mx-auto"
         >
           <Link
-            href={"/create-ad/ad-form?type=image"}
-            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors inline-block"
+            href={"/generate-ad"}
+            className="flex gap-2.5 text-white bg-light-purple cursor-pointer px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors w-fit mx-auto"
           >
-            Generate New Ad →
+            Try a Demo Ad
+            <ArrowRight size={24} />
           </Link>
         </motion.div>
       </motion.div>
