@@ -1,45 +1,32 @@
 "use client";
 // import { useState } from "react";
 import { Logo } from "@/components/icons/icon";
-import { Button } from "@/components/ui/button";
-import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
-import { LoadingButton } from "@/domains/auth/components/loading-button";
-import { ChevronDown, User } from "lucide-react";
-import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 // import { Google } from "@/components/icons/icon";
 // import { Button } from "@/components/ui/button";
 // import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
 import Link from "next/link";
 
 const Header: React.FC = () => {
- const { handleGoogleLogin, isLoading } = useGoogleAuth();
+  // const { handleGoogleLogin, isLoading } = useGoogleAuth();
 
   return (
     <header className="w-full border-b border-[#F8E6F8] bg-white sticky top-0 z-40">
-      <div className="max-w-[1440px] m-auto  flex justify-between w-full px-6 py-4  lg:pl-20 lg:pr-9">
+      <div className="max-w-[1440px] m-auto  flex justify-between w-full px-6 py-4 lg:pl-20 lg:pr-9">
         <div className="w-fit">
           <Link href="/">
             <Logo className="w-32 md:w-auto" />
           </Link>
         </div>
 
-           <LoadingButton
-                      type="button"
-                      className="w-44 border-[1.5px] border-blue-500 bg-white hover:bg-blue-700 text-black my-2 py-2"
-                      isLoading={isLoading}
-                      onClick={handleGoogleLogin}
-                    >
-                    <Image src="/google.svg" alt="Google" width={20} height={20} /> <p>Sign In With Google</p>
-            </LoadingButton>
-            <button className='bg-[#F8E6F8] rounded-[12px] p-1 pr-2 flex items-center gap-1 cursor-pointer hover:bg-[#ffd5ff] font-[600] text-4 leading-[28px]'>
-              <span className="mr-1 bg-white rounded-[12px] text-[#A1A1A1] p-2">
-                <User />
-              </span>
-              <span>John Doe</span>
-              <span>
-                <ChevronDown />
-              </span>
-            </button>
+    
+        <Link
+              href={"/signin"}
+              className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex justify-center items-center gap-2"
+            >
+              <p>Generate Your Ad</p> <ArrowRight />
+            </Link>
+
 
         {/* <Button
           onClick={handleGoogleLogin}
