@@ -1,11 +1,11 @@
 "use client";
 
 import BackButton from "@/domains/ads-gen/components/back-button";
-import { CheckCircle, Circle } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import progressImage from "../../../../public/progressImage.png";
-import { useRouter } from "next/navigation";
 
 const steps = [
   "Analysed your brand audience",

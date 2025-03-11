@@ -2,8 +2,7 @@
 
 import { DownloadButton } from "@/domains/ads-gen/components/download-button";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
-import { ArrowLeft, Check, RotateCw } from "lucide-react";
-import Link from "next/link";
+import { ArrowLeft, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -20,7 +19,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   DesktopAdPreviewNavigationProps
 > = ({
   className = "",
-  onGenerateNewAd,
+  // onGenerateNewAd,
   isLoading,
   imageUrl,
   imageName = "ad",
@@ -39,18 +38,18 @@ export const DesktopAdPreviewNavigation: React.FC<
   //   router.push("/");
   // };
 
-  const handleGenerateNewAd = () => {
-    if (isLoading) return;
-    try {
-      const storedData = localStorage.getItem("imageAdData");
-      if (storedData && onGenerateNewAd) {
-        const parsedData = JSON.parse(storedData) as ImageAdFormData;
-        onGenerateNewAd(parsedData);
-      }
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-    }
-  };
+  // const handleGenerateNewAd = () => {
+  //   if (isLoading) return;
+  //   try {
+  //     const storedData = localStorage.getItem("imageAdData");
+  //     if (storedData && onGenerateNewAd) {
+  //       const parsedData = JSON.parse(storedData) as ImageAdFormData;
+  //       onGenerateNewAd(parsedData);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error parsing JSON:", error);
+  //   }
+  // };
 
   const downloadImage = async (format: "png" | "jpg") => {
     if (!imageUrl || isDownloading) return;
