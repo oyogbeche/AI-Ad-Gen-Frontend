@@ -35,8 +35,8 @@ const BackButton: React.FC<BackButtonProps> = ({
         className="flex items-center text-gray-600 hover:text-gray-800 cursor-pointer p-0"
         type="button"
       >
-        <ArrowLeft size={20} color="#650065" />
-        <span className="text-[#650065] font-medium text-base leading-6 ml-2">
+        <ArrowLeft className="text-[#650065]" />
+        <span className="text-[#650065] font-medium text-base leading-6">
           {label}
         </span>
       </button>
