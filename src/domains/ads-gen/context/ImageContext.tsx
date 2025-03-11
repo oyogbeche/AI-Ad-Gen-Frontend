@@ -5,15 +5,18 @@ import { createContext, useContext, useState, ReactNode } from "react";
 interface ImageContextProps {
   imageUrl: string | null;
   setImageUrl: (url: string) => void;
+  promptData: string | null;
+  setPromptData: (data: string) => void;
 }
 
 const ImageContext = createContext<ImageContextProps | undefined>(undefined);
 
 export const ImageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [promptData, setPromptData] = useState<string | null>(null);
 
   return (
-    <ImageContext.Provider value={{ imageUrl, setImageUrl }}>
+    <ImageContext.Provider value={{ imageUrl, setImageUrl, promptData, setPromptData }}>
       {children}
     </ImageContext.Provider>
   );

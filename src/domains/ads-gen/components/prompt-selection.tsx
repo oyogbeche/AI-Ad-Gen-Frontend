@@ -7,64 +7,124 @@ import { useImageContext } from "@/domains/ads-gen/context/ImageContext";
 
 const prompts = [
   {
-    text: "Generate Runway fashion model showcasing a vibrant dress",
+    text: "Ad Goal: Showcase ChicThreads' latest spring collection featuring trendy dresses, stylish tops, and versatile accessories. Emphasize the quality fabrics, unique designs, and affordable prices. Drive users to the website for an exclusive 25% discount on their first order.",
     images: [
-      "/images/prompt2-1.jpg",
-      "/images/prompt2-2.jpg",
-      "/images/prompt2-3.jpg",
-      "/images/prompt2-4.jpg",
-      "/images/prompt2-5.jpg",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664920/image_fx__11_ghfqum.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664920/image_fx__12_bumsgr.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664890/image_fx__9_tg7coe.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664922/image_fx__8_hkymqf.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664922/image_fx__9_s3vrer.png",
     ],
+    details: {
+      text: "Ad Goal: Showcase ChicThreads' latest spring collection featuring trendy dresses, stylish tops, and versatile accessories. Emphasize the quality fabrics, unique designs, and affordable prices. Drive users to the website for an exclusive 25% discount on their first order.",
+      productName: "HNG Wigs",
+      aspectRatio: "9:16",
+      language: "English",
+      resolution: "9:16 (736 x 1312)",
+      targetAudience: "Teenagers, Young Adult",
+      region: "Global",
+      dateCreated: "Feb 26, 2025, 11:55 PM",
+    },
   },
   {
-    text: "Generate Runway fashion model showcasing a vibrant dress",
+    text: "Ad Goal: Promote DreamHome Realty's exclusive listings of luxury homes and condos in sought-after neighborhoods. Highlight features such as spacious layouts, modern amenities, and proximity to city attractions. Encourage potential buyers to schedule a viewing and offer a free home-buying guide for interested clients.",
     images: [
-      "/images/prompt2-1.jpg",
-      "/images/prompt2-2.jpg",
-      "/images/prompt2-3.jpg",
-      "/images/prompt2-4.jpg",
-      "/images/prompt2-5.jpg",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664914/image_fx__5_ht4xeq.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664918/image_fx__2_tpfxid.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664917/image_fx__3_ncm44a.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664914/image_fx__6_cw0jpo.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664919/image_fx__1_ej3rqq.png",
     ],
+    details: {
+      text: "Ad Goal: Promote DreamHome Realty's exclusive listings of luxury homes and condos in sought-after neighborhoods. Highlight features such as spacious layouts, modern amenities, and proximity to city attractions. Encourage potential buyers to schedule a viewing and offer a free home-buying guide for interested clients.",
+      productName: "HNG Wigs",
+      aspectRatio: "9:16",
+      language: "English",
+      resolution: "9:16 (736 x 1312)",
+      targetAudience: "Teenagers, Young Adult",
+      region: "Global",
+      dateCreated: "Feb 26, 2025, 11:55 PM",
+    },
   },
   {
-    text: "Generate Runway fashion model showcasing a vibrant dress",
+    text: "Ad Goal: Promote a limited-time 40% discount on all ModernLiving furniture pieces, including sofas, chairs, and coffee tables. Emphasize the contemporary designs and high-quality materials that elevate any space. Urge customers to shop now while supplies last and visit the website to explore the collection. For inquiries, contact us at +234 7033-600-609.",
     images: [
-      "/images/prompt2-1.jpg",
-      "/images/prompt2-2.jpg",
-      "/images/prompt2-3.jpg",
-      "/images/prompt2-4.jpg",
-      "/images/prompt2-5.jpg",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664913/image_fx__4_cvwd4a.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664912/image_fx__8_vc2vlr.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664913/image_fx__x7z9dp.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664912/image_fx__7_xg4b7k.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664911/image_fx__9_tdzssw.png",
     ],
+    details: {
+      text: "Ad Goal: Promote a limited-time 40% discount on all ModernLiving furniture pieces, including sofas, chairs, and coffee tables. Emphasize the contemporary designs and high-quality materials that elevate any space. Urge customers to shop now while supplies last and visit the website to explore the collection. For inquiries, contact us at +234 7033-600-609.",
+      productName: "HNG Wigs",
+      aspectRatio: "9:16",
+      language: "English",
+      resolution: "9:16 (736 x 1312)",
+      targetAudience: "Teenagers, Young Adult",
+      region: "Global",
+      dateCreated: "Feb 26, 2025, 11:55 PM",
+    },
   },
   {
-    text: "Generate Runway fashion model showcasing a vibrant dress",
+    text: "Ad Goal: Promote Fanta's vibrant and refreshing fruit-flavored soft drinks. Highlight the variety of flavors available, including the classic Fanta Orange, and emphasize the use of 100% natural flavors. Encourage customers to indulge in a Fanta to quench their thirst and enjoy the fruity taste that brings joy to every moment. Urge them to grab a Fanta today and experience the fun!",
     images: [
-      "/images/prompt2-1.jpg",
-      "/images/prompt2-2.jpg",
-      "/images/prompt2-3.jpg",
-      "/images/prompt2-4.jpg",
-      "/images/prompt2-5.jpg",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664904/image_fx__6_mvqrcw.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664904/image_fx__5_xjvtgy.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664905/image_fx__2_ulytwn.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664905/image_fx__3_cbxtf4.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664907/image_fx__1_sllfay.png",
     ],
+    details: {
+      text: "Ad Goal: Promote Fanta's vibrant and refreshing fruit-flavored soft drinks. Highlight the variety of flavors available, including the classic Fanta Orange, and emphasize the use of 100% natural flavors. Encourage customers to indulge in a Fanta to quench their thirst and enjoy the fruity taste that brings joy to every moment. Urge them to grab a Fanta today and experience the fun!",
+      productName: "HNG Wigs",
+      aspectRatio: "9:16",
+      language: "English",
+      resolution: "9:16 (736 x 1312)",
+      targetAudience: "Teenagers, Young Adult",
+      region: "Global",
+      dateCreated: "Feb 26, 2025, 11:55 PM",
+    },
   },
   {
-    text: "Generate Runway fashion model showcasing a vibrant dress",
+    text: "Create a high-converting ad campaign for a fashion brand's 48-hour flash sale. The campaign should highlight urgency, exclusive discounts, and showcase trending outfits. Ensure the ad copy appeals to fashion-conscious buyers and includes a strong CTA.",
     images: [
-      "/images/prompt2-1.jpg",
-      "/images/prompt2-2.jpg",
-      "/images/prompt2-3.jpg",
-      "/images/prompt2-4.jpg",
-      "/images/prompt2-5.jpg",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664903/image_fx__gdcyvm.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664892/image_fx__7_mpw4zp.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664891/image_fx__8_oz9pag.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664890/image_fx__9_tg7coe.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664902/image_fx__4_flftmv.png",
     ],
+    details: {
+      text: "Create a high-converting ad campaign for a fashion brand's 48-hour flash sale. The campaign should highlight urgency, exclusive discounts, and showcase trending outfits. Ensure the ad copy appeals to fashion-conscious buyers and includes a strong CTA.",
+      productName: "HNG Wigs",
+      aspectRatio: "9:16",
+      language: "English",
+      resolution: "9:16 (736 x 1312)",
+      targetAudience: "Teenagers, Young Adult",
+      region: "Global",
+      dateCreated: "Feb 26, 2025, 11:55 PM",
+    },
   },
   {
-    text: "Generate Runway fashion model showcasing a vibrant dress",
+    text: "Create a buzz-worthy marketing campaign for the grand opening of a new  restaurant specializing in gourmet burgers. The campaign should include a mix of social media teasers, influencer collaborations, and exclusive  opening-day discounts to attract foot traffic... Please i need five  different designs for this advert",
     images: [
-      "/images/prompt2-1.jpg",
-      "/images/prompt2-2.jpg",
-      "/images/prompt2-3.jpg",
-      "/images/prompt2-4.jpg",
-      "/images/prompt2-5.jpg",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664878/image_fx__7_psbfxm.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664879/image_fx__2_wkjz6u.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664878/image_fx__4_c10fhy.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664879/image_fx__3_b1st5t.png",
+      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664880/image_fx__kysgz8.png",
     ],
+    details: {
+      text: "Create a buzz-worthy marketing campaign for the grand opening of a new  restaurant specializing in gourmet burgers. The campaign should include a mix of social media teasers, influencer collaborations, and exclusive  opening-day discounts to attract foot traffic... Please i need five  different designs for this advert",
+      productName: "HNG Wigs",
+      aspectRatio: "9:16",
+      language: "English",
+      resolution: "9:16 (736 x 1312)",
+      targetAudience: "Teenagers, Young Adult",
+      region: "Global",
+      dateCreated: "Feb 26, 2025, 11:55 PM",
+    },
   },
 ];
 
@@ -79,7 +139,7 @@ const PromptSelection: React.FC<PromptSelectionProps> = ({
   onSelectPrompt,
   onGenerateAd,
 }) => {
-  const { setImageUrl } = useImageContext();
+  const { setImageUrl, setPromptData } = useImageContext();
 
   const handleSelectPrompt = (index: number) => {
     onSelectPrompt(index);
@@ -89,6 +149,7 @@ const PromptSelection: React.FC<PromptSelectionProps> = ({
         Math.floor(Math.random() * selectedPrompt.images.length)
       ];
     setImageUrl(randomImage);
+    setPromptData(JSON.stringify(selectedPrompt.details));
   };
 
   return (
@@ -108,7 +169,7 @@ const PromptSelection: React.FC<PromptSelectionProps> = ({
           <div
             onClick={() => handleSelectPrompt(index)}
             key={index}
-            className={`flex gap-2.5 items-center border  py-3 px-6 rounded-[20px] text-base font-medium leading-5 text-[#5F5F5F] cursor-pointer ${
+            className={`flex gap-2.5 items-center border  py-3 px-6 rounded-[20px] text-base font-medium leading-5 text-[#5F5F5F] cursor-pointer text-balance ${
               selectedPromptIndex === index
                 ? "border-[#1671D9]"
                 : "border-[#E3E3E3]"

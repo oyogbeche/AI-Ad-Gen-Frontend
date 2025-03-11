@@ -5,6 +5,8 @@ import { CheckCircle, Circle } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import progressImage from "../../../../public/progressImage.png";
+import { useRouter } from "next/navigation";
+import { useImageContext } from "@/domains/ads-gen/context/ImageContext";
 
 const steps = [
   "Analysed your brand audience",
@@ -17,6 +19,8 @@ const steps = [
 const AdGenerationProgress: React.FC = () => {
   const [progress, setProgress] = useState(20);
   const [currentStep, setCurrentStep] = useState(1);
+  const router = useRouter();
+  const { imageUrl } = useImageContext();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -25,11 +29,12 @@ const AdGenerationProgress: React.FC = () => {
         setCurrentStep((prev) => prev + 1);
       } else {
         clearInterval(interval);
+        router.push("/preview-ad");
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [currentStep]);
+  }, [currentStep, router]);
 
   return (
     <div className="max-w-[1280px] w-full py-2">

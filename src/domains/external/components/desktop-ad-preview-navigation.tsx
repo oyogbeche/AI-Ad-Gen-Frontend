@@ -2,16 +2,16 @@
 
 import { DownloadButton } from "@/domains/ads-gen/components/download-button";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
-import { ArrowLeft, Check, House, RotateCw } from "lucide-react";
+import { ArrowLeft, Check, RotateCw } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 
 interface DesktopAdPreviewNavigationProps {
   className?: string;
   isLoading?: boolean;
   onGenerateNewAd?: (data: ImageAdFormData) => void;
-  imageUrl?: string;
+  imageUrl?: string | null;
   imageName?: string;
 }
 
@@ -30,7 +30,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleBack = () => {
-    router.push("/create-ad/ad-form?type=image");
+    router.push("/generate-ad");
   };
 
   const handleGoHome = () => {
@@ -167,7 +167,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 
         {/* Vertical line - desktop only */}
         <div className="w-px h-8 bg-gray-200"></div>
-
+        {/* 
         <button
           onClick={handleGoHome}
           className="flex items-center text-[#650065] hover:text-gray-800 cursor-pointer"
@@ -177,10 +177,10 @@ export const DesktopAdPreviewNavigation: React.FC<
           <span className="hidden md:block font-medium text-base leading-6">
             Go back Home
           </span>
-        </button>
+        </button> */}
 
         {/* Vertical line - desktop only */}
-        <div className=" w-px h-8 bg-gray-200"></div>
+        {/* <div className=" w-px h-8 bg-gray-200"></div> */}
 
         {/* Download button - also hidden on mobile */}
         <DownloadButton
