@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -12,7 +12,7 @@ interface BackButtonProps {
 
 const BackButton: React.FC<BackButtonProps> = ({
   fallbackUrl = "/",
-  className = "mb-8",
+  className = "",
   label = "Back",
 }) => {
   const router = useRouter();
@@ -32,17 +32,11 @@ const BackButton: React.FC<BackButtonProps> = ({
     <div className={className}>
       <button
         onClick={handleBack}
-        className="flex items-center text-gray-600 hover:text-gray-800 cursor-pointer p-0"
+        className="flex items-center gap-2 text-gray-600 hover:text-gray-800 cursor-pointer p-0"
         type="button"
       >
-        <Image
-          src="/arrow-left.svg"
-          alt="Back"
-          className="w-6 h-6 mr-2"
-          width={24}
-          height={24}
-        />
-        <span className="text-[#121316] font-medium text-base leading-6">
+        <ArrowLeft className="text-[#650065]" />
+        <span className="text-[#650065] font-medium text-base leading-6">
           {label}
         </span>
       </button>
