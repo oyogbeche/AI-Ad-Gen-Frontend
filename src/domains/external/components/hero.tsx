@@ -6,6 +6,7 @@ import Link from "next/link";
 import React from "react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
+import AdButtons from "@/app/(external)/(dashboard)/components/demo-generate-btn";
 
 const heroImages = [
   {
@@ -76,6 +77,7 @@ const HeroSection = () => {
           >
             Generate New Ad →
           </Link>
+          <AdButtons />
         </motion.div>
       </motion.div>
 
