@@ -59,7 +59,10 @@ export const DesktopAdPreviewNavigation: React.FC<
 
     try {
       // Fetch the image directly
-      const response = await fetch(imageUrl);
+
+      const response = await fetch(
+        "https://cors-anywhere.herokuapp.com/" + imageUrl
+      );
       const blob = await response.blob();
 
       // Create a new blob with the desired format
