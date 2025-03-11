@@ -1,8 +1,10 @@
 "use client";
 // import { useState } from "react";
 import { Logo } from "@/components/icons/icon";
+import { Button } from "@/components/ui/button";
 import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
 import { LoadingButton } from "@/domains/auth/components/loading-button";
+import { ChevronDown, User } from "lucide-react";
 import Image from "next/image";
 // import { Google } from "@/components/icons/icon";
 // import { Button } from "@/components/ui/button";
@@ -29,6 +31,15 @@ const Header: React.FC = () => {
                     >
                     <Image src="/google.svg" alt="Google" width={20} height={20} /> <p>Sign In With Google</p>
             </LoadingButton>
+            <button className='bg-[#F8E6F8] rounded-[12px] p-1 pr-2 flex items-center gap-1 cursor-pointer hover:bg-[#ffd5ff] font-[600] text-4 leading-[28px]'>
+              <span className="mr-1 bg-white rounded-[12px] text-[#A1A1A1] p-2">
+                <User />
+              </span>
+              <span>John Doe</span>
+              <span>
+                <ChevronDown />
+              </span>
+            </button>
 
         {/* <Button
           onClick={handleGoogleLogin}
