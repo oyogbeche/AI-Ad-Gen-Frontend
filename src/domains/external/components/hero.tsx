@@ -63,36 +63,22 @@ const HeroSection = () => {
         >
           Create compelling, high-converting ads to maximize ROI
         </motion.p>
-        <div className="flex gap-4 md:gap-10 flex-col md:flex-row justify-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.9, duration: 0.5 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.9, duration: 0.5 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="flex gap-10 items-center w-fit mx-auto"
+        >
+          <Link
+            href={"/generate-ad"}
+            className="flex gap-2.5 text-white bg-light-purple cursor-pointer px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors w-fit mx-auto"
           >
-            <Link
-              href={"/generate-ad"}
-              className="cursor-pointer px-6 py-3 rounded-sm text-[#520052] transition-colors inline-block border border-[#B800B8] hover:bg-[#cf54cf21]"
-            >
-              Try a Demo Ad →
-            </Link>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.9, duration: 0.5 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link
-              href={"/signin"}
-              className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors inline-block"
-            >
-              Generate Your Ad →
-            </Link>
-          </motion.div>
-        </div>
+            Try a Demo Ad
+            <ArrowRight size={24} />
+          </Link>
+        </motion.div>
       </motion.div>
 
       <motion.div
@@ -106,7 +92,7 @@ const HeroSection = () => {
           {heroImages.map((image, index) => (
             <motion.div
               key={index}
-              className="outline-none flex items-center justify-center h-[200px] md:h-[450px] relative"
+              className="outline-none flex items-center justify-center h-[200px] md:h-[450px]"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 * index, duration: 0.5 }}
@@ -114,7 +100,7 @@ const HeroSection = () => {
               <Image
                 src={image.src}
                 alt={image.alt}
-                className="max-w-full max-h-full object-contain absolute bottom-[-20px]"
+                className="max-w-full max-h-full object-contain"
                 quality={100}
                 width={1000}
                 height={500}
