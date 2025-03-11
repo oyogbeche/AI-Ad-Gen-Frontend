@@ -7,7 +7,7 @@ import { useImageContext } from "@/domains/ads-gen/context/ImageContext";
 
 const prompts = [
   {
-    text: "Showcase ChicThreads' latest spring collection featuring trendy dresses, stylish tops, and versatile accessories. Emphasize the quality fabrics, unique designs, and affordable prices. Drive users to the website for an exclusive 25% discount on their first order.",
+    text: "Promote ChicThreads' spring collection with quality materials and unique designs. Offer 25% discount for first orders.",
     images: [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664920/image_fx__11_ghfqum.png",
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664920/image_fx__12_bumsgr.png",
@@ -16,18 +16,17 @@ const prompts = [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664922/image_fx__9_s3vrer.png",
     ],
     details: {
-      text: "Showcase ChicThreads' latest spring collection featuring trendy dresses, stylish tops, and versatile accessories. Emphasize the quality fabrics, unique designs, and affordable prices. Drive users to the website for an exclusive 25% discount on their first order.",
-      productName: "HNG Wigs",
+      text: "Promote ChicThreads' spring collection with quality materials and unique designs. Offer 25% discount for first orders.",
+      productName: "ChicThreads",
       aspectRatio: "9:16",
       language: "English",
       resolution: "9:16 (736 x 1312)",
-      targetAudience: "Teenagers, Young Adult",
+      targetAudience: "Fashion Shoppers",
       region: "Global",
-      dateCreated: "Feb 26, 2025, 11:55 PM",
     },
   },
   {
-    text: "Promote DreamHome Realty's exclusive listings of luxury homes and condos in sought-after neighborhoods. Highlight features such as spacious layouts, modern amenities, and proximity to city attractions. Encourage potential buyers to schedule a viewing and offer a free home-buying guide for interested clients.",
+    text: "Advertise DreamHome Realty's luxury properties with modern amenities. Offer a free home-buying guide to interested clients.",
     images: [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664914/image_fx__5_ht4xeq.png",
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664918/image_fx__2_tpfxid.png",
@@ -36,18 +35,17 @@ const prompts = [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664919/image_fx__1_ej3rqq.png",
     ],
     details: {
-      text: "Promote DreamHome Realty's exclusive listings of luxury homes and condos in sought-after neighborhoods. Highlight features such as spacious layouts, modern amenities, and proximity to city attractions. Encourage potential buyers to schedule a viewing and offer a free home-buying guide for interested clients.",
-      productName: "HNG Wigs",
+      text: "Advertise DreamHome Realty's luxury properties with modern amenities. Offer a free home-buying guide to interested clients.",
+      productName: "DreamHome Realty",
       aspectRatio: "9:16",
       language: "English",
       resolution: "9:16 (736 x 1312)",
-      targetAudience: "Teenagers, Young Adult",
+      targetAudience: "Home Buyers",
       region: "Global",
-      dateCreated: "Feb 26, 2025, 11:55 PM",
     },
   },
   {
-    text: "Promote a limited-time 40% discount on all ModernLiving furniture pieces, including sofas, chairs, and coffee tables. Emphasize the contemporary designs and high-quality materials that elevate any space. Urge customers to shop now while supplies last and visit the website to explore the collection. For inquiries, contact us at +234 7033-600-609.",
+    text: "Announce 40% discount on ModernLiving furniture with premium materials. Contact us for limited-time offers.",
     images: [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664913/image_fx__4_cvwd4a.png",
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664912/image_fx__8_vc2vlr.png",
@@ -56,18 +54,17 @@ const prompts = [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664911/image_fx__9_tdzssw.png",
     ],
     details: {
-      text: "Promote a limited-time 40% discount on all ModernLiving furniture pieces, including sofas, chairs, and coffee tables. Emphasize the contemporary designs and high-quality materials that elevate any space. Urge customers to shop now while supplies last and visit the website to explore the collection. For inquiries, contact us at +234 7033-600-609.",
-      productName: "HNG Wigs",
+      text: "Announce 40% discount on ModernLiving furniture with premium materials. Contact us for limited-time offers.",
+      productName: "ModernLiving",
       aspectRatio: "9:16",
       language: "English",
       resolution: "9:16 (736 x 1312)",
-      targetAudience: "Teenagers, Young Adult",
+      targetAudience: "Home Decor Enthusiasts",
       region: "Global",
-      dateCreated: "Feb 26, 2025, 11:55 PM",
     },
   },
   {
-    text: "Promote Fanta's vibrant and refreshing fruit-flavored soft drinks. Highlight the variety of flavors available, including the classic Fanta Orange, and emphasize the use of 100% natural flavors. Encourage customers to indulge in a Fanta to quench their thirst and enjoy the fruity taste that brings joy to every moment. Urge them to grab a Fanta today and experience the fun!",
+    text: "Promote Fanta's refreshing fruit-flavored drinks with 100% natural flavors. Experience the fruity taste today!",
     images: [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664904/image_fx__6_mvqrcw.png",
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664904/image_fx__5_xjvtgy.png",
@@ -76,18 +73,17 @@ const prompts = [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664907/image_fx__1_sllfay.png",
     ],
     details: {
-      text: "Promote Fanta's vibrant and refreshing fruit-flavored soft drinks. Highlight the variety of flavors available, including the classic Fanta Orange, and emphasize the use of 100% natural flavors. Encourage customers to indulge in a Fanta to quench their thirst and enjoy the fruity taste that brings joy to every moment. Urge them to grab a Fanta today and experience the fun!",
-      productName: "HNG Wigs",
+      text: "Promote Fanta's refreshing fruit-flavored drinks with 100% natural flavors. Experience the fruity taste today!",
+      productName: "Fanta",
       aspectRatio: "9:16",
       language: "English",
       resolution: "9:16 (736 x 1312)",
-      targetAudience: "Teenagers, Young Adult",
+      targetAudience: "All Ages",
       region: "Global",
-      dateCreated: "Feb 26, 2025, 11:55 PM",
     },
   },
   {
-    text: "Create a high-converting ad campaign for a fashion brand's 48-hour flash sale. The campaign should highlight urgency, exclusive discounts, and showcase trending outfits. Ensure the ad copy appeals to fashion-conscious buyers and includes a strong CTA.",
+    text: "Create urgency for fashion brand's 48-hour flash sale with exclusive discounts. Strong call to action for trending outfits.",
     images: [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664903/image_fx__gdcyvm.png",
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664892/image_fx__7_mpw4zp.png",
@@ -96,18 +92,17 @@ const prompts = [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664902/image_fx__4_flftmv.png",
     ],
     details: {
-      text: "Create a high-converting ad campaign for a fashion brand's 48-hour flash sale. The campaign should highlight urgency, exclusive discounts, and showcase trending outfits. Ensure the ad copy appeals to fashion-conscious buyers and includes a strong CTA.",
-      productName: "HNG Wigs",
+      text: "Create urgency for fashion brand's 48-hour flash sale with exclusive discounts. Strong call to action for trending outfits.",
+      productName: "Fashion Flash Sale",
       aspectRatio: "9:16",
       language: "English",
       resolution: "9:16 (736 x 1312)",
-      targetAudience: "Teenagers, Young Adult",
+      targetAudience: "Fashion-Conscious Buyers",
       region: "Global",
-      dateCreated: "Feb 26, 2025, 11:55 PM",
     },
   },
   {
-    text: "Create a buzz-worthy marketing campaign for the grand opening of a new  restaurant specializing in gourmet burgers. The campaign should include a mix of social media teasers, influencer collaborations, and exclusive  opening-day discounts to attract foot traffic... Please i need five  different designs for this advert",
+    text: "Promote gourmet burger restaurant's grand opening with social media teasers. Exclusive opening-day discounts available.",
     images: [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664878/image_fx__7_psbfxm.png",
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664879/image_fx__2_wkjz6u.png",
@@ -116,14 +111,13 @@ const prompts = [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664880/image_fx__kysgz8.png",
     ],
     details: {
-      text: "Create a buzz-worthy marketing campaign for the grand opening of a new  restaurant specializing in gourmet burgers. The campaign should include a mix of social media teasers, influencer collaborations, and exclusive  opening-day discounts to attract foot traffic... Please i need five  different designs for this advert",
-      productName: "HNG Wigs",
+      text: "Promote gourmet burger restaurant's grand opening with social media teasers. Exclusive opening-day discounts available.",
+      productName: "Gourmet Burger Restaurant",
       aspectRatio: "9:16",
       language: "English",
       resolution: "9:16 (736 x 1312)",
-      targetAudience: "Teenagers, Young Adult",
+      targetAudience: "Food Enthusiasts",
       region: "Global",
-      dateCreated: "Feb 26, 2025, 11:55 PM",
     },
   },
 ];
@@ -169,7 +163,7 @@ const PromptSelection: React.FC<PromptSelectionProps> = ({
           <div
             onClick={() => handleSelectPrompt(index)}
             key={index}
-            className={`flex gap-2.5 items-end md:items-center border  py-3 px-6 rounded-[20px] text-base font-medium leading-5 text-[#5F5F5F] cursor-pointer text-balance ${
+            className={`flex gap-1 items-end md:items-center border  py-3 px-6 rounded-[20px] text-base font-medium leading-6 text-[#5F5F5F] cursor-pointer text-balance ${
               selectedPromptIndex === index
                 ? "border-[#1671D9]"
                 : "border-[#E3E3E3]"

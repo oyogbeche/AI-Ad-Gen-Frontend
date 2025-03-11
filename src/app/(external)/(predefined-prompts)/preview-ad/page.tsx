@@ -6,7 +6,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const Page = () => {
-  const { imageUrl, promptData, setImageUrl, setPromptData } = useImageContext();
+  const { imageUrl, promptData, setImageUrl, setPromptData } =
+    useImageContext();
   const [isLoaded, setIsLoaded] = useState(false);
   const details = promptData ? JSON.parse(promptData) : {};
 
@@ -19,13 +20,13 @@ const Page = () => {
   }, [setImageUrl, setPromptData]);
 
   if (!isLoaded) {
-    return null;  
+    return null;
   }
 
   return (
     <div>
       <div className="pt-8">
-        <div className="bg-white max-w-[1125px] w-full mx-auto py-8 flex flex-col gap-6 rounded-[12px]">
+        <div className="bg-white max-w-[1200px] w-full mx-auto py-8 flex flex-col gap-6 rounded-[12px]">
           <div className="px-6">
             <DesktopAdPreviewNavigation imageUrl={imageUrl} />
           </div>
@@ -78,10 +79,6 @@ const Page = () => {
                 <div className="flex flex-col gap-1 font-normal text-base leading-6 py-1">
                   <h4 className="text-[#121316] ">Region</h4>
                   <p className="text-[#5F5F5F]">{details.region}</p>
-                </div>
-                <div className="flex flex-col gap-1 font-normal text-base leading-6 py-1">
-                  <h4 className="text-[#121316] ">Date Created</h4>
-                  <p className="text-[#5F5F5F]">{details.dateCreated}</p>
                 </div>
               </div>
             </div>

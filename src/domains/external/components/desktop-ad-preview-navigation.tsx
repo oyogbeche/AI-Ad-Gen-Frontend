@@ -142,10 +142,10 @@ export const DesktopAdPreviewNavigation: React.FC<
         </button>
 
         {/* Vertical line - desktop only */}
-        <div className=" w-px h-8 bg-gray-200"></div>
+        {/* <div className=" w-px h-8 bg-gray-200"></div> */}
 
         {/* Generate New Ad button - hidden on mobile */}
-        <Link href={"/signin"}>
+        {/* <Link href={"/signin"}>
           <button
             onClick={handleGenerateNewAd}
             disabled={isLoading}
@@ -161,10 +161,10 @@ export const DesktopAdPreviewNavigation: React.FC<
             </span>
             <RotateCw className="w-5 h-5 ml-2" />
           </button>
-        </Link>
+        </Link> */}
 
         {/* Vertical line - desktop only */}
-        {imageUrl && <div className="w-px h-8 bg-gray-200"></div>}
+        {/* {imageUrl && <div className="w-px h-8 bg-gray-200"></div>} */}
         {/* 
         <button
           onClick={handleGoHome}

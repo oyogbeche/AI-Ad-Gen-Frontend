@@ -28,12 +28,12 @@ export const DownloadButton = ({
         className="flex items-center border border-[#650065] px-3 md:px-6 py-2 rounded-[6px] cursor-pointer text-[#650065]"
       >
         <div className="flex items-center">
-          <Download size={20} className="mr-0 md:mr-2 strokeWidth-[1.5]" />
-          <span className="hidden md:inline">
+          <Download size={20} className="mr-2 strokeWidth-[1.5]" />
+          <span className="inline">
             {isDownloading ? "Downloading..." : "Download"}
           </span>
           {!isDownloading ? (
-            <ChevronDown className="hidden md:inline w-5 h-5 ml-3" />
+            <ChevronDown className="inline w-5 h-5 ml-3" />
           ) : (
             <span className="ml-2 w-4 h-4 border-2 border-gray-300 border-t-[#650065] rounded-full animate-spin"></span>
           )}

@@ -58,7 +58,7 @@ const AdGenerationProgress: React.FC = () => {
                   </div>
                 ) : index + 1 === currentStep ? (
                   <div className="flex flex-col gap-2 items-center">
-                    <Circle className="text-blue-500 animate-spin" size={20} />
+                    <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent border-solid rounded-full animate-spin"></div>
                     {index + 1 !== steps.length && (
                       <div className="w-[1px] h-[22px] bg-[#A1A1A1]"></div>
                     )}
