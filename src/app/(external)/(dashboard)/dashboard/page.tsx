@@ -1,7 +1,14 @@
+"use client";
+
 import { ImageAdCard } from "@/app/(external)/(dashboard)/components/dashboard-hero"
+import { useAuthStore } from "@/store/auth-store";
 import Image from "next/image"
 
 export default function Home() {
+const user = useAuthStore((state) => state.user);
+
+console.log(user);
+
   return (
     <main className="container mx-auto py-4 md:py-8">
       <div className="mb-[140px]">
