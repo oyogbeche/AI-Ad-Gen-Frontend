@@ -90,4 +90,4 @@ export const FAQ = () => {
       </div>
     </section>
   );
-}
+};

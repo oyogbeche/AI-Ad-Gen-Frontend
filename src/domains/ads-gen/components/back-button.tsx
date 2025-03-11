@@ -12,7 +12,7 @@ interface BackButtonProps {
 
 const BackButton: React.FC<BackButtonProps> = ({
   fallbackUrl = "/",
-  className = "mb-8",
+  className = "",
   label = "Back",
 }) => {
   const router = useRouter();
@@ -32,11 +32,16 @@ const BackButton: React.FC<BackButtonProps> = ({
     <div className={className}>
       <button
         onClick={handleBack}
-        className="flex items-center text-gray-600 hover:text-gray-800 cursor-pointer p-0"
+        className="flex items-center gap-2 text-gray-600 hover:text-gray-800 cursor-pointer p-0"
         type="button"
       >
+<<<<<<< HEAD
+        <ArrowLeft className="text-[#650065]" />
+        <span className="text-[#650065] font-medium text-base leading-6">
+=======
         <ArrowLeft size={20} color="#650065" />
         <span className="text-[#650065] font-medium text-base leading-6 ml-2">
+>>>>>>> b308a78e130cfe7891e7e41f1ff9e60edd758749
           {label}
         </span>
       </button>

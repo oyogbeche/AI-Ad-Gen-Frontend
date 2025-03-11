@@ -1,10 +1,14 @@
 "use client";
 // import { useState } from "react";
 import { Logo } from "@/components/icons/icon";
+//import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
+//import { LoadingButton } from "@/domains/auth/components/loading-button";
+//import Image from "next/image";
 // import { Google } from "@/components/icons/icon";
 // import { Button } from "@/components/ui/button";
 // import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const Header: React.FC = () => {
   // const { handleGoogleLogin, isLoading } = useGoogleAuth();
@@ -17,7 +21,31 @@ const Header: React.FC = () => {
             <Logo className="w-32 md:w-auto" />
           </Link>
         </div>
-
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.9, duration: 0.5 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="hidden md:inline-block"
+        >
+          <Link
+            href={"/signin"}
+            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors inline-block"
+          >
+            Generate Your Ad →
+          </Link>
+        </motion.div>
+        {/* 
+           <LoadingButton
+                      type="button"
+                      className="w-44 border-[1.5px] border-blue-500 bg-white hover:bg-blue-700 text-black my-2 py-2"
+                      isLoading={isLoading}
+                      onClick={handleGoogleLogin}
+                    >
+                    <Image src="/google.svg" alt="Google" width={20} height={20} /> <p>Sign In With Google</p>
+            </LoadingButton>
+ */}
         {/* <Button
           onClick={handleGoogleLogin}
           className="flex items-center gap-[10px] rounded-md border border-[#B7D3F3] px-3 py-2 bg-white md:px-4 md:py-3  hover:bg-[#F6F6F6]"
