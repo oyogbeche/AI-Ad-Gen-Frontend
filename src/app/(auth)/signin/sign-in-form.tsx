@@ -20,6 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { LoadingButton } from "@/domains/auth/components/loading-button";
+import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
 
 // Define the form schema with Zod
 const formSchema = z.object({
@@ -36,6 +37,8 @@ type FormValues = z.infer<typeof formSchema>;
 export function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  //const {handleGoogleLogin, isLoading: isGoogleLoading} = useGoogleAuth();
 
   // Initialize react-hook-form with zod resolver
   const form = useForm<FormValues>({
@@ -185,6 +188,9 @@ export function SignInForm() {
               Sign In
             </LoadingButton>
 
+         
+            
+
             <div className="text-center text-sm">
               Don&apos;t have an account?{" "}
               <Link
@@ -196,6 +202,9 @@ export function SignInForm() {
             </div>
           </form>
         </Form>
+
+           {/* Google Sign-In Button */}
+   
       </CardContent>
     </Card>
   );

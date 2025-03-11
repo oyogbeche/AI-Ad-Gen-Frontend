@@ -10,25 +10,20 @@ export const useGoogleAuth = () => {
   const handleGoogleLogin = async () => {
     setIsLoading(true);
     try {
-      const data = await getRequest("/auth/google_login");
+      const response = await getRequest("/auth/google/initiate?return_json=true");
 
-      if (data.redirectUrl) {
-        window.location.href = data.redirectUrl;
-      } else if (data.authUrl) {
-        window.location.href = data.authUrl;
+      if (response?.data?.auth_url) {
+        console.log("Google login initiated:", response.data.auth_url);
+       // window.location.href = response.data.auth_url; 
+
       } else {
-        console.log("Authentication response:", data);
-
-        if (data.token) {
-          localStorage.setItem("authToken", data.token);
-
-          window.location.href = "/dashboard";
-          toast.success("Successfully signed in!");
-        }
+        console.error("Invalid response:", response);
+        toast.error("Failed to initiate Google login.");
       }
     } catch (error) {
       console.error("Google login error:", error);
       toast.error("Failed to sign in with Google");
+    } finally {
       setIsLoading(false);
     }
   };

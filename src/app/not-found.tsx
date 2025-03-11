@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Header from "@/domains/external/components/header";
 import { motion } from "framer-motion";
-import Image from "next/image";
+import { MoveRight } from "lucide-react";
 export default function NotFound() {
   return (
     <>
@@ -22,9 +22,11 @@ export default function NotFound() {
         >
           <Link
             href={"/"}
-            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors inline-block "
+            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex items-center gap-2"
           >
-            Go to home <Image src="/arrow-right.svg" alt="Go to home Icon" height={24} width={24} className="pl-[10px] inline-block" />
+
+            <p>Go to home</p> <MoveRight />
+          
           </Link>
         </motion.div>
       </div>
