@@ -33,10 +33,10 @@ export const DesktopAdPreviewNavigation: React.FC<
     router.push("/generate-ad");
   };
 
-  const handleGoHome = () => {
-    localStorage.removeItem("imageAdData");
-    router.push("/");
-  };
+  // const handleGoHome = () => {
+  //   localStorage.removeItem("imageAdData");
+  //   router.push("/");
+  // };
 
   const handleGenerateNewAd = () => {
     if (isLoading) return;
@@ -58,10 +58,8 @@ export const DesktopAdPreviewNavigation: React.FC<
     setIsOpen(false);
 
     try {
-      // Fetch the image
-      const response = await fetch(
-        "https://cors-anywhere.herokuapp.com/" + imageUrl
-      );
+      // Fetch the image directly
+      const response = await fetch(imageUrl);
       const blob = await response.blob();
 
       // Create a new blob with the desired format
@@ -80,9 +78,6 @@ export const DesktopAdPreviewNavigation: React.FC<
       // Cleanup
       window.URL.revokeObjectURL(link.href);
 
-      // toast.success("Download Success!", {
-      //   description: "Your Image Ad has been downloaded as PNG",
-      // });
       toast.custom(() => (
         <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
           <div className="flex items-center justify-between w-full">
@@ -95,7 +90,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                   Download Success!
                 </p>
                 <p className="text-xs text-gray-500">
-                  Your Image Ad has been downloaded as PNG
+                  Your Image Ad has been downloaded as {extension.toUpperCase()}
                 </p>
               </div>
             </div>

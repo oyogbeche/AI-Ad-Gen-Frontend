@@ -16,7 +16,7 @@ const Page = () => {
             <DesktopAdPreviewNavigation imageUrl={imageUrl} />
           </div>
 
-          <div className="px-6 flex gap-6">
+          <div className="px-6 flex max-lg:flex-col gap-6">
             <div className="rounded-[8px] lg:min-w-[598px] max-w-[598px] rounded=[8px] overflow-hidden">
               <Image
                 className="rounded-[8px] w-full h-auto object-cover"
