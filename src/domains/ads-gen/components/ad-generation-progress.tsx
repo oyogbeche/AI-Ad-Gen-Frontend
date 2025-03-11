@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import progressImage from "../../../../public/progressImage.png";
 import { useRouter } from "next/navigation";
-import { useImageContext } from "@/domains/ads-gen/context/ImageContext";
 
 const steps = [
   "Analysed your brand audience",
@@ -20,7 +19,6 @@ const AdGenerationProgress: React.FC = () => {
   const [progress, setProgress] = useState(20);
   const [currentStep, setCurrentStep] = useState(1);
   const router = useRouter();
-  const { imageUrl } = useImageContext();
 
   useEffect(() => {
     const interval = setInterval(() => {
