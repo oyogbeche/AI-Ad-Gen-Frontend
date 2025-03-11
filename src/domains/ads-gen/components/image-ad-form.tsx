@@ -1,11 +1,4 @@
 "use client";
-import {
-  adSizeOptions,
-  ageGroupOptions,
-  demographicsOptions,
-  languageOptions,
-  regionOptions,
-} from "@/domains/ads-gen/utils/step-one-form-options";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -26,16 +19,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  adSizeOptions,
+  ageGroupOptions,
+  demographicsOptions,
+  languageOptions,
+  regionOptions,
+} from "@/domains/ads-gen/utils/step-one-form-options";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { ImageAdSchema } from "@/schemas/ad-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 // import {  MouseEventHandler } from "react";
 import { useForm } from "react-hook-form";
+import { useSubmitCampaign } from "../api/use-submit-campaign";
 import { ImageAdFormData } from "../types";
 import BackButton from "./back-button";
-import { useSubmitCampaign } from "../api/use-submit-campaign";
 
 // import { X } from "lucide-react";
 // import Link from "next/link";
@@ -110,6 +111,7 @@ export const ImageAdForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   // const [limitReached, setLimitReached] = useState(true);
   const [limits, setLimits] = useState("");
+  const router = useRouter();
 
   const mutation = useSubmitCampaign();
 
@@ -194,8 +196,16 @@ export const ImageAdForm = () => {
       try {
         localStorage.setItem("imageAdData", JSON.stringify(data));
         const limitsLeft = Number(localStorage.getItem("limitsLeft"));
-        localStorage.setItem("limitsLeft", String(limitsLeft <= 0 ? limitsLeft : limitsLeft - 1));
-        mutation.mutate(formatPayload(data));
+        localStorage.setItem(
+          "limitsLeft",
+          String(limitsLeft <= 0 ? limitsLeft : limitsLeft - 1)
+        );
+        mutation.mutate(formatPayload(data), {
+          onSuccess: (response) => {
+            localStorage.setItem("generatedImageUrl", response.imageUrl);
+            router.push("/image-ad-generation-progress");
+          },
+        });
       } catch (error) {
         console.error("Error saving to localStorage", error);
       }
@@ -261,7 +271,7 @@ export const ImageAdForm = () => {
       </div> */}
       <Card className="w-full max-w-[890px] border-none shadow-none py-0">
         <CardContent className="px-4 md:px-8 py-6">
-          <BackButton className="mb-8" />
+          <BackButton className="mb-8" fallbackUrl="/dashboard" />
           <CardHeader className="mb-6 md:mb-10 text-center px-0">
             <CardTitle className="text-[28px] leading-[36px] text-[#121316] font-semibold">
               Let&apos;s set up your Ad
@@ -285,7 +295,10 @@ export const ImageAdForm = () => {
             <Loader fullscreen={false} message="Generating Ad Please wait..." />
           ) : (
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
+              >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border py-8 md:py-10 px-4 md:px-6 rounded-[8px] border-[#ECECEC]">
                   <FormField
                     control={form.control}
@@ -324,10 +337,16 @@ export const ImageAdForm = () => {
                               title="Target Audience Demographics"
                             />
                           ) : (
-                            <Select onValueChange={field.onChange} value={field.value}>
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value}
+                            >
                               <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
                                 <SelectValue placeholder="Select demographics">
-                                  {getSelectLabel(demographicsOptions, field.value)}
+                                  {getSelectLabel(
+                                    demographicsOptions,
+                                    field.value
+                                  )}
                                 </SelectValue>
                               </SelectTrigger>
                               <SelectContent>
@@ -366,7 +385,10 @@ export const ImageAdForm = () => {
                               title="Target Audience Region"
                             />
                           ) : (
-                            <Select onValueChange={field.onChange} value={field.value}>
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value}
+                            >
                               <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
                                 <SelectValue placeholder="Select Region">
                                   {getSelectLabel(regionOptions, field.value)}
@@ -438,7 +460,10 @@ export const ImageAdForm = () => {
                               title="Ad Size"
                             />
                           ) : (
-                            <Select onValueChange={field.onChange} value={field.value}>
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value}
+                            >
                               <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center h-[56px]">
                                 <SelectValue placeholder="Choose Ad Size">
                                   {getAdSizeLabel(field.value)}
@@ -452,7 +477,9 @@ export const ImageAdForm = () => {
                                     className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
                                   >
                                     <div className="flex items-center space-x-2 py-1">
-                                      <div className={`border border-[#121316] ${option.aspectRatio}`} />
+                                      <div
+                                        className={`border border-[#121316] ${option.aspectRatio}`}
+                                      />
                                       <span>{option.label}</span>
                                     </div>
                                   </SelectItem>
@@ -483,7 +510,10 @@ export const ImageAdForm = () => {
                               title="Ad Language"
                             />
                           ) : (
-                            <Select onValueChange={field.onChange} value={field.value}>
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value}
+                            >
                               <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
                                 <SelectValue placeholder="Select a Language">
                                   {getSelectLabel(languageOptions, field.value)}

@@ -10,6 +10,7 @@ import { toast } from "sonner";
 interface DesktopAdPreviewNavigationProps {
   className?: string;
   isLoading?: boolean;
+  backUrl?: string;
   onGenerateNewAd?: (data: ImageAdFormData) => void;
   imageUrl?: string | null;
   imageName?: string;
@@ -20,6 +21,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 > = ({
   className = "",
   // onGenerateNewAd,
+  backUrl = "/generate-ad",
   isLoading,
   imageUrl,
   imageName = "ad",
@@ -30,7 +32,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleBack = () => {
-    router.push("/generate-ad");
+    router.push(backUrl);
   };
 
   // const handleGoHome = () => {
