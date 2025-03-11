@@ -2,16 +2,16 @@
 
 import { DownloadButton } from "@/domains/ads-gen/components/download-button";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
-import { ArrowLeft, Check, House, RotateCw } from "lucide-react";
+import { ArrowLeft, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 
 interface DesktopAdPreviewNavigationProps {
   className?: string;
   isLoading?: boolean;
   onGenerateNewAd?: (data: ImageAdFormData) => void;
-  imageUrl?: string;
+  imageUrl?: string | null;
   imageName?: string;
 }
 
@@ -19,7 +19,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   DesktopAdPreviewNavigationProps
 > = ({
   className = "",
-  onGenerateNewAd,
+  // onGenerateNewAd,
   isLoading,
   imageUrl,
   imageName = "ad",
@@ -30,26 +30,26 @@ export const DesktopAdPreviewNavigation: React.FC<
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleBack = () => {
-    router.push("/create-ad/ad-form?type=image");
+    router.push("/generate-ad");
   };
 
-  const handleGoHome = () => {
-    localStorage.removeItem("imageAdData");
-    router.push("/");
-  };
+  // const handleGoHome = () => {
+  //   localStorage.removeItem("imageAdData");
+  //   router.push("/");
+  // };
 
-  const handleGenerateNewAd = () => {
-    if (isLoading) return;
-    try {
-      const storedData = localStorage.getItem("imageAdData");
-      if (storedData && onGenerateNewAd) {
-        const parsedData = JSON.parse(storedData) as ImageAdFormData;
-        onGenerateNewAd(parsedData);
-      }
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-    }
-  };
+  // const handleGenerateNewAd = () => {
+  //   if (isLoading) return;
+  //   try {
+  //     const storedData = localStorage.getItem("imageAdData");
+  //     if (storedData && onGenerateNewAd) {
+  //       const parsedData = JSON.parse(storedData) as ImageAdFormData;
+  //       onGenerateNewAd(parsedData);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error parsing JSON:", error);
+  //   }
+  // };
 
   const downloadImage = async (format: "png" | "jpg") => {
     if (!imageUrl || isDownloading) return;
@@ -58,10 +58,8 @@ export const DesktopAdPreviewNavigation: React.FC<
     setIsOpen(false);
 
     try {
-      // Fetch the image
-      const response = await fetch(
-        "https://cors-anywhere.herokuapp.com/" + imageUrl
-      );
+      // Fetch the image directly
+      const response = await fetch(imageUrl);
       const blob = await response.blob();
 
       // Create a new blob with the desired format
@@ -80,9 +78,6 @@ export const DesktopAdPreviewNavigation: React.FC<
       // Cleanup
       window.URL.revokeObjectURL(link.href);
 
-      // toast.success("Download Success!", {
-      //   description: "Your Image Ad has been downloaded as PNG",
-      // });
       toast.custom(() => (
         <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
           <div className="flex items-center justify-between w-full">
@@ -95,7 +90,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                   Download Success!
                 </p>
                 <p className="text-xs text-gray-500">
-                  Your Image Ad has been downloaded as PNG
+                  Your Image Ad has been downloaded as {extension.toUpperCase()}
                 </p>
               </div>
             </div>
@@ -146,28 +141,30 @@ export const DesktopAdPreviewNavigation: React.FC<
         </button>
 
         {/* Vertical line - desktop only */}
-        <div className=" w-px h-8 bg-gray-200"></div>
+        {/* <div className=" w-px h-8 bg-gray-200"></div> */}
 
         {/* Generate New Ad button - hidden on mobile */}
-        <button
-          onClick={handleGenerateNewAd}
-          disabled={isLoading}
-          className={`flex items-center font-medium cursor-pointer ${
-            isLoading
-              ? "text-[#D19AD1] cursor-not-allowed"
-              : "text-[#650065] hover:text-[#650065]"
-          }`}
-          type="button"
-        >
-          <span className="hidden md:block">
-            {isLoading ? "Generating..." : "Generate New Ad"}
-          </span>
-          <RotateCw className="w-5 h-5 ml-2" />
-        </button>
+        {/* <Link href={"/signin"}>
+          <button
+            onClick={handleGenerateNewAd}
+            disabled={isLoading}
+            className={`flex items-center font-medium cursor-pointer ${
+              isLoading
+                ? "text-[#D19AD1] cursor-not-allowed"
+                : "text-[#650065] hover:text-[#650065]"
+            }`}
+            type="button"
+          >
+            <span className="hidden md:block">
+              {isLoading ? "Generating..." : "Generate Your Ad"}
+            </span>
+            <RotateCw className="w-5 h-5 ml-2" />
+          </button>
+        </Link> */}
 
         {/* Vertical line - desktop only */}
-        <div className="w-px h-8 bg-gray-200"></div>
-
+        {/* {imageUrl && <div className="w-px h-8 bg-gray-200"></div>} */}
+        {/* 
         <button
           onClick={handleGoHome}
           className="flex items-center text-[#650065] hover:text-gray-800 cursor-pointer"
@@ -177,10 +174,10 @@ export const DesktopAdPreviewNavigation: React.FC<
           <span className="hidden md:block font-medium text-base leading-6">
             Go back Home
           </span>
-        </button>
+        </button> */}
 
         {/* Vertical line - desktop only */}
-        <div className=" w-px h-8 bg-gray-200"></div>
+        {/* <div className=" w-px h-8 bg-gray-200"></div> */}
 
         {/* Download button - also hidden on mobile */}
         <DownloadButton
@@ -192,7 +189,7 @@ export const DesktopAdPreviewNavigation: React.FC<
       </div>
 
       {/* Horizontal line underneath the entire navigation */}
-      <div className="h-0.5 bg-gray-200 w-full mt-8"></div>
+      <div className="h-[1px] bg-gray-200 w-full mt-8"></div>
     </div>
   );
 };

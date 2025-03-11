@@ -12,31 +12,24 @@ interface BackButtonProps {
 
 const BackButton: React.FC<BackButtonProps> = ({
   fallbackUrl = "/",
-  className = "",
+  className = "mb-8",
   label = "Back",
 }) => {
   const router = useRouter();
 
   const handleBack = () => {
-    try {
-      // Set a flag in sessionStorage to indicate we're navigating back
-      sessionStorage.setItem("navigatingBack", "true");
-      router.back();
-    } catch {
-      // If back navigation fails, go to fallback URL
-      router.push(fallbackUrl);
-    }
+    router.push(fallbackUrl);
   };
 
   return (
     <div className={className}>
       <button
         onClick={handleBack}
-        className="flex items-center gap-2 text-gray-600 hover:text-gray-800 cursor-pointer p-0"
+        className="flex items-center text-gray-600 hover:text-gray-800 cursor-pointer p-0"
         type="button"
       >
-        <ArrowLeft className="text-[#650065]" />
-        <span className="text-[#650065] font-medium text-base leading-6">
+        <ArrowLeft size={20} color="#650065" />
+        <span className="text-[#650065] font-medium text-base leading-6 ml-2">
           {label}
         </span>
       </button>
