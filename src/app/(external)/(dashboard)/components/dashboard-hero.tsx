@@ -13,13 +13,14 @@ export function ImageAdCard({
   title = "Generate Image Ad",
   description = "Create high-quality, AI-powered image ads in seconds. Upload, customize, and generate visuals tailored for your audience",
   buttonText = "Try it now",
-  buttonHref = "#",
+  buttonHref = "/dashboard/ad-form",
 }: ImageAdCardProps) {
   return (
     <div className="w-full rounded-3xl bg-gradient-to-r from-[#F8E6F8]  to-[#B7D3F3] p-8 md:p-12">
       <div className="max-w-3xl">
         <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">{title}</h2>
         <p className="mb-6 text-gray-600 md:text-lg">{description}</p>
+
         <Button
           asChild
           variant="outline"

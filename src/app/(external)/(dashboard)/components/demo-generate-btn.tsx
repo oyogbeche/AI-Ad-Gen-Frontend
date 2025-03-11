@@ -1,38 +1,47 @@
+import { Button } from "@/components/ui/button";
+import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+
 
 interface ButtonProps {
   text: string;
   variant: "outline" | "solid";
-  href: string;
+  href?: string;
+  onClick?: () => void;
 }
 
-const Button = ({ text, variant, href }: ButtonProps) => {
+const HeroButton = ({ text, variant, onClick }: ButtonProps) => {
+
+
   return (
-    <Link
-      href={href}
+    <Button
+      onClick={onClick}
       className={`
         inline-flex items-center w-fit justify-center gap-2 px-6 py-3 rounded-md text-lg font-medium transition-colors
         ${
           variant === "outline"
-            ? "border border-[#520052] text-[#520052] hover:bg-purple-50"
+            ? "border border-[#520052] text-[#520052] hover:bg-purple-50 bg-white"
             : "bg-[#B800B8] text-white hover:bg-dark-purple"
         }
       `}
+      
     >
       {text} <ArrowRight className="h-5 w-5" />
-    </Link>
+    </Button>
   );
 };
 
 export default function AdButtons() {
+  const { handleGoogleLogin } = useGoogleAuth();
   return (
-    <div className="flex flex-col sm:flex-row gap-4 md:gap-10 items-center  max-w-fit mx-auto">
-      <Button text="Try a Demo Ad" variant="outline" href="/demo" />
-      <Button
+    <div className="flex flex-col sm:flex-row justify-center gap-4 md:gap-10 items-center  max-w-full mx-auto">
+      <HeroButton
+      text="Try a Demo Ad" variant="outline" onClick={() => {}} />
+
+      <HeroButton
         text="Generate Your Ad"
         variant="solid"
-        href="/create-ad/ad-form?type=image"
+       onClick={handleGoogleLogin}
       />
     </div>
   );

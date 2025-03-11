@@ -14,7 +14,7 @@ export const useGoogleAuth = () => {
 
       if (response?.data?.auth_url) {
         console.log("Google login initiated:", response.data.auth_url);
-       // window.location.href = response.data.auth_url; 
+       window.location.href = response.data.auth_url; 
 
       } else {
         console.error("Invalid response:", response);

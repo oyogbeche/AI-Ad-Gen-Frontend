@@ -2,7 +2,6 @@
 
 import { slickSettings } from "@/lib/slick";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
@@ -57,7 +56,7 @@ const HeroSection = () => {
           <span className="text-[#B800B8] ml-2 font-semibold">with AI</span>
         </motion.h1>
         <motion.p
-          className="text-lg text-gray-600 mb-6"
+          className="text-lg text-gray-600 mb-[40px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.8 }}
@@ -68,21 +67,22 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.9, duration: 0.5 }}
-          whileHover={{ scale: 1.05 }}
+         
           whileTap={{ scale: 0.95 }}
+          className="mb-[126px]"
         >
-          <Link
+  {/*         <Link
             href={"/create-ad/ad-form?type=image"}
             className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors inline-block"
           >
             Generate New Ad →
-          </Link>
+          </Link> */}
           <AdButtons />
         </motion.div>
       </motion.div>
 
       <motion.div
-        className="w-full px-4 slider-container -mb-8 mt-10 md:mt-[80px] [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]"
+        className="w-full px-4 slider-container -mb-8  md:mt-[80px] [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, duration: 0.8 }}
@@ -92,7 +92,7 @@ const HeroSection = () => {
           {heroImages.map((image, index) => (
             <motion.div
               key={index}
-              className="outline-none flex items-center justify-center h-[200px] md:h-[450px]"
+              className="outline-none flex items-center justify-center h-[140px] md:h-[300px] w-[400px]"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 * index, duration: 0.5 }}
@@ -100,9 +100,9 @@ const HeroSection = () => {
               <Image
                 src={image.src}
                 alt={image.alt}
-                className="max-w-full max-h-full object-contain"
+                className=" max-h-full "
                 quality={100}
-                width={1000}
+                width={1500}
                 height={500}
               />
             </motion.div>
