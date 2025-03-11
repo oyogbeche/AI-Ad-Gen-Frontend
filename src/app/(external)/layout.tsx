@@ -1,3 +1,4 @@
+import { ImageProvider } from "@/domains/ads-gen/context/ImageContext";
 import Header from "@/domains/external/components/header";
 
 export default function RootLayout({
@@ -7,8 +8,10 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <Header />
-      {children}
+      <ImageProvider>
+        <Header />
+        {children}
+      </ImageProvider>
     </>
   );
 }
