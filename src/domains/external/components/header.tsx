@@ -1,13 +1,16 @@
 "use client";
 // import { useState } from "react";
 import { Logo } from "@/components/icons/icon";
+import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
+import { LoadingButton } from "@/domains/auth/components/loading-button";
+import Image from "next/image";
 // import { Google } from "@/components/icons/icon";
 // import { Button } from "@/components/ui/button";
 // import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
 import Link from "next/link";
 
 const Header: React.FC = () => {
-  // const { handleGoogleLogin, isLoading } = useGoogleAuth();
+ const { handleGoogleLogin, isLoading } = useGoogleAuth();
 
   return (
     <header className="w-full border-b border-[#F8E6F8] bg-white sticky top-0 z-40">
@@ -17,6 +20,15 @@ const Header: React.FC = () => {
             <Logo className="w-32 md:w-auto" />
           </Link>
         </div>
+
+           <LoadingButton
+                      type="button"
+                      className="w-44 border-[1.5px] border-blue-500 bg-white hover:bg-blue-700 text-black my-2 py-2"
+                      isLoading={isLoading}
+                      onClick={handleGoogleLogin}
+                    >
+                    <Image src="/google.svg" alt="Google" width={20} height={20} /> <p>Sign In With Google</p>
+            </LoadingButton>
 
         {/* <Button
           onClick={handleGoogleLogin}
