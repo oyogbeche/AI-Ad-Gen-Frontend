@@ -86,15 +86,15 @@ const CreateAd = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.9, duration: 0.5 }}
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.95 }}
           className="pt-5"
         >
           <Link
-            href={"/create-ad/ad-form?type=image"}
+            href={"/signin"}
             className="bg-[#B800B8] cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-[#520052] transition-colors inline-block"
           >
-            Generate New Ad →
+            Generate Your Ad →
           </Link>
         </motion.div>
       </motion.div>
