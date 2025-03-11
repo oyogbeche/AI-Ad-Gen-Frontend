@@ -3,10 +3,24 @@
 import { useImageContext } from "@/domains/ads-gen/context/ImageContext";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const Page = () => {
-  const { imageUrl, promptData } = useImageContext();
+  const { imageUrl, promptData, setImageUrl, setPromptData } = useImageContext();
+  const [isLoaded, setIsLoaded] = useState(false);
   const details = promptData ? JSON.parse(promptData) : {};
+
+  useEffect(() => {
+    const storedImageUrl = localStorage.getItem("imageUrl");
+    const storedPromptData = localStorage.getItem("promptData");
+    if (storedImageUrl) setImageUrl(storedImageUrl);
+    if (storedPromptData) setPromptData(storedPromptData);
+    setIsLoaded(true);
+  }, [setImageUrl, setPromptData]);
+
+  if (!isLoaded) {
+    return null;  
+  }
 
   return (
     <div>

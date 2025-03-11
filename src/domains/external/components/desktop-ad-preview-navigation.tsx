@@ -3,6 +3,7 @@
 import { DownloadButton } from "@/domains/ads-gen/components/download-button";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
 import { ArrowLeft, Check, RotateCw } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -144,24 +145,26 @@ export const DesktopAdPreviewNavigation: React.FC<
         <div className=" w-px h-8 bg-gray-200"></div>
 
         {/* Generate New Ad button - hidden on mobile */}
-        <button
-          onClick={handleGenerateNewAd}
-          disabled={isLoading}
-          className={`flex items-center font-medium cursor-pointer ${
-            isLoading
-              ? "text-[#D19AD1] cursor-not-allowed"
-              : "text-[#650065] hover:text-[#650065]"
-          }`}
-          type="button"
-        >
-          <span className="hidden md:block">
-            {isLoading ? "Generating..." : "Generate New Ad"}
-          </span>
-          <RotateCw className="w-5 h-5 ml-2" />
-        </button>
+        <Link href={"/signin"}>
+          <button
+            onClick={handleGenerateNewAd}
+            disabled={isLoading}
+            className={`flex items-center font-medium cursor-pointer ${
+              isLoading
+                ? "text-[#D19AD1] cursor-not-allowed"
+                : "text-[#650065] hover:text-[#650065]"
+            }`}
+            type="button"
+          >
+            <span className="hidden md:block">
+              {isLoading ? "Generating..." : "Generate Your Ad"}
+            </span>
+            <RotateCw className="w-5 h-5 ml-2" />
+          </button>
+        </Link>
 
         {/* Vertical line - desktop only */}
-        <div className="w-px h-8 bg-gray-200"></div>
+        {imageUrl && <div className="w-px h-8 bg-gray-200"></div>}
         {/* 
         <button
           onClick={handleGoHome}
@@ -187,7 +190,7 @@ export const DesktopAdPreviewNavigation: React.FC<
       </div>
 
       {/* Horizontal line underneath the entire navigation */}
-      <div className="h-0.5 bg-gray-200 w-full mt-8"></div>
+      <div className="h-[1px] bg-gray-200 w-full mt-8"></div>
     </div>
   );
 };

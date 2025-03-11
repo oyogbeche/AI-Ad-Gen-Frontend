@@ -7,7 +7,7 @@ import { useImageContext } from "@/domains/ads-gen/context/ImageContext";
 
 const prompts = [
   {
-    text: "Ad Goal: Showcase ChicThreads' latest spring collection featuring trendy dresses, stylish tops, and versatile accessories. Emphasize the quality fabrics, unique designs, and affordable prices. Drive users to the website for an exclusive 25% discount on their first order.",
+    text: "Showcase ChicThreads' latest spring collection featuring trendy dresses, stylish tops, and versatile accessories. Emphasize the quality fabrics, unique designs, and affordable prices. Drive users to the website for an exclusive 25% discount on their first order.",
     images: [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664920/image_fx__11_ghfqum.png",
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664920/image_fx__12_bumsgr.png",
@@ -16,7 +16,7 @@ const prompts = [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664922/image_fx__9_s3vrer.png",
     ],
     details: {
-      text: "Ad Goal: Showcase ChicThreads' latest spring collection featuring trendy dresses, stylish tops, and versatile accessories. Emphasize the quality fabrics, unique designs, and affordable prices. Drive users to the website for an exclusive 25% discount on their first order.",
+      text: "Showcase ChicThreads' latest spring collection featuring trendy dresses, stylish tops, and versatile accessories. Emphasize the quality fabrics, unique designs, and affordable prices. Drive users to the website for an exclusive 25% discount on their first order.",
       productName: "HNG Wigs",
       aspectRatio: "9:16",
       language: "English",
@@ -27,7 +27,7 @@ const prompts = [
     },
   },
   {
-    text: "Ad Goal: Promote DreamHome Realty's exclusive listings of luxury homes and condos in sought-after neighborhoods. Highlight features such as spacious layouts, modern amenities, and proximity to city attractions. Encourage potential buyers to schedule a viewing and offer a free home-buying guide for interested clients.",
+    text: "Promote DreamHome Realty's exclusive listings of luxury homes and condos in sought-after neighborhoods. Highlight features such as spacious layouts, modern amenities, and proximity to city attractions. Encourage potential buyers to schedule a viewing and offer a free home-buying guide for interested clients.",
     images: [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664914/image_fx__5_ht4xeq.png",
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664918/image_fx__2_tpfxid.png",
@@ -36,7 +36,7 @@ const prompts = [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664919/image_fx__1_ej3rqq.png",
     ],
     details: {
-      text: "Ad Goal: Promote DreamHome Realty's exclusive listings of luxury homes and condos in sought-after neighborhoods. Highlight features such as spacious layouts, modern amenities, and proximity to city attractions. Encourage potential buyers to schedule a viewing and offer a free home-buying guide for interested clients.",
+      text: "Promote DreamHome Realty's exclusive listings of luxury homes and condos in sought-after neighborhoods. Highlight features such as spacious layouts, modern amenities, and proximity to city attractions. Encourage potential buyers to schedule a viewing and offer a free home-buying guide for interested clients.",
       productName: "HNG Wigs",
       aspectRatio: "9:16",
       language: "English",
@@ -47,7 +47,7 @@ const prompts = [
     },
   },
   {
-    text: "Ad Goal: Promote a limited-time 40% discount on all ModernLiving furniture pieces, including sofas, chairs, and coffee tables. Emphasize the contemporary designs and high-quality materials that elevate any space. Urge customers to shop now while supplies last and visit the website to explore the collection. For inquiries, contact us at +234 7033-600-609.",
+    text: "Promote a limited-time 40% discount on all ModernLiving furniture pieces, including sofas, chairs, and coffee tables. Emphasize the contemporary designs and high-quality materials that elevate any space. Urge customers to shop now while supplies last and visit the website to explore the collection. For inquiries, contact us at +234 7033-600-609.",
     images: [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664913/image_fx__4_cvwd4a.png",
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664912/image_fx__8_vc2vlr.png",
@@ -56,7 +56,7 @@ const prompts = [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664911/image_fx__9_tdzssw.png",
     ],
     details: {
-      text: "Ad Goal: Promote a limited-time 40% discount on all ModernLiving furniture pieces, including sofas, chairs, and coffee tables. Emphasize the contemporary designs and high-quality materials that elevate any space. Urge customers to shop now while supplies last and visit the website to explore the collection. For inquiries, contact us at +234 7033-600-609.",
+      text: "Promote a limited-time 40% discount on all ModernLiving furniture pieces, including sofas, chairs, and coffee tables. Emphasize the contemporary designs and high-quality materials that elevate any space. Urge customers to shop now while supplies last and visit the website to explore the collection. For inquiries, contact us at +234 7033-600-609.",
       productName: "HNG Wigs",
       aspectRatio: "9:16",
       language: "English",
@@ -67,7 +67,7 @@ const prompts = [
     },
   },
   {
-    text: "Ad Goal: Promote Fanta's vibrant and refreshing fruit-flavored soft drinks. Highlight the variety of flavors available, including the classic Fanta Orange, and emphasize the use of 100% natural flavors. Encourage customers to indulge in a Fanta to quench their thirst and enjoy the fruity taste that brings joy to every moment. Urge them to grab a Fanta today and experience the fun!",
+    text: "Promote Fanta's vibrant and refreshing fruit-flavored soft drinks. Highlight the variety of flavors available, including the classic Fanta Orange, and emphasize the use of 100% natural flavors. Encourage customers to indulge in a Fanta to quench their thirst and enjoy the fruity taste that brings joy to every moment. Urge them to grab a Fanta today and experience the fun!",
     images: [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664904/image_fx__6_mvqrcw.png",
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664904/image_fx__5_xjvtgy.png",
@@ -76,7 +76,7 @@ const prompts = [
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664907/image_fx__1_sllfay.png",
     ],
     details: {
-      text: "Ad Goal: Promote Fanta's vibrant and refreshing fruit-flavored soft drinks. Highlight the variety of flavors available, including the classic Fanta Orange, and emphasize the use of 100% natural flavors. Encourage customers to indulge in a Fanta to quench their thirst and enjoy the fruity taste that brings joy to every moment. Urge them to grab a Fanta today and experience the fun!",
+      text: "Promote Fanta's vibrant and refreshing fruit-flavored soft drinks. Highlight the variety of flavors available, including the classic Fanta Orange, and emphasize the use of 100% natural flavors. Encourage customers to indulge in a Fanta to quench their thirst and enjoy the fruity taste that brings joy to every moment. Urge them to grab a Fanta today and experience the fun!",
       productName: "HNG Wigs",
       aspectRatio: "9:16",
       language: "English",
@@ -169,7 +169,7 @@ const PromptSelection: React.FC<PromptSelectionProps> = ({
           <div
             onClick={() => handleSelectPrompt(index)}
             key={index}
-            className={`flex gap-2.5 items-center border  py-3 px-6 rounded-[20px] text-base font-medium leading-5 text-[#5F5F5F] cursor-pointer text-balance ${
+            className={`flex gap-2.5 items-end md:items-center border  py-3 px-6 rounded-[20px] text-base font-medium leading-5 text-[#5F5F5F] cursor-pointer text-balance ${
               selectedPromptIndex === index
                 ? "border-[#1671D9]"
                 : "border-[#E3E3E3]"
