@@ -33,9 +33,10 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 // import {  MouseEventHandler } from "react";
 import { useForm } from "react-hook-form";
-import { ImageAdFormData } from "../types";
-import BackButton from "./back-button";
-import { useSubmitCampaign } from "../api/use-submit-campaign";
+
+import { ImageAdFormData } from "@/domains/ads-gen/types";
+import BackButton from "@/domains/ads-gen/components/back-button";
+import { useSubmitCampaign } from "@/domains/ads-gen/api/use-submit-campaign";
 
 // import { X } from "lucide-react";
 // import Link from "next/link";
@@ -65,6 +66,9 @@ export const ImageAdForm = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [isFormLoaded, setIsFormLoaded] = useState(false);
   const [allRequiredFieldsFilled, setAllRequiredFieldsFilled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  // const [limitReached, setLimitReached] = useState(true);
+  const [limits, setLimits] = useState("");
 
   const mutation = useSubmitCampaign();
 
@@ -144,16 +148,21 @@ export const ImageAdForm = () => {
   });
 
   const onSubmit = (data: ImageAdFormData) => {
-    try {
-      localStorage.setItem("imageAdData", JSON.stringify(data));
-      const limitsLeft = Number(localStorage.getItem("limitsLeft"));
-      localStorage.setItem(
-        "limitsLeft",
-        String(limitsLeft <= 0 ? limitsLeft : limitsLeft - 1)
-      );
-      mutation.mutate(formatPayload(data));
-    } catch (error) {
-      console.error("Error saving to localStorage", error);
+    if (Number(limits) > 0) {
+      setIsLoading(true);
+      try {
+        localStorage.setItem("imageAdData", JSON.stringify(data));
+        const limitsLeft = Number(localStorage.getItem("limitsLeft"));
+        localStorage.setItem(
+          "limitsLeft",
+          String(limitsLeft <= 0 ? limitsLeft : limitsLeft - 1)
+        );
+        mutation.mutate(formatPayload(data));
+      } catch (error) {
+        console.error("Error saving to localStorage", error);
+      }
+    } else {
+      // setLimitReached(true);
     }
   };
 
@@ -176,6 +185,18 @@ export const ImageAdForm = () => {
     return option ? option.display : "Choose Ad Size";
   };
 
+  useEffect(() => {
+    const limitsLeft = localStorage.getItem("limitsLeft");
+    if (limitsLeft) {
+      setLimits(limitsLeft);
+    } else {
+      localStorage.setItem("limitsLeft", "5");
+      if (limitsLeft) {
+        setLimits(limitsLeft);
+      }
+    }
+  }, [limits]);
+
   if (!isFormLoaded) {
     return (
       <div className="min-h-full bg-[#F9FAFB] p-6 py-18 flex justify-center items-center">
@@ -185,11 +206,13 @@ export const ImageAdForm = () => {
   }
 
   return (
-    <div className="min-h-full bg-[#F9FAFB] py-6 pt-10 flex flex-col justify-center items-center">
-      <Card className="w-full max-w-[890px] border-none shadow-none py-0">
-        <CardContent className="px-4 md:px-8 py-6">
-          <BackButton className="mb-8" />
-          <CardHeader className="mb-6 md:mb-10 text-center px-0">
+    <div className="min-h-full bg-[#F9FAFB] px-4 lg:px-8 xl:px-12 lg:pt-12 pt-8 pb-5 flex flex-col justify-center items-center w-full">
+      <Card className="w-full max-w-[1344px] bg-[#fff] px-4 lg:px-8 xl:px-10 pt-6 pb-10  border-none shadow-none rounded-[12px]">
+        <CardContent className="p-0">
+          <div className="py-3 mb-4">
+            <BackButton />
+          </div>
+          <CardHeader className="mb-6 md:mb-10  px-0 ">
             <CardTitle className="text-[28px] leading-[36px] text-[#121316] font-semibold">
               Let&apos;s set up your Ad
             </CardTitle>
@@ -197,18 +220,7 @@ export const ImageAdForm = () => {
               Fill in the details below, then AI generates your ad instantly.
             </p>
           </CardHeader>
-          <div className="max-w-[342px] w-full mx-auto flex flex-col gap-6 mb-6 md:mb-10">
-            <div className="flex items-center justify-center gap-1 max-w-[295px] w-full mx-auto ">
-              <div className="w-6 h-6 border-3 border-[#458DE1] rounded-full"></div>
-              <div className="h-[3px] max-w-[180px] sm:max-w-[239px] w-full bg-[#458DE1] rounded-full"></div>
-              <div className="w-6 h-6 border-3 border-[#CFCFCF] rounded-full"></div>
-            </div>
-            <div className="w-full flex items-center justify-between text-base font-bold">
-              <p className="text-[#1671D9] leading-5">Enter Ad Details</p>
-              <p className="text-[#A1A1A1] leading-6">Your Generated Ad</p>
-            </div>
-          </div>
-          {mutation.isPending ? (
+          {isLoading ? (
             <Loader fullscreen={false} message="Generating Ad Please wait..." />
           ) : (
             <Form {...form}>

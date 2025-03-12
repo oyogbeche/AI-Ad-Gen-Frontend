@@ -80,7 +80,10 @@ const MobileSelect = ({
       </Button>
 
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="bottom" className="px-0 py-0 h-auto max-h-[80vh] rounded-t-xl">
+        <SheetContent
+          side="bottom"
+          className="px-0 py-0 h-auto max-h-[80vh] rounded-t-xl"
+        >
           <SheetHeader className="px-8 py-5 sticky top-0 bg-transparent">
             <SheetTitle className="font-medium">{title}</SheetTitle>
           </SheetHeader>
@@ -89,7 +92,7 @@ const MobileSelect = ({
               <div
                 key={option.value}
                 className={cn(
-                  "px-10 py-3.5 flex items-center cursor-pointer",
+                  "px-10 py-3.5 flex items-center cursor-pointer text-[#121316] ",
                   selected === option.value && "bg-gray-50"
                 )}
                 onClick={() => handleSelect(option.value)}

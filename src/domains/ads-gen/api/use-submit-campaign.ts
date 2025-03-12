@@ -6,16 +6,32 @@ import { toast } from "sonner";
 export const useSubmitCampaign = () => {
   const router = useRouter();
 
-  return useMutation({
+  // Create the base mutation
+  const mutation = useMutation({
     mutationKey: ["submitCampaign"],
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutationFn: (formData: Record<string, any>) =>
       postRequest("/image/generate", formData),
-    onSuccess: (data) => {
-      if (data.status_code === 201 && data.data.success) {
-        localStorage.setItem("campaignData", JSON.stringify(data.data));
+    onSuccess: async (data) => {
+      if (data.status_code === 201 && data.data.task_id) {
+        const taskId = data.data.task_id;
+        console.log("API response success, got task ID:", taskId);
 
-        router.push(`/create-ad/preview/${data.data.image_id}`);
+        // Store the task ID in localStorage
+        localStorage.setItem(
+          "currentTask",
+          JSON.stringify({
+            task_id: taskId,
+            timestamp: new Date().toISOString(),
+          })
+        );
+
+        // Show toast and navigate
+        toast.success("Image generation has started");
+
+        // Navigate to the generating page with the taskId
+        // The generating page will handle polling
+        router.push(`/create-ad/generating/${taskId}`);
       } else {
         toast.error("Something went wrong. Please try again.");
         console.error("Submission failed:", data.message);
@@ -29,7 +45,7 @@ export const useSubmitCampaign = () => {
         error.response?.data?.data?.errors &&
         error.response.data.data.errors.length > 0
       ) {
-        // Show each validation error as a separate toast or combine them
+        // Show each validation error as a separate toast
         const errors = error.response.data.data.errors;
         errors.forEach((err: string) => {
           toast.error(err);
@@ -45,4 +61,6 @@ export const useSubmitCampaign = () => {
       }
     },
   });
+
+  return mutation;
 };

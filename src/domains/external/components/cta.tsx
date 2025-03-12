@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 const Cta = () => {
@@ -17,10 +18,10 @@ const Cta = () => {
           whileTap={{ scale: 0.95 }}
         >
           <Link
-            href={"/create-ad/ad-form?type=image"}
-            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-[8px] hover:bg-dark-purple transition-colors inline-block"
+            href={"/signin"}
+            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 w-fit mt-10"
           >
-            Get started now →
+            <p>Get started now!</p> <ArrowRight />
           </Link>
         </motion.div>
       </div>

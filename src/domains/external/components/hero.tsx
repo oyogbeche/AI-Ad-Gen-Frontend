@@ -6,6 +6,7 @@ import Link from "next/link";
 import React from "react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 const heroImages = [
   {
@@ -63,20 +64,37 @@ const HeroSection = () => {
         >
           Create compelling, high-converting ads to maximize ROI
         </motion.p>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.9, duration: 0.5 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Link
-            href={"/create-ad/ad-form?type=image"}
-            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors inline-block"
+        <div className="flex gap-4 md:gap-10 flex-col md:flex-row justify-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.9, duration: 0.5 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            Generate New Ad →
-          </Link>
-        </motion.div>
+            <Link
+              href={"/generate-ad"}
+              className="cursor-pointer px-6 py-3 rounded-sm text-[#520052] transition-colors flex justify-center items-center gap-2 border border-[#B800B8] hover:bg-[#cf54cf21] w-fit mx-auto"
+            >
+               <p>Try a Demo Ad</p> <ArrowRight />
+            </Link>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.9, duration: 0.5 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            
+            <Link
+              href={"/signin"}
+              className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 w-fit mx-auto"
+            >
+              <p>Generate Your Ad</p> <ArrowRight />
+            </Link>
+          </motion.div>
+        </div>
       </motion.div>
 
       <motion.div
@@ -90,7 +108,7 @@ const HeroSection = () => {
           {heroImages.map((image, index) => (
             <motion.div
               key={index}
-              className="outline-none flex items-center justify-center h-[200px] md:h-[450px]"
+              className="outline-none flex items-center justify-center h-[200px] md:h-[450px] relative"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 * index, duration: 0.5 }}
@@ -98,7 +116,7 @@ const HeroSection = () => {
               <Image
                 src={image.src}
                 alt={image.alt}
-                className="max-w-full max-h-full object-contain"
+                className="max-w-full max-h-full object-contain absolute bottom-[-20px]"
                 quality={100}
                 width={1000}
                 height={500}

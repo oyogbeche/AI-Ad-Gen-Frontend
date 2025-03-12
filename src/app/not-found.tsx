@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import Header from "@/domains/external/components/header";
+import arrowRight from "@/components/icons/arrow-right.svg";
 import { motion } from "framer-motion";
 import Image from "next/image";
 export default function NotFound() {
@@ -16,8 +17,8 @@ export default function NotFound() {
             404-page not found
           </h2>
           <p className="text-[16px] md:text-[20px]">
-            The page you’re looking for might have been removed or had it’s name
-            changed or temporarily unavailable
+            The page you&apos;re looking for might have been removed or had its
+            name changed or temporarily unavailable
           </p>
         </div>
         <motion.div
@@ -29,11 +30,11 @@ export default function NotFound() {
         >
           <Link
             href={"/"}
-            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex"
+            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors inline-block "
           >
             Go to home{" "}
             <Image
-              src="/arrow-right.svg"
+              src={arrowRight}
               alt="Go to home Icon"
               height={24}
               width={24}
