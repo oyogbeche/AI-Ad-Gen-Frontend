@@ -160,8 +160,8 @@ const ChangeLogPage = () => {
             ChangeLog
           </span>
         </button>
-        <div className="max-w-[756px] m-auto flex flex-col gap-6">
-          <h1 className="text-[28px] lg:text-[64px] font-medium text-center text-white">
+        <div className="max-w-[360px] md:max-w-[756px] m-auto flex flex-col gap-6">
+          <h1 className="px-10 text-[28px] lg:text-[64px] font-medium text-center text-white">
             What’s New? Changelog & Updates
           </h1>
 

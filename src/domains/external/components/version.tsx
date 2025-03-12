@@ -27,7 +27,7 @@ const Version: React.FC<MyComponentProps> = ({
   return (
     <div className="flex flex-col md:flex-row w-full gap-10 md:gap-20">
       <div className="w-[123px]">
-        <h2 className="text-[18px] md:text-[24px] font-semibold pb-3 md:pb-6">
+        <h2 className="text-[18px] md:text-[24px] font-semibold pb-3 md:pb-6 text-nowrap">
           {`Version ${name}`}
         </h2>
         <p className="text-[14px] md:text-[16px] text-[#121316] pb-2.5 md:pb-4">
