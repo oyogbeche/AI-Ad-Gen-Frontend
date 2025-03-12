@@ -33,7 +33,7 @@ export const getRequest = async (
   headers?: Record<string, string>
 ) => {
   const token = useAuthStore.getState().token
-  console.log("Token", token)
+
   const response = await fetch(`${API_BASE_URL}${url}`, {
     headers: {
       "Content-Type": "application/json",
