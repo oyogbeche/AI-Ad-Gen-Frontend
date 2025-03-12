@@ -22,7 +22,7 @@ const Login = () => {
   } */
 
   return (
-   <div className="pt-[30px] px-3 bg-[#F9FAFB]">
+   <div className="pt-[30px] px-auto bg-[#F9FAFB]">
         <SignInForm  />
         </div>
   );

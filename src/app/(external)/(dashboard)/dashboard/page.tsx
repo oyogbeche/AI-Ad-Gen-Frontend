@@ -1,7 +1,16 @@
-import { ImageAdCard } from "@/app/(external)/(dashboard)/components/dashboard-hero";
-import Image from "next/image";
+"use client";
+
+import { ImageAdCard } from "@/app/(external)/(dashboard)/components/dashboard-hero"
+import { useAuthStore } from "@/store/auth-store";
+import Image from "next/image"
 
 export default function Home() {
+const user = useAuthStore((state) => state.user);
+const token = useAuthStore((state) => state.token);
+
+console.log("user data:" , user);
+console.log("token:" , token);
+
   return (
     <main className="container mx-auto px-6 py-4 md:py-8">
       <div className="mb-[140px]">
