@@ -1,3 +1,5 @@
+import { useAuthStore } from "@/store/auth-store";
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
 export const postRequest = async (
@@ -6,10 +8,12 @@ export const postRequest = async (
   data: Record<string, any>,
   headers?: Record<string, string>
 ) => {
+  const token = useAuthStore.getState().token?.token;
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      ...(token && { Authorization: `Bearer ${token}` }),
       ...headers,
     },
     body: JSON.stringify(data),
@@ -28,9 +32,11 @@ export const getRequest = async (
   url: string,
   headers?: Record<string, string>
 ) => {
+  const token = useAuthStore.getState().token?.token;
   const response = await fetch(`${API_BASE_URL}${url}`, {
     headers: {
       "Content-Type": "application/json",
+      ...(token && { Authorization: `Bearer ${token}` }),
       ...headers,
     },
   });
