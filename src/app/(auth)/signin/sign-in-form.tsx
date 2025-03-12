@@ -9,6 +9,7 @@ import { ArrowLeft } from "lucide-react";
 //import { Button } from "@/components/ui/button";
 //import { Input } from "@/components/ui/input";
 //import { Checkbox } from "@/components/ui/checkbox";
+import googlelogo from '../../../../public/google.svg'
 import { Card, CardContent } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { LoadingButton } from "@/domains/auth/components/loading-button";
@@ -80,9 +81,7 @@ export function SignInForm() {
 
         <div className="space-y-2 mb-8">
           <h1 className="text-3xl font-bold tracking-tight">Welcome</h1>
-          <p className="text-muted-foreground">
-            Continue in with google
-          </p>
+          <p className="text-muted-foreground">Continue with google</p>
         </div>
 
         <Form {...form}>
@@ -98,7 +97,7 @@ export function SignInForm() {
                 isLoading={isGoogleLoading}
                 onClick={handleGoogleLogin}
               >
-                <Image src="/google.svg" alt="Google" width={20} height={20} />{" "}
+                <Image src={googlelogo} alt="Google" width={20} height={20} />{" "}
                 <p>Continue With Google</p>
               </LoadingButton>
             </div>
