@@ -144,7 +144,6 @@ export const ImageAdForm = () => {
   });
 
   const onSubmit = (data: ImageAdFormData) => {
-    console.log("FORM DATA", data)
     try {
       localStorage.setItem("imageAdData", JSON.stringify(data));
       const limitsLeft = Number(localStorage.getItem("limitsLeft"));

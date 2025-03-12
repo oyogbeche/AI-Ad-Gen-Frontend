@@ -148,7 +148,6 @@ export const ImageAdForm = () => {
   });
 
   const onSubmit = (data: ImageAdFormData) => {
-    console.log("FORM DATA", data);
     if (Number(limits) > 0) {
       setIsLoading(true);
       try {
