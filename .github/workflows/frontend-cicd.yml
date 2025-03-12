@@ -84,5 +84,5 @@ jobs:
           cd /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend
           pnpm install --frozen-lockfile
           pm2 delete $DEPLOY_NAME || true
-          pm2 start pnpm --name $DEPLOY_NAME -- start --port $DEPLOY_PORT
+          PORT=$DEPLOY_PORT pm2 start pnpm --name $DEPLOY_NAME -- start
           EOF
