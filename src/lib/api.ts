@@ -8,7 +8,7 @@ export const postRequest = async (
   data: Record<string, any>,
   headers?: Record<string, string>
 ) => {
-  const token = useAuthStore.getState().token?.token;
+  const token = useAuthStore.getState().token;
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     method: "POST",
     headers: {
@@ -32,7 +32,8 @@ export const getRequest = async (
   url: string,
   headers?: Record<string, string>
 ) => {
-  const token = useAuthStore.getState().token?.token;
+  const token = useAuthStore.getState().token
+  console.log("Token", token)
   const response = await fetch(`${API_BASE_URL}${url}`, {
     headers: {
       "Content-Type": "application/json",

@@ -3,7 +3,7 @@ name: Frontend CI/CD
 on:
   push:
     branches:
-      - setup
+      - dev
       - main
 
 jobs:
@@ -32,24 +32,24 @@ jobs:
 
       - name: Build Frontend
         run: pnpm build
-        
+
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: next-build
           path: |
             .next/
+            public/
             package.json
             pnpm-lock.yaml
           if-no-files-found: error
           include-hidden-files: true
           compression-level: 6
-#              
 
   deploy:
     runs-on: aiadgen
     needs: [test-and-build]
-    
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -60,19 +60,32 @@ jobs:
           name: next-build
           path: .
 
-      - name: Deploy to Production Server
+      - name: Determine Deployment Environment
+        id: set-env
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "DEPLOY_PORT=5000" >> $GITHUB_ENV
+            echo "DEPLOY_NAME=ai-adgen-frontend-prod" >> $GITHUB_ENV
+          elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
+            echo "DEPLOY_PORT=5005" >> $GITHUB_ENV
+            echo "DEPLOY_NAME=ai-adgen-frontend-dev" >> $GITHUB_ENV
+          fi
+
+      - name: Deploy to Server
         run: |
           echo "Deploying .next build to server..."
-          sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no -r .next package.json pnpm-lock.yaml \
+          sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml \
           "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend"
-      
+
       - name: Start Application on Server
         run: |
           sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no \
           "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << 'EOF'
           set -e # Stop script on error
+          export DEPLOY_NAME="${{ env.DEPLOY_NAME }}"
+          export DEPLOY_PORT="${{ env.DEPLOY_PORT }}"
           cd /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend
           pnpm install --frozen-lockfile
-          pm2 delete ai-adgen-frontend || true
-          pm2 start pnpm --name ai-adgen-frontend -- start --port 5000
+          pm2 delete $DEPLOY_NAME || true
+          PORT=$DEPLOY_PORT pm2 start pnpm --name $DEPLOY_NAME -- start
           EOF

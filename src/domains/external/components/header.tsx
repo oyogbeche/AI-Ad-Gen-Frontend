@@ -1,6 +1,8 @@
 "use client";
 // import { useState } from "react";
 import { Logo } from "@/components/icons/icon";
+import { UserAvatar } from "@/domains/ads-gen/components/avatar";
+import { useAuthStore } from "@/store/auth-store";
 import { ArrowRight } from "lucide-react";
 // import { Google } from "@/components/icons/icon";
 // import { Button } from "@/components/ui/button";
@@ -8,7 +10,9 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 const Header: React.FC = () => {
-  // const { handleGoogleLogin, isLoading } = useGoogleAuth();
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
+  const name = `${user?.first_name || ""} ${user?.last_name || ""}`;
 
   return (
     <header className="w-full border-b border-[#F8E6F8] bg-white sticky top-0 z-40">
@@ -19,13 +23,15 @@ const Header: React.FC = () => {
           </Link>
         </div>
 
-        <Link
+{  user ? <UserAvatar name={name} imageUrl={user.avatar_url} onSignOut={logout} />  
+          :
+          <Link
           href={"/signin"}
           className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors hidden md:flex justify-center items-center gap-2"
         >
           <p>Generate Your Ad</p> <ArrowRight />
         </Link>
-
+}
         {/* <Button
           onClick={handleGoogleLogin}
           className="flex items-center gap-[10px] rounded-md border border-[#B7D3F3] px-3 py-2 bg-white md:px-4 md:py-3  hover:bg-[#F6F6F6]"
