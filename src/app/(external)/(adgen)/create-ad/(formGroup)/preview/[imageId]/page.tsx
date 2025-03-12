@@ -1,51 +1,43 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Loader from "@/components/ui/loader";
-import React, { Suspense } from "react";
-import { useSubmitCampaign } from "@/domains/ads-gen/api/use-submit-campaign";
+import React, { Suspense, useEffect, useState } from "react";
 import { useCampaignImage } from "@/domains/ads-gen/api/use-campaign-image";
 import { useParams } from "next/navigation";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
-// import { MobileGenerateButton } from "@/domains/external/components/mobile-generate-button";
-import SinglePreview from "@/domains/ads-gen/components/single-image-preview";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
 import Image from "next/image";
 
-export default function Page() {
+export default function Preview() {
   const { imageId } = useParams();
-  const mutation = useSubmitCampaign();
-  const {
-    data: imageData,
-    isLoading,
-    error,
-  } = useCampaignImage(imageId as string);
+  const { data: imageData } = useCampaignImage(imageId as string);
+  const [imageAdData, setImageAdData] = useState<ImageAdFormData>({
+    productName: "",
+    demographics: "",
+    region: "",
+    ageGroup: [],
+    adSize: "",
+    language: "",
+    adGoal: "",
+  });
 
-  const handleGenerateNewAd = (data: ImageAdFormData) => {
+  useEffect(() => {
     try {
-      const formatPayload = (formData: ImageAdFormData) => ({
-        product_name: formData.productName,
-        ad_goal: formData.adGoal,
-        ad_size: formData.adSize,
-        target_region: formData.region,
-        demographic: formData.demographics,
-        target_age_groups: formData.ageGroup,
-        ad_language: formData.language,
-      });
-
-      const payload = formatPayload(data);
-
-      // The mutation already handles all success/error/loading states internally
-      mutation.mutate(payload);
+      const storedData = localStorage.getItem("imageAdData");
+      if (storedData) {
+        setImageAdData(JSON.parse(storedData));
+      }
     } catch (error) {
-      console.error("Error parsing JSON:", error);
+      console.error("Error accessing localStorage:", error);
     }
-  };
-
-  // Extract image URL and product name for the download feature
+  }, []);
   const imageUrl = imageData?.image?.image_url || "";
-  const productName = imageData?.image?.product_name || "ad";
-  const imageName = productName.toLowerCase().replace(/\s+/g, "-");
+  // const productName = imageData?.image?.product_name || "ad";
+  // const prompt = imageData?.image?.prompt || "";
+  // const imageName = productName.toLowerCase().replace(/\s+/g, "-");
+
+  //const imageAdData = JSON.parse(localStorage.getItem("imageAdData") || "{}");
+  console.log(imageData);
 
   return (
     <Suspense
@@ -55,70 +47,70 @@ export default function Page() {
         </div>
       }
     >
-      <section className="flex flex-col items-center justify-center gap-8 w-full max-w-[879px] mx-auto rounded-[20px] pt-10 pb-[103px] px-6">
-        <Card className="w-full max-w-[890px] border-none shadow-none py-0">
-          <CardContent className="py-6 px-4 md:px-8">
-            <DesktopAdPreviewNavigation
-              className="my-10"
-              onGenerateNewAd={handleGenerateNewAd}
-              isLoading={mutation.isPending}
-              imageUrl={!isLoading && !error ? imageUrl : undefined}
-              imageName={imageName}
-            />
+      <div className="pt-8">
+        <div className="bg-white max-w-[1200px] w-full mx-auto py-8 flex flex-col gap-6 rounded-[12px]">
+          <div className="px-6">
+            <DesktopAdPreviewNavigation imageUrl={imageUrl} />
+          </div>
 
-            <CardHeader className="mb-6 md:mb-8 text-left md:text-center px-0">
-              <CardTitle className="text-[28px] leading-[36px] text-[#121316] font-semibold">
-                All Done!
-              </CardTitle>
-              <p className="text-[#667185] text-[18px] font-normal mt-1">
-                Below is your AI generated Ad Campaign
-              </p>
-            </CardHeader>
+          <div className="px-6 flex max-lg:flex-col gap-6">
+            <div className="rounded-[8px] lg:min-w-[598px] max-w-[598px] rounded=[8px] overflow-hidden">
+              <Image
+                className="rounded-[8px] w-full h-auto object-cover"
+                src={imageUrl || "/progressImage.png"}
+                height={598}
+                width={395}
+                alt={"Progress Image"}
+                priority
+                unoptimized
+              />
+            </div>
 
-            <div className="mb-6 md:mb-8">
-              <div className="max-w-[342px] w-full mx-auto flex flex-col gap-6 ">
-                <div className="flex items-center justify-center gap-1 max-w-[295px] w-full mx-auto ">
-                  <Image
-                    className=""
-                    src="/preview-tick.svg"
-                    height={24}
-                    width={24}
-                    alt="Tick icon"
-                    priority
-                  />
-                  <div className="h-[3px] max-w-[180px] sm:max-w-[239px] w-full bg-[#458DE1] rounded-full"></div>
-                  <div className="w-6 h-6 border-3 border-[#458DE1] rounded-full"></div>
+            <div className="max-w-[455px] w-full px-4 py-6 rounded-[8px] flex flex-col gap-4 border border-[#F2F2F2] bg-[#FCFCFC] max-h-[598px] overflow-y-auto">
+              <div>
+                <p className="text-[#121316] text-base font-medium leading-6 mb-3">
+                  Ad Prompt
+                </p>
+
+                <div className="bg-[#FCFCFC] border border-[#E4E7EC] p-4 text-[18px] font-medium leading-7 text-[#7D7D7D] rounded-[9px]">
+                  <p className="max-w-[362px] break-words">
+                    {imageData?.image?.prompt}
+                  </p>
                 </div>
+              </div>
 
-                <div className="w-full flex items-center justify-between leading-6 text-base text-[#458DE1]">
-                  <p className="font-normal">Enter Ad Details</p>
-                  <p className=" font-bold">Your Generated Ad</p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1 font-normal text-base leading-6 py-1">
+                  <h4 className="text-[#121316]">Product Name</h4>
+                  <p className="text-[#5F5F5F]">{imageAdData?.productName}</p>
+                </div>
+                <div className="flex flex-col gap-1 font-normal text-base leading-6 py-1">
+                  <h4 className="text-[#121316]">Aspect Ratio</h4>
+                  <p className="text-[#5F5F5F]">{imageAdData?.adSize}</p>
+                </div>
+                <div className="flex flex-col gap-1 font-normal text-base leading-6 py-1">
+                  <h4 className="text-[#121316]">Language</h4>
+                  <p className="text-[#5F5F5F]">{imageAdData?.language}</p>
+                </div>
+                <div className="flex flex-col gap-1 font-normal text-base leading-6 py-1">
+                  <h4 className="text-[#121316]">Resolution</h4>
+                  {/* <p className="text-[#5F5F5F]">{imageAdData?.resolution}</p> */}
+                </div>
+                <div className="flex flex-col gap-1 font-normal text-base leading-6 py-1">
+                  <h4 className="text-[#121316]">Target Audience</h4>
+                  <p className="text-[#5F5F5F]">
+                    {imageAdData?.ageGroup?.map((age) => age).join(", ") || ""}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-1 font-normal text-base leading-6 py-1">
+                  <h4 className="text-[#121316]">Region</h4>
+                  <p className="text-[#5F5F5F]">{imageAdData?.region}</p>
                 </div>
               </div>
             </div>
-
-            {isLoading ? (
-              <div className="flex items-center justify-center p-10">
-                <Loader fullscreen={false} />
-              </div>
-            ) : error ? (
-              <div className="text-red-500 text-center p-4">
-                Error loading image: {(error as Error).message}
-              </div>
-            ) : (
-              <SinglePreview
-                imageData={imageData}
-                isLoading={mutation.isPending}
-              />
-            )}
-
-            {/* <MobileGenerateButton
-              onGenerateNewAd={handleGenerateNewAd}
-              isLoading={mutation.isPending}
-            /> */}
-          </CardContent>
-        </Card>
-      </section>
+          </div>
+        </div>
+      </div>
     </Suspense>
   );
 }

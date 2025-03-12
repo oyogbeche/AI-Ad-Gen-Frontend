@@ -1,11 +1,11 @@
 "use client";
-import Image from "next/image";
-import createAdSVG from "@/components/images/newcreate.svg";
 import { CheckCircle } from "@/components/icons/icon";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
+import createAdSVG from "@/components/images/newcreate.svg";
+import { motion, useInView } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
 
 const CreateAd = () => {
   const sectionRef = useRef(null);
@@ -88,13 +88,12 @@ const CreateAd = () => {
           transition={{ delay: 0.9, duration: 0.5 }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="pt-5"
         >
           <Link
-            href={"/create-ad/ad-form?type=image"}
-            className="bg-[#B800B8] cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-[#520052] transition-colors inline-block"
+            href={"/signin"}
+            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 w-fit mt-10"
           >
-            Generate New Ad →
+            <p>Generate Your Ad</p> <ArrowRight />
           </Link>
         </motion.div>
       </motion.div>
