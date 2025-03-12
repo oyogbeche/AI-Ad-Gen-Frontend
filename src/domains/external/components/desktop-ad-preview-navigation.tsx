@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 "use client";
 
 import { DownloadButton } from "@/domains/ads-gen/components/download-button";
@@ -52,6 +50,10 @@ export const DesktopAdPreviewNavigation: React.FC<
   //     console.error("Error parsing JSON:", error);
   //   }
   // };
+
+  // className={`${
+  //       t.visible ? "animate-enter" : "animate-leave"
+  //     } flex items-center gap-4 bg-white shadow-md rounded-lg p-4 border border-gray-200`}
 
   const downloadImage = async (format: "png" | "jpg") => {
     if (!imageUrl || isDownloading) return;
@@ -185,12 +187,13 @@ export const DesktopAdPreviewNavigation: React.FC<
         {/* <div className=" w-px h-8 bg-gray-200"></div> */}
 
         {/* UNCOMMENT THIS FOR V1.2  AND REMOVE THE ESLINT RULE IN THE LINE 1 */}
-        {/* <DownloadButton
+        <DownloadButton
           imageUrl={imageUrl}
           downloadImage={downloadImage}
           isDownloading={isDownloading}
           isLoading={isLoading}
-        /> */}
+        />
+        {/* <button onClick={}>Cppy Link</button> */}
       </div>
 
       {/* Horizontal line underneath the entire navigation */}
