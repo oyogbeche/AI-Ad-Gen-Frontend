@@ -1,10 +1,11 @@
+"use client";
+
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { useParams } from "next/navigation";
 import { blogData } from "../../components/blogs";
 
 const BlogDetail = () => {
-  const router = useRouter();
-  const { blogId } = router.query;
+  const { blogId } = useParams();
   const blog = blogData.find((b) => b.id === parseInt(blogId as string));
 
   if (!blog) {

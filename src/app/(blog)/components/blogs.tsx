@@ -117,7 +117,7 @@ export const blogData: BlogCardProps[] = [
 
 export const Blogs = () => {
   return (
-    <div className="max-md:px-4">
+    <div>
       <h2 className="text-[#121316] text-[28px] leading-[36px] font-semibold line-clamp-2">
         Recent blog post
       </h2>
