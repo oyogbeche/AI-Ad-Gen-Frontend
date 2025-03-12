@@ -1,21 +1,21 @@
 "use client";
 
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 //import { Button } from "@/components/ui/button";
 //import { Input } from "@/components/ui/input";
 //import { Checkbox } from "@/components/ui/checkbox";
-import googlelogo from '../../../../public/google.svg'
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
+import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
 import { LoadingButton } from "@/domains/auth/components/loading-button";
 import Image from "next/image";
-import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
-import { Button } from "@/components/ui/button";
+import googlelogo from "../../../../public/google.svg";
 
 // Define the form schema with Zod
 const formSchema = z.object({
@@ -63,17 +63,17 @@ export function SignInForm() {
   }; */
 
   return (
-    <Card className="w-full max-w-[550px] mx-auto border rounded-lg shadow-sm">
+    <Card className="w-full max-w-[550px] mx-auto border rounded-lg">
       <CardContent className="pt-6 pb-8 px-4 sm:px-8">
         <div className="mb-8">
           <Button
             variant="ghost"
             size="sm"
-            className="p-0 h-auto font-normal text-foreground hover:bg-transparent"
+            className="p-0 h-auto text-foreground hover:bg-transparent font-medium text-base leading-"
             asChild
           >
             <Link href="/">
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <ArrowLeft className="size-5 mr-2" />
               Back
             </Link>
           </Button>
