@@ -4,10 +4,9 @@ import { persist, createJSONStorage } from "zustand/middleware";
 interface User {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   avatar_url: string;
-  token: string;
 }
 
 interface AuthStore {
@@ -25,10 +24,7 @@ export const useAuthStore = create<AuthStore>()(
       token: null,
       setUser: (user) => set({ user }),
       setToken: (token) => set({ token }),
-      logout: () => {
-        localStorage.removeItem("auth-storage");
-        set({ user: null, token: null });
-      },
+      logout:() => set({ user: null, token: null })
     }),
     {
       name: "auth-storage", 
