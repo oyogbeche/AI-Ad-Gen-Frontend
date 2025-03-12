@@ -17,7 +17,7 @@ export default function AuthCallback() {
       try {
        
         
-        setToken({ token });
+        setToken(token);
 
         // Redirect to dashboard or home page
         router.push("/dashboard");
