@@ -12,7 +12,6 @@ export interface BlogCardProps {
 }
 
 const BlogCard: React.FC<BlogCardProps> = ({
-  id,
   image,
   title,
   description,
