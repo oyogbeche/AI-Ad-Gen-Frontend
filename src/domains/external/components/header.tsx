@@ -19,14 +19,12 @@ const Header: React.FC = () => {
           </Link>
         </div>
 
-    
         <Link
-              href={"/signin"}
-              className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex justify-center items-center gap-2"
-            >
-              <p>Generate Your Ad</p> <ArrowRight />
-            </Link>
-
+          href={"/signin"}
+          className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors hidden md:flex justify-center items-center gap-2"
+        >
+          <p>Generate Your Ad</p> <ArrowRight />
+        </Link>
 
         {/* <Button
           onClick={handleGoogleLogin}

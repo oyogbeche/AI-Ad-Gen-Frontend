@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 "use client";
 
 import { DownloadButton } from "@/domains/ads-gen/components/download-button";
@@ -59,7 +61,10 @@ export const DesktopAdPreviewNavigation: React.FC<
 
     try {
       // Fetch the image directly
-      const response = await fetch(imageUrl);
+
+      const response = await fetch(
+        "https://cors-anywhere.herokuapp.com/" + imageUrl
+      );
       const blob = await response.blob();
 
       // Create a new blob with the desired format
@@ -179,13 +184,13 @@ export const DesktopAdPreviewNavigation: React.FC<
         {/* Vertical line - desktop only */}
         {/* <div className=" w-px h-8 bg-gray-200"></div> */}
 
-        {/* Download button - also hidden on mobile */}
-        <DownloadButton
+        {/* UNCOMMENT THIS FOR V1.2  AND REMOVE THE ESLINT RULE IN THE LINE 1 */}
+        {/* <DownloadButton
           imageUrl={imageUrl}
           downloadImage={downloadImage}
           isDownloading={isDownloading}
           isLoading={isLoading}
-        />
+        /> */}
       </div>
 
       {/* Horizontal line underneath the entire navigation */}

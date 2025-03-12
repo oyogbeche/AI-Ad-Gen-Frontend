@@ -74,7 +74,7 @@ const HeroSection = () => {
           >
             <Link
               href={"/generate-ad"}
-              className="cursor-pointer px-6 py-3 rounded-sm text-[#520052] transition-colors flex justify-center items-center gap-2 border border-[#B800B8] hover:bg-[#cf54cf21]"
+              className="cursor-pointer px-6 py-3 rounded-sm text-[#520052] transition-colors flex justify-center items-center gap-2 border border-[#B800B8] hover:bg-[#cf54cf21] w-fit mx-auto"
             >
                <p>Try a Demo Ad</p> <ArrowRight />
             </Link>
@@ -89,7 +89,7 @@ const HeroSection = () => {
             
             <Link
               href={"/signin"}
-              className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2"
+              className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 w-fit mx-auto"
             >
               <p>Generate Your Ad</p> <ArrowRight />
             </Link>

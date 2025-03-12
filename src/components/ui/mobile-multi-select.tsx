@@ -157,7 +157,7 @@ const MobileMultiSelect = ({
           side="bottom"
           className="px-0 py-0 h-auto max-h-[60vh] rounded-t-xl"
         >
-          <SheetHeader className="px-8 py-5 sticky top-0 bg-transparent z-10">
+          <SheetHeader className="px-8 py-5 sticky top-0 bg-transparent">
             <SheetTitle className="font-medium">{title}</SheetTitle>
           </SheetHeader>
 
