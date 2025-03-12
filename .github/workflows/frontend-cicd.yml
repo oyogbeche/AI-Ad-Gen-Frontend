@@ -39,6 +39,7 @@ jobs:
           name: next-build
           path: |
             .next/
+            public/
             package.json
             pnpm-lock.yaml
           if-no-files-found: error
