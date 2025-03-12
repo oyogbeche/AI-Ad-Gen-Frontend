@@ -64,7 +64,7 @@ jobs:
         run: |
           if [ "${{ github.ref }}" == "refs/heads/main" ]; then
             echo "DEPLOY_PORT=5000" >> $GITHUB_ENV
-            echo "DEPLOY_NAME=ai-adgen-frontend" >> $GITHUB_ENV
+            echo "DEPLOY_NAME=ai-adgen-frontend-prod" >> $GITHUB_ENV
           elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
             echo "DEPLOY_PORT=5005" >> $GITHUB_ENV
             echo "DEPLOY_NAME=ai-adgen-frontend-dev" >> $GITHUB_ENV
@@ -81,6 +81,8 @@ jobs:
           sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no \
           "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << 'EOF'
           set -e # Stop script on error
+          export DEPLOY_NAME="${{ env.DEPLOY_NAME }}"
+          export DEPLOY_PORT="${{ env.DEPLOY_PORT }}"
           cd /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend
           pnpm install --frozen-lockfile
           pm2 delete $DEPLOY_NAME || true
