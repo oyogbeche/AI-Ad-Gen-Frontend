@@ -193,7 +193,7 @@ export const DesktopAdPreviewNavigation: React.FC<
           isDownloading={isDownloading}
           isLoading={isLoading}
         />
-        {/* <button onClick={}>Cppy Link</button> */}
+        {/* <button onClick={hancleGet}>Cppy Link</button> */}
       </div>
 
       {/* Horizontal line underneath the entire navigation */}
@@ -201,3 +201,7 @@ export const DesktopAdPreviewNavigation: React.FC<
     </div>
   );
 };
+
+// const hancleGet(){
+
+// }
