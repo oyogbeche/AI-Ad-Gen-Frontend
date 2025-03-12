@@ -1,15 +1,15 @@
 "use client";
 
 import { ImageAdCard } from "@/app/(external)/(dashboard)/components/dashboard-hero"
-import { useAuthStore } from "@/store/auth-store";
+//import { useAuthStore } from "@/store/auth-store";
 import Image from "next/image"
 
 export default function Dashboard() {
-const user = useAuthStore((state) => state.user);
-const token = useAuthStore((state) => state.token);
+/* const user = useAuthStore((state) => state.user);
+const token = useAuthStore((state) => state.token); */
 
-console.log("user data:" , user);
-console.log("token:" , token);
+/* console.log("user data:" , user);
+console.log("token:" , token); */
 
   return (
     <main className="container mx-auto px-6 py-4 md:py-8">
