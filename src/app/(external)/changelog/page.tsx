@@ -6,6 +6,16 @@ interface Shape {
   picture: [src: string, alt: string, height: number, width: number];
 }
 
+import circle from "../../../../public/shapes/circle.svg";
+import ellipse from "../../../../public/shapes/ellipse.svg";
+import obj1 from "../../../../public/shapes/obj1.svg";
+import obj2 from "../../../../public/shapes/obj2.svg";
+import starFall from "../../../../public/star-fall.svg";
+
+import version0 from "../../../../public/version0.svg";
+import version1 from "../../../../public/version1.svg";
+import version2 from "../../../../public/version2.svg";
+
 interface Versions {
   name: string;
   deadline: string;
@@ -24,22 +34,22 @@ const shapes: Shape[] = [
   {
     positionSize:
       "h-[70px] lg:h-[193px] absolute right-[-28px]  lg:right-[-39px] bottom-[-8px] lg:bottom-[-44px]",
-    picture: ["/shapes/circle.svg", "circle", 193, 193],
+    picture: [circle, "circle", 193, 193],
   },
   {
     positionSize:
       "h-[53px] lg:h-[132px] absolute left-[-105px]  lg:left-[-160px] top-[85px] lg:top-[67px]",
-    picture: ["/shapes/ellipse.svg", "ellipse", 132, 376],
+    picture: [ellipse, "ellipse", 132, 376],
   },
   {
     positionSize:
       "h-[88px] lg:h-[238px] absolute right-[-19px]  lg:right-[-39px] top-[-19px] lg:top-[-39px]",
-    picture: ["/shapes/obj1.svg", "object 1", 238, 319],
+    picture: [obj1, "object 1", 238, 319],
   },
   {
     positionSize:
       "h-[127px] lg:h-[293px] absolute left-[-48px]  lg:left-[-57px] bottom-[-22px] lg:bottom-[-54px]",
-    picture: ["/shapes/obj2.svg", "object 2", 293, 297],
+    picture: [obj2, "object 2", 293, 297],
   },
 ];
 
@@ -58,7 +68,7 @@ const versions: Versions[] = [
       item2: ["AI generates an ad based on the selected prompt."],
       item3: ["No authentication is required to access this feature."],
     },
-    picture: "version0.svg",
+    picture: version0,
   },
   {
     name: "1.1",
@@ -72,7 +82,7 @@ const versions: Versions[] = [
       item2: ["AI generates an ad campaign based on the user’s input."],
       item3: ["Authentication is required to access this feature."],
     },
-    picture: "version1.svg",
+    picture: version1,
   },
   {
     name: "1.2",
@@ -86,7 +96,7 @@ const versions: Versions[] = [
       item2: ["Download and store your ads easily"],
       item3: [""],
     },
-    picture: "version2.svg",
+    picture: version2,
   },
   // {
   //   name: "1.3",
@@ -150,7 +160,7 @@ const ChangeLogPage = () => {
 
         <button className="py-2 px-2 md:px-3 bg-[#FBE6F8] rounded-3xl border border-[#F8E6F8] flex gap-2 items-center">
           <Image
-            src="/star-fall.svg"
+            src={starFall}
             alt="star icon"
             height={24}
             width={24}

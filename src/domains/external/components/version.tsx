@@ -1,4 +1,5 @@
 import Image from "next/image";
+import done from "../../../../public/done.svg";
 
 type MyComponentProps = {
   key: string;
@@ -35,7 +36,7 @@ const Version: React.FC<MyComponentProps> = ({
         </p>
         <button className="text-[12px] flex items-center gap-1.5 px-2 py-1 bg-[#E7F5EC] rounded-[30px] text-[#0F973D] font-semibold">
           <span>{status}</span>
-          <Image src="/done.svg" alt="done" height={12} width={12} />
+          <Image src={done} alt="done" height={12} width={12} />
         </button>
       </div>
       <div>
