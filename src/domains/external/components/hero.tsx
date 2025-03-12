@@ -7,6 +7,7 @@ import React from "react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useAuthStore } from "@/store/auth-store";
 
 const heroImages = [
   {
@@ -36,6 +37,9 @@ const heroImages = [
 ];
 
 const HeroSection = () => {
+
+  const token = useAuthStore((state) => state.token);
+
   return (
     <div className="bg-cover bg-center bg-no-repeat relative md:min-h-[800px] flex flex-col items-center justify-between overflow-hidden">
       <div className="absolute inset-0 z-0"></div>
@@ -88,7 +92,7 @@ const HeroSection = () => {
           >
             
             <Link
-              href={"/signin"}
+              href={token? "dashboard" : "/signin"}
               className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 w-fit mx-auto"
             >
               <p>Generate Your Ad</p> <ArrowRight />
