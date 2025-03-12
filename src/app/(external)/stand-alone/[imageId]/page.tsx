@@ -21,6 +21,8 @@ const StandalonePage = () => {
     ? useMockImage(imageId as string)
     : useCampaignImage(imageId as string);
 
+  // console.log("IMAGE DATA", imageData);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">

@@ -13,6 +13,7 @@ interface DesktopAdPreviewNavigationProps {
   onGenerateNewAd?: (data: ImageAdFormData) => void;
   imageUrl?: string | null;
   imageName?: string;
+  handleCopy?: () => Promise<void>;
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
@@ -23,6 +24,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   isLoading,
   imageUrl,
   imageName = "ad",
+  handleCopy,
 }) => {
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
@@ -194,6 +196,19 @@ export const DesktopAdPreviewNavigation: React.FC<
           isLoading={isLoading}
         />
         {/* <button onClick={hancleGet}>Cppy Link</button> */}
+        <div>
+          {/* <button className="cursor-pointer" handleCopy={handleCopy}>
+            Copy Link
+          </button>
+          {copyStatus && <p> {copyStatus}</p>} */}
+
+          <button
+            onClick={handleCopy}
+            className="bg-transparent border border-light-purple cursor-pointer text-black px-6 py-2 mb-6 rounded-sm hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 w-fit mx-auto"
+          >
+            Copy Link
+          </button>
+        </div>
       </div>
 
       {/* Horizontal line underneath the entire navigation */}
