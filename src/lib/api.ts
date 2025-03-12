@@ -8,12 +8,12 @@ export const postRequest = async (
   data: Record<string, any>,
   headers?: Record<string, string>
 ) => {
-  const token = useAuthStore.getState().token?.token;
+  const token = useAuthStore.getState().token;
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      ...(token && { Authorization: `Bearer ${token}` }),
+      ...(token && { Authorization: `${token}` }),
       ...headers,
     },
     body: JSON.stringify(data),
@@ -32,11 +32,11 @@ export const getRequest = async (
   url: string,
   headers?: Record<string, string>
 ) => {
-  const token = useAuthStore.getState().token?.token;
+  const token = useAuthStore.getState().token
   const response = await fetch(`${API_BASE_URL}${url}`, {
     headers: {
       "Content-Type": "application/json",
-      ...(token && { Authorization: `Bearer ${token}` }),
+      ...(token && { Authorization: `${token}` }),
       ...headers,
     },
   });

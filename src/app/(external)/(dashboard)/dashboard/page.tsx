@@ -4,7 +4,7 @@ import { ImageAdCard } from "@/app/(external)/(dashboard)/components/dashboard-h
 import { useAuthStore } from "@/store/auth-store";
 import Image from "next/image"
 
-export default function Home() {
+export default function Dashboard() {
 const user = useAuthStore((state) => state.user);
 const token = useAuthStore((state) => state.token);
 
