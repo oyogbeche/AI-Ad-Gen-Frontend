@@ -37,8 +37,6 @@ import { useForm } from "react-hook-form";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
 import BackButton from "@/domains/ads-gen/components/back-button";
 import { useSubmitCampaign } from "@/domains/ads-gen/api/use-submit-campaign";
-import { toast } from "sonner";
-
 
 // import { X } from "lucide-react";
 // import Link from "next/link";
@@ -68,9 +66,6 @@ export const ImageAdForm = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [isFormLoaded, setIsFormLoaded] = useState(false);
   const [allRequiredFieldsFilled, setAllRequiredFieldsFilled] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  // const [limitReached, setLimitReached] = useState(true);
-  const [limits, setLimits] = useState("");
 
   const mutation = useSubmitCampaign();
 
@@ -150,25 +145,11 @@ export const ImageAdForm = () => {
   });
 
   const onSubmit = (data: ImageAdFormData) => {
-
-    
-    if (Number(limits) > 0) {
-      setIsLoading(true);
-      try {
-        
-        localStorage.setItem("imageAdData", JSON.stringify(data));
-        const limitsLeft = Number(localStorage.getItem("limitsLeft"));
-        localStorage.setItem(
-          "limitsLeft",
-          String(limitsLeft <= 0 ? limitsLeft : limitsLeft - 1)
-        );
-        mutation.mutate(formatPayload(data));
-      } catch (error) {
-        console.error("Error saving to localStorage", error);
-      }
-    } else {
-      toast.error("limit reached")
-      // setLimitReached(true);
+    try {
+      localStorage.setItem("imageAdData", JSON.stringify(data));
+      mutation.mutate(formatPayload(data));
+    } catch (error) {
+      console.error("Error saving to localStorage", error);
     }
   };
 
@@ -190,18 +171,6 @@ export const ImageAdForm = () => {
     const option = adSizeOptions.find((opt) => opt.value === value);
     return option ? option.display : "Choose Ad Size";
   };
-
-  useEffect(() => {
-    const limitsLeft = localStorage.getItem("limitsLeft");
-    if (limitsLeft) {
-      setLimits(limitsLeft);
-    } else {
-      localStorage.setItem("limitsLeft", "5");
-      if (limitsLeft) {
-        setLimits(limitsLeft);
-      }
-    }
-  }, [limits]);
 
   if (!isFormLoaded) {
     return (
@@ -226,288 +195,282 @@ export const ImageAdForm = () => {
               Fill in the details below, then AI generates your ad instantly.
             </p>
           </CardHeader>
-          {isLoading ? (
-            <Loader fullscreen={false} message="Generating Ad Please wait..." />
-          ) : (
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6"
-              >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border py-8 md:py-10 px-4 md:px-6 rounded-[8px] border-[#ECECEC]">
-                  <FormField
-                    control={form.control}
-                    name="productName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm font-normal text-[#121316]">
-                          Product Name
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter Ad Title"
-                            className="w-full border-[#E4E7EC] text-[#121316] text-sm font-normal leading-5 focus:ring-[#B800B8] focus:border-[#E9B0E9] h-11 md:h-[56px] outline-0"
-                            {...field}
+
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border py-8 md:py-10 px-4 md:px-6 rounded-[8px] border-[#ECECEC]">
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-normal text-[#121316]">
+                        Product Name
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter Ad Title"
+                          className="w-full border-[#E4E7EC] text-[#121316] text-sm font-normal leading-5 focus:ring-[#B800B8] focus:border-[#E9B0E9] h-11 md:h-[56px] outline-0"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-red-500 text-xs mt-1" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="demographics"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-normal text-[#121316]">
+                        Demographics
+                      </FormLabel>
+                      <FormControl>
+                        {isMobile ? (
+                          <MobileSelectBottomSheet
+                            options={demographicsOptions}
+                            selected={field.value}
+                            onChange={field.onChange}
+                            placeholder="Select demographics"
+                            title="Target Audience Demographics"
                           />
-                        </FormControl>
-                        <FormMessage className="text-red-500 text-xs mt-1" />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="demographics"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm font-normal text-[#121316]">
-                          Demographics
-                        </FormLabel>
-                        <FormControl>
-                          {isMobile ? (
-                            <MobileSelectBottomSheet
-                              options={demographicsOptions}
-                              selected={field.value}
-                              onChange={field.onChange}
-                              placeholder="Select demographics"
-                              title="Target Audience Demographics"
-                            />
-                          ) : (
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
-                              <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
-                                <SelectValue placeholder="Select demographics">
-                                  {getSelectLabel(
-                                    demographicsOptions,
-                                    field.value
-                                  )}
-                                </SelectValue>
-                              </SelectTrigger>
-                              <SelectContent>
-                                {demographicsOptions.map((option) => (
-                                  <SelectItem
-                                    key={option.value}
-                                    value={option.value}
-                                    className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
-                                  >
-                                    {option.label}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          )}
-                        </FormControl>
-                        <FormMessage className="text-red-500 text-xs mt-1" />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="region"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm font-normal text-[#121316]">
-                          Target Region
-                        </FormLabel>
-                        <FormControl>
-                          {isMobile ? (
-                            <MobileSelectBottomSheet
-                              options={regionOptions}
-                              selected={field.value}
-                              onChange={field.onChange}
-                              placeholder="Select Region"
-                              title="Target Audience Region"
-                            />
-                          ) : (
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
-                              <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
-                                <SelectValue placeholder="Select Region">
-                                  {getSelectLabel(regionOptions, field.value)}
-                                </SelectValue>
-                              </SelectTrigger>
-                              <SelectContent>
-                                {regionOptions.map((option) => (
-                                  <SelectItem
-                                    key={option.value}
-                                    value={option.value}
-                                    className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
-                                  >
-                                    {option.label}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          )}
-                        </FormControl>
-                        <FormMessage className="text-red-500 text-xs mt-1" />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="ageGroup"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm font-normal text-[#121316]">
-                          Target Age Group (2 max)
-                        </FormLabel>
-                        <FormControl>
-                          {isMobile ? (
-                            <MobileMultiSelectBottomSheet
-                              options={ageGroupOptions}
-                              selected={field.value || []}
-                              onChange={field.onChange}
-                              placeholder="Select Age Group"
-                              title="Target Age Group"
-                            />
-                          ) : (
-                            <DesktopMultiSelect
-                              options={ageGroupOptions}
-                              selected={field.value || []}
-                              onChange={field.onChange}
-                              placeholder="Select Age Group"
-                            />
-                          )}
-                        </FormControl>
-                        <FormMessage className="text-red-500 text-xs mt-1" />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="adSize"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm font-normal text-[#121316]">
-                          Ad Size
-                        </FormLabel>
-                        <FormControl>
-                          {isMobile ? (
-                            <MobileSelectBottomSheet
-                              options={adSizeOptions}
-                              selected={field.value}
-                              onChange={field.onChange}
-                              placeholder="Choose Ad Size"
-                              title="Ad Size"
-                            />
-                          ) : (
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
-                              <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center h-[56px]">
-                                <SelectValue placeholder="Choose Ad Size">
-                                  {getAdSizeLabel(field.value)}
-                                </SelectValue>
-                              </SelectTrigger>
-                              <SelectContent>
-                                {adSizeOptions.map((option) => (
-                                  <SelectItem
-                                    key={option.value}
-                                    value={option.value}
-                                    className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
-                                  >
-                                    <div className="flex items-center space-x-2 py-1">
-                                      <div
-                                        className={`border border-[#121316] ${option.aspectRatio}`}
-                                      />
-                                      <span>{option.label}</span>
-                                    </div>
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          )}
-                        </FormControl>
-                        <FormMessage className="text-red-500 text-xs mt-1" />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="language"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm font-normal text-[#121316]">
-                          Ad Language
-                        </FormLabel>
-                        <FormControl>
-                          {isMobile ? (
-                            <MobileSelectBottomSheet
-                              options={languageOptions}
-                              selected={field.value}
-                              onChange={field.onChange}
-                              placeholder="Select a Language"
-                              title="Ad Language"
-                            />
-                          ) : (
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
-                              <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
-                                <SelectValue placeholder="Select a Language">
-                                  {getSelectLabel(languageOptions, field.value)}
-                                </SelectValue>
-                              </SelectTrigger>
-                              <SelectContent>
-                                {languageOptions.map((option) => (
-                                  <SelectItem
-                                    key={option.value}
-                                    value={option.value}
-                                    className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
-                                  >
-                                    {option.label}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          )}
-                        </FormControl>
-                        <FormMessage className="text-red-500 text-xs mt-1" />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="adGoal"
-                    render={({ field }) => (
-                      <FormItem className="col-span-1 md:col-span-2">
-                        <FormLabel className="text-sm font-normal text-[#121316]">
-                          Ad Goal
-                        </FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Describe your Ad goal and message (min 10 characters)"
-                            className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] text-sm leading-5 text-[#121316]"
-                            {...field}
+                        ) : (
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
+                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
+                              <SelectValue placeholder="Select demographics">
+                                {getSelectLabel(
+                                  demographicsOptions,
+                                  field.value
+                                )}
+                              </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                              {demographicsOptions.map((option) => (
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                  className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
+                                >
+                                  {option.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      </FormControl>
+                      <FormMessage className="text-red-500 text-xs mt-1" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="region"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-normal text-[#121316]">
+                        Target Region
+                      </FormLabel>
+                      <FormControl>
+                        {isMobile ? (
+                          <MobileSelectBottomSheet
+                            options={regionOptions}
+                            selected={field.value}
+                            onChange={field.onChange}
+                            placeholder="Select Region"
+                            title="Target Audience Region"
                           />
-                        </FormControl>
-                        <FormMessage className="text-red-500 text-xs mt-1" />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="flex justify-end">
-                  <Button
-                    type="submit"
-                    disabled={!allRequiredFieldsFilled}
-                    className={`px-6 py-3 h-12 text-base rounded-md transition-colors text-white shadow-none md:mt-[13px] w-full md:w-fit ${
-                      allRequiredFieldsFilled
-                        ? "bg-[#B800B8] hover:bg-[#960096] cursor-pointer"
-                        : "bg-[#EAC8F0] cursor-not-allowed"
-                    }`}
-                  >
-                    Generate Ad
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          )}
+                        ) : (
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
+                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
+                              <SelectValue placeholder="Select Region">
+                                {getSelectLabel(regionOptions, field.value)}
+                              </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                              {regionOptions.map((option) => (
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                  className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
+                                >
+                                  {option.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      </FormControl>
+                      <FormMessage className="text-red-500 text-xs mt-1" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="ageGroup"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-normal text-[#121316]">
+                        Target Age Group (2 max)
+                      </FormLabel>
+                      <FormControl>
+                        {isMobile ? (
+                          <MobileMultiSelectBottomSheet
+                            options={ageGroupOptions}
+                            selected={field.value || []}
+                            onChange={field.onChange}
+                            placeholder="Select Age Group"
+                            title="Target Age Group"
+                          />
+                        ) : (
+                          <DesktopMultiSelect
+                            options={ageGroupOptions}
+                            selected={field.value || []}
+                            onChange={field.onChange}
+                            placeholder="Select Age Group"
+                          />
+                        )}
+                      </FormControl>
+                      <FormMessage className="text-red-500 text-xs mt-1" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="adSize"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-normal text-[#121316]">
+                        Ad Size
+                      </FormLabel>
+                      <FormControl>
+                        {isMobile ? (
+                          <MobileSelectBottomSheet
+                            options={adSizeOptions}
+                            selected={field.value}
+                            onChange={field.onChange}
+                            placeholder="Choose Ad Size"
+                            title="Ad Size"
+                          />
+                        ) : (
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
+                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center h-[56px]">
+                              <SelectValue placeholder="Choose Ad Size">
+                                {getAdSizeLabel(field.value)}
+                              </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                              {adSizeOptions.map((option) => (
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                  className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
+                                >
+                                  <div className="flex items-center space-x-2 py-1">
+                                    <div
+                                      className={`border border-[#121316] ${option.aspectRatio}`}
+                                    />
+                                    <span>{option.label}</span>
+                                  </div>
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      </FormControl>
+                      <FormMessage className="text-red-500 text-xs mt-1" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="language"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-normal text-[#121316]">
+                        Ad Language
+                      </FormLabel>
+                      <FormControl>
+                        {isMobile ? (
+                          <MobileSelectBottomSheet
+                            options={languageOptions}
+                            selected={field.value}
+                            onChange={field.onChange}
+                            placeholder="Select a Language"
+                            title="Ad Language"
+                          />
+                        ) : (
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
+                            <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
+                              <SelectValue placeholder="Select a Language">
+                                {getSelectLabel(languageOptions, field.value)}
+                              </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                              {languageOptions.map((option) => (
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                  className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
+                                >
+                                  {option.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      </FormControl>
+                      <FormMessage className="text-red-500 text-xs mt-1" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="adGoal"
+                  render={({ field }) => (
+                    <FormItem className="col-span-1 md:col-span-2">
+                      <FormLabel className="text-sm font-normal text-[#121316]">
+                        Ad Goal
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Describe your Ad goal and message (min 10 characters)"
+                          className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] text-sm leading-5 text-[#121316]"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-red-500 text-xs mt-1" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex justify-end">
+                <Button
+                  type="submit"
+                  disabled={!allRequiredFieldsFilled}
+                  className={`px-6 py-3 h-12 text-base rounded-md transition-colors text-white shadow-none md:mt-[13px] w-full md:w-fit ${
+                    allRequiredFieldsFilled
+                      ? "bg-[#B800B8] hover:bg-[#960096] cursor-pointer"
+                      : "bg-[#EAC8F0] cursor-not-allowed"
+                  }`}
+                >
+                  Generate Ad
+                </Button>
+              </div>
+            </form>
+          </Form>
         </CardContent>
       </Card>
     </div>
