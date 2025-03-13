@@ -18,14 +18,14 @@ export default function AuthCallback() {
 
   useEffect(() => {
     if (token) {
-      console.log("Setting token:", token);
+     
       setToken(token);
       setTokenSet(true); // Ensure token is set before fetching user
     } else {
       router.push("/signin?error=missing_token");
     }
   }, [token, router, setToken]);
-console.log("Just settoken", token)
+
   const { data: user, error, isSuccess } = useQuery({
     queryKey: ["user"],
     queryFn: () => getRequest("/users/me"),
@@ -35,7 +35,7 @@ console.log("Just settoken", token)
 
   useEffect(() => {
     if (isSuccess && user) {
-      console.log("User fetched:", user.data);
+
       setUser(user.data);
       router.push("/dashboard"); 
     }

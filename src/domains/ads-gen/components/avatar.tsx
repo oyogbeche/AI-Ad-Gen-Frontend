@@ -7,7 +7,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
+//  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
@@ -23,8 +23,8 @@ export function UserAvatar({
   name,
   imageUrl,
   onSignOut = () => {},
-  onViewProfile = () => {},
-  onSettings = () => {},
+  //onViewProfile = () => {},
+ // onSettings = () => {},
 }: UserAvatarProps) {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -40,23 +40,23 @@ export function UserAvatar({
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
         <button
-          className="flex items-center gap-3 px-4 py-2 rounded-lg bg-pink-100 hover:bg-pink-200 transition-colors"
+          className="flex items-center gap-3 pr-[8px] px-1 py-2 rounded-[12px] bg-pink-100 hover:bg-pink-200 transition-colors"
           aria-label="User menu"
         >
-          <Avatar className="h-10 w-10 border-0 bg-white">
+          <Avatar className="h-8 w-8 border-0 bg-white rounded-[12px]">
             {imageUrl ? <AvatarImage src={imageUrl} alt={name} /> : initials}
             <AvatarFallback className="bg-white text-gray-400">
   {initials || <User className="h-5 w-5" />}
 </AvatarFallback>
           </Avatar>
-          <span className="text-xl font-medium text-gray-900">{name}</span>
+          <span className="text-lg font-semibold text-[#121316]">{name}</span>
           <ChevronDown className={`h-5 w-5 text-purple-800 transition-transform ${isOpen ? "rotate-180" : ""}`} />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuItem onClick={onViewProfile}>View Profile</DropdownMenuItem>
+      {/*   <DropdownMenuItem onClick={onViewProfile}>View Profile</DropdownMenuItem>
         <DropdownMenuItem onClick={onSettings}>Settings</DropdownMenuItem>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator /> */}
         <DropdownMenuItem onClick={onSignOut} className="text-red-500">
           Sign Out
         </DropdownMenuItem>
