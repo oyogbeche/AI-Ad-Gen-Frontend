@@ -2,7 +2,6 @@
 
 "use client";
 
-import { DownloadButton } from "@/domains/ads-gen/components/download-button";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
 import { ArrowLeft, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -15,24 +14,20 @@ interface DesktopAdPreviewNavigationProps {
   onGenerateNewAd?: (data: ImageAdFormData) => void;
   imageUrl?: string | null;
   imageName?: string;
+  type: string;
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
   DesktopAdPreviewNavigationProps
-> = ({
-  className = "",
-  // onGenerateNewAd,
-  isLoading,
-  imageUrl,
-  imageName = "ad",
-}) => {
+> = ({ className = "", imageUrl, imageName = "ad", type }) => {
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleBack = () => {
-    router.push("/generate-ad");
+    if (type == "demo") router.push("/generate-ad");
+    else router.push("/dashboard/ad-form");
   };
 
   // const handleGoHome = () => {
