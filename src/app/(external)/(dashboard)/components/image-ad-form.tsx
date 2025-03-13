@@ -37,6 +37,7 @@ import { useForm } from "react-hook-form";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
 import BackButton from "@/domains/ads-gen/components/back-button";
 import { useSubmitCampaign } from "@/domains/ads-gen/api/use-submit-campaign";
+import { toast } from "sonner";
 
 
 // import { X } from "lucide-react";
@@ -166,6 +167,7 @@ export const ImageAdForm = () => {
         console.error("Error saving to localStorage", error);
       }
     } else {
+      toast.error("limit reached")
       // setLimitReached(true);
     }
   };

@@ -148,11 +148,6 @@ export const ImageAdForm = () => {
   const onSubmit = (data: ImageAdFormData) => {
     try {
       localStorage.setItem("imageAdData", JSON.stringify(data));
-      const limitsLeft = Number(localStorage.getItem("limitsLeft"));
-      localStorage.setItem(
-        "limitsLeft",
-        String(limitsLeft <= 0 ? limitsLeft : limitsLeft - 1)
-      );
       mutation.mutate(formatPayload(data));
     } catch (error) {
       console.error("Error saving to localStorage", error);
