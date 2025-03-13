@@ -1,16 +1,17 @@
 "use client";
 
 import Loader from "@/components/ui/loader";
-import React, { Suspense, useEffect, useState } from "react";
 import { useCampaignImage } from "@/domains/ads-gen/api/use-campaign-image";
-import { useParams } from "next/navigation";
-import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
+import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 import Image from "next/image";
+import { useParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
 export default function Preview() {
   const { imageId } = useParams();
   const { data: imageData } = useCampaignImage(imageId as string);
+
   const [imageAdData, setImageAdData] = useState<ImageAdFormData>({
     productName: "",
     demographics: "",
@@ -31,13 +32,20 @@ export default function Preview() {
       console.error("Error accessing localStorage:", error);
     }
   }, []);
-  const imageUrl = imageData?.image?.image_url || "";
-  // const productName = imageData?.image?.product_name || "ad";
-  // const prompt = imageData?.image?.prompt || "";
-  // const imageName = productName.toLowerCase().replace(/\s+/g, "-");
 
-  //const imageAdData = JSON.parse(localStorage.getItem("imageAdData") || "{}");
-  console.log(imageData);
+  const imageUrl = imageData?.image?.image_url || "";
+
+  const [, setCopyStatus] = useState("");
+  const handleCopy = async () => {
+    const copiedLink = `https://genz.ad/stand-alone/${imageId}`;
+
+    try {
+      await navigator.clipboard.writeText(copiedLink);
+      setCopyStatus("Copied");
+    } catch (error) {
+      setCopyStatus(String(error));
+    }
+  };
 
   return (
     <Suspense
@@ -50,7 +58,10 @@ export default function Preview() {
       <div className="pt-8">
         <div className="bg-white max-w-[1200px] w-full mx-auto py-8 flex flex-col gap-6 rounded-[12px]">
           <div className="px-6">
-            <DesktopAdPreviewNavigation imageUrl={imageUrl} />
+            <DesktopAdPreviewNavigation
+              imageUrl={imageUrl}
+              handleCopy={handleCopy}
+            type="member" />
           </div>
 
           <div className="px-6 flex max-lg:flex-col gap-6">

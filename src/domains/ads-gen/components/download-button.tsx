@@ -1,10 +1,10 @@
-import { Download, ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ChevronDown, Download } from "lucide-react";
 
 interface DownloadButtonProps {
   imageUrl: string | null | undefined;

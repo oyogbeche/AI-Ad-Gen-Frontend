@@ -15,7 +15,7 @@ export const useSubmitCampaign = () => {
     onSuccess: async (data) => {
       if (data.status_code === 201 && data.data.task_id) {
         const taskId = data.data.task_id;
-        console.log("API response success, got task ID:", taskId);
+        console.log(data);
 
         // Store the task ID in localStorage
         localStorage.setItem(
