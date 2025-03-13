@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Nunito } from "next/font/google";
 
 import { TopProgressBarProvider } from "@/lib/nprogress/top-progress-bar-provider";
 import QueryProvider from "@/lib/react-query/query-provider";
@@ -7,6 +8,14 @@ import "slick-carousel/slick/slick.css";
 
 import "./globals.css";
 import { SonnerToaster } from "@/lib/sonner/sonner-toaster";
+
+// Initialize the Nunito font
+const nunito = Nunito({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-nunito",
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://genz.ad"),
@@ -41,7 +50,6 @@ export const metadata: Metadata = {
     description:
       "Genz.ad helps you generate High-converting, Smarter Adverts in minutes.",
   },
-
   applicationName: "genz.ad",
   category: "Service Provider",
 };
@@ -52,7 +60,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={nunito.variable}>
       <body
         className="font-nunito bg-[#F9FAFB] overflow-x-hidden"
         cz-shortcut-listen="true"
