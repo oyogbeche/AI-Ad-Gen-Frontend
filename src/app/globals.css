@@ -1,11 +1,6 @@
-/* FONTS */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-/* @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap'); */
-
+/* CSS using Tailwind CSS v4 directives */
 @import "tailwindcss";
-
 @plugin "tailwindcss-animate";
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -131,10 +126,12 @@
 
 @theme {
   --color-dark-purple: #520052;
-  --color-light-purple: #B800B8;
-  --color-blue: #10509A;
-  --color-ash: #F9FAFB;
+  --color-light-purple: #b800b8;
+  --color-blue: #10509a;
+  --color-ash: #f9fafb;
   --color-rich-black: #121316;
-  --font-nunito: "Nunito";  
 }
 
+.font-nunito {
+  font-family: var(--font-nunito);
+}
