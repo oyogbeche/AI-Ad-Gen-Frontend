@@ -14,6 +14,7 @@ interface DesktopAdPreviewNavigationProps {
   imageUrl?: string | null;
   imageName?: string;
   handleCopy?: () => Promise<void>;
+  type: string;
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
@@ -25,6 +26,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   imageUrl,
   imageName = "ad",
   handleCopy,
+  type,
 }) => {
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
@@ -32,7 +34,8 @@ export const DesktopAdPreviewNavigation: React.FC<
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleBack = () => {
-    router.push("/generate-ad");
+    if (type == "demo") router.push("/generate-ad");
+    else router.push("/dashboard/ad-form");
   };
 
   // const handleGoHome = () => {

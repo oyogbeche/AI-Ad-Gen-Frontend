@@ -61,7 +61,7 @@ export default function Preview() {
             <DesktopAdPreviewNavigation
               imageUrl={imageUrl}
               handleCopy={handleCopy}
-            />
+            type="member" />
           </div>
 
           <div className="px-6 flex max-lg:flex-col gap-6">
