@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 "use client";
 
+import { DownloadButton } from "@/domains/ads-gen/components/download-button";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
 import { ArrowLeft, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -14,12 +13,21 @@ interface DesktopAdPreviewNavigationProps {
   onGenerateNewAd?: (data: ImageAdFormData) => void;
   imageUrl?: string | null;
   imageName?: string;
+  handleCopy?: () => Promise<void>;
   type: string;
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
   DesktopAdPreviewNavigationProps
-> = ({ className = "", imageUrl, imageName = "ad", type }) => {
+> = ({
+  className = "",
+  // onGenerateNewAd,
+  isLoading,
+  imageUrl,
+  imageName = "ad",
+  handleCopy,
+  type,
+}) => {
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -47,6 +55,10 @@ export const DesktopAdPreviewNavigation: React.FC<
   //     console.error("Error parsing JSON:", error);
   //   }
   // };
+
+  // className={`${
+  //       t.visible ? "animate-enter" : "animate-leave"
+  //     } flex items-center gap-4 bg-white shadow-md rounded-lg p-4 border border-gray-200`}
 
   const downloadImage = async (format: "png" | "jpg") => {
     if (!imageUrl || isDownloading) return;
@@ -126,6 +138,31 @@ export const DesktopAdPreviewNavigation: React.FC<
     };
   }, [isOpen]);
 
+  const handleCopyClick = async () => {
+    if (handleCopy) {
+      await handleCopy();
+      toast.custom(() => (
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+                <Check className="h-4 w-4 text-white" />
+              </div>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-900 mb-2">
+                  Copied to clipboard!
+                </p>
+                <p className="text-xs text-gray-500">
+                  Your link will allow users to view your image.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ));
+    }
+  };
+
   return (
     <div className={`w-full ${className}`}>
       <div className="flex justify-between items-center w-full">
@@ -180,12 +217,26 @@ export const DesktopAdPreviewNavigation: React.FC<
         {/* <div className=" w-px h-8 bg-gray-200"></div> */}
 
         {/* UNCOMMENT THIS FOR V1.2  AND REMOVE THE ESLINT RULE IN THE LINE 1 */}
-        {/* <DownloadButton
+        <DownloadButton
           imageUrl={imageUrl}
           downloadImage={downloadImage}
           isDownloading={isDownloading}
           isLoading={isLoading}
-        /> */}
+        />
+        {/* <button onClick={hancleGet}>Cppy Link</button> */}
+        <div>
+          {/* <button className="cursor-pointer" handleCopy={handleCopy}>
+            Copy Link
+          </button>
+          {copyStatus && <p> {copyStatus}</p>} */}
+
+          <button
+            onClick={handleCopyClick}
+            className="bg-transparent border border-light-purple cursor-pointer text-black px-6 py-2 mb-6 rounded-sm hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 w-fit mx-auto"
+          >
+            Copy Link
+          </button>
+        </div>
       </div>
 
       {/* Horizontal line underneath the entire navigation */}
@@ -193,3 +244,7 @@ export const DesktopAdPreviewNavigation: React.FC<
     </div>
   );
 };
+
+// const hancleGet(){
+
+// }

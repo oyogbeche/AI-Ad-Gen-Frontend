@@ -96,3 +96,41 @@ export const demographicsOptions = [
   { value: "Female", label: "Female" },
   { value: "Others", label: "Others" },
 ];
+
+
+
+export const mockImages = [
+  {
+    id: "1",
+    image_url:
+      "https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg",
+    prompt: "A beautiful sunset over the mountains",
+    productName: "Sunset Poster",
+    adSize: "16:9",
+    language: "English",
+    ageGroup: ["18-24", "25-34"],
+    region: "North America",
+  },
+  {
+    id: "2",
+    image_url:
+      "https://www.sciencebuddies.org/cdn/Files/20337/5/blobid1712842133382.png",
+    prompt: "A cozy coffee shop interior",
+    productName: "Coffee Shop Ad",
+    adSize: "1:1",
+    language: "Spanish",
+    ageGroup: ["25-34"],
+    region: "Europe",
+  },
+  {
+    id: "3",
+    image_url:
+      "https://cdn.lucidpic.com/cdn-cgi/image/w=600,format=auto,metadata=none/66c43abe18502.png",
+    prompt: "A futuristic cityscape at night",
+    productName: "Cityscape Ad",
+    adSize: "4:5",
+    language: "French",
+    ageGroup: ["18-24", "35-44"],
+    region: "Asia",
+  },
+];
