@@ -135,6 +135,31 @@ export const DesktopAdPreviewNavigation: React.FC<
     };
   }, [isOpen]);
 
+  const handleCopyClick = async () => {
+    if (handleCopy) {
+      await handleCopy();
+      toast.custom(() => (
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+                <Check className="h-4 w-4 text-white" />
+              </div>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-900 mb-2">
+                  Copied to clipboard!
+                </p>
+                <p className="text-xs text-gray-500">
+                  Your link will allow users to view your image.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ));
+    }
+  };
+
   return (
     <div className={`w-full ${className}`}>
       <div className="flex justify-between items-center w-full">
@@ -203,7 +228,7 @@ export const DesktopAdPreviewNavigation: React.FC<
           {copyStatus && <p> {copyStatus}</p>} */}
 
           <button
-            onClick={handleCopy}
+            onClick={handleCopyClick}
             className="bg-transparent border border-light-purple cursor-pointer text-black px-6 py-2 mb-6 rounded-sm hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 w-fit mx-auto"
           >
             Copy Link

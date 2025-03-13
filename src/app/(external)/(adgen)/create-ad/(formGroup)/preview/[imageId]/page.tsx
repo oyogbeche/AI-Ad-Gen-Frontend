@@ -1,28 +1,16 @@
 "use client";
 
 import Loader from "@/components/ui/loader";
-import React, { Suspense, useEffect, useState } from "react";
-import {
-  useCampaignImage,
-  useMockImage,
-} from "@/domains/ads-gen/api/use-campaign-image";
-import { useParams } from "next/navigation";
-import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
+import { useCampaignImage } from "@/domains/ads-gen/api/use-campaign-image";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
+import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 import Image from "next/image";
+import { useParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
 export default function Preview() {
   const { imageId } = useParams();
-
-  // Flag to enable/disable testing mode
-  // Set this to `false` to use real data
-  const isTestingMode = true;
-
-  const { data: imageData } = isTestingMode
-    ? useMockImage(imageId as string)
-    : useCampaignImage(imageId as string);
-
-  // console.log("IMAGE DATA", imageData);
+  const { data: imageData } = useCampaignImage(imageId as string);
 
   const [imageAdData, setImageAdData] = useState<ImageAdFormData>({
     productName: "",
@@ -47,15 +35,15 @@ export default function Preview() {
 
   const imageUrl = imageData?.image?.image_url || "";
 
-  const [copyStatus, setCopyStatus] = useState("");
+  const [, setCopyStatus] = useState("");
   const handleCopy = async () => {
-    const copiedLink = `http://localhost:3000/stand-alone/${imageId}`;
+    const copiedLink = `https://genz.ad/stand-alone/${imageId}`;
 
     try {
       await navigator.clipboard.writeText(copiedLink);
       setCopyStatus("Copied");
     } catch (error) {
-      setCopyStatus("Failed to copy");
+      setCopyStatus(String(error));
     }
   };
 

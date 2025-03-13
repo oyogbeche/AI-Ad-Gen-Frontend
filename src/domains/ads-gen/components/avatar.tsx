@@ -1,40 +1,39 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { ChevronDown, User } from "lucide-react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-//  DropdownMenuSeparator,
+  //  DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown, User } from "lucide-react";
+import { useState } from "react";
 
 interface UserAvatarProps {
-  name: string
-  imageUrl?: string
-  onSignOut?: () => void
-  onViewProfile?: () => void
-  onSettings?: () => void
+  name: string;
+  imageUrl?: string;
+  onSignOut?: () => void;
+  onViewProfile?: () => void;
+  onSettings?: () => void;
 }
 
 export function UserAvatar({
   name,
   imageUrl,
   onSignOut = () => {},
-  //onViewProfile = () => {},
- // onSettings = () => {},
-}: UserAvatarProps) {
-  const [isOpen, setIsOpen] = useState(false)
+}: //onViewProfile = () => {},
+// onSettings = () => {},
+UserAvatarProps) {
+  const [isOpen, setIsOpen] = useState(false);
 
-  
   const initials = name
     .split(" ")
     .map((part) => part[0])
     .join("")
     .toUpperCase()
-    .substring(0, 2)
+    .substring(0, 2);
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -46,15 +45,19 @@ export function UserAvatar({
           <Avatar className="h-8 w-8 border-0 bg-white rounded-[12px]">
             {imageUrl ? <AvatarImage src={imageUrl} alt={name} /> : initials}
             <AvatarFallback className="bg-white text-gray-400">
-  {initials || <User className="h-5 w-5" />}
-</AvatarFallback>
+              {initials || <User className="h-5 w-5" />}
+            </AvatarFallback>
           </Avatar>
-          <span className="text-lg font-semibold text-[#121316]">{name}</span>
-          <ChevronDown className={`h-5 w-5 text-purple-800 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+          {/* <span className="text-lg font-semibold text-[#121316]">{name}</span> */}
+          <ChevronDown
+            className={`h-5 w-5 text-purple-800 transition-transform ${
+              isOpen ? "rotate-180" : ""
+            }`}
+          />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-      {/*   <DropdownMenuItem onClick={onViewProfile}>View Profile</DropdownMenuItem>
+        {/*   <DropdownMenuItem onClick={onViewProfile}>View Profile</DropdownMenuItem>
         <DropdownMenuItem onClick={onSettings}>Settings</DropdownMenuItem>
         <DropdownMenuSeparator /> */}
         <DropdownMenuItem onClick={onSignOut} className="text-red-500">
@@ -62,6 +65,5 @@ export function UserAvatar({
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
-
