@@ -15,7 +15,7 @@ const Header: React.FC = () => {
   const name = `${user?.first_name || ""} ${user?.last_name || ""}`;
 
   return (
-    <header className="w-full border-b border-[#F8E6F8] bg-white sticky top-0 z-40">
+    <header className="w-full border-b bg-white border-[#F8E6F8] sticky top-0 z-40">
       <div className="max-w-[1440px] m-auto  flex justify-between w-full px-6 py-4 lg:pl-20 lg:pr-9">
         <div className="w-fit">
           <Link href="/">
