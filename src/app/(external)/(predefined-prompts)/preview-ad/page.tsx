@@ -29,10 +29,6 @@ const Page = () => {
     <div>
       <div className="">
         <div className="w-full mx-auto flex flex-col gap-6 max-sm:p-6">
-          <div className="px-6">
-            <DesktopAdPreviewNavigation imageUrl={imageUrl} type="demo" />
-          </div>
-
           <div className="w-full rounded-[8px] overflow-hidden flex-col-reverse sm:flex-row flex border border-[#F2F2F2] max-sm:bg-white">
             <div className="bg-white p-[24px]">
               <h1 className="text-[#2A2A2A] text-[24px] leading-[32px] font-[500] mb-10">
