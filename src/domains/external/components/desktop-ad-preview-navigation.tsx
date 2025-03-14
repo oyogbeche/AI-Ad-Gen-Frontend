@@ -1,8 +1,8 @@
 "use client";
 
-import { DownloadButton } from "@/domains/ads-gen/components/download-button";
+//import { DownloadButton } from "@/domains/ads-gen/components/download-button";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft, Check, Download } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -21,11 +21,10 @@ export const DesktopAdPreviewNavigation: React.FC<
   DesktopAdPreviewNavigationProps
 > = ({
   className = "",
-  // onGenerateNewAd,
   isLoading,
   imageUrl,
   imageName = "ad",
-  handleCopy,
+  // handleCopy,
   type,
 }) => {
   const router = useRouter();
@@ -38,57 +37,88 @@ export const DesktopAdPreviewNavigation: React.FC<
     else router.push("/dashboard/ad-form");
   };
 
-  // const handleGoHome = () => {
-  //   localStorage.removeItem("imageAdData");
-  //   router.push("/");
-  // };
+  // const downloadImage = async (format: "png" | "jpg") => {
+  //   if (!imageUrl || isDownloading) return;
 
-  // const handleGenerateNewAd = () => {
-  //   if (isLoading) return;
+  //   setIsDownloading(true);
+  //   setIsOpen(false);
+
   //   try {
-  //     const storedData = localStorage.getItem("imageAdData");
-  //     if (storedData && onGenerateNewAd) {
-  //       const parsedData = JSON.parse(storedData) as ImageAdFormData;
-  //       onGenerateNewAd(parsedData);
-  //     }
+  //     // Fetch the image directly
+
+  //     // const response = await fetch(
+  //     //   "https://cors-anywhere.herokuapp.com/" + imageUrl
+  //     // );
+  //     const response = await fetch(imageUrl);
+  //     const blob = await response.blob();
+  //     const blobUrl = URL.createObjectURL(blob);
+
+  //     // Create a new blob with the desired format
+  //     const extension = format === "png" ? "png" : "jpeg";
+  //     const mimeType = `image/${extension}`;
+
+  //     // For demonstration, we're using the blob directly
+  //     const imageBlob = new Blob([blob], { type: mimeType });
+
+  //     // Create download link
+  //     const link = document.createElement("a");
+  //     link.href = window.URL.createObjectURL(imageBlob);
+  //     link.download = `${imageName}.${extension}`;
+  //     link.click();
+
+  //     // Cleanup
+  //     window.URL.revokeObjectURL(link.href);
+
+  //     toast.custom(() => (
+  //       <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+  //         <div className="flex items-center justify-between w-full">
+  //           <div className="flex items-center">
+  //             <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+  //               <Check className="h-4 w-4 text-white" />
+  //             </div>
+  //             <div className="ml-3">
+  //               <p className="text-sm font-medium text-gray-900 mb-2">
+  //                 Download Success!
+  //               </p>
+  //               <p className="text-xs text-gray-500">
+  //                 Your Image Ad has been downloaded as {extension.toUpperCase()}
+  //               </p>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     ));
   //   } catch (error) {
-  //     console.error("Error parsing JSON:", error);
+  //     console.error("Error downloading image:", error);
+  //   } finally {
+  //     setIsDownloading(false);
   //   }
   // };
 
-  // className={`${
-  //       t.visible ? "animate-enter" : "animate-leave"
-  //     } flex items-center gap-4 bg-white shadow-md rounded-lg p-4 border border-gray-200`}
-
-  const downloadImage = async (format: "png" | "jpg") => {
+  const downloadImage = async () => {
     if (!imageUrl || isDownloading) return;
-
     setIsDownloading(true);
-    setIsOpen(false);
 
     try {
-      // Fetch the image directly
-
-      const response = await fetch(
-        "https://cors-anywhere.herokuapp.com/" + imageUrl
-      );
+      // Fetch the image
+      const response = await fetch(imageUrl);
       const blob = await response.blob();
 
-      // Create a new blob with the desired format
-      const extension = format === "png" ? "png" : "jpeg";
-      const mimeType = `image/${extension}`;
+      // Create a new blob URL for each download
+      const blobUrl = URL.createObjectURL(blob);
 
-      // For demonstration, we're using the blob directly
-      const imageBlob = new Blob([blob], { type: mimeType });
-
-      // Create download link
+      // Create and use download link
       const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(imageBlob);
-      link.download = `${imageName}.${extension}`;
+      link.href = blobUrl;
+      link.setAttribute("download", `${imageName}.jpg`);
+
+      // We can use click() directly without appending to the body
       link.click();
 
-      // Cleanup
-      window.URL.revokeObjectURL(link.href);
+      // Clean up the URL object after a short delay to ensure the download starts
+      setTimeout(() => {
+        URL.revokeObjectURL(blobUrl);
+      }, 100);
 
       toast.custom(() => (
         <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
@@ -102,7 +132,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                   Download Success!
                 </p>
                 <p className="text-xs text-gray-500">
-                  Your Image Ad has been downloaded as {extension.toUpperCase()}
+                  Your Image Ad has been downloaded
                 </p>
               </div>
             </div>
@@ -111,11 +141,12 @@ export const DesktopAdPreviewNavigation: React.FC<
       ));
     } catch (error) {
       console.error("Error downloading image:", error);
+      toast.error("Failed to download image");
     } finally {
       setIsDownloading(false);
+      setIsOpen(false);
     }
   };
-
   // Handle clicks outside the dropdown to close it
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -138,30 +169,30 @@ export const DesktopAdPreviewNavigation: React.FC<
     };
   }, [isOpen]);
 
-  const handleCopyClick = async () => {
-    if (handleCopy) {
-      await handleCopy();
-      toast.custom(() => (
-        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-                <Check className="h-4 w-4 text-white" />
-              </div>
-              <div className="ml-3">
-                <p className="text-sm font-medium text-gray-900 mb-2">
-                  Copied to clipboard!
-                </p>
-                <p className="text-xs text-gray-500">
-                  Your link will allow users to view your image.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      ));
-    }
-  };
+  // const handleCopyClick = async () => {
+  //   if (handleCopy) {
+  //     await handleCopy();
+  //     toast.custom(() => (
+  //       <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+  //         <div className="flex items-center justify-between w-full">
+  //           <div className="flex items-center">
+  //             <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+  //               <Check className="h-4 w-4 text-white" />
+  //             </div>
+  //             <div className="ml-3">
+  //               <p className="text-sm font-medium text-gray-900 mb-2">
+  //                 Copied to clipboard!
+  //               </p>
+  //               <p className="text-xs text-gray-500">
+  //                 Your link will allow users to view your image.
+  //               </p>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     ));
+  //   }
+  // };
 
   return (
     <div className={`w-full ${className}`}>
@@ -217,18 +248,23 @@ export const DesktopAdPreviewNavigation: React.FC<
         {/* <div className=" w-px h-8 bg-gray-200"></div> */}
 
         {/* UNCOMMENT THIS FOR V1.2  AND REMOVE THE ESLINT RULE IN THE LINE 1 */}
-        <DownloadButton
+        {/* <DownloadButton
           imageUrl={imageUrl}
           downloadImage={downloadImage}
           isDownloading={isDownloading}
           isLoading={isLoading}
-        />
+        /> */}
+        <button
+          onClick={downloadImage}
+          disabled={isDownloading || isLoading}
+          className="bg-[#EEF4FC] text-[#10509A] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
+        >
+          <Download />
+          <span className="max-sm:hidden">Export</span>
+        </button>
         {/* <button onClick={hancleGet}>Cppy Link</button> */}
-        <div>
-          {/* <button className="cursor-pointer" handleCopy={handleCopy}>
-            Copy Link
-          </button>
-          {copyStatus && <p> {copyStatus}</p>} */}
+        {/* <div>
+          
 
           <button
             onClick={handleCopyClick}
@@ -236,7 +272,7 @@ export const DesktopAdPreviewNavigation: React.FC<
           >
             Copy Link
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Horizontal line underneath the entire navigation */}
