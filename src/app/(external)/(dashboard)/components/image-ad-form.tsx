@@ -513,6 +513,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+// import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
+import { ImageTextEditor } from "@/components/ui/image-editor";
 
 // Dynamically import mobile components
 const MobileSelectBottomSheet = dynamic(
@@ -905,14 +907,17 @@ export default function AdCustomizer() {
             )}
 
             {status === "completed" && (
-              <div className="relative max-w-[649px] h-[648px]">
+              <><div className="relative max-w-[649px] h-[648px]">
                 <Image
                   src="/preview.svg"
                   alt="Generated Ad"
                   fill
-                  className="lg:object-cover aspect-square object-contain"
-                />
-              </div>
+                  className="lg:object-cover aspect-square object-contain" />
+              </div><ImageTextEditor
+                  imageSrc="/placeholder.svg"
+                  initialTexts={[
+                    { id: "1", content: "Edit this text", x: 50, y: 50, fontSize: 24, color: "#ffffff", fontFamily: "Arial" },
+                  ]} /></>
             )}
           </div>
         </div>
