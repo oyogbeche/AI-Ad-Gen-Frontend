@@ -30,14 +30,14 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { ImageAdSchema } from "@/schemas/ad-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import {  MouseEventHandler } from "react";
 import { useForm } from "react-hook-form";
 import { ImageAdFormData } from "../types";
 import BackButton from "./back-button";
 import { useSubmitCampaign } from "../api/use-submit-campaign";
-import { X } from "lucide-react";
-import Link from "next/link";
+// import { X } from "lucide-react";
+// import Link from "next/link";
 
 // import { X } from "lucide-react";
 // import Link from "next/link";
