@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
 import { motion } from "framer-motion";
 import { ArrowLeft, Check, ChevronDown, Download, Share2 } from "lucide-react";
@@ -33,6 +38,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   const [isExportDropdownOpen, setIsExportDropdownOpen] = useState(false);
   const saveDropdownRef = useRef<HTMLDivElement>(null);
   const exportDropdownRef = useRef<HTMLDivElement>(null);
+  const urlInputRef = useRef<HTMLInputElement>(null);
 
   const handleBack = () => {
     if (type == "demo") router.push("/generate-ad");
@@ -127,6 +133,12 @@ export const DesktopAdPreviewNavigation: React.FC<
   const handleShareClick = async () => {
     if (handleCopy) {
       await handleCopy();
+
+      // Focus and select the URL text for easy copying
+      if (urlInputRef.current) {
+        urlInputRef.current.select();
+      }
+
       toast.custom(() => (
         <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
           <div className="flex items-center justify-between w-full">
@@ -209,7 +221,6 @@ export const DesktopAdPreviewNavigation: React.FC<
         <div className="flex gap-4">
           {type !== "demo" && (
             <>
-              {/* Save Dropdown */}
               <div className="relative" ref={saveDropdownRef}>
                 <button
                   onClick={() => setIsSaveDropdownOpen(!isSaveDropdownOpen)}
@@ -246,20 +257,39 @@ export const DesktopAdPreviewNavigation: React.FC<
                 )}
               </div>
 
-              {/* Share Button */}
-              <button
-                onClick={handleShareClick}
-                className="bg-[#F8E6F8] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
-              >
-                <Share2 size={18} />
-                <span className="max-sm:hidden text-base leading-6 font-normal text-[#650065]">
-                  Share
-                </span>
-              </button>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button className="bg-[#F8E6F8] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center">
+                    <Share2 size={18} />
+                    <span className="max-sm:hidden text-base leading-6 font-normal text-[#650065]">
+                      Share
+                    </span>
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-60 md:w-80">
+                  <div className="py-2 flex flex-col gap-3">
+                    <div className="flex flex-col gap-1">
+                      <input
+                        ref={urlInputRef}
+                        type="text"
+                        id="image-url"
+                        value={`https://genz.ad/stand-alone/imageUrl`}
+                        readOnly
+                        className="w-full py-3 px-2 border border-[#E3E3E3] rounded-md text-sm focus:border-transparent"
+                      />
+                    </div>
+                    <button
+                      onClick={handleShareClick}
+                      className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 w-full mx-auto"
+                    >
+                      Copy Link
+                    </button>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </>
           )}
 
-          {/* Export Dropdown */}
           <div className="relative" ref={exportDropdownRef}>
             <button
               onClick={() => setIsExportDropdownOpen(!isExportDropdownOpen)}
