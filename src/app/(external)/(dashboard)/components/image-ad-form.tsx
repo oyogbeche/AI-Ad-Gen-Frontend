@@ -628,7 +628,7 @@ export default function AdCustomizer() {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row  p-4 lg:p-0">
       {/* Form Section */}
-      <div className="w-full md:w-[440px] md:min-w-[440px] scrollbar-hide p-4 md:py-6 px-10 flex flex-col gap-10 md:max-w-[440px] md:h-screen md:overflow-y-auto bg-white order-2 md:order-1">
+      <div className="w-full lg:w-[440px] lg:min-w-[440px] scrollbar-hide p-4 md:py-6 md:px-10 flex flex-col gap-10 lg:max-w-[440px] lg:h-screen lg:overflow-y-auto bg-white order-2 lg:order-1">
         {/* Form Header */}
         <div className="lg:flex items-center justify-between hidden">
           <h1 className="text-xl font-medium">Customize your Ad</h1>
@@ -843,7 +843,7 @@ export default function AdCustomizer() {
       </div>
 
       {/* Preview Section */}
-      <div className="flex-1 flex flex-col order-1 md:order-2">
+      <div className="lg:flex-1 flex flex-col order-1 lg:order-2  pb-4 lg:p-0 gap-2">
         {/* Preview Header */}
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
           <DesktopAdPreviewNavigation type="desktop" />
@@ -886,8 +886,8 @@ export default function AdCustomizer() {
         </div> */}
 
         {/* Preview Content */}
-        <div className="flex-1 rounded-md bg-[#F9FAFB] flex items-center justify-center min-h-[50vh] md:min-h-0">
-          <div className="flex flex-col items-center justify-center text-gray-400 max-w-[700px] mx-auto w-full h-[324px] lg:h-[648px] bg-[#f2f2f2]">
+        <div className="flex-1 rounded-md  flex items-center justify-center xl:min-h-[50vh] lg:w-[90%] mx-auto w-full bg-[#F9FAFB]">
+          <div className="flex flex-col items-center justify-center xl:p-16 text-gray-400 max-w-[700px] mx-auto w-full h-[324px] lg:h-[648px] bg-[#f2f2f2]">
             {(status === "initial" || status === "ready") && (
               <>
                 <ImageIcon className="w-8 h-8 mb-2" />
@@ -910,7 +910,7 @@ export default function AdCustomizer() {
                   src="/preview.svg"
                   alt="Generated Ad"
                   fill
-                  className="object-contain"
+                  className="lg:object-cover aspect-square object-contain"
                 />
               </div>
             )}
