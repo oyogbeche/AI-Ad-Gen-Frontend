@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getRequest } from "@/lib/api";
+import { mockImages } from "../utils/step-one-form-options";
 
 export const useCampaignImage = (imageId: string | null) => {
   return useQuery({
@@ -15,4 +16,14 @@ export const useCampaignImage = (imageId: string | null) => {
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
+};
+
+export const useMockImage = (imageId: string) => {
+  const image = mockImages.find((img) => img.id === imageId);
+
+  return {
+    data: image ? { image } : null,
+    isLoading: false,
+    error: !image ? "Image not found" : null,
+  };
 };

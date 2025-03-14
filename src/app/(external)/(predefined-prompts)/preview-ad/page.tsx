@@ -28,7 +28,7 @@ const Page = () => {
       <div className="pt-8">
         <div className="bg-white max-w-[1200px] w-full mx-auto py-8 flex flex-col gap-6 rounded-[12px]">
           <div className="px-6">
-            <DesktopAdPreviewNavigation imageUrl={imageUrl} />
+            <DesktopAdPreviewNavigation imageUrl={imageUrl} type="demo" />
           </div>
 
           <div className="px-6 flex max-lg:flex-col gap-6">
