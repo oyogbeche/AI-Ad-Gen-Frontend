@@ -2,7 +2,7 @@
 
 //import { DownloadButton } from "@/domains/ads-gen/components/download-button";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
-import { ArrowLeft, Check, Download } from "lucide-react";
+import { ArrowLeft, Check, ChevronDown, Download } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -196,7 +196,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 
   return (
     <div className={`w-full ${className}`}>
-      <div className="flex justify-between items-center w-full">
+      <div className="flex justify-between items-center w-full py-3">
         <button
           onClick={handleBack}
           className="flex items-center text-[#650065] hover:text-gray-800 cursor-pointer p-0"
@@ -254,14 +254,20 @@ export const DesktopAdPreviewNavigation: React.FC<
           isDownloading={isDownloading}
           isLoading={isLoading}
         /> */}
-        <button
-          onClick={downloadImage}
-          disabled={isDownloading || isLoading}
-          className="bg-[#EEF4FC] text-[#10509A] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
-        >
-          <Download />
-          <span className="max-sm:hidden">Export</span>
-        </button>
+        <div className="flex gap-4">
+          <button className="bg-[#F6F6F6] text-dark py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center">
+            <span className="max-sm:hidden">Save</span>
+            <ChevronDown />
+          </button>
+          <button
+            onClick={downloadImage}
+            disabled={isDownloading || isLoading}
+            className="bg-[#EEF4FC] text-[#10509A] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
+          >
+            <Download />
+            <span className="max-sm:hidden">Export</span>
+          </button>
+        </div>
         {/* <button onClick={hancleGet}>Cppy Link</button> */}
         {/* <div>
           
@@ -276,7 +282,7 @@ export const DesktopAdPreviewNavigation: React.FC<
       </div>
 
       {/* Horizontal line underneath the entire navigation */}
-      <div className="h-[1px] bg-gray-200 w-full mt-8"></div>
+      {/* <div className="h-[1px] bg-gray-200 w-full mt-8"></div> */}
     </div>
   );
 };
