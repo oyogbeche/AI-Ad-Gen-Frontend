@@ -482,14 +482,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  ArrowLeft,
-  ChevronDown,
-  Download,
-  ImageIcon,
-  Redo2,
-  Upload,
-} from "lucide-react";
+import { ChevronDown, ImageIcon, Upload } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -519,6 +512,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import dynamic from "next/dynamic";
+import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 
 // Dynamically import mobile components
 const MobileSelectBottomSheet = dynamic(
@@ -626,13 +620,13 @@ export default function AdCustomizer() {
     }, 300);
   };
 
-  const handleRegenerate = () => {
-    setStatus("ready");
-    setProgress(0);
-  };
+  // const handleRegenerate = () => {
+  //   setStatus("ready");
+  //   setProgress(0);
+  // };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row md:bg-gray-50/50 p-4 lg:p-0">
+    <div className="min-h-screen flex flex-col lg:flex-row  p-4 lg:p-0">
       {/* Form Section */}
       <div className="w-full md:w-[440px] md:min-w-[440px] scrollbar-hide p-4 md:py-6 px-10 flex flex-col gap-10 md:max-w-[440px] md:h-screen md:overflow-y-auto bg-white order-2 md:order-1">
         {/* Form Header */}
@@ -851,12 +845,45 @@ export default function AdCustomizer() {
       {/* Preview Section */}
       <div className="flex-1 flex flex-col order-1 md:order-2">
         {/* Preview Header */}
-        <div className="border-b border-[#ECF1F5] bg-white flex py-3 px-10 items-start gap-2.5">
+        <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
+          <DesktopAdPreviewNavigation type="desktop" />
+        </div>
+
+        {/* <div className="border-b border-[#ECF1F5] bg-white flex py-3 px-10 items-start gap-2.5">
           <button className="flex items-center gap-2 text-[#650065] font-nunito text-base font-semibold leading-6 py-3">
             <ArrowLeft className="h-4 w-4 mr-1" />
             Back
           </button>
-        </div>
+
+          <div className="flex space-x-2 p-4 ">
+            <Button
+              variant="outline"
+              size="sm"
+              className="bg-white border-gray-200 text-amber-500 hover:text-amber-600"
+              onClick={handleRegenerate}
+            >
+              <Redo2 className="h-4 w-4 mr-2" />
+              Regenerate
+            </Button>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-white border-gray-200 text-blue-500 hover:text-blue-600"
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Export
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>Export as PNG</DropdownMenuItem>
+                <DropdownMenuItem>Export as JPG</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div> */}
 
         {/* Preview Content */}
         <div className="flex-1 rounded-md bg-[#F9FAFB] flex items-center justify-center min-h-[50vh] md:min-h-0">
@@ -879,35 +906,6 @@ export default function AdCustomizer() {
 
             {status === "completed" && (
               <div className="relative w-full h-full">
-                <div className="absolute top-0 right-0 flex space-x-2 p-4 z-10">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="bg-white border-gray-200 text-amber-500 hover:text-amber-600"
-                    onClick={handleRegenerate}
-                  >
-                    <Redo2 className="h-4 w-4 mr-2" />
-                    Regenerate
-                  </Button>
-
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="bg-white border-gray-200 text-blue-500 hover:text-blue-600"
-                      >
-                        <Download className="h-4 w-4 mr-2" />
-                        Export
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>Export as PNG</DropdownMenuItem>
-                      <DropdownMenuItem>Export as JPG</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-
                 <Image
                   src="/preview.svg"
                   alt="Generated Ad"
