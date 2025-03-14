@@ -1,19 +1,14 @@
 "use client";
 
-import { ImageAdCard } from "@/app/(external)/(dashboard)/components/dashboard-hero"
-//import { useAuthStore } from "@/store/auth-store";
-import Image from "next/image"
-
+import { ImageAdCard } from "@/app/(external)/(dashboard)/components/dashboard-hero";
+import DashboardContent from "@/domains/ads-gen/components/dashboard-content";
+import Image from "next/image";
 export default function Dashboard() {
-/* const user = useAuthStore((state) => state.user);
-const token = useAuthStore((state) => state.token); */
-
-/* console.log("user data:" , user);
-console.log("token:" , token); */
+  const empty = false;
 
   return (
-    <main className="container mx-auto px-6 py-4 md:py-8">
-      <div className="mb-[140px]">
+    <main className="container mx-auto px-6 py-4 md:py-8 max-w-[1316px]">
+      <div>
         <ImageAdCard
           title="Generate Image Ad"
           description="Create high-quality, AI-powered image ads in seconds. Upload, customize, and generate visuals tailored for your audience"
@@ -22,14 +17,18 @@ console.log("token:" , token); */
         />
       </div>
 
-      <div className="flex flex-col items-center gap-4 ">
-        <Image
-          src="/get-started.png"
-          width={401}
-          height={333}
-          alt="Let's get started."
-        />
-      </div>
+      {empty ? (
+        <div className="flex flex-col items-center gap-4 mt-[140px]">
+          <Image
+            src="/get-started.png"
+            width={401}
+            height={333}
+            alt="Let's get started."
+          />
+        </div>
+      ) : (
+        <DashboardContent />
+      )}
     </main>
   );
 }
