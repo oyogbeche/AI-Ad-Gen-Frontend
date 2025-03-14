@@ -481,25 +481,13 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
-import { ChevronDown, ImageIcon, Upload } from "lucide-react";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useMediaQuery } from "@/hooks/use-media-query";
 import {
   Form,
   FormControl,
@@ -508,11 +496,23 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import dynamic from "next/dynamic";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ChevronDown, ImageIcon, Upload } from "lucide-react";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 // Dynamically import mobile components
 const MobileSelectBottomSheet = dynamic(
@@ -626,7 +626,7 @@ export default function AdCustomizer() {
   // };
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row  p-4 lg:p-0">
+    <div className="flex flex-col lg:flex-row  p-4 lg:p-0">
       {/* Form Section */}
       <div className="w-full lg:w-[440px] lg:min-w-[440px] scrollbar-hide p-4 md:py-6 md:px-10 flex flex-col gap-10 lg:max-w-[440px] lg:h-screen lg:overflow-y-auto bg-white order-2 lg:order-1">
         {/* Form Header */}
@@ -673,7 +673,7 @@ export default function AdCustomizer() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-sm font-normal text-[#121316]">
-                      Where will this ad appear
+                      Where will this ad appear?
                     </FormLabel>
                     <FormControl>
                       {isMobile ? (
@@ -905,7 +905,7 @@ export default function AdCustomizer() {
             )}
 
             {status === "completed" && (
-              <div className="relative w-full h-full">
+              <div className="relative max-w-[649px] h-[648px]">
                 <Image
                   src="/preview.svg"
                   alt="Generated Ad"
