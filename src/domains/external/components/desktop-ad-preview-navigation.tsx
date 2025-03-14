@@ -20,6 +20,7 @@ interface DesktopAdPreviewNavigationProps {
   imageName?: string;
   handleCopy?: () => Promise<void>;
   type: string;
+  status?: string;
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
@@ -31,6 +32,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   imageName = "ad",
   handleCopy,
   type,
+  status,
 }) => {
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
@@ -40,9 +42,14 @@ export const DesktopAdPreviewNavigation: React.FC<
   const exportDropdownRef = useRef<HTMLDivElement>(null);
   const urlInputRef = useRef<HTMLInputElement>(null);
 
+  // Fixed back button handler for all types
   const handleBack = () => {
-    if (type == "demo") router.push("/generate-ad");
-    else router.push("/dashboard/ad-form");
+    if (type === "demo") {
+      router.push("/generate-ad");
+    } else {
+      localStorage.removeItem("adCustomizerData");
+      router.push("/dashboard");
+    }
   };
 
   const downloadImage = async (format: "png" | "jpg") => {
@@ -219,116 +226,123 @@ export const DesktopAdPreviewNavigation: React.FC<
         </button>
 
         <div className="flex gap-4">
-          {type !== "demo" && (
-            <>
-              <div className="relative" ref={saveDropdownRef}>
-                <button
-                  onClick={() => setIsSaveDropdownOpen(!isSaveDropdownOpen)}
-                  className="bg-[#F6F6F6] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
+          {/* Save button - Show only when type is image-form and status is completed */}
+          {type === "image-form" && status === "completed" && (
+            <div className="relative" ref={saveDropdownRef}>
+              <button
+                onClick={() => setIsSaveDropdownOpen(!isSaveDropdownOpen)}
+                className="bg-[#F6F6F6] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
+              >
+                <span className="max-sm:hidden text-base leading-6 font-normal text-[#1B1B1B]">
+                  Save
+                </span>
+                <ChevronDown size={18} />
+              </button>
+
+              {isSaveDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10"
                 >
-                  <span className="max-sm:hidden text-base leading-6 font-normal text-[#1B1B1B]">
-                    Save
-                  </span>
-                  <ChevronDown size={18} />
-                </button>
-
-                {isSaveDropdownOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10"
-                  >
-                    <div className="py-1">
-                      <button
-                        onClick={handleSaveAndExit}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                      >
-                        Save & Exit
-                      </button>
-                      <button
-                        onClick={handleSaveAndPublish}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                      >
-                        Save & Publish
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-              </div>
-
-              <Popover>
-                <PopoverTrigger asChild>
-                  <button className="bg-[#F8E6F8] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center">
-                    <Share2 size={18} />
-                    <span className="max-sm:hidden text-base leading-6 font-normal text-[#650065]">
-                      Share
-                    </span>
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent className="w-60 md:w-80">
-                  <div className="py-2 flex flex-col gap-3">
-                    <div className="flex flex-col gap-1">
-                      <input
-                        ref={urlInputRef}
-                        type="text"
-                        id="image-url"
-                        value={`https://genz.ad/stand-alone/imageUrl`}
-                        readOnly
-                        className="w-full py-3 px-2 border border-[#E3E3E3] rounded-md text-sm focus:border-transparent"
-                      />
-                    </div>
+                  <div className="py-1">
                     <button
-                      onClick={handleShareClick}
-                      className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 w-full mx-auto"
+                      onClick={handleSaveAndExit}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                     >
-                      Copy Link
+                      Save & Exit
+                    </button>
+                    <button
+                      onClick={handleSaveAndPublish}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    >
+                      Save & Publish
                     </button>
                   </div>
-                </PopoverContent>
-              </Popover>
-            </>
+                </motion.div>
+              )}
+            </div>
           )}
 
-          <div className="relative" ref={exportDropdownRef}>
-            <button
-              onClick={() => setIsExportDropdownOpen(!isExportDropdownOpen)}
-              disabled={isDownloading || isLoading}
-              className="bg-[#EEF4FC] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
-            >
-              <Download size={18} />
-              <span className="max-sm:hidden text-base leading-6 font-normal text-[#10509A]">
-                Export
-              </span>
-              <ChevronDown size={18} />
-            </button>
-
-            {isExportDropdownOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10"
-              >
-                <div className="py-1">
+          {/* Share button - Show only when type is image-form and status is completed */}
+          {type === "image-form" && status === "completed" && (
+            <Popover>
+              <PopoverTrigger asChild>
+                <button className="bg-[#F8E6F8] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center">
+                  <Share2 size={18} />
+                  <span className="max-sm:hidden text-base leading-6 font-normal text-[#650065]">
+                    Share
+                  </span>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="w-60 md:w-80">
+                <div className="py-2 flex flex-col gap-3">
+                  <div className="flex flex-col gap-1">
+                    {/* Fixed input to handle undefined imageUrl */}
+                    <input
+                      ref={urlInputRef}
+                      type="text"
+                      id="image-url"
+                      value={`https://genz.ad/stand-alone/${imageUrl || ""}`}
+                      readOnly
+                      className="w-full py-3 px-2 border border-[#E3E3E3] rounded-md text-sm focus:border-transparent"
+                    />
+                  </div>
                   <button
-                    onClick={() => downloadImage("png")}
-                    disabled={isDownloading || isLoading}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    onClick={handleShareClick}
+                    className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 w-full mx-auto"
                   >
-                    Download as PNG
-                  </button>
-                  <button
-                    onClick={() => downloadImage("jpg")}
-                    disabled={isDownloading || isLoading}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                  >
-                    Download as JPG
+                    Copy Link
                   </button>
                 </div>
-              </motion.div>
-            )}
-          </div>
+              </PopoverContent>
+            </Popover>
+          )}
+
+          {/* Export button - Show for demo type always, and for image-form only when status is completed */}
+          {(type === "demo" ||
+            (type === "image-form" && status === "completed")) && (
+            <div className="relative" ref={exportDropdownRef}>
+              <button
+                onClick={() => setIsExportDropdownOpen(!isExportDropdownOpen)}
+                disabled={isDownloading || isLoading}
+                className="bg-[#EEF4FC] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
+              >
+                <Download size={18} />
+                <span className="max-sm:hidden text-base leading-6 font-normal text-[#10509A]">
+                  Export
+                </span>
+                {/* <ChevronDown size={18} /> */}
+              </button>
+
+              {isExportDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10"
+                >
+                  <div className="py-1">
+                    <button
+                      onClick={() => downloadImage("png")}
+                      disabled={isDownloading || isLoading}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    >
+                      Download as PNG
+                    </button>
+                    <button
+                      onClick={() => downloadImage("jpg")}
+                      disabled={isDownloading || isLoading}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    >
+                      Download as JPG
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
