@@ -4,7 +4,7 @@ import { ImageAdCard } from "@/app/(external)/(dashboard)/components/dashboard-h
 import DashboardContent from "@/domains/ads-gen/components/dashboard-content";
 import Image from "next/image";
 export default function Dashboard() {
-  let empty = false;
+  const empty = false;
 
   return (
     <main className="container mx-auto px-6 py-4 md:py-8 max-w-[1316px]">
