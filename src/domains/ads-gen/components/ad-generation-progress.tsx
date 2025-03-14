@@ -19,7 +19,7 @@ const AdGenerationProgress = () => {
     }, 500);
 
     return () => clearInterval(interval);
-  }, [history]);
+  }, [router]);
 
   return (
     <div className="max-w-[609px] w-full mx-auto flex items-center justify-center h-[70vh] bg-[#E9E9E9] rounded-sm">
