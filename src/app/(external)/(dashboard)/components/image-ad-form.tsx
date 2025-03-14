@@ -519,6 +519,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import dynamic from "next/dynamic";
+import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 
 // Dynamically import mobile components
 const MobileSelectBottomSheet = dynamic(
@@ -632,9 +633,9 @@ export default function AdCustomizer() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row md:bg-gray-50/50 p-4 lg:p-0">
+    <div className="min-h-screen flex flex-col lg:flex-row p-4 lg:p-0">
       {/* Form Section */}
-      <div className="w-full md:w-[440px] md:min-w-[440px] scrollbar-hide p-4 md:py-6 px-10 flex flex-col gap-10 md:max-w-[440px] md:h-screen md:overflow-y-auto bg-white order-2 md:order-1">
+      <div className="w-full lg:w-[440px] lg:min-w-[440px] scrollbar-hide p-4 md:py-6 px-10 flex flex-col gap-10 lg:max-w-[440px] lg:h-screen lg:overflow-y-auto bg-white order-2 lg:order-1">
         {/* Form Header */}
         <div className="lg:flex items-center justify-between hidden">
           <h1 className="text-xl font-medium">Customize your Ad</h1>
@@ -849,17 +850,18 @@ export default function AdCustomizer() {
       </div>
 
       {/* Preview Section */}
-      <div className="flex-1 flex flex-col order-1 md:order-2">
+      <div className="lg:flex-1 flex flex-col order-1 lg:order-2">
+        <DesktopAdPreviewNavigation type="ImageAdForm" />
         {/* Preview Header */}
-        <div className="border-b border-[#ECF1F5] bg-white flex py-3 px-10 items-start gap-2.5">
+        {/* <div className="border-b border-[#ECF1F5] bg-white flex py-3 px-10 items-start gap-2.5">
           <button className="flex items-center gap-2 text-[#650065] font-nunito text-base font-semibold leading-6 py-3">
             <ArrowLeft className="h-4 w-4 mr-1" />
             Back
           </button>
-        </div>
+        </div> */}
 
         {/* Preview Content */}
-        <div className="flex-1 rounded-md bg-[#F9FAFB] flex items-center justify-center min-h-[50vh] md:min-h-0">
+        <div className="lg:flex-1 rounded-md bg-[#F9FAFB] lg:flex items-center justify-center lg:min-h-[50vh] md:min-h-0">
           <div className="flex flex-col items-center justify-center text-gray-400 max-w-[700px] mx-auto w-full h-[324px] lg:h-[648px] bg-[#f2f2f2]">
             {(status === "initial" || status === "ready") && (
               <>
