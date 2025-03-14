@@ -7,7 +7,14 @@ import {
 } from "@/components/ui/popover";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
 import { motion } from "framer-motion";
-import { ArrowLeft, Check, ChevronDown, Download, Share2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  ChevronDown,
+  Download,
+  Share2,
+  Copy,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -38,9 +45,14 @@ export const DesktopAdPreviewNavigation: React.FC<
   const [isDownloading, setIsDownloading] = useState(false);
   const [isSaveDropdownOpen, setIsSaveDropdownOpen] = useState(false);
   const [isExportDropdownOpen, setIsExportDropdownOpen] = useState(false);
+  const [isCopying, setIsCopying] = useState(false);
   const saveDropdownRef = useRef<HTMLDivElement>(null);
   const exportDropdownRef = useRef<HTMLDivElement>(null);
   const urlInputRef = useRef<HTMLInputElement>(null);
+
+  // Use a fallback image URL when imageUrl is undefined or null
+  const fallbackImageUrl = "image-fallback";
+  const effectiveImageUrl = imageUrl || fallbackImageUrl;
 
   // Fixed back button handler for all types
   const handleBack = () => {
@@ -53,11 +65,11 @@ export const DesktopAdPreviewNavigation: React.FC<
   };
 
   const downloadImage = async (format: "png" | "jpg") => {
-    if (!imageUrl || isDownloading) return;
+    if (!effectiveImageUrl || isDownloading) return;
     setIsDownloading(true);
 
     try {
-      const response = await fetch(imageUrl);
+      const response = await fetch(imageUrl || fallbackImageUrl);
       const blob = await response.blob();
 
       const extension = format === "png" ? "png" : "jpg";
@@ -139,13 +151,29 @@ export const DesktopAdPreviewNavigation: React.FC<
 
   const handleShareClick = async () => {
     if (handleCopy) {
-      await handleCopy();
+      try {
+        await handleCopy();
+      } catch (error) {
+        console.error("Error in custom copy handler:", error);
+      }
+    }
 
-      // Focus and select the URL text for easy copying
-      if (urlInputRef.current) {
-        urlInputRef.current.select();
+    // Implement direct copy functionality as a fallback
+    try {
+      setIsCopying(true);
+      const shareUrl = `https://genz.ad/stand-alone/${effectiveImageUrl}`;
+
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(shareUrl);
+      } else {
+        // Fallback for browsers that don't support clipboard API
+        if (urlInputRef.current) {
+          urlInputRef.current.select();
+          document.execCommand("copy");
+        }
       }
 
+      // Visual feedback animation
       toast.custom(() => (
         <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
           <div className="flex items-center justify-between w-full">
@@ -165,6 +193,11 @@ export const DesktopAdPreviewNavigation: React.FC<
           </div>
         </div>
       ));
+    } catch (error) {
+      console.error("Error copying to clipboard:", error);
+      toast.error("Failed to copy link");
+    } finally {
+      setIsCopying(false);
     }
   };
 
@@ -279,21 +312,41 @@ export const DesktopAdPreviewNavigation: React.FC<
               <PopoverContent className="w-60 md:w-80">
                 <div className="py-2 flex flex-col gap-3">
                   <div className="flex flex-col gap-1">
-                    {/* Fixed input to handle undefined imageUrl */}
-                    <input
-                      ref={urlInputRef}
-                      type="text"
-                      id="image-url"
-                      value={`https://genz.ad/stand-alone/${imageUrl || ""}`}
-                      readOnly
-                      className="w-full py-3 px-2 border border-[#E3E3E3] rounded-md text-sm focus:border-transparent"
-                    />
+                    {/* Share URL input field with visual indicator */}
+                    <div className="relative">
+                      <input
+                        ref={urlInputRef}
+                        type="text"
+                        id="image-url"
+                        value={`https://genz.ad/stand-alone/${effectiveImageUrl}`}
+                        readOnly
+                        className="w-full py-3 px-2 pr-10 border border-[#E3E3E3] rounded-md text-sm focus:border-transparent"
+                      />
+                      <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <Copy size={16} className="text-gray-400" />
+                      </div>
+                    </div>
                   </div>
                   <button
                     onClick={handleShareClick}
-                    className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 w-full mx-auto"
+                    disabled={isCopying}
+                    className={`bg-[#650065] cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-[#4a004a] transition-colors flex items-center justify-center gap-2 w-full mx-auto ${
+                      isCopying ? "opacity-75" : ""
+                    }`}
                   >
-                    Copy Link
+                    {isCopying ? (
+                      <>Copying...</>
+                    ) : (
+                      <>
+                        Copy Link
+                        <motion.div
+                          initial={{ scale: 1 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Copy size={16} />
+                        </motion.div>
+                      </>
+                    )}
                   </button>
                 </div>
               </PopoverContent>
@@ -313,7 +366,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                 <span className="max-sm:hidden text-base leading-6 font-normal text-[#10509A]">
                   Export
                 </span>
-                {/* <ChevronDown size={18} /> */}
+                <ChevronDown size={18} />
               </button>
 
               {isExportDropdownOpen && (
