@@ -36,6 +36,8 @@ import { useForm } from "react-hook-form";
 import { ImageAdFormData } from "../types";
 import BackButton from "./back-button";
 import { useSubmitCampaign } from "../api/use-submit-campaign";
+// import { X } from "lucide-react";
+// import Link from "next/link";
 
 // import { X } from "lucide-react";
 // import Link from "next/link";
