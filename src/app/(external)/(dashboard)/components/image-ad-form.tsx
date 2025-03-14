@@ -513,6 +513,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import dynamic from "next/dynamic";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
+import { ImageTextEditor } from "@/components/ui/image-editor";
 
 // Dynamically import mobile components
 const MobileSelectBottomSheet = dynamic(
@@ -905,14 +906,12 @@ export default function AdCustomizer() {
             )}
 
             {status === "completed" && (
-              <div className="relative w-full h-full">
-                <Image
-                  src="/preview.svg"
-                  alt="Generated Ad"
-                  fill
-                  className="object-contain"
-                />
-              </div>
+              <ImageTextEditor
+                        imageSrc="/placeholder.svg"
+                        initialTexts={[
+                          { id: "1", content: "Edit this text", x: 50, y: 50, fontSize: 24, color: "#ffffff", fontFamily: "Arial" },
+                        ]}
+                      />
             )}
           </div>
         </div>
