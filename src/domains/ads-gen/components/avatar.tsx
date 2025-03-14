@@ -39,7 +39,7 @@ UserAvatarProps) {
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
         <button
-          className="flex items-center gap-3 pr-[8px] px-1 py-2 rounded-[12px] bg-pink-100 hover:bg-pink-200 transition-colors"
+          className="flex items-center gap-3 pr-[8px] px-1 py-2 rounded-[12px] bg-[#292929] cursor-pointer transition-colors"
           aria-label="User menu"
         >
           <Avatar className="h-8 w-8 border-0 bg-white rounded-[12px]">
@@ -50,7 +50,7 @@ UserAvatarProps) {
           </Avatar>
           {/* <span className="text-lg font-semibold text-[#121316]">{name}</span> */}
           <ChevronDown
-            className={`h-5 w-5 text-purple-800 transition-transform ${
+            className={`h-5 w-5 text-white transition-transform ${
               isOpen ? "rotate-180" : ""
             }`}
           />

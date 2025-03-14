@@ -1,8 +1,8 @@
 "use client";
 
-//import { DownloadButton } from "@/domains/ads-gen/components/download-button";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
-import { ArrowLeft, Check, ChevronDown, Download } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowLeft, Check, ChevronDown, Download, Share2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -24,98 +24,46 @@ export const DesktopAdPreviewNavigation: React.FC<
   isLoading,
   imageUrl,
   imageName = "ad",
-  // handleCopy,
+  handleCopy,
   type,
 }) => {
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [isSaveDropdownOpen, setIsSaveDropdownOpen] = useState(false);
+  const [isExportDropdownOpen, setIsExportDropdownOpen] = useState(false);
+  const saveDropdownRef = useRef<HTMLDivElement>(null);
+  const exportDropdownRef = useRef<HTMLDivElement>(null);
 
   const handleBack = () => {
     if (type == "demo") router.push("/generate-ad");
     else router.push("/dashboard/ad-form");
   };
 
-  // const downloadImage = async (format: "png" | "jpg") => {
-  //   if (!imageUrl || isDownloading) return;
-
-  //   setIsDownloading(true);
-  //   setIsOpen(false);
-
-  //   try {
-  //     // Fetch the image directly
-
-  //     // const response = await fetch(
-  //     //   "https://cors-anywhere.herokuapp.com/" + imageUrl
-  //     // );
-  //     const response = await fetch(imageUrl);
-  //     const blob = await response.blob();
-  //     const blobUrl = URL.createObjectURL(blob);
-
-  //     // Create a new blob with the desired format
-  //     const extension = format === "png" ? "png" : "jpeg";
-  //     const mimeType = `image/${extension}`;
-
-  //     // For demonstration, we're using the blob directly
-  //     const imageBlob = new Blob([blob], { type: mimeType });
-
-  //     // Create download link
-  //     const link = document.createElement("a");
-  //     link.href = window.URL.createObjectURL(imageBlob);
-  //     link.download = `${imageName}.${extension}`;
-  //     link.click();
-
-  //     // Cleanup
-  //     window.URL.revokeObjectURL(link.href);
-
-  //     toast.custom(() => (
-  //       <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-  //         <div className="flex items-center justify-between w-full">
-  //           <div className="flex items-center">
-  //             <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-  //               <Check className="h-4 w-4 text-white" />
-  //             </div>
-  //             <div className="ml-3">
-  //               <p className="text-sm font-medium text-gray-900 mb-2">
-  //                 Download Success!
-  //               </p>
-  //               <p className="text-xs text-gray-500">
-  //                 Your Image Ad has been downloaded as {extension.toUpperCase()}
-  //               </p>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     ));
-  //   } catch (error) {
-  //     console.error("Error downloading image:", error);
-  //   } finally {
-  //     setIsDownloading(false);
-  //   }
-  // };
-
-  const downloadImage = async () => {
+  const downloadImage = async (format: "png" | "jpg") => {
     if (!imageUrl || isDownloading) return;
     setIsDownloading(true);
 
     try {
-      // Fetch the image
       const response = await fetch(imageUrl);
       const blob = await response.blob();
 
-      // Create a new blob URL for each download
-      const blobUrl = URL.createObjectURL(blob);
+      const extension = format === "png" ? "png" : "jpg";
+      const mimeType = `image/${extension === "png" ? "png" : "jpeg"}`;
 
-      // Create and use download link
+      let imageBlob = blob;
+      if (format === "png" && blob.type !== "image/png") {
+        imageBlob = new Blob([blob], { type: mimeType });
+      } else if (format === "jpg" && blob.type !== "image/jpeg") {
+        imageBlob = new Blob([blob], { type: mimeType });
+      }
+
+      const blobUrl = URL.createObjectURL(imageBlob);
+
       const link = document.createElement("a");
       link.href = blobUrl;
-      link.setAttribute("download", `${imageName}.jpg`);
-
-      // We can use click() directly without appending to the body
+      link.setAttribute("download", `${imageName}.${extension}`);
       link.click();
 
-      // Clean up the URL object after a short delay to ensure the download starts
       setTimeout(() => {
         URL.revokeObjectURL(blobUrl);
       }, 100);
@@ -132,7 +80,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                   Download Success!
                 </p>
                 <p className="text-xs text-gray-500">
-                  Your Image Ad has been downloaded
+                  Your Image Ad has been downloaded as {extension.toUpperCase()}
                 </p>
               </div>
             </div>
@@ -144,21 +92,28 @@ export const DesktopAdPreviewNavigation: React.FC<
       toast.error("Failed to download image");
     } finally {
       setIsDownloading(false);
-      setIsOpen(false);
+      setIsExportDropdownOpen(false);
     }
   };
-  // Handle clicks outside the dropdown to close it
+
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
+        saveDropdownRef.current &&
+        !saveDropdownRef.current.contains(event.target as Node)
       ) {
-        setIsOpen(false);
+        setIsSaveDropdownOpen(false);
+      }
+
+      if (
+        exportDropdownRef.current &&
+        !exportDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsExportDropdownOpen(false);
       }
     };
 
-    if (isOpen) {
+    if (isSaveDropdownOpen || isExportDropdownOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     } else {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -167,32 +122,75 @@ export const DesktopAdPreviewNavigation: React.FC<
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen]);
+  }, [isSaveDropdownOpen, isExportDropdownOpen]);
 
-  // const handleCopyClick = async () => {
-  //   if (handleCopy) {
-  //     await handleCopy();
-  //     toast.custom(() => (
-  //       <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-  //         <div className="flex items-center justify-between w-full">
-  //           <div className="flex items-center">
-  //             <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-  //               <Check className="h-4 w-4 text-white" />
-  //             </div>
-  //             <div className="ml-3">
-  //               <p className="text-sm font-medium text-gray-900 mb-2">
-  //                 Copied to clipboard!
-  //               </p>
-  //               <p className="text-xs text-gray-500">
-  //                 Your link will allow users to view your image.
-  //               </p>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     ));
-  //   }
-  // };
+  const handleShareClick = async () => {
+    if (handleCopy) {
+      await handleCopy();
+      toast.custom(() => (
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+                <Check className="h-4 w-4 text-white" />
+              </div>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-900 mb-2">
+                  Copied to clipboard!
+                </p>
+                <p className="text-xs text-gray-500">
+                  Your link will allow users to view your image.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ));
+    }
+  };
+
+  const handleSaveAndExit = () => {
+    setIsSaveDropdownOpen(false);
+    toast.custom(() => (
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center">
+            <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+              <Check className="h-4 w-4 text-white" />
+            </div>
+            <div className="ml-3">
+              <p className="text-sm font-medium text-gray-900 mb-2">
+                Saved Successfully!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    ));
+  };
+
+  const handleSaveAndPublish = () => {
+    setIsSaveDropdownOpen(false);
+    toast.custom(() => (
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center">
+            <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+              <Check className="h-4 w-4 text-white" />
+            </div>
+            <div className="ml-3">
+              <p className="text-sm font-medium text-gray-900 mb-2">
+                Ad Published Successfully!
+              </p>
+              <p className="text-xs text-gray-500">
+                Your ad is now live and ready to reach your audience.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    ));
+  };
 
   return (
     <div className={`w-full ${className}`}>
@@ -208,85 +206,101 @@ export const DesktopAdPreviewNavigation: React.FC<
           </span>
         </button>
 
-        {/* Vertical line - desktop only */}
-        {/* <div className=" w-px h-8 bg-gray-200"></div> */}
-
-        {/* Generate New Ad button - hidden on mobile */}
-        {/* <Link href={"/signin"}>
-          <button
-            onClick={handleGenerateNewAd}
-            disabled={isLoading}
-            className={`flex items-center font-medium cursor-pointer ${
-              isLoading
-                ? "text-[#D19AD1] cursor-not-allowed"
-                : "text-[#650065] hover:text-[#650065]"
-            }`}
-            type="button"
-          >
-            <span className="hidden md:block">
-              {isLoading ? "Generating..." : "Generate Your Ad"}
-            </span>
-            <RotateCw className="w-5 h-5 ml-2" />
-          </button>
-        </Link> */}
-
-        {/* Vertical line - desktop only */}
-        {/* {imageUrl && <div className="w-px h-8 bg-gray-200"></div>} */}
-        {/* 
-        <button
-          onClick={handleGoHome}
-          className="flex items-center text-[#650065] hover:text-gray-800 cursor-pointer"
-          type="button"
-        >
-          <House className="w-6 h-6 mr-2" />
-          <span className="hidden md:block font-medium text-base leading-6">
-            Go back Home
-          </span>
-        </button> */}
-
-        {/* Vertical line - desktop only */}
-        {/* <div className=" w-px h-8 bg-gray-200"></div> */}
-
-        {/* UNCOMMENT THIS FOR V1.2  AND REMOVE THE ESLINT RULE IN THE LINE 1 */}
-        {/* <DownloadButton
-          imageUrl={imageUrl}
-          downloadImage={downloadImage}
-          isDownloading={isDownloading}
-          isLoading={isLoading}
-        /> */}
         <div className="flex gap-4">
-          <button className="bg-[#F6F6F6] text-dark py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center">
-            <span className="max-sm:hidden">Save</span>
-            <ChevronDown />
-          </button>
-          <button
-            onClick={downloadImage}
-            disabled={isDownloading || isLoading}
-            className="bg-[#EEF4FC] text-[#10509A] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
-          >
-            <Download />
-            <span className="max-sm:hidden">Export</span>
-          </button>
+          {type !== "demo" && (
+            <>
+              {/* Save Dropdown */}
+              <div className="relative" ref={saveDropdownRef}>
+                <button
+                  onClick={() => setIsSaveDropdownOpen(!isSaveDropdownOpen)}
+                  className="bg-[#F6F6F6] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
+                >
+                  <span className="max-sm:hidden text-base leading-6 font-normal text-[#1B1B1B]">
+                    Save
+                  </span>
+                  <ChevronDown size={18} />
+                </button>
+
+                {isSaveDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10"
+                  >
+                    <div className="py-1">
+                      <button
+                        onClick={handleSaveAndExit}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                      >
+                        Save & Exit
+                      </button>
+                      <button
+                        onClick={handleSaveAndPublish}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                      >
+                        Save & Publish
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+
+              {/* Share Button */}
+              <button
+                onClick={handleShareClick}
+                className="bg-[#F8E6F8] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
+              >
+                <Share2 size={18} />
+                <span className="max-sm:hidden text-base leading-6 font-normal text-[#650065]">
+                  Share
+                </span>
+              </button>
+            </>
+          )}
+
+          {/* Export Dropdown */}
+          <div className="relative" ref={exportDropdownRef}>
+            <button
+              onClick={() => setIsExportDropdownOpen(!isExportDropdownOpen)}
+              disabled={isDownloading || isLoading}
+              className="bg-[#EEF4FC] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
+            >
+              <Download size={18} />
+              <span className="max-sm:hidden text-base leading-6 font-normal text-[#10509A]">
+                Export
+              </span>
+              <ChevronDown size={18} />
+            </button>
+
+            {isExportDropdownOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10"
+              >
+                <div className="py-1">
+                  <button
+                    onClick={() => downloadImage("png")}
+                    disabled={isDownloading || isLoading}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                  >
+                    Download as PNG
+                  </button>
+                  <button
+                    onClick={() => downloadImage("jpg")}
+                    disabled={isDownloading || isLoading}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                  >
+                    Download as JPG
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </div>
         </div>
-        {/* <button onClick={hancleGet}>Cppy Link</button> */}
-        {/* <div>
-          
-
-          <button
-            onClick={handleCopyClick}
-            className="bg-transparent border border-light-purple cursor-pointer text-black px-6 py-2 mb-6 rounded-sm hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 w-fit mx-auto"
-          >
-            Copy Link
-          </button>
-        </div> */}
       </div>
-
-      {/* Horizontal line underneath the entire navigation */}
-      {/* <div className="h-[1px] bg-gray-200 w-full mt-8"></div> */}
     </div>
   );
 };
-
-// const hancleGet(){
-
-// }
