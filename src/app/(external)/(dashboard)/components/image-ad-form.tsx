@@ -480,26 +480,13 @@
 // export default ImageAdForm;
 
 "use client";
-
-import { useState, useEffect } from "react";
-import { ChevronDown, ImageIcon, Upload } from "lucide-react";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
+  // DropdownMenuContent,
+  // DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useMediaQuery } from "@/hooks/use-media-query";
 import {
   Form,
   FormControl,
@@ -508,11 +495,24 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import dynamic from "next/dynamic";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ImageIcon, Upload } from "lucide-react";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { ImageTextEditor } from "@/components/ui/image-editor";
 
 // Dynamically import mobile components
 const MobileSelectBottomSheet = dynamic(
@@ -556,13 +556,14 @@ export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [status, setStatus] = useState<AdStatus>("initial");
   const [progress, setProgress] = useState<number>(0);
+  const [formLoaded, setFormLoaded] = useState(false);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       adDescription: "",
       adPlacement: "",
-      targetAudience: "genz", // Default to GenZ
+      targetAudience: "genz",
       productImage: "",
     },
     mode: "onChange",
@@ -571,24 +572,45 @@ export default function AdCustomizer() {
   const { formState } = form;
   const isValid = formState.isValid;
 
+  // Load saved form data on component mount
   useEffect(() => {
-    // Load saved form data
     const savedData = localStorage.getItem("adCustomizerData");
     if (savedData) {
       try {
         const parsedData = JSON.parse(savedData);
-        form.setValue("adDescription", parsedData.adDescription || "");
-        form.setValue("adPlacement", parsedData.adPlacement || "");
-        form.setValue("targetAudience", parsedData.targetAudience || "genz");
 
-        if (parsedData.productImage) {
-          form.setValue("productImage", parsedData.productImage);
-        }
+        // Set form values and ensure they're properly updated
+        form.reset({
+          adDescription: parsedData.adDescription || "",
+          adPlacement: parsedData.adPlacement || "",
+          targetAudience: parsedData.targetAudience || "genz",
+          productImage: parsedData.productImage || "",
+        });
+
+        // Trigger validation after setting values
+        form.trigger();
       } catch (error) {
         console.error("Error parsing saved data:", error);
       }
     }
+
+    // Mark form as loaded to prevent default value overrides
+    setFormLoaded(true);
   }, [form]);
+
+  type SelectOption = {
+    label: string;
+    value: string;
+    display?: string;
+    aspectRatio?: string;
+  };
+
+  // Get the value label helper function
+  const getOptionLabel = (options: SelectOption[], value: string): string => {
+    if (!value) return "";
+    const option = options.find((opt) => opt.value === value);
+    return option ? option.label : "";
+  };
 
   const onSubmit = (data: FormData) => {
     // Save form data
@@ -625,22 +647,26 @@ export default function AdCustomizer() {
   //   setProgress(0);
   // };
 
+  if (!formLoaded) {
+    return <div className="p-8 text-center">Loading form data...</div>;
+  }
+
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row  p-4 lg:p-0">
+    <div className="flex flex-col lg:flex-row p-4 lg:p-0">
       {/* Form Section */}
       <div className="w-full lg:w-[440px] lg:min-w-[440px] scrollbar-hide p-4 md:py-6 md:px-10 flex flex-col gap-10 lg:max-w-[440px] lg:h-screen lg:overflow-y-auto bg-white order-2 lg:order-1">
         {/* Form Header */}
         <div className="lg:flex items-center justify-between hidden">
           <h1 className="text-xl font-medium">Customize your Ad</h1>
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center px-3 py-1.5 text-sm border rounded-full hover:bg-gray-50">
+            <DropdownMenuTrigger className="flex items-center px-3 py-1.5 text-sm border border-[#63A0E6] bg-[#63A0E6]/10 rounded-full hover:bg-gray-50">
               Image
-              <ChevronDown className="w-4 h-4 ml-1" />
+              {/* <ChevronDown className="w-4 h-4 ml-1" /> */}
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            {/* <DropdownMenuContent>
               <DropdownMenuItem>Upload Image</DropdownMenuItem>
               <DropdownMenuItem>Browse Library</DropdownMenuItem>
-            </DropdownMenuContent>
+            </DropdownMenuContent> */}
           </DropdownMenu>
         </div>
 
@@ -673,7 +699,7 @@ export default function AdCustomizer() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-sm font-normal text-[#121316]">
-                      Where will this ad appear
+                      Target Audience
                     </FormLabel>
                     <FormControl>
                       {isMobile ? (
@@ -687,16 +713,14 @@ export default function AdCustomizer() {
                       ) : (
                         <Select
                           onValueChange={field.onChange}
-                          defaultValue={field.value}
                           value={field.value}
                         >
                           <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center h-[56px]">
                             <SelectValue placeholder="Select audience">
-                              {field.value
-                                ? targetAudienceOptions.find(
-                                    (opt) => opt.value === field.value
-                                  )?.label
-                                : "GenZ"}
+                              {getOptionLabel(
+                                targetAudienceOptions,
+                                field.value
+                              )}
                             </SelectValue>
                           </SelectTrigger>
                           <SelectContent>
@@ -706,9 +730,7 @@ export default function AdCustomizer() {
                                 value={option.value}
                                 className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
                               >
-                                <div className="flex items-center space-x-2 py-1">
-                                  <span>{option.label}</span>
-                                </div>
+                                {option.label}
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -726,7 +748,7 @@ export default function AdCustomizer() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-sm font-normal text-[#121316]">
-                      Ad Placement options
+                      Ad Placement
                     </FormLabel>
                     <FormControl>
                       {isMobile ? (
@@ -744,11 +766,7 @@ export default function AdCustomizer() {
                         >
                           <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
                             <SelectValue placeholder="Select Platform">
-                              {field.value
-                                ? adPlacementOptions.find(
-                                    (opt) => opt.value === field.value
-                                  )?.label
-                                : "Select Platform"}
+                              {getOptionLabel(adPlacementOptions, field.value)}
                             </SelectValue>
                           </SelectTrigger>
                           <SelectContent>
@@ -838,55 +856,25 @@ export default function AdCustomizer() {
             >
               Generate Ad
             </Button>
+
+            {/* Debug values - remove in production */}
+            {/* <div className="mt-4 p-2 bg-gray-100 rounded text-xs">
+              <p>Target Audience: {form.watch("targetAudience")}</p>
+              <p>Ad Placement: {form.watch("adPlacement")}</p>
+            </div> */}
           </form>
         </Form>
       </div>
 
       {/* Preview Section */}
-      <div className="lg:flex-1 flex flex-col order-1 lg:order-2  pb-4 lg:p-0 gap-2">
+      <div className="lg:flex-1 flex flex-col order-1 lg:order-2 pb-4 lg:p-0 gap-2">
         {/* Preview Header */}
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
-          <DesktopAdPreviewNavigation type="desktop" />
+          <DesktopAdPreviewNavigation type="image-form" status={status} />
         </div>
 
-        {/* <div className="border-b border-[#ECF1F5] bg-white flex py-3 px-10 items-start gap-2.5">
-          <button className="flex items-center gap-2 text-[#650065] font-nunito text-base font-semibold leading-6 py-3">
-            <ArrowLeft className="h-4 w-4 mr-1" />
-            Back
-          </button>
-
-          <div className="flex space-x-2 p-4 ">
-            <Button
-              variant="outline"
-              size="sm"
-              className="bg-white border-gray-200 text-amber-500 hover:text-amber-600"
-              onClick={handleRegenerate}
-            >
-              <Redo2 className="h-4 w-4 mr-2" />
-              Regenerate
-            </Button>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="bg-white border-gray-200 text-blue-500 hover:text-blue-600"
-                >
-                  <Download className="h-4 w-4 mr-2" />
-                  Export
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>Export as PNG</DropdownMenuItem>
-                <DropdownMenuItem>Export as JPG</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </div> */}
-
         {/* Preview Content */}
-        <div className="flex-1 rounded-md  flex items-center justify-center xl:min-h-[50vh] lg:w-[90%] mx-auto w-full bg-[#F9FAFB]">
+        <div className="flex-1 rounded-md flex items-center justify-center xl:min-h-[50vh] lg:w-[90%] mx-auto w-full bg-[#F9FAFB]">
           <div className="flex flex-col items-center justify-center xl:p-16 text-gray-400 max-w-[700px] mx-auto w-full h-[324px] lg:h-[648px] bg-[#f2f2f2]">
             {(status === "initial" || status === "ready") && (
               <>
@@ -905,14 +893,30 @@ export default function AdCustomizer() {
             )}
 
             {status === "completed" && (
-              <div className="relative w-full h-full">
-                <Image
-                  src="/preview.svg"
-                  alt="Generated Ad"
-                  fill
-                  className="lg:object-cover aspect-square object-contain"
+              <>
+                <div className="relative max-w-[649px] h-[648px]">
+                  <Image
+                    src="/preview.svg"
+                    alt="Generated Ad"
+                    fill
+                    className="lg:object-cover aspect-square object-contain"
+                  />
+                </div>
+                <ImageTextEditor
+                  imageSrc="/placeholder.svg"
+                  initialTexts={[
+                    {
+                      id: "1",
+                      content: "Edit this text",
+                      x: 50,
+                      y: 50,
+                      fontSize: 24,
+                      color: "#ffffff",
+                      fontFamily: "Arial",
+                    },
+                  ]}
                 />
-              </div>
+              </>
             )}
           </div>
         </div>
