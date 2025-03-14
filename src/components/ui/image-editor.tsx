@@ -106,9 +106,9 @@ export function ImageTextEditor({ initialTexts = [] }: ImageTextEditorProps) {
             isSelected={text.id === selectedTextId}
             onSelect={() => setSelectedTextId(text.id)}
             onChange={updateText}
-            onDelete={() => deleteText(text.id)}
-            containerSize={containerSize}
-          />
+            containerSize={containerSize} onDelete={function (): void {
+              throw new Error("Function not implemented.")
+            } }          />
         ))}
       </div>
 
