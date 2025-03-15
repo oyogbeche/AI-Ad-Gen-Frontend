@@ -107,6 +107,8 @@ export function ImageTextEditor({ initialTexts = [] }: ImageTextEditorProps) {
         <Image
           src={"/preview.svg"}
           alt="Editable image"
+          width={650}
+          height={500}
           className="w-full h-full object-contain z-[-1]"
           bg-white
         />

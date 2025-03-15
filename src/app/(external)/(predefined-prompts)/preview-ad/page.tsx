@@ -5,6 +5,7 @@ import { useImageContext } from "@/domains/ads-gen/context/ImageContext";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Page = () => {
@@ -30,8 +31,8 @@ const Page = () => {
       <div className="">
         <div className="w-full mx-auto flex flex-col gap-6 max-sm:p-6">
           <div className="w-full rounded-[8px] overflow-hidden flex-col-reverse sm:flex-row flex border border-[#F2F2F2] max-sm:bg-white">
-            <div className="bg-white p-[24px]">
-              <h1 className="text-[#2A2A2A] text-[24px] leading-[32px] font-[500] mb-10">
+            <div className="bg-white p-[24px] max-w-[440px] w-full">
+              <h1 className="text-[#2A2A2A] text-[24px] leading-[32px] font-[500] mb-10 hidden md:inline-block">
                 Customize Your Ad
               </h1>
               <div className="text-[#121316] text-base font-medium leading-6 mb-3">
@@ -42,14 +43,16 @@ const Page = () => {
                 <p className="max-w-[362px]">{details.text}</p>
               </div>
 
-              <Button className="mt-3 bg-light-purple cursor-pointer text-white px-6 py-5 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 w-full mx-auto">
-                <p>Generate Your Ad</p> <ArrowRight />
-              </Button>
+              <Link href={"/signin"}>
+                <Button className="mt-3 bg-light-purple cursor-pointer text-white px-6 py-5 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 w-full mx-auto">
+                  <p>Generate Your Ad</p> <ArrowRight />
+                </Button>
+              </Link>
             </div>
 
             <div className="flex flex-col gap-6 justify-self-stretch w-full pb-6">
               <DesktopAdPreviewNavigation
-                className="w-full px-5 mt-3"
+                className="w-full px-5 py-3 bg-white"
                 imageUrl={imageUrl}
                 type="demo"
               />
@@ -86,16 +89,18 @@ const Page = () => {
                   <span className="max-sm:hidden">Export</span>
                 </button>
               </div> */}
-              <div className="bg-[#F0F3F5] p-6 sm:p-[32px] lg:min-w-[598px] max-w-[598px] self-center overflow-hidden">
-                <Image
-                  className="rounded-[8px] w-full h-auto object-cover"
-                  src={imageUrl || "/progressImage.png"}
-                  height={598}
-                  width={395}
-                  alt={"Progress Image"}
-                  priority
-                  unoptimized
-                />
+              <div className="max-md:bg-white max-md:px-4 flex items-center justify-center">
+                <div className="bg-[#F0F3F5] p-4 md:p-6 sm:p-[32px] lg:min-w-[598px] max-w-[598px] max-h-[350px] w-full md:max-h-[598px] self-center overflow-hidden">
+                  <Image
+                    className="rounded-[8px] w-full h-auto object-cover"
+                    src={imageUrl || "/progressImage.png"}
+                    height={598}
+                    width={395}
+                    alt={"Progress Image"}
+                    priority
+                    unoptimized
+                  />
+                </div>
               </div>
 
               {/* <div className="grid grid-cols-2 gap-4 ">

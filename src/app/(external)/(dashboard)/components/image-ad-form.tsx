@@ -884,24 +884,21 @@ export default function AdCustomizer() {
             )}
 
             {status === "generating" && (
-              <div className="flex flex-col items-center justify-center">
-                <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                <p className="text-gray-700">
-                  Generating Your Image Ad... {progress}%
-                </p>
+              <div className="max-w-[609px] w-full mx-auto flex items-center justify-center h-[70vh] bg-[#E9E9E9] rounded-sm">
+                <div className="flex flex-col gap-6 items-center justify-center rounded-md">
+                  <div className="relative w-12 h-12">
+                    <div className="absolute inset-0 border-6 border-gray-300 rounded-full"></div>
+                    <div className="absolute inset-0 border-6 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                  <h2 className="text-2xl text-[#121316] leading-8 font-semibold max-md:max-w-[338px]">
+                    Generating Your Image Ad... {progress}%
+                  </h2>
+                </div>
               </div>
             )}
 
             {status === "completed" && (
               <>
-                <div className="relative max-w-[649px] h-[648px]">
-                  <Image
-                    src="/preview.svg"
-                    alt="Generated Ad"
-                    fill
-                    className="lg:object-cover aspect-square object-contain"
-                  />
-                </div>
                 <ImageTextEditor
                   imageSrc="/placeholder.svg"
                   initialTexts={[

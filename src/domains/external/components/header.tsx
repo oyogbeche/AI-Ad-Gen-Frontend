@@ -13,10 +13,10 @@ const Header: React.FC = () => {
   const logout = useAuthStore((state) => state.logout);
   const name = `${user?.first_name || ""} ${user?.last_name || ""}`;
   const pathname = usePathname();
+  const predefinedPromptPages =
+    pathname.startsWith("/preview-ad") || pathname.startsWith("/generate-ad");
   const isSpecialPage =
-    pathname.startsWith("/dashboard") ||
-    pathname.startsWith("/preview-ad") ||
-    pathname.startsWith("/generate-ad");
+    pathname.startsWith("/dashboard") || predefinedPromptPages;
 
   return (
     <header
@@ -37,19 +37,23 @@ const Header: React.FC = () => {
           </Link>
         </div>
 
-        {user ? (
-          <UserAvatar
-            name={name}
-            imageUrl={user.avatar_url}
-            onSignOut={logout}
-          />
-        ) : (
-          <Link
-            href={"/signin"}
-            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors hidden md:flex justify-center items-center gap-2"
-          >
-            <p>Generate Your Ad</p> <ArrowRight />
-          </Link>
+        {!predefinedPromptPages && (
+          <>
+            {user ? (
+              <UserAvatar
+                name={name}
+                imageUrl={user.avatar_url}
+                onSignOut={logout}
+              />
+            ) : (
+              <Link
+                href={"/signin"}
+                className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors hidden md:flex justify-center items-center gap-2"
+              >
+                <p>Generate Your Ad</p> <ArrowRight />
+              </Link>
+            )}
+          </>
         )}
         {/* <Button
           onClick={handleGoogleLogin}
