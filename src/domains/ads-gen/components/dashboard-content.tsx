@@ -40,25 +40,29 @@ const DashboardContent = () => {
             </button>
           ))}
         </div>
-        <div className="flex gap-2.5 items-center">
-          <p className="text-[#121316] text-[14px] font-semibold">Sort by : </p>
-          <Select>
-            <SelectTrigger className="w-[140px]">
-              <SelectValue placeholder="Most polular" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="Most Recent">Most Recent</SelectItem>
-                <SelectItem value="Most Viewed">Most Viewed</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
+        {filter == "community" && (
+          <div className="flex gap-2.5 items-center">
+            <p className="text-[#121316] text-[14px] font-semibold">
+              Sort by :{" "}
+            </p>
+            <Select>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue placeholder="Most polular" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="Most Recent">Most Recent</SelectItem>
+                  <SelectItem value="Most Viewed">Most Viewed</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 ">
         {(ads[filter] || []).map((src, i) => (
-          <picture
+          <div
             key={i}
             className="border-[#ECECEC] border bg-[#F5F5F5] rounded-[8px] overflow-hidden"
           >
@@ -79,7 +83,7 @@ const DashboardContent = () => {
             <div className="flex flex-col gap-[10px] mt-2.5 ml-4 mb-3">
               <span className="font-semibold">HNG Wigs Ad</span>
               <div className="flex gap-2.5 items-center">
-                <div className="w-5 h-5 rounded-full overflow-hidden">
+                <picture className="w-5 h-5 rounded-full overflow-hidden">
                   <Image
                     src={src}
                     height={294}
@@ -88,11 +92,11 @@ const DashboardContent = () => {
                     priority={false}
                     className="object-cover w-full"
                   />
-                </div>
+                </picture>
                 <span className="text-[#7D7D7D]">FaithJames</span>
               </div>
             </div>
-          </picture>
+          </div>
         ))}
       </div>
     </section>
