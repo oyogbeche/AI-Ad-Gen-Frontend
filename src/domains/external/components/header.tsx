@@ -1,37 +1,56 @@
 "use client";
-// import { useState } from "react";
 import { Logo } from "@/components/icons/icon";
 import { UserAvatar } from "@/domains/ads-gen/components/avatar";
 import { useAuthStore } from "@/store/auth-store";
 import { ArrowRight } from "lucide-react";
-// import { Google } from "@/components/icons/icon";
-// import { Button } from "@/components/ui/button";
-// import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import logoPng from "../../../../public/logo.png";
 
 const Header: React.FC = () => {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
   const name = `${user?.first_name || ""} ${user?.last_name || ""}`;
+  const pathname = usePathname();
+  const isSpecialPage =
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/preview-ad") ||
+    pathname.startsWith("/generate-ad");
 
   return (
-    <header className="w-full border-b bg-white border-[#F8E6F8] sticky top-0 z-40">
-      <div className="max-w-[1440px] m-auto  flex justify-between w-full px-6 py-4 lg:pl-20 lg:pr-9">
+    <header
+      className={`w-full border-b  border-[#F8E6F8] sticky top-0 z-40 ${
+        isSpecialPage ? "bg-[#292929]" : "bg-white"
+      } focus:outline-none focus:ring-0`}
+    >
+      <div
+        className={`max-w-[1440px] m-auto  flex justify-between w-full px-6 py-4 lg:pl-20 lg:pr-9 `}
+      >
         <div className="w-fit">
           <Link href="/">
-            <Logo className="w-32 md:w-auto" />
+            {isSpecialPage ? (
+              <Image src={logoPng} alt="Logo" width={128} height={64} />
+            ) : (
+              <Logo className="w-32 md:w-auto" />
+            )}
           </Link>
         </div>
 
-{  user ? <UserAvatar name={name} imageUrl={user.avatar_url} onSignOut={logout} />  
-          :
+        {user ? (
+          <UserAvatar
+            name={name}
+            imageUrl={user.avatar_url}
+            onSignOut={logout}
+          />
+        ) : (
           <Link
-          href={"/signin"}
-          className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors hidden md:flex justify-center items-center gap-2"
-        >
-          <p>Generate Your Ad</p> <ArrowRight />
-        </Link>
-}
+            href={"/signin"}
+            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors hidden md:flex justify-center items-center gap-2"
+          >
+            <p>Generate Your Ad</p> <ArrowRight />
+          </Link>
+        )}
         {/* <Button
           onClick={handleGoogleLogin}
           className="flex items-center gap-[10px] rounded-md border border-[#B7D3F3] px-3 py-2 bg-white md:px-4 md:py-3  hover:bg-[#F6F6F6]"
