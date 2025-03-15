@@ -31,7 +31,7 @@ const Page = () => {
       <div className="">
         <div className="w-full mx-auto flex flex-col gap-6 max-sm:p-6">
           <div className="w-full rounded-[8px] overflow-hidden flex-col-reverse sm:flex-row flex border border-[#F2F2F2] max-sm:bg-white">
-            <div className="bg-white p-[24px] max-w-[440px] w-full">
+            <div className="bg-white p-[24px]">
               <h1 className="text-[#2A2A2A] text-[24px] leading-[32px] font-[500] mb-10 hidden md:inline-block">
                 Customize Your Ad
               </h1>
@@ -90,7 +90,7 @@ const Page = () => {
                 </button>
               </div> */}
               <div className="max-md:bg-white max-md:px-4 flex items-center justify-center">
-                <div className="bg-[#F0F3F5] p-4 md:p-6 sm:p-[32px] lg:min-w-[598px] max-w-[598px] max-h-[350px] w-full md:max-h-[598px] self-center overflow-hidden">
+                <div className="bg-[#F0F3F5] p-4 md:p-6 sm:p-[32px] lg:min-w-[598px] max-w-[598px] max-h-[350px] md:max-h-[598px] self-center overflow-hidden">
                   <Image
                     className="rounded-[8px] w-full h-auto object-cover"
                     src={imageUrl || "/progressImage.png"}
