@@ -63,8 +63,8 @@ export function SignInForm() {
   }; */
 
   return (
-    <Card className="w-full max-w-[550px] mx-auto border rounded-lg">
-      <CardContent className="pt-6 pb-8 px-4 sm:px-8">
+    <Card className="min-w-[320px] max-w-[550px] w-full mx-auto border rounded-lg">
+      <CardContent className="pt-6 pb-8 px-5 sm:px-8">
         <div className="mb-8">
           <Button
             variant="ghost"
