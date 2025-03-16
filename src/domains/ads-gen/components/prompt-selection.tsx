@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CardHeader, CardTitle } from "@/components/ui/card";
 import BackButton from "@/domains/ads-gen/components/back-button";
 import { useImageContext } from "@/domains/ads-gen/context/ImageContext";
+import { motion } from "framer-motion";
 
 const prompts = [
   {
@@ -148,8 +149,8 @@ const PromptSelection: React.FC<PromptSelectionProps> = ({
 
   return (
     <div className="flex flex-col gap-10">
-      <BackButton fallbackUrl="/"/>
-      <CardHeader className="text-center px-0 mt-[15px]">
+      <BackButton fallbackUrl="/" className="max-md:mb-0" />
+      <CardHeader className="text-center px-0 md:mt-[15px]">
         <CardTitle className="text-[28px] leading-[36px] text-[#121316] font-semibold">
           Generate Your Image Ad for Free
         </CardTitle>
@@ -159,58 +160,108 @@ const PromptSelection: React.FC<PromptSelectionProps> = ({
       </CardHeader>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-6">
-        {prompts.map((prompt, index) => (
-          <div
-            onClick={() => handleSelectPrompt(index)}
-            key={index}
-            className={`flex gap-1 items-end md:items-center border  py-3 px-6 rounded-[20px] text-base font-medium leading-6 text-[#5F5F5F] cursor-pointer text-balance ${
-              selectedPromptIndex === index
-                ? "border-[#1671D9]"
-                : "border-[#E3E3E3]"
-            }`}
-          >
-            {prompt.text}
-            <div className="w-fit">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
+        {prompts.map((prompt, index) => {
+          const isSelected = selectedPromptIndex === index;
+
+          return (
+            <motion.div
+              onClick={() => handleSelectPrompt(index)}
+              key={index}
+              className={`flex gap-1 items-center border py-3 px-5 rounded-[20px] text-sm md:text-base font-medium leading-6 text-[#5F5F5F] cursor-pointer text-balance ${
+                isSelected ? "border-[#1671D9]" : "border-[#E3E3E3]"
+              }`}
+              whileHover={{
+                scale: 1.02,
+                transition: { duration: 0.2 },
+              }}
+              layout
+              animate={{
+                borderColor: isSelected ? "#1671D9" : "#E3E3E3",
+                boxShadow: isSelected
+                  ? "0 0 8px rgba(22, 113, 217, 0.3)"
+                  : "none",
+              }}
+              transition={{
+                borderColor: { duration: 0.3 },
+                boxShadow: { duration: 0.3 },
+              }}
+            >
+              {prompt.text}
+              <motion.div
+                className="w-fit"
+                animate={{
+                  scale: isSelected ? [1, 1.2, 1] : 1,
+                  rotate: isSelected ? [0, 5, 0] : 0,
+                }}
+                transition={{
+                  duration: 0.4,
+                  times: [0, 0.6, 1],
+                  ease: "easeInOut",
+                }}
               >
-                <path
-                  d="M5.8335 14.1666L14.1668 5.83325"
-                  stroke="#63A0E6"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M5.8335 5.83325H14.1668V14.1666"
-                  stroke="#63A0E6"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-          </div>
-        ))}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                >
+                  <motion.path
+                    d="M5.8335 14.1666L14.1668 5.83325"
+                    stroke={isSelected ? "#63A0E6" : "#E3E3E3"}
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    animate={{ stroke: isSelected ? "#63A0E6" : "#E3E3E3" }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  <motion.path
+                    d="M5.8335 5.83325H14.1668V14.1666"
+                    stroke={isSelected ? "#63A0E6" : "#E3E3E3"}
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    animate={{ stroke: isSelected ? "#63A0E6" : "#E3E3E3" }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </svg>
+              </motion.div>
+            </motion.div>
+          );
+        })}
       </div>
 
       <div className="flex justify-end">
-        <Button
-          type="submit"
-          disabled={selectedPromptIndex === null}
-          onClick={onGenerateAd}
-          className={`px-6 py-3 h-12 text-base rounded-md transition-colors text-white shadow-none md:mt-[13px] w-full md:w-fit ${
+        <motion.div
+          className="w-full md:w-fit"
+          whileHover={
             selectedPromptIndex !== null
-              ? "bg-[#B800B8] hover:bg-[#960096] cursor-pointer"
-              : "bg-[#EAC8F0] cursor-not-allowed"
-          }`}
+              ? {
+                  scale: 1.03,
+                }
+              : {}
+          }
+          whileTap={
+            selectedPromptIndex !== null
+              ? {
+                  scale: 0.97,
+                }
+              : {}
+          }
         >
-          Generate Ad
-        </Button>
+          <Button
+            type="submit"
+            disabled={selectedPromptIndex === null}
+            onClick={onGenerateAd}
+            className={`px-6 py-3 h-12 text-base rounded-md transition-colors text-white shadow-none md:mt-[13px] w-full md:w-fit ${
+              selectedPromptIndex !== null
+                ? "bg-[#B800B8] hover:bg-[#960096] cursor-pointer"
+                : "bg-[#EAC8F0] cursor-not-allowed"
+            }`}
+          >
+            Generate Ad
+          </Button>
+        </motion.div>
       </div>
     </div>
   );
