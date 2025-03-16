@@ -9,15 +9,18 @@ export const postRequest = async (
   headers?: Record<string, string>
 ) => {
   const token = useAuthStore.getState().token;
-  const response = await fetch(`https://staging.api.genz.ad/api/v1${endpoint}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(token && { Authorization: `Bearer ${token}` }),
-      ...headers,
-    },
-    body: JSON.stringify(data),
-  });
+  const response = await fetch(
+    `https://staging.api.genz.ad/api/v1${endpoint}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token && { Authorization: `Bearer ${token}` }),
+        ...headers,
+      },
+      body: JSON.stringify(data),
+    }
+  );
 
   const responseData = await response.json();
 
@@ -28,13 +31,54 @@ export const postRequest = async (
   return responseData;
 };
 
+// export const getRequest = async (
+//   url: string,
+//   headers?: Record<string, string>
+// ) => {
+//   const token = useAuthStore.getState().token
+
+//   const response = await fetch(`https://staging.api.genz.ad/api/v1${url}`, {
+//     headers: {
+//       "Content-Type": "application/json",
+//       ...(token && { Authorization: `Bearer ${token}` }),
+//       ...headers,
+//     },
+//   });
+
+//   try {
+//     const responseData = await response.json();
+
+//     if (!response.ok) {
+//       throw new Error(
+//         responseData.message || `Request failed with status ${response.status}`
+//       );
+//     }
+
+//     return responseData;
+//   } catch (error) {
+//     if (error instanceof SyntaxError) {
+//       throw new Error("Invalid JSON response");
+//     }
+//     throw error;
+//   }
+// };
+
 export const getRequest = async (
   url: string,
   headers?: Record<string, string>
 ) => {
-  const token = useAuthStore.getState().token
+  const token = useAuthStore.getState().token;
 
-  const response = await fetch(`https://staging.api.genz.ad/api/v1${url}`, {
+  let fullUrl;
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    fullUrl = url;
+  } else {
+    fullUrl = `https://staging.api.genz.ad/api/v1${url}`;
+  }
+
+  console.log("Fetching URL:", fullUrl);
+
+  const response = await fetch(fullUrl, {
     headers: {
       "Content-Type": "application/json",
       ...(token && { Authorization: `Bearer ${token}` }),

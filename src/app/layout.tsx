@@ -18,7 +18,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://genz.ad"),
+  // metadataBase: new URL("https://genz.ad"),
   title: {
     default: "genz.ad",
     template: "%s | genz.ad",
