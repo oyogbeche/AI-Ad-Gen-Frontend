@@ -1,11 +1,8 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import Access
- from "./access";
+import Image from "next/image";
+import Access from "./access";
 const Hero2 = () => {
   return (
     <div className="bg-white relative flex flex-col items-center justify-between overflow-hidden px-4 md:px-10">

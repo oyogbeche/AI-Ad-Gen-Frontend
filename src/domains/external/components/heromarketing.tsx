@@ -1,10 +1,8 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import EarlyAccess from "@/domains/external/components/earlyaccess";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 const Hero = () => {
   return (
