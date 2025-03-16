@@ -495,6 +495,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { ImageTextEditor } from "@/components/ui/image-editor";
+import Loader from "@/components/ui/loader";
 import {
   Select,
   SelectContent,
@@ -506,13 +508,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ImageIcon, Upload } from "lucide-react";
+import { ArrowRight, ImageIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { ImageTextEditor } from "@/components/ui/image-editor";
 
 // Dynamically import mobile components
 const MobileSelectBottomSheet = dynamic(
@@ -648,18 +649,24 @@ export default function AdCustomizer() {
   // };
 
   if (!formLoaded) {
-    return <div className="p-8 text-center">Loading form data...</div>;
+    return (
+      <div className="p-8 text-center">
+        <Loader />
+      </div>
+    );
   }
 
   return (
     <div className="flex flex-col lg:flex-row p-4 lg:p-0">
       {/* Form Section */}
-      <div className="w-full lg:w-[440px] lg:min-w-[440px] scrollbar-hide p-4 md:py-6 md:px-10 flex flex-col gap-10 lg:max-w-[440px] lg:h-screen lg:overflow-y-auto bg-white order-2 lg:order-1">
+      <div className="w-full lg:w-[440px] lg:min-w-[440px] scrollbar-hide p-4 md:py-6 md:px-10 flex flex-col gap-10 lg:max-w-[440px] bg-white order-2 lg:order-1 z-20 border-r border-[#ECF1F5]">
         {/* Form Header */}
         <div className="lg:flex items-center justify-between hidden">
-          <h1 className="text-xl font-medium">Customize your Ad</h1>
+          <h1 className="text-2xl font-medium leading-8 text-[#2A2A2A]">
+            Customize your Ad
+          </h1>
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center px-3 py-1.5 text-sm border border-[#63A0E6] bg-[#63A0E6]/10 rounded-full hover:bg-gray-50">
+            <DropdownMenuTrigger className="flex items-center px-3 py-1.5 text-sm border border-[#63A0E6] bg-[#FBFCFE] rounded-full hover:bg-gray-50">
               Image
               {/* <ChevronDown className="w-4 h-4 ml-1" /> */}
             </DropdownMenuTrigger>
@@ -678,64 +685,15 @@ export default function AdCustomizer() {
                 name="adDescription"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-normal text-[#121316]">
+                    <FormLabel className="text-base leading-6 font-normal text-[#121316]">
                       Ad description
                     </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Type in your Ad description"
-                        className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] text-sm leading-5 text-[#121316]"
+                        className="w-full min-h-[100px] p-4 border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#121316]"
                         {...field}
                       />
-                    </FormControl>
-                    <FormMessage className="text-red-500 text-xs mt-1" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="targetAudience"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm font-normal text-[#121316]">
-                      Target Audience
-                    </FormLabel>
-                    <FormControl>
-                      {isMobile ? (
-                        <MobileSelectBottomSheet
-                          options={targetAudienceOptions}
-                          selected={field.value}
-                          onChange={field.onChange}
-                          placeholder="Select audience"
-                          title="Target Audience"
-                        />
-                      ) : (
-                        <Select
-                          onValueChange={field.onChange}
-                          value={field.value}
-                        >
-                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center h-[56px]">
-                            <SelectValue placeholder="Select audience">
-                              {getOptionLabel(
-                                targetAudienceOptions,
-                                field.value
-                              )}
-                            </SelectValue>
-                          </SelectTrigger>
-                          <SelectContent>
-                            {targetAudienceOptions.map((option) => (
-                              <SelectItem
-                                key={option.value}
-                                value={option.value}
-                                className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
-                              >
-                                {option.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      )}
                     </FormControl>
                     <FormMessage className="text-red-500 text-xs mt-1" />
                   </FormItem>
@@ -747,8 +705,8 @@ export default function AdCustomizer() {
                 name="adPlacement"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-normal text-[#121316]">
-                      Ad Placement
+                    <FormLabel className="text-base leading-6 font-normal text-[#121316]">
+                      Where will this ad appear?
                     </FormLabel>
                     <FormControl>
                       {isMobile ? (
@@ -764,7 +722,7 @@ export default function AdCustomizer() {
                           onValueChange={field.onChange}
                           value={field.value}
                         >
-                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
+                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-11 md:h-[56px]">
                             <SelectValue placeholder="Select Platform">
                               {getOptionLabel(adPlacementOptions, field.value)}
                             </SelectValue>
@@ -790,32 +748,90 @@ export default function AdCustomizer() {
 
               <FormField
                 control={form.control}
+                name="targetAudience"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base leading-6 font-normal text-[#121316]">
+                      Target Audience
+                    </FormLabel>
+                    <FormControl>
+                      {isMobile ? (
+                        <MobileSelectBottomSheet
+                          options={targetAudienceOptions}
+                          selected={field.value}
+                          onChange={field.onChange}
+                          placeholder="Select audience"
+                          title="Target Audience"
+                        />
+                      ) : (
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center h-11 md:h-[56px]">
+                            <SelectValue placeholder="Select audience">
+                              {getOptionLabel(
+                                targetAudienceOptions,
+                                field.value
+                              )}
+                            </SelectValue>
+                          </SelectTrigger>
+                          <SelectContent>
+                            {targetAudienceOptions.map((option) => (
+                              <SelectItem
+                                key={option.value}
+                                value={option.value}
+                                className="py-2 hover:bg-[#F6F6F6} text-base leading-6"
+                              >
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
+                    </FormControl>
+                    <FormMessage className="text-red-500 text-xs mt-1" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
                 name="productImage"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-normal text-[#121316]">
+                    <FormLabel className="text-base leading-6 font-normal text-[#121316]">
                       Product content (optional)
                     </FormLabel>
                     <FormControl>
                       <div
-                        className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center cursor-pointer hover:border-gray-300 transition-colors"
+                        className={`border-2 border-gray-200 rounded-lg text-center cursor-pointer hover:border-gray-300 transition-colors ${
+                          field.value ? "py-0" : "py-14 border-dashed "
+                        } bg-[#FCFCFC]`}
                         onClick={() =>
                           document.getElementById("product-image")?.click()
                         }
                       >
                         {field.value ? (
-                          <div className="relative w-full h-32">
+                          <div className="relative w-full h-[170px]">
                             <Image
                               src={field.value || "/placeholder.svg"}
                               alt="Product"
                               fill
-                              className="object-contain"
+                              className="object-cover rounded-lg"
                             />
                           </div>
                         ) : (
                           <>
-                            <Upload className="w-6 h-6 mx-auto mb-2 text-gray-400" />
-                            <p className="text-sm text-gray-500">
+                            <Image
+                              src="/download.svg"
+                              alt="Download"
+                              width={40}
+                              height={40}
+                              priority
+                              className="mx-auto mb-3"
+                            />
+                            <p className="text-base leading-6 font-light text-[#5F5F5F]">
                               Upload product image
                             </p>
                           </>
@@ -848,13 +864,14 @@ export default function AdCustomizer() {
             <Button
               type="submit"
               disabled={!isValid}
-              className={`w-full text-white ${
+              className={`w-full text-white px-6 py-5 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 text-base leading-6 font-normal ${
                 isValid
                   ? "bg-[#B800B8] hover:bg-[#960096] cursor-pointer"
                   : "bg-[#EAC8F0] cursor-not-allowed"
               }`}
             >
               Generate Ad
+              <ArrowRight size={20} className="text-white" />
             </Button>
 
             {/* Debug values - remove in production */}
@@ -875,22 +892,24 @@ export default function AdCustomizer() {
 
         {/* Preview Content */}
         <div className="flex-1 rounded-md flex items-center justify-center xl:min-h-[50vh] lg:w-[90%] mx-auto w-full bg-[#F9FAFB]">
-          <div className="flex flex-col items-center justify-center xl:p-16 text-gray-400 max-w-[700px] mx-auto w-full h-[324px] lg:h-[648px] bg-[#f2f2f2]">
+          <div className="max-w-[609px] w-full mx-auto flex items-center justify-center h-[50vh] md:h-screen bg-[#F2F2F2] rounded-sm">
             {(status === "initial" || status === "ready") && (
-              <>
-                <ImageIcon className="w-8 h-8 mb-2" />
-                <p className="text-sm">Your ad will be generated here</p>
-              </>
+              <div className="flex flex-col">
+                <ImageIcon className="size-10 mb-4 text-[#A1A1A1] mx-auto" />
+                <p className="text-2xl leading-8  font-light text-[#A1A1A1] text-center">
+                  Your ad will be generated here
+                </p>
+              </div>
             )}
 
             {status === "generating" && (
-              <div className="max-w-[609px] w-full mx-auto flex items-center justify-center h-[70vh] bg-[#E9E9E9] rounded-sm">
+              <div className="max-w-[609px] w-full mx-auto flex items-center justify-center h-[70vh] rounded-sm">
                 <div className="flex flex-col gap-6 items-center justify-center rounded-md">
                   <div className="relative w-12 h-12">
                     <div className="absolute inset-0 border-6 border-gray-300 rounded-full"></div>
                     <div className="absolute inset-0 border-6 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                   </div>
-                  <h2 className="text-2xl text-[#121316] leading-8 font-semibold max-md:max-w-[338px]">
+                  <h2 className="text-2xl text-[#121316] text-center leading-8 font-semibold max-md:max-w-[338px]">
                     Generating Your Image Ad... {progress}%
                   </h2>
                 </div>

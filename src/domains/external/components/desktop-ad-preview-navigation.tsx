@@ -6,14 +6,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
-import { AnimatePresence, motion } from "framer-motion"; // Added AnimatePresence
+import { motion } from "framer-motion";
 import {
   ArrowLeft,
   Check,
   ChevronDown,
-  Copy,
   Download,
   Share2,
+  Copy,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
@@ -64,33 +64,6 @@ export const DesktopAdPreviewNavigation: React.FC<
     }
   };
 
-  // Animation variants
-  const buttonVariants = {
-    initial: { scale: 1 },
-    hover: { scale: 1.05 },
-    tap: { scale: 0.95 },
-  };
-
-  const dropdownVariants = {
-    hidden: { opacity: 0, y: -10, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 25,
-      },
-    },
-    exit: {
-      opacity: 0,
-      y: -10,
-      scale: 0.95,
-      transition: { duration: 0.2 },
-    },
-  };
-
   const downloadImage = async (format: "png" | "jpg") => {
     if (!effectiveImageUrl || isDownloading) return;
     setIsDownloading(true);
@@ -121,28 +94,12 @@ export const DesktopAdPreviewNavigation: React.FC<
       }, 100);
 
       toast.custom(() => (
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -50 }}
-          transition={{ type: "spring", stiffness: 400, damping: 25 }}
-          className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4"
-        >
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 400,
-                  damping: 25,
-                  delay: 0.1,
-                }}
-                className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5"
-              >
+              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
                 <Check className="h-4 w-4 text-white" />
-              </motion.div>
+              </div>
               <div className="ml-3">
                 <p className="text-sm font-medium text-gray-900 mb-2">
                   Download Success!
@@ -153,7 +110,7 @@ export const DesktopAdPreviewNavigation: React.FC<
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       ));
     } catch (error) {
       console.error("Error downloading image:", error);
@@ -218,28 +175,12 @@ export const DesktopAdPreviewNavigation: React.FC<
 
       // Visual feedback animation
       toast.custom(() => (
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -50 }}
-          transition={{ type: "spring", stiffness: 400, damping: 25 }}
-          className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4"
-        >
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 400,
-                  damping: 25,
-                  delay: 0.1,
-                }}
-                className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5"
-              >
+              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
                 <Check className="h-4 w-4 text-white" />
-              </motion.div>
+              </div>
               <div className="ml-3">
                 <p className="text-sm font-medium text-gray-900 mb-2">
                   Copied to clipboard!
@@ -250,7 +191,7 @@ export const DesktopAdPreviewNavigation: React.FC<
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       ));
     } catch (error) {
       console.error("Error copying to clipboard:", error);
@@ -263,28 +204,12 @@ export const DesktopAdPreviewNavigation: React.FC<
   const handleSaveAndExit = () => {
     setIsSaveDropdownOpen(false);
     toast.custom(() => (
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -50 }}
-        transition={{ type: "spring", stiffness: 400, damping: 25 }}
-        className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4"
-      >
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{
-                type: "spring",
-                stiffness: 400,
-                damping: 25,
-                delay: 0.1,
-              }}
-              className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5"
-            >
+            <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
               <Check className="h-4 w-4 text-white" />
-            </motion.div>
+            </div>
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-900 mb-2">
                 Saved Successfully!
@@ -292,35 +217,19 @@ export const DesktopAdPreviewNavigation: React.FC<
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     ));
   };
 
   const handleSaveAndPublish = () => {
     setIsSaveDropdownOpen(false);
     toast.custom(() => (
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -50 }}
-        transition={{ type: "spring", stiffness: 400, damping: 25 }}
-        className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4"
-      >
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{
-                type: "spring",
-                stiffness: 400,
-                damping: 25,
-                delay: 0.1,
-              }}
-              className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5"
-            >
+            <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
               <Check className="h-4 w-4 text-white" />
-            </motion.div>
+            </div>
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-900 mb-2">
                 Ad Published Successfully!
@@ -331,85 +240,61 @@ export const DesktopAdPreviewNavigation: React.FC<
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     ));
   };
 
   return (
     <div className={`w-full ${className}`}>
       <div className="flex justify-between items-center w-full py-3">
-        <motion.button
-          variants={buttonVariants}
-          initial="initial"
-          whileHover="hover"
-          whileTap="tap"
+        <button
           onClick={handleBack}
           className="flex items-center text-[#650065] hover:text-gray-800 cursor-pointer p-0"
           type="button"
         >
-          <motion.div
-            initial={{ x: 0 }}
-            whileHover={{ x: -3 }}
-            transition={{ type: "spring", stiffness: 400 }}
-          >
-            <ArrowLeft className="w-6 h-6 mr-2" />
-          </motion.div>
+          <ArrowLeft className="w-6 h-6 mr-2" />
           <span className="hidden md:block text-[#650065] font-medium text-base leading-6">
             Back
           </span>
-        </motion.button>
+        </button>
 
         <div className="flex gap-4">
           {/* Save button - Show only when type is image-form and status is completed */}
           {type === "image-form" && status === "completed" && (
             <div className="relative" ref={saveDropdownRef}>
-              <motion.button
-                variants={buttonVariants}
-                initial="initial"
-                whileHover="hover"
-                whileTap="tap"
+              <button
                 onClick={() => setIsSaveDropdownOpen(!isSaveDropdownOpen)}
                 className="bg-[#F6F6F6] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
               >
                 <span className="max-sm:hidden text-base leading-6 font-normal text-[#1B1B1B]">
                   Save
                 </span>
-                <motion.div
-                  animate={isSaveDropdownOpen ? { rotate: 180 } : { rotate: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <ChevronDown size={18} />
-                </motion.div>
-              </motion.button>
+                <ChevronDown size={18} />
+              </button>
 
-              <AnimatePresence>
-                {isSaveDropdownOpen && (
-                  <motion.div
-                    variants={dropdownVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 overflow-hidden"
-                  >
-                    <div className="py-1">
-                      <motion.button
-                        whileHover={{ backgroundColor: "#f9f9f9" }}
-                        onClick={handleSaveAndExit}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                      >
-                        Save & Exit
-                      </motion.button>
-                      <motion.button
-                        whileHover={{ backgroundColor: "#f9f9f9" }}
-                        onClick={handleSaveAndPublish}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                      >
-                        Save & Publish
-                      </motion.button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {isSaveDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10"
+                >
+                  <div className="py-1">
+                    <button
+                      onClick={handleSaveAndExit}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    >
+                      Save & Exit
+                    </button>
+                    <button
+                      onClick={handleSaveAndPublish}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    >
+                      Save & Publish
+                    </button>
+                  </div>
+                </motion.div>
+              )}
             </div>
           )}
 
@@ -417,26 +302,15 @@ export const DesktopAdPreviewNavigation: React.FC<
           {type === "image-form" && status === "completed" && (
             <Popover>
               <PopoverTrigger asChild>
-                <motion.button
-                  variants={buttonVariants}
-                  initial="initial"
-                  whileHover="hover"
-                  whileTap="tap"
-                  className="bg-[#F8E6F8] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
-                >
+                <button className="bg-[#F8E6F8] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center">
                   <Share2 size={18} />
                   <span className="max-sm:hidden text-base leading-6 font-normal text-[#650065]">
                     Share
                   </span>
-                </motion.button>
+                </button>
               </PopoverTrigger>
               <PopoverContent className="w-60 md:w-80">
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="py-2 flex flex-col gap-3"
-                >
+                <div className="py-2 flex flex-col gap-3">
                   <div className="flex flex-col gap-1">
                     {/* Share URL input field with visual indicator */}
                     <div className="relative">
@@ -453,9 +327,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                       </div>
                     </div>
                   </div>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                  <button
                     onClick={handleShareClick}
                     disabled={isCopying}
                     className={`bg-[#650065] cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-[#4a004a] transition-colors flex items-center justify-center gap-2 w-full mx-auto ${
@@ -475,8 +347,8 @@ export const DesktopAdPreviewNavigation: React.FC<
                         </motion.div>
                       </>
                     )}
-                  </motion.button>
-                </motion.div>
+                  </button>
+                </div>
               </PopoverContent>
             </Popover>
           )}
@@ -485,57 +357,43 @@ export const DesktopAdPreviewNavigation: React.FC<
           {(type === "demo" ||
             (type === "image-form" && status === "completed")) && (
             <div className="relative" ref={exportDropdownRef}>
-              <motion.button
-                variants={buttonVariants}
-                initial="initial"
-                whileHover="hover"
-                whileTap="tap"
+              <button
                 onClick={() => setIsExportDropdownOpen(!isExportDropdownOpen)}
                 disabled={isDownloading || isLoading}
-                className="bg-[#EEF4FC] p-3 sm:py-1.5 sm:px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
+                className="bg-[#EEF4FC] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
               >
-                <Download size={18} className="text-[#10509A] ml-1" />
+                <Download size={18} />
                 <span className="max-sm:hidden text-base leading-6 font-normal text-[#10509A]">
                   Export
                 </span>
-                <motion.div
-                  animate={
-                    isExportDropdownOpen ? { rotate: 180 } : { rotate: 0 }
-                  }
-                  transition={{ duration: 0.2 }}
-                ></motion.div>
-              </motion.button>
+                <ChevronDown size={18} />
+              </button>
 
-              <AnimatePresence>
-                {isExportDropdownOpen && (
-                  <motion.div
-                    variants={dropdownVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 overflow-hidden"
-                  >
-                    <div className="py-1">
-                      <motion.button
-                        whileHover={{ backgroundColor: "#f9f9f9" }}
-                        onClick={() => downloadImage("png")}
-                        disabled={isDownloading || isLoading}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                      >
-                        Download as PNG
-                      </motion.button>
-                      <motion.button
-                        whileHover={{ backgroundColor: "#f9f9f9" }}
-                        onClick={() => downloadImage("jpg")}
-                        disabled={isDownloading || isLoading}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                      >
-                        Download as JPG
-                      </motion.button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {isExportDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10"
+                >
+                  <div className="py-1">
+                    <button
+                      onClick={() => downloadImage("png")}
+                      disabled={isDownloading || isLoading}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    >
+                      Download as PNG
+                    </button>
+                    <button
+                      onClick={() => downloadImage("jpg")}
+                      disabled={isDownloading || isLoading}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    >
+                      Download as JPG
+                    </button>
+                  </div>
+                </motion.div>
+              )}
             </div>
           )}
         </div>

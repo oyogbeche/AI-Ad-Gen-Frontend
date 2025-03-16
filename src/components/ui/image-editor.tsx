@@ -105,7 +105,7 @@ export function ImageTextEditor({ initialTexts = [] }: ImageTextEditorProps) {
         }}
       >
         <Image
-          src={"/preview.svg"}
+          src={"/preview.png"}
           alt="Editable image"
           width={650}
           height={500}
