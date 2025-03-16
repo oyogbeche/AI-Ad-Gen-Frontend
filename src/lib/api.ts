@@ -9,7 +9,7 @@ export const postRequest = async (
   headers?: Record<string, string>
 ) => {
   const token = useAuthStore.getState().token;
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+  const response = await fetch(`https://staging.api.genz.ad/api/v1${endpoint}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -34,7 +34,7 @@ export const getRequest = async (
 ) => {
   const token = useAuthStore.getState().token
 
-  const response = await fetch(`${API_BASE_URL}${url}`, {
+  const response = await fetch(`https://staging.api.genz.ad/api/v1${url}`, {
     headers: {
       "Content-Type": "application/json",
       ...(token && { Authorization: `Bearer ${token}` }),
