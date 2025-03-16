@@ -508,7 +508,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, ImageIcon } from "lucide-react";
+import { ArrowRight, ImageIcon, Upload } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -823,14 +823,7 @@ export default function AdCustomizer() {
                           </div>
                         ) : (
                           <>
-                            <Image
-                              src="/download.svg"
-                              alt="Download"
-                              width={40}
-                              height={40}
-                              priority
-                              className="mx-auto mb-3"
-                            />
+                            <Upload className="mx-auto mb-3" />
                             <p className="text-base leading-6 font-light text-[#5F5F5F]">
                               Upload product image
                             </p>
@@ -891,8 +884,8 @@ export default function AdCustomizer() {
         </div>
 
         {/* Preview Content */}
-        <div className="flex-1 rounded-md flex items-center justify-center xl:min-h-[50vh] lg:w-[90%] mx-auto w-full bg-[#F9FAFB]">
-          <div className="max-w-[609px] w-full mx-auto flex items-center justify-center h-[50vh] md:h-screen bg-[#F2F2F2] rounded-sm">
+        <div className="flex-1 rounded-md flex items-center justify-center xl:min-h-[50vh] mx-auto w-full bg-[#F9FAFB]">
+          <div className="w-full mx-auto flex items-center justify-center md:h-screen rounded-sm">
             {(status === "initial" || status === "ready") && (
               <div className="flex flex-col">
                 <ImageIcon className="size-10 mb-4 text-[#A1A1A1] mx-auto" />
@@ -917,7 +910,6 @@ export default function AdCustomizer() {
             )}
 
             {status === "completed" && (
-              <>
                 <ImageTextEditor
                   imageSrc="/placeholder.svg"
                   initialTexts={[
@@ -932,7 +924,6 @@ export default function AdCustomizer() {
                     },
                   ]}
                 />
-              </>
             )}
           </div>
         </div>

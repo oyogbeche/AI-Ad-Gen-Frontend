@@ -11,11 +11,11 @@ interface TextLayerProps {
   isSelected: boolean
   onSelect: () => void
   onChange: (text: TextElement) => void
-  onDelete: () => void
+  onClick: () => void
   containerSize: { width: number; height: number }
 }
 
-export function TextLayer({ text, isSelected, onSelect, onChange, onDelete, containerSize }: TextLayerProps) {
+export function TextLayer({ text, isSelected, onSelect, onChange, onClick, containerSize }: TextLayerProps) {
   const [isDragging, setIsDragging] = useState(false)
   const [isResizing, setIsResizing] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
@@ -29,20 +29,6 @@ export function TextLayer({ text, isSelected, onSelect, onChange, onDelete, cont
       editRef.current.focus()
     }
   }, [isEditing])
-
-  // Handle keydown event for deleting text
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (isSelected && e.key === "Delete") {
-        onDelete()
-      }
-    }
-
-    document.addEventListener("keydown", handleKeyDown)
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown)
-    }
-  }, [isSelected, onDelete])
 
   // Handle mouse down for dragging
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -158,7 +144,7 @@ export function TextLayer({ text, isSelected, onSelect, onChange, onDelete, cont
             textDecoration: text.isUnderline ? "underline" : "none",
             lineHeight: 1.2,
           }}
-          onClick={(e) => e.stopPropagation()}
+          onClick={onClick}
         />
       ) : (
         <>

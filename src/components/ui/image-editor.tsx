@@ -82,7 +82,7 @@ export function ImageTextEditor({ initialTexts = [] }: ImageTextEditorProps) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-0 w-full h-[100vh] mx-auto">
+    <div className="flex flex-col items-center justify-center">
       <div className="flex justify-between items-center">
         <Button
           onClick={addNewText}
@@ -94,26 +94,26 @@ export function ImageTextEditor({ initialTexts = [] }: ImageTextEditorProps) {
         </Button>
       </div>
 
-      <div
-        ref={containerRef}
-        className="relative border overflow-hidden bg-[#F0F3F5] w-[80%] max-w-[650px] p-0"
-        style={{ height: "500px" }}
-        onClick={(e) => {
-          if (e.target === containerRef.current) {
-            setSelectedTextId(null);
+      <div className="p-[48px] bg-[#F0F3F5] flex items-center justify-center gap-0 mx-auto">
+        <div
+          ref={containerRef}
+          className="relative border overflow-hidden bg-[#F0F3F5] w-[80%] max-w-[650px] p-0"
+          style={{ height: "500px" }}
+        >
+          <Image
+            src={"/preview.png"}
+            alt="Editable image"
+            width={650}
+            height={500}
+            className="w-full h-full object-cover z-[-1]"
+            onClick={(e) => {
+              if(e.target === e.currentTarget) {
+              setSelectedTextId('')
+              }
+            }
           }
-        }}
-      >
-        <Image
-          src={"/preview.png"}
-          alt="Editable image"
-          width={650}
-          height={500}
-          className="w-full h-full object-contain z-[-1]"
-          bg-white
-        />
-
-        {texts.map((text) => (
+          />
+          {texts.map((text) => (
           <TextLayer
             key={text.id}
             text={text}
@@ -121,11 +121,11 @@ export function ImageTextEditor({ initialTexts = [] }: ImageTextEditorProps) {
             onSelect={() => setSelectedTextId(text.id)}
             onChange={updateText}
             containerSize={containerSize}
-            onDelete={function (): void {
-              throw new Error("Function not implemented.");
-            }}
+            onClick={() => setSelectedTextId(text.id)}
           />
         ))}
+      </div>
+
       </div>
 
       {selectedText && (
