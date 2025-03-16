@@ -12,6 +12,6 @@ export default function RootLayout({
   return <>
   <ProtectedRoute>
     {children}
-  </ProtectedRoute> 
+  </ProtectedRoute>
   </>;
 }

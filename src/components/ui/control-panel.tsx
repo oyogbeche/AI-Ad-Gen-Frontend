@@ -59,26 +59,25 @@ export function ControlPanel({
 
   return (
     <div className="px-4 py-2 border rounded-lg bg-white w-[60%] max-w-[516px]">
-      <div className="flex items-center justify-between mb-4">
+      {/* <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-medium">Text Properties</h3>
         <Button variant="destructive" size="sm" onClick={onDelete}>
           <Trash2 className="h-4 w-4 mr-2" />
           Delete
         </Button>
-      </div>
+      </div> */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <Label htmlFor="text-content">Text Content</Label>
           <Input
             id="text-content"
             value={text.content}
             onChange={(e) => onChange({ ...text, content: e.target.value })}
           />
-        </div>
+        </div> */}
 
         <div className="space-y-2">
-          <Label htmlFor="text-color">Text Color</Label>
           <div className="flex gap-2">
             <Input
               id="text-color"
@@ -95,7 +94,7 @@ export function ControlPanel({
           </div>
         </div>
 
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <Label htmlFor="font-size">Font Size</Label>
           <div className="flex gap-2 items-center">
             <Input
@@ -108,9 +107,9 @@ export function ControlPanel({
             />
             <span className="text-sm text-muted-foreground">px</span>
           </div>
-        </div>
+        </div> */}
 
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <Label htmlFor="font-family">Font Family</Label>
           <Select value={text.fontFamily} onValueChange={(value) => onChange({ ...text, fontFamily: value })}>
             <SelectTrigger id="font-family">
@@ -124,10 +123,9 @@ export function ControlPanel({
               ))}
             </SelectContent>
           </Select>
-        </div>
+        </div> */}
 
         <div className="space-y-2">
-          <Label>Text Styles</Label>
           <div className="flex gap-2">
             <Button variant={text.isBold ? "default" : "outline"} onClick={() => toggleStyle("isBold")}>
               Bold
@@ -142,7 +140,6 @@ export function ControlPanel({
         </div>
 
         <div className="space-y-2">
-          <Label>Position Text</Label>
           <div className="flex gap-2">
             <Button onClick={() => positionText("vertical")}>Vertical Center</Button>
             <Button onClick={() => positionText("horizontal")}>Horizontal Center</Button>
