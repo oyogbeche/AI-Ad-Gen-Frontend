@@ -55,9 +55,12 @@ const Hero2 = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, duration: 0.8 }}
       >
-        <Image src="/laptop.svg" alt="Laptop" width={1600} height={600} />
+        <Image src="/Laptop1.png" alt="Laptop" width={1600} height={600} />
+        
       </motion.div>
-      <Access />
+      <div className="relative w-full flex justify-center mt-[-165px]"> {/* Adjust the margin-top to position Access */}
+        <Access />
+      </div>
     </div>
   );
 };

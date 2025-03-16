@@ -45,7 +45,9 @@ const Access = () => {
   };
 
   return (
-    <div className="w-full bg-[#520052]">
+    <div className="w-full bg-[#520052] bg-cover bg-center" style={{
+        backgroundImage: "url('/Map.png')", 
+      }}>
       <div className="grid grid-cols-1 md:grid-cols-2">
         {/* Left Column: Image */}
         <div className="flex items-center justify-center mt-8 sm:mt-12 md:mt-0">

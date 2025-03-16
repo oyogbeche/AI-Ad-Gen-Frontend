@@ -43,9 +43,12 @@ const Hero = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, duration: 0.8 }}
       >
-        <Image src="/laptop.svg" alt="Laptop" width={1600} height={600} />
+        <Image src="/Laptop2.png" alt="Laptop" width={1600} height={600} />
       </motion.div>
-      <EarlyAccess />
+      <div className="relative w-full flex justify-center mt-[-236.5px]">
+       <EarlyAccess /> 
+      </div>
+      
     </div>
   );
 };
