@@ -19,8 +19,13 @@ export const useGoogleAuth = () => {
 
       if (response?.data?.auth_url) {
         console.log("Google login initiated:", response.data.auth_url);
-       window.location.href = response.data.auth_url; 
 
+        let authUrl = response.data.auth_url;
+        if (authUrl.startsWith("/")) {
+          authUrl = `https://staging.api.genz.ad${authUrl}`;
+        }
+
+        window.location.href = authUrl;
       } else {
         console.error("Invalid response:", response);
         toast.error("Failed to initiate Google login.");
