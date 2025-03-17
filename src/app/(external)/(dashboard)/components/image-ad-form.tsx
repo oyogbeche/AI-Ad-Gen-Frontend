@@ -85,7 +85,7 @@ export default function AdCustomizer() {
   const [status, setStatus] = useState<AdStatus>("initial");
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string>("");
   const [formLoaded, setFormLoaded] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [, setErrorMessage] = useState<string>("");
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastFormData = useRef<FormData | null>(null);
 
@@ -94,7 +94,6 @@ export default function AdCustomizer() {
     generateImage,
     isLoading,
     progress,
-    result,
     error,
     cancelGeneration,
     generatedImageUrl: hookImageUrl,

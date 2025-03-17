@@ -2,7 +2,6 @@
 
 import { useAuthStore } from "@/store/auth-store";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -19,7 +18,7 @@ interface ImageGenerationResponse {
     target_audience: string;
     ad_description: string;
     is_published: boolean;
-    metadata: Record<string, any>;
+    metadata: Record<string, unknown>;
     task_id?: string;
     error?: string;
   };
@@ -54,7 +53,7 @@ type AdStatus = "initial" | "ready" | "generating" | "completed" | "error";
 // API utility functions
 const postRequestFormData = async (
   endpoint: string,
-  data: Record<string, any>,
+  data: Record<string, unknown>,
   headers?: Record<string, string>
 ) => {
   const token = useAuthStore.getState().token;
@@ -62,7 +61,7 @@ const postRequestFormData = async (
 
   Object.keys(data).forEach((key) => {
     if (data[key] !== undefined) {
-      formData.append(key, data[key]);
+      formData.append(key, data[key] as string | Blob);
     }
   });
 
@@ -111,7 +110,6 @@ const getRequest = async (endpoint: string) => {
 };
 
 export const useGenerateImage = () => {
-  const router = useRouter();
   const [status, setStatus] = useState<AdStatus>("initial");
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<ImageGenerationResponse | null>(null);
@@ -446,7 +444,7 @@ export const useGenerateImage = () => {
       setStatus("generating");
 
       // Create the request payload
-      const requestData: Record<string, any> = {
+      const requestData: Record<string, unknown> = {
         ad_goal: params.ad_goal.trim(),
         ad_size: params.ad_size.trim(),
         target_audience: params.target_audience,
@@ -481,7 +479,7 @@ export const useGenerateImage = () => {
         requestData
       ) as Promise<ImageGenerationResponse>;
     },
-    onSuccess: (data) => {
+    onSuccess: (data: ImageGenerationResponse) => {
       setResult(data);
 
       if (data.status_code === 200 || data.status_code === 201) {
@@ -517,7 +515,7 @@ export const useGenerateImage = () => {
         toast.warning("Image generation completed with warnings");
       }
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       // Reset progress on error
       setProgress(0);
       setStatus("error");
@@ -525,30 +523,15 @@ export const useGenerateImage = () => {
       // Enhanced error logging
       console.error("Image generation failed:", error);
 
-      if (error.response) {
-        console.error("API Error Response:", error.response);
-        console.error("API Error Status:", error.response.status);
-        console.error("API Error Data:", error.response.data);
+      if (error instanceof Error) {
+        console.error("Error message:", error.message);
       }
 
-      if (
-        error.response?.data?.data?.errors &&
-        error.response.data.data.errors.length > 0
-      ) {
-        // Show each validation error as a separate toast
-        const errors = error.response.data.data.errors;
-        errors.forEach((err: string) => {
-          toast.error(err);
-        });
-      } else if (error.response?.data?.message) {
-        // Show the general error message from the response
-        toast.error(error.response.data.message);
-      } else {
-        // Fallback error message
-        toast.error(
-          error.message || "Failed to generate image. Please try again."
-        );
-      }
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to generate image. Please try again."
+      );
     },
     onSettled: () => {
       // Clear any progress intervals when complete (success or error)
