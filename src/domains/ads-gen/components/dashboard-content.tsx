@@ -13,76 +13,76 @@ import { getRequest } from "@/lib/api";
 
 const DashboardContent = () => {
   const [filter, setFilter] = useState<keyof Ads>("user");
-  const [isLoaded, setIsLoaded] = useState(false);
   const [sortOption, setSortOption] = useState("Most Popular");
-  const [publishedImages, setPublishedImages] = useState([]);
 
+  const [publishedImages, setPublishedImages] = useState([]);
+  const [isPublishedLoading, setIsPublishedLoading] = useState(true);
+
+  const [userImages, setUserImages] = useState<Ad[]>([]);
+  const [isUserLoading, setIsUserLoading] = useState(true);
+
+  const [isLoaded, setIsLoaded] = useState(false);
 
   interface Ad {
-    // type: "image" | "video";
     image_url: string;
     prompt: string;
-    // authorInfo:
-    //   | {
-    //       name: string;
-    //       avatar: string;
-    //     }
-    //   | string; // Can be either author object for community or time string for user ads
   }
-  
+
   interface Ads {
     user: Ad[];
     community: Ad[];
   }
-  
   const ads: Ads = {
-    user: [
-      {
-        // type: "image",
-        image_url: "/images/my-ad-1.png",
-        prompt: "Soft Drinks Ad",
-        // authorInfo: "5 days ago",
-      },
-      {
-        // type: "image",
-        image_url: "/images/my-ad-2.png",
-        prompt: "Soft Drinks Ad",
-        // authorInfo: "1 week ago",
-      },
-      {
-        // type: "image",
-        image_url: "/images/my-ad-3.png",
-        prompt: "Soft Drinks Ad",
-        // authorInfo: "2 weeks ago",
-      },
-      {
-        // type: "video",
-        image_url: "/images/hng-wig-1.png",
-        prompt: "Soft Drinks Ad",
-        // authorInfo: "3 days ago",
-      },
-      {
-        // type: "image",
-        image_url: "/images/hng-wig-2.png",
-        prompt: "Soft Drinks Ad",
-        // authorInfo: "2 days ago",
-      },
-      {
-        // type: "image",
-        image_url: "/images/hng-wig-3.png",
-        prompt: "Soft Drinks Ad",
-        // authorInfo: "1 day ago",
-      },
-    ],
+    // user: [
+    //   {
+    //     // type: "image",
+    //     image_url: "/images/my-ad-1.png",
+    //     prompt: "Soft Drinks Ad",
+    //     // authorInfo: "5 days ago",
+    //   },
+    //   {
+    //     // type: "image",
+    //     image_url: "/images/my-ad-2.png",
+    //     prompt: "Soft Drinks Ad",
+    //     // authorInfo: "1 week ago",
+    //   },
+    //   {
+    //     // type: "image",
+    //     image_url: "/images/my-ad-3.png",
+    //     prompt: "Soft Drinks Ad",
+    //     // authorInfo: "2 weeks ago",
+    //   },
+    //   {
+    //     // type: "video",
+    //     image_url: "/images/hng-wig-1.png",
+    //     prompt: "Soft Drinks Ad",
+    //     // authorInfo: "3 days ago",
+    //   },
+    //   {
+    //     // type: "image",
+    //     image_url: "/images/hng-wig-2.png",
+    //     prompt: "Soft Drinks Ad",
+    //     // authorInfo: "2 days ago",
+    //   },
+    //   {
+    //     // type: "image",
+    //     image_url: "/images/hng-wig-3.png",
+    //     prompt: "Soft Drinks Ad",
+    //     // authorInfo: "1 day ago",
+    //   },
+    // ],
     // {
-      // type: "image",
+    // type: "image",
     //   image_url: "/images/hng-wig-1.png",
     //   title: "HNG Wigs Ad",
     //   authorInfo: {
     //     name: "FaithJames",
     //     avatar: "/images/avatar-1.png",
     //   },
-    community: publishedImages
+
+    user: userImages,
+    community: publishedImages,
+
     // [
     //   {
     //     // type: "image",
@@ -141,18 +141,46 @@ const DashboardContent = () => {
     // ],
   };
 
-
   useEffect(() => {
-    setIsLoaded(true);
-    getRequest('/image/all/published')
+    // setIsLoaded(true);
+    getRequest("/image/all/published")
       .then((data) => {
-        setPublishedImages(data.data.images);
-        console.log('data', data.data);
+        if (data.success && data.data && data.images) {
+          setPublishedImages(data.data.images);
+          console.log("data", data.data);
+        }
       })
       .catch((error) => {
-        console.error('error', error);
+        console.error("Error fetching community images", error);
       })
+      .finally(() => {
+        setIsPublishedLoading(false);
+        updateLoadedState();
+      });
   }, []);
+
+  useEffect(() => {
+    getRequest("/image/")
+      .then((data) => {
+        if (data.success && data.data && data.images) {
+          setUserImages(data.data.images);
+          console.log("User images data:", data.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching user images:", error);
+      })
+      .finally(() => {
+        setIsUserLoading(false);
+        updateLoadedState();
+      });
+  }, []);
+
+  const updateLoadedState = () => {
+    if (!isUserLoading && !isPublishedLoading) {
+      setIsLoaded(true);
+    }
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -291,7 +319,7 @@ const DashboardContent = () => {
                       <div className="w-5 h-5 rounded-full overflow-hidden relative">
                         <Image
                           // src={(ad.authorInfo as { avatar: string }).avatar}
-                          src={'/avatar-3.png'}
+                          src={"/avatar-3.png"}
                           fill={true}
                           alt="avatar"
                           sizes="20px"
@@ -306,8 +334,7 @@ const DashboardContent = () => {
                   ) : (
                     <div className="flex gap-2.5 items-center">
                       <span className="text-[#7D7D7D]">
-                        {/* {ad.authorInfo as string} */}
-                        2 Days Ago
+                        {/* {ad.authorInfo as string} */}2 Days Ago
                       </span>
                     </div>
                   )}
