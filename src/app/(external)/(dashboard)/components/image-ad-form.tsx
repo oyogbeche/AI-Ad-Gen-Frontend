@@ -82,21 +82,19 @@ type FormData = z.infer<typeof formSchema>;
 
 export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const [status, setStatus] = useState<AdStatus>("initial");
-  const [generatedImageUrl, setGeneratedImageUrl] = useState<string>("");
   const [formLoaded, setFormLoaded] = useState(false);
-  const [, setErrorMessage] = useState<string>("");
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const lastFormData = useRef<FormData | null>(null);
 
   // Use the generate image hook
   const {
     generateImage,
     isLoading,
+    status,
     progress,
     error,
     cancelGeneration,
-    generatedImageUrl: hookImageUrl,
+    generatedImageUrl,
   } = useGenerateImage();
 
   const form = useForm<FormData>({
@@ -112,31 +110,6 @@ export default function AdCustomizer() {
 
   const { formState } = form;
   const isValid = formState.isValid;
-
-  // Set a timeout to show error if progress reaches 90% but doesn't complete
-  useEffect(() => {
-    // Clear any existing timeout
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-
-    // If we're generating and progress is high, set a timeout
-    if (status === "generating" && progress >= 90) {
-      timeoutRef.current = setTimeout(() => {
-        setStatus("error");
-        setErrorMessage("Generation timed out. Please try again.");
-        cancelGeneration();
-        toast.error("Image generation timed out");
-      }, 10000); // 10 seconds timeout
-    }
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [progress, status, cancelGeneration]);
 
   // Load saved form data on component mount
   useEffect(() => {
@@ -168,22 +141,9 @@ export default function AdCustomizer() {
     setFormLoaded(true);
   }, [form]);
 
-  // Then add this useEffect to update the local state when the hook's URL changes
-  useEffect(() => {
-    if (hookImageUrl) {
-      setGeneratedImageUrl(hookImageUrl);
-    }
-  }, [hookImageUrl]);
-
   // Handle error state
   useEffect(() => {
     if (error) {
-      // Ensure we cancel any ongoing generation
-      cancelGeneration();
-
-      // Set error status
-      setStatus("error");
-
       // Set error message
       const errorMessage =
         error instanceof Error ? error.message : "Failed to generate image";
@@ -191,42 +151,8 @@ export default function AdCustomizer() {
 
       // Show toast notification
       toast.error(errorMessage);
-
-      // Clear any existing timeout
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
     }
-  }, [error, cancelGeneration]);
-
-  // Add a new useEffect to handle overall timeout for the generating state
-  useEffect(() => {
-    // Clear any existing timeout
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-
-    // If we're in generating state, set a timeout
-    if (status === "generating") {
-      timeoutRef.current = setTimeout(() => {
-        // If we're still generating after 5 seconds
-        if (status === "generating") {
-          setStatus("error");
-          setErrorMessage("Generation timed out. Please try again.");
-          cancelGeneration();
-          toast.error("Image generation timed out");
-        }
-      }, 5000);
-    }
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [status, cancelGeneration]);
+  }, [error]);
 
   type SelectOption = {
     label: string;
@@ -286,8 +212,6 @@ export default function AdCustomizer() {
 
     // Reset error state
     setErrorMessage("");
-    // Start generation
-    setStatus("generating");
 
     try {
       // Simple debugging - Clean values only
@@ -308,7 +232,6 @@ export default function AdCustomizer() {
     } catch (error) {
       console.error("Error generating image:", error);
       toast.error("Failed to generate image");
-      setStatus("error");
       setErrorMessage(
         error instanceof Error ? error.message : "An unexpected error occurred"
       );
@@ -317,14 +240,7 @@ export default function AdCustomizer() {
 
   // Handle retry - restart the whole process
   const handleRetry = () => {
-    // Clear any existing timeout
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-
-    // Reset state
-    setStatus("initial");
+    // Reset error message
     setErrorMessage("");
 
     // If we have the last form data, resubmit it
@@ -556,7 +472,6 @@ export default function AdCustomizer() {
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
           <DesktopAdPreviewNavigation type="image-form" status={status} />
         </div>
-
         {/* Preview Content */}
         <div className="flex-1 rounded-md flex items-center justify-center xl:min-h-[50vh] mx-auto w-full bg-[#F9FAFB]">
           <div className="w-full mx-auto flex items-center justify-center md:h-screen rounded-sm">
