@@ -11,10 +11,10 @@ export const useGoogleAuth = () => {
  const isProduction = process.env.NODE_ENV === "production";
 
  const googleAuthEndpoint = isDevelopment
-   ? "/auth/google/initiate?return_json=true&environment=staging"
+   ? "/auth/google/initiate?return_json=true&environment=local"
    : isProduction
    ? "/auth/google/initiate?return_json=true&environment=prod"
-   : "/auth/google/initiate?return_json=true&redirect_local=true";
+   : "/auth/google/initiate?return_json=true&environment=staging";
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
