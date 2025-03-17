@@ -18,6 +18,7 @@ import {
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
+import ShareModal from "./share-modal";
 
 interface DesktopAdPreviewNavigationProps {
   className?: string;
@@ -300,57 +301,18 @@ export const DesktopAdPreviewNavigation: React.FC<
 
           {/* Share button - Show only when type is image-form and status is completed */}
           {type === "image-form" && status === "completed" && (
-            <Popover>
-              <PopoverTrigger asChild>
-                <button className="bg-[#F8E6F8] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center">
-                  <Share2 size={18} />
-                  <span className="max-sm:hidden text-base leading-6 font-normal text-[#650065]">
-                    Share
-                  </span>
-                </button>
-              </PopoverTrigger>
-              <PopoverContent className="w-60 md:w-80">
-                <div className="py-2 flex flex-col gap-3">
-                  <div className="flex flex-col gap-1">
-                    {/* Share URL input field with visual indicator */}
-                    <div className="relative">
-                      <input
-                        ref={urlInputRef}
-                        type="text"
-                        id="image-url"
-                        value={`https://genz.ad/stand-alone/${effectiveImageUrl}`}
-                        readOnly
-                        className="w-full py-3 px-2 pr-10 border border-[#E3E3E3] rounded-md text-sm focus:border-transparent"
-                      />
-                      <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                        <Copy size={16} className="text-gray-400" />
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    onClick={handleShareClick}
-                    disabled={isCopying}
-                    className={`bg-[#650065] cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-[#4a004a] transition-colors flex items-center justify-center gap-2 w-full mx-auto ${
-                      isCopying ? "opacity-75" : ""
-                    }`}
-                  >
-                    {isCopying ? (
-                      <>Copying...</>
-                    ) : (
-                      <>
-                        Copy Link
-                        <motion.div
-                          initial={{ scale: 1 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <Copy size={16} />
-                        </motion.div>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </PopoverContent>
-            </Popover>
+            <ShareModal
+              adUrl={`<a href="https://www.ai-adgen.com/png/18930572-youtube-logo-png-youtube-i`}
+              defaultOpen={false}
+            >
+              {/* Custom Share Button */}
+              <button className="bg-[#F8E6F8] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center">
+                <Share2 size={18} />
+                <span className="max-sm:hidden text-base leading-6 font-normal text-[#650065]">
+                  Share
+                </span>
+              </button>
+            </ShareModal>
           )}
 
           {/* Export button - Show for demo type always, and for image-form only when status is completed */}
