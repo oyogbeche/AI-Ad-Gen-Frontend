@@ -1,23 +1,12 @@
 "use client";
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
 import { motion } from "framer-motion";
-import {
-  ArrowLeft,
-  Check,
-  ChevronDown,
-  Copy,
-  Download,
-  Share2,
-} from "lucide-react";
+import { ArrowLeft, Check, ChevronDown, Download, Share2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
+import ShareModal from "./share-modal";
 
 interface DesktopAdPreviewNavigationProps {
   className?: string;
@@ -37,7 +26,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   isLoading,
   imageUrl,
   imageName = "ad",
-  handleCopy,
+  // handleCopy,
   type,
   status,
 }) => {
@@ -45,10 +34,10 @@ export const DesktopAdPreviewNavigation: React.FC<
   const [isDownloading, setIsDownloading] = useState(false);
   const [isSaveDropdownOpen, setIsSaveDropdownOpen] = useState(false);
   const [isExportDropdownOpen, setIsExportDropdownOpen] = useState(false);
-  const [isCopying, setIsCopying] = useState(false);
+  // const [isCopying, setIsCopying] = useState(false);
   const saveDropdownRef = useRef<HTMLDivElement>(null);
   const exportDropdownRef = useRef<HTMLDivElement>(null);
-  const urlInputRef = useRef<HTMLInputElement>(null);
+  // const urlInputRef = useRef<HTMLInputElement>(null);
 
   // Use a fallback image URL when imageUrl is undefined or null
   const fallbackImageUrl = "image-fallback";
@@ -149,57 +138,57 @@ export const DesktopAdPreviewNavigation: React.FC<
     };
   }, [isSaveDropdownOpen, isExportDropdownOpen]);
 
-  const handleShareClick = async () => {
-    if (handleCopy) {
-      try {
-        await handleCopy();
-      } catch (error) {
-        console.error("Error in custom copy handler:", error);
-      }
-    }
+  // const handleShareClick = async () => {
+  //   if (handleCopy) {
+  //     try {
+  //       await handleCopy();
+  //     } catch (error) {
+  //       console.error("Error in custom copy handler:", error);
+  //     }
+  //   }
 
-    // Implement direct copy functionality as a fallback
-    try {
-      setIsCopying(true);
-      const shareUrl = `https://genz.ad/stand-alone/${effectiveImageUrl}`;
+  //   // Implement direct copy functionality as a fallback
+  //   try {
+  //     setIsCopying(true);
+  //     const shareUrl = `https://genz.ad/stand-alone/${effectiveImageUrl}`;
 
-      if (navigator.clipboard) {
-        await navigator.clipboard.writeText(shareUrl);
-      } else {
-        // Fallback for browsers that don't support clipboard API
-        if (urlInputRef.current) {
-          urlInputRef.current.select();
-          document.execCommand("copy");
-        }
-      }
+  //     if (navigator.clipboard) {
+  //       await navigator.clipboard.writeText(shareUrl);
+  //     } else {
+  //       // Fallback for browsers that don't support clipboard API
+  //       if (urlInputRef.current) {
+  //         urlInputRef.current.select();
+  //         document.execCommand("copy");
+  //       }
+  //     }
 
-      // Visual feedback animation
-      toast.custom(() => (
-        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-                <Check className="h-4 w-4 text-white" />
-              </div>
-              <div className="ml-3">
-                <p className="text-sm font-medium text-gray-900 mb-2">
-                  Copied to clipboard!
-                </p>
-                <p className="text-xs text-gray-500">
-                  Your link will allow users to view your image.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      ));
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-      toast.error("Failed to copy link");
-    } finally {
-      setIsCopying(false);
-    }
-  };
+  //     // Visual feedback animation
+  //     toast.custom(() => (
+  //       <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+  //         <div className="flex items-center justify-between w-full">
+  //           <div className="flex items-center">
+  //             <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+  //               <Check className="h-4 w-4 text-white" />
+  //             </div>
+  //             <div className="ml-3">
+  //               <p className="text-sm font-medium text-gray-900 mb-2">
+  //                 Copied to clipboard!
+  //               </p>
+  //               <p className="text-xs text-gray-500">
+  //                 Your link will allow users to view your image.
+  //               </p>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     ));
+  //   } catch (error) {
+  //     console.error("Error copying to clipboard:", error);
+  //     toast.error("Failed to copy link");
+  //   } finally {
+  //     setIsCopying(false);
+  //   }
+  // };
 
   const handleSaveAndExit = () => {
     setIsSaveDropdownOpen(false);
@@ -300,57 +289,18 @@ export const DesktopAdPreviewNavigation: React.FC<
 
           {/* Share button - Show only when type is image-form and status is completed */}
           {type === "image-form" && status === "completed" && (
-            <Popover>
-              <PopoverTrigger asChild>
-                <button className="bg-[#F8E6F8] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center">
-                  <Share2 size={18} />
-                  <span className="max-sm:hidden text-base leading-6 font-normal text-[#650065]">
-                    Share
-                  </span>
-                </button>
-              </PopoverTrigger>
-              <PopoverContent className="w-60 md:w-80">
-                <div className="py-2 flex flex-col gap-3">
-                  <div className="flex flex-col gap-1">
-                    {/* Share URL input field with visual indicator */}
-                    <div className="relative">
-                      <input
-                        ref={urlInputRef}
-                        type="text"
-                        id="image-url"
-                        value={`https://genz.ad/stand-alone/${effectiveImageUrl}`}
-                        readOnly
-                        className="w-full py-3 px-2 pr-10 border border-[#E3E3E3] rounded-md text-sm focus:border-transparent"
-                      />
-                      <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                        <Copy size={16} className="text-gray-400" />
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    onClick={handleShareClick}
-                    disabled={isCopying}
-                    className={`bg-[#650065] cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-[#4a004a] transition-colors flex items-center justify-center gap-2 w-full mx-auto ${
-                      isCopying ? "opacity-75" : ""
-                    }`}
-                  >
-                    {isCopying ? (
-                      <>Copying...</>
-                    ) : (
-                      <>
-                        Copy Link
-                        <motion.div
-                          initial={{ scale: 1 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <Copy size={16} />
-                        </motion.div>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </PopoverContent>
-            </Popover>
+            <ShareModal
+              adUrl={`<a href="https://www.ai-adgen.com/png/18930572-youtube-logo-png-youtube-i`}
+              defaultOpen={false}
+            >
+              {/* Custom Share Button */}
+              <button className="bg-[#F8E6F8] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center">
+                <Share2 size={18} />
+                <span className="max-sm:hidden text-base leading-6 font-normal text-[#650065]">
+                  Share
+                </span>
+              </button>
+            </ShareModal>
           )}
 
           {/* Export button - Show for demo type always, and for image-form only when status is completed */}
