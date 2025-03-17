@@ -1,490 +1,7 @@
-// "use client";
-// import {
-//   adSizeOptions,
-//   ageGroupOptions,
-//   demographicsOptions,
-//   languageOptions,
-//   regionOptions,
-// } from "@/domains/ads-gen/utils/step-one-form-options";
-// import { Button } from "@/components/ui/button";
-// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import {
-//   Form,
-//   FormControl,
-//   FormField,
-//   FormItem,
-//   FormLabel,
-//   FormMessage,
-// } from "@/components/ui/form";
-// import { Input } from "@/components/ui/input";
-// import Loader from "@/components/ui/loader";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
-// import { Textarea } from "@/components/ui/textarea";
-// import { useMediaQuery } from "@/hooks/use-media-query";
-// import { ImageAdSchema } from "@/schemas/ad-schema";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import dynamic from "next/dynamic";
-// import { useEffect, useState } from "react";
-// // import {  MouseEventHandler } from "react";
-// import { useForm } from "react-hook-form";
-
-// import { ImageAdFormData } from "@/domains/ads-gen/types";
-// import BackButton from "@/domains/ads-gen/components/back-button";
-// import { useSubmitCampaign } from "@/domains/ads-gen/api/use-submit-campaign";
-
-// // import { X } from "lucide-react";
-// // import Link from "next/link";
-
-// const DesktopMultiSelect = dynamic(
-//   () => import("@/components/ui/multi-select"),
-//   {
-//     ssr: false,
-//   }
-// );
-
-// const MobileSelectBottomSheet = dynamic(
-//   () => import("@/components/ui/mobile-select"),
-//   {
-//     ssr: false,
-//   }
-// );
-
-// const MobileMultiSelectBottomSheet = dynamic(
-//   () => import("@/components/ui/mobile-multi-select"),
-//   {
-//     ssr: false,
-//   }
-// );
-
-// export const ImageAdForm = () => {
-//   const isMobile = useMediaQuery("(max-width: 768px)");
-//   const [isFormLoaded, setIsFormLoaded] = useState(false);
-//   const [allRequiredFieldsFilled, setAllRequiredFieldsFilled] = useState(false);
-
-//   const mutation = useSubmitCampaign();
-
-//   const form = useForm<ImageAdFormData>({
-//     resolver: zodResolver(ImageAdSchema),
-//     mode: "onChange",
-//     defaultValues: {
-//       productName: "",
-//       demographics: "",
-//       region: "",
-//       ageGroup: [],
-//       adSize: "",
-//       language: "",
-//       adGoal: "",
-//     },
-//   });
-
-//   useEffect(() => {
-//     const savedData = localStorage.getItem("imageAdData");
-//     if (savedData) {
-//       try {
-//         const parsedData = JSON.parse(savedData) as ImageAdFormData;
-//         form.setValue("productName", parsedData.productName || "");
-//         form.setValue("demographics", parsedData.demographics || "");
-//         form.setValue("region", parsedData.region || "");
-//         form.setValue("ageGroup", parsedData.ageGroup || []);
-//         form.setValue("adSize", parsedData.adSize || "");
-//         form.setValue("language", parsedData.language || "");
-//         form.setValue("adGoal", parsedData.adGoal || "");
-//         form.trigger();
-//       } catch (error) {
-//         console.error("Error parsing saved data:", error);
-//       }
-//     }
-//     setIsFormLoaded(true);
-//   }, [form]);
-
-//   // Check if all required fields are filled
-//   useEffect(() => {
-//     const checkRequiredFields = () => {
-//       const {
-//         productName,
-//         demographics,
-//         region,
-//         ageGroup,
-//         adSize,
-//         language,
-//         adGoal,
-//       } = form.getValues();
-
-//       const requiredFieldsFilled =
-//         !!productName &&
-//         !!demographics &&
-//         !!region &&
-//         ageGroup.length > 0 &&
-//         !!adSize &&
-//         !!language &&
-//         !!adGoal &&
-//         adGoal.length >= 10;
-
-//       setAllRequiredFieldsFilled(requiredFieldsFilled);
-//     };
-
-//     const subscription = form.watch(checkRequiredFields);
-//     checkRequiredFields();
-//     return () => subscription.unsubscribe();
-//   }, [form]);
-
-//   const formatPayload = (formData: ImageAdFormData) => ({
-//     product_name: formData.productName,
-//     ad_goal: formData.adGoal,
-//     ad_size: formData.adSize,
-//     target_region: formData.region,
-//     demographic: formData.demographics,
-//     target_age_groups: formData.ageGroup,
-//     ad_language: formData.language,
-//   });
-
-//   const onSubmit = (data: ImageAdFormData) => {
-//     try {
-//       localStorage.setItem("imageAdData", JSON.stringify(data));
-//       mutation.mutate(formatPayload(data));
-//     } catch (error) {
-//       console.error("Error saving to localStorage", error);
-//     }
-//   };
-
-//   interface SelectOption {
-//     label: string;
-//     value: string;
-//     display?: string;
-//     aspectRatio?: string;
-//   }
-
-//   const getSelectLabel = (options: SelectOption[], value: string): string => {
-//     if (!value) return "";
-//     const option = options.find((opt) => opt.value === value);
-//     return option ? option.label : "";
-//   };
-
-//   const getAdSizeLabel = (value: string): string => {
-//     if (!value) return "Choose Ad Size";
-//     const option = adSizeOptions.find((opt) => opt.value === value);
-//     return option ? option.display : "Choose Ad Size";
-//   };
-
-//   if (!isFormLoaded) {
-//     return (
-//       <div className="min-h-full bg-[#F9FAFB] p-6 py-18 flex justify-center items-center">
-//         <Loader />
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div className="min-h-full bg-[#F9FAFB] px-4 lg:px-8 xl:px-12 lg:pt-12 pt-8 pb-5 flex flex-col justify-center items-center w-full">
-//       <Card className="w-full max-w-[1344px] bg-[#fff] px-4 lg:px-8 xl:px-10 pt-6 pb-10  border-none shadow-none rounded-[12px]">
-//         <CardContent className="p-0">
-//           <div className="py-3 mb-4">
-//             <BackButton />
-//           </div>
-//           <CardHeader className="mb-6 md:mb-10  px-0 ">
-//             <CardTitle className="text-[28px] leading-[36px] text-[#121316] font-semibold">
-//               Let&apos;s set up your Ad
-//             </CardTitle>
-//             <p className="text-[#667185] text-sm md:text-[18px] font-normal mt-1">
-//               Fill in the details below, then AI generates your ad instantly.
-//             </p>
-//           </CardHeader>
-
-//           <Form {...form}>
-//             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-//               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border py-8 md:py-10 px-4 md:px-6 rounded-[8px] border-[#ECECEC]">
-//                 <FormField
-//                   control={form.control}
-//                   name="productName"
-//                   render={({ field }) => (
-//                     <FormItem>
-//                       <FormLabel className="text-sm font-normal text-[#121316]">
-//                         Product Name
-//                       </FormLabel>
-//                       <FormControl>
-//                         <Input
-//                           placeholder="Enter Ad Title"
-//                           className="w-full border-[#E4E7EC] text-[#121316] text-sm font-normal leading-5 focus:ring-[#B800B8] focus:border-[#E9B0E9] h-11 md:h-[56px] outline-0"
-//                           {...field}
-//                         />
-//                       </FormControl>
-//                       <FormMessage className="text-red-500 text-xs mt-1" />
-//                     </FormItem>
-//                   )}
-//                 />
-//                 <FormField
-//                   control={form.control}
-//                   name="demographics"
-//                   render={({ field }) => (
-//                     <FormItem>
-//                       <FormLabel className="text-sm font-normal text-[#121316]">
-//                         Demographics
-//                       </FormLabel>
-//                       <FormControl>
-//                         {isMobile ? (
-//                           <MobileSelectBottomSheet
-//                             options={demographicsOptions}
-//                             selected={field.value}
-//                             onChange={field.onChange}
-//                             placeholder="Select demographics"
-//                             title="Target Audience Demographics"
-//                           />
-//                         ) : (
-//                           <Select
-//                             onValueChange={field.onChange}
-//                             value={field.value}
-//                           >
-//                             <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
-//                               <SelectValue placeholder="Select demographics">
-//                                 {getSelectLabel(
-//                                   demographicsOptions,
-//                                   field.value
-//                                 )}
-//                               </SelectValue>
-//                             </SelectTrigger>
-//                             <SelectContent>
-//                               {demographicsOptions.map((option) => (
-//                                 <SelectItem
-//                                   key={option.value}
-//                                   value={option.value}
-//                                   className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
-//                                 >
-//                                   {option.label}
-//                                 </SelectItem>
-//                               ))}
-//                             </SelectContent>
-//                           </Select>
-//                         )}
-//                       </FormControl>
-//                       <FormMessage className="text-red-500 text-xs mt-1" />
-//                     </FormItem>
-//                   )}
-//                 />
-//                 <FormField
-//                   control={form.control}
-//                   name="region"
-//                   render={({ field }) => (
-//                     <FormItem>
-//                       <FormLabel className="text-sm font-normal text-[#121316]">
-//                         Target Region
-//                       </FormLabel>
-//                       <FormControl>
-//                         {isMobile ? (
-//                           <MobileSelectBottomSheet
-//                             options={regionOptions}
-//                             selected={field.value}
-//                             onChange={field.onChange}
-//                             placeholder="Select Region"
-//                             title="Target Audience Region"
-//                           />
-//                         ) : (
-//                           <Select
-//                             onValueChange={field.onChange}
-//                             value={field.value}
-//                           >
-//                             <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
-//                               <SelectValue placeholder="Select Region">
-//                                 {getSelectLabel(regionOptions, field.value)}
-//                               </SelectValue>
-//                             </SelectTrigger>
-//                             <SelectContent>
-//                               {regionOptions.map((option) => (
-//                                 <SelectItem
-//                                   key={option.value}
-//                                   value={option.value}
-//                                   className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
-//                                 >
-//                                   {option.label}
-//                                 </SelectItem>
-//                               ))}
-//                             </SelectContent>
-//                           </Select>
-//                         )}
-//                       </FormControl>
-//                       <FormMessage className="text-red-500 text-xs mt-1" />
-//                     </FormItem>
-//                   )}
-//                 />
-//                 <FormField
-//                   control={form.control}
-//                   name="ageGroup"
-//                   render={({ field }) => (
-//                     <FormItem>
-//                       <FormLabel className="text-sm font-normal text-[#121316]">
-//                         Target Age Group (2 max)
-//                       </FormLabel>
-//                       <FormControl>
-//                         {isMobile ? (
-//                           <MobileMultiSelectBottomSheet
-//                             options={ageGroupOptions}
-//                             selected={field.value || []}
-//                             onChange={field.onChange}
-//                             placeholder="Select Age Group"
-//                             title="Target Age Group"
-//                           />
-//                         ) : (
-//                           <DesktopMultiSelect
-//                             options={ageGroupOptions}
-//                             selected={field.value || []}
-//                             onChange={field.onChange}
-//                             placeholder="Select Age Group"
-//                           />
-//                         )}
-//                       </FormControl>
-//                       <FormMessage className="text-red-500 text-xs mt-1" />
-//                     </FormItem>
-//                   )}
-//                 />
-//                 <FormField
-//                   control={form.control}
-//                   name="adSize"
-//                   render={({ field }) => (
-//                     <FormItem>
-//                       <FormLabel className="text-sm font-normal text-[#121316]">
-//                         Ad Size
-//                       </FormLabel>
-//                       <FormControl>
-//                         {isMobile ? (
-//                           <MobileSelectBottomSheet
-//                             options={adSizeOptions}
-//                             selected={field.value}
-//                             onChange={field.onChange}
-//                             placeholder="Choose Ad Size"
-//                             title="Ad Size"
-//                           />
-//                         ) : (
-//                           <Select
-//                             onValueChange={field.onChange}
-//                             value={field.value}
-//                           >
-//                             <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center h-[56px]">
-//                               <SelectValue placeholder="Choose Ad Size">
-//                                 {getAdSizeLabel(field.value)}
-//                               </SelectValue>
-//                             </SelectTrigger>
-//                             <SelectContent>
-//                               {adSizeOptions.map((option) => (
-//                                 <SelectItem
-//                                   key={option.value}
-//                                   value={option.value}
-//                                   className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
-//                                 >
-//                                   <div className="flex items-center space-x-2 py-1">
-//                                     <div
-//                                       className={`border border-[#121316] ${option.aspectRatio}`}
-//                                     />
-//                                     <span>{option.label}</span>
-//                                   </div>
-//                                 </SelectItem>
-//                               ))}
-//                             </SelectContent>
-//                           </Select>
-//                         )}
-//                       </FormControl>
-//                       <FormMessage className="text-red-500 text-xs mt-1" />
-//                     </FormItem>
-//                   )}
-//                 />
-//                 <FormField
-//                   control={form.control}
-//                   name="language"
-//                   render={({ field }) => (
-//                     <FormItem>
-//                       <FormLabel className="text-sm font-normal text-[#121316]">
-//                         Ad Language
-//                       </FormLabel>
-//                       <FormControl>
-//                         {isMobile ? (
-//                           <MobileSelectBottomSheet
-//                             options={languageOptions}
-//                             selected={field.value}
-//                             onChange={field.onChange}
-//                             placeholder="Select a Language"
-//                             title="Ad Language"
-//                           />
-//                         ) : (
-//                           <Select
-//                             onValueChange={field.onChange}
-//                             value={field.value}
-//                           >
-//                             <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-[56px]">
-//                               <SelectValue placeholder="Select a Language">
-//                                 {getSelectLabel(languageOptions, field.value)}
-//                               </SelectValue>
-//                             </SelectTrigger>
-//                             <SelectContent>
-//                               {languageOptions.map((option) => (
-//                                 <SelectItem
-//                                   key={option.value}
-//                                   value={option.value}
-//                                   className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
-//                                 >
-//                                   {option.label}
-//                                 </SelectItem>
-//                               ))}
-//                             </SelectContent>
-//                           </Select>
-//                         )}
-//                       </FormControl>
-//                       <FormMessage className="text-red-500 text-xs mt-1" />
-//                     </FormItem>
-//                   )}
-//                 />
-//                 <FormField
-//                   control={form.control}
-//                   name="adGoal"
-//                   render={({ field }) => (
-//                     <FormItem className="col-span-1 md:col-span-2">
-//                       <FormLabel className="text-sm font-normal text-[#121316]">
-//                         Ad Goal
-//                       </FormLabel>
-//                       <FormControl>
-//                         <Textarea
-//                           placeholder="Describe your Ad goal and message (min 10 characters)"
-//                           className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] text-sm leading-5 text-[#121316]"
-//                           {...field}
-//                         />
-//                       </FormControl>
-//                       <FormMessage className="text-red-500 text-xs mt-1" />
-//                     </FormItem>
-//                   )}
-//                 />
-//               </div>
-//               <div className="flex justify-end">
-//                 <Button
-//                   type="submit"
-//                   disabled={!allRequiredFieldsFilled}
-//                   className={`px-6 py-3 h-12 text-base rounded-md transition-colors text-white shadow-none md:mt-[13px] w-full md:w-fit ${
-//                     allRequiredFieldsFilled
-//                       ? "bg-[#B800B8] hover:bg-[#960096] cursor-pointer"
-//                       : "bg-[#EAC8F0] cursor-not-allowed"
-//                   }`}
-//                 >
-//                   Generate Ad
-//                 </Button>
-//               </div>
-//             </form>
-//           </Form>
-//         </CardContent>
-//       </Card>
-//     </div>
-//   );
-// };
-
-// export default ImageAdForm;
-
 "use client";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  // DropdownMenuContent,
-  // DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -505,14 +22,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useGenerateImage } from "@/domains/ads-gen/api/image-generation";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, ImageIcon, Upload } from "lucide-react";
+import { ArrowRight, ImageIcon, RefreshCw, Upload } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 // Dynamically import mobile components
@@ -521,32 +40,40 @@ const MobileSelectBottomSheet = dynamic(
   { ssr: false }
 );
 
-type AdStatus = "initial" | "ready" | "generating" | "completed";
-
-const targetAudienceOptions = [
-  { label: "GenZ", value: "genz" },
-  { label: "Millennials", value: "millennials" },
-  { label: "Gen X", value: "genx" },
-  { label: "Baby Boomers", value: "boomers" },
-  { label: "All Ages", value: "all" },
-];
+type AdStatus = "initial" | "ready" | "generating" | "completed" | "error";
 
 const adPlacementOptions = [
-  { label: "Facebook", value: "facebook" },
-  { label: "Instagram", value: "instagram" },
-  { label: "Twitter", value: "twitter" },
-  { label: "LinkedIn", value: "linkedin" },
-  { label: "YouTube", value: "youtube" },
-  { label: "TikTok", value: "tiktok" },
-  { label: "Google Search", value: "google" },
+  { label: "Instagram", value: "Instagram post (1:1)" },
+  { label: "Facebook", value: "Facebook Ad (4:5)" },
+  { label: "Twitter", value: "Landscape (1.91:1)" },
+  { label: "LinkedIn", value: "LinkedIn Profile Banner (4:1)" },
+  { label: "Company Page", value: "Company Page Banner (1.91:1)" },
+  { label: "Google Ads Leaderboard", value: "Google Ads Leaderboard (8:1)" },
+  { label: "Google Ads Skyscraper", value: "Google Ads Skyscraper (1:3.75)" },
 ];
 
-// Form schema
+const targetAudienceOptions = [
+  { label: "Gen Z", value: "Gen Z" },
+  { label: "Millennials", value: "Millennials" },
+  { label: "Gen X", value: "Gen X" },
+  { label: "Baby Boomers", value: "Baby Boomers" },
+  { label: "All Ages", value: "All Ages" },
+];
+
 const formSchema = z.object({
   adDescription: z
     .string()
-    .min(10, "Description must be at least 10 characters"),
-  adPlacement: z.string().min(1, "Please select a platform"),
+    .min(10, "Description must be at least 10 characters")
+    .nonempty("Ad description is required"),
+  adSize: z
+    .string()
+    .min(1, "Please select a platform")
+    .refine(
+      (val) => adPlacementOptions.some((option) => option.value === val),
+      {
+        message: "Please select a valid platform",
+      }
+    ),
   targetAudience: z.string().min(1, "Please select a target audience"),
   productImage: z.string().optional(),
 });
@@ -556,15 +83,28 @@ type FormData = z.infer<typeof formSchema>;
 export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [status, setStatus] = useState<AdStatus>("initial");
-  const [progress, setProgress] = useState<number>(0);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string>("");
   const [formLoaded, setFormLoaded] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastFormData = useRef<FormData | null>(null);
+
+  // Use the generate image hook
+  const {
+    generateImage,
+    isLoading,
+    progress,
+    result,
+    error,
+    cancelGeneration,
+  } = useGenerateImage();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       adDescription: "",
-      adPlacement: "",
-      targetAudience: "genz",
+      adSize: "",
+      targetAudience: "Gen Z",
       productImage: "",
     },
     mode: "onChange",
@@ -573,31 +113,89 @@ export default function AdCustomizer() {
   const { formState } = form;
   const isValid = formState.isValid;
 
+  // Set a timeout to show error if progress reaches 90% but doesn't complete
+  useEffect(() => {
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
+    // If we're generating and progress is high, set a timeout
+    if (status === "generating" && progress >= 90) {
+      timeoutRef.current = setTimeout(() => {
+        setStatus("error");
+        setErrorMessage("Generation timed out. Please try again.");
+        cancelGeneration();
+        toast.error("Image generation timed out");
+      }, 10000); // 10 seconds timeout
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [progress, status, cancelGeneration]);
+
   // Load saved form data on component mount
   useEffect(() => {
-    const savedData = localStorage.getItem("adCustomizerData");
-    if (savedData) {
-      try {
-        const parsedData = JSON.parse(savedData);
+    try {
+      const savedData = localStorage.getItem("adCustomizerData");
+      if (savedData) {
+        try {
+          const parsedData = JSON.parse(savedData);
 
-        // Set form values and ensure they're properly updated
-        form.reset({
-          adDescription: parsedData.adDescription || "",
-          adPlacement: parsedData.adPlacement || "",
-          targetAudience: parsedData.targetAudience || "genz",
-          productImage: parsedData.productImage || "",
-        });
+          // Set form values and ensure they're properly updated
+          form.reset({
+            adDescription: parsedData.adDescription || "",
+            adSize: parsedData.adSize || "",
+            targetAudience: parsedData.targetAudience || "Gen Z",
+            productImage: parsedData.productImage || "",
+          });
 
-        // Trigger validation after setting values
-        form.trigger();
-      } catch (error) {
-        console.error("Error parsing saved data:", error);
+          // Trigger validation after setting values
+          form.trigger();
+        } catch (error) {
+          console.error("Error parsing saved data:", error);
+        }
       }
+    } catch (error) {
+      console.error("Error accessing localStorage:", error);
     }
 
     // Mark form as loaded to prevent default value overrides
     setFormLoaded(true);
   }, [form]);
+
+  // Update the generated image when the result changes
+  useEffect(() => {
+    if (result && result.data) {
+      if (result.data.direct_image_url) {
+        setGeneratedImageUrl(result.data.direct_image_url);
+        setStatus("completed");
+
+        // Clear timeout if we successfully complete
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = null;
+        }
+      } else if (result.data.error) {
+        setStatus("error");
+        setErrorMessage(result.data.error || "Failed to generate image");
+      }
+    }
+  }, [result]);
+
+  // Handle error state
+  useEffect(() => {
+    if (error) {
+      setStatus("error");
+      setErrorMessage(
+        error instanceof Error ? error.message : "Failed to generate image"
+      );
+    }
+  }, [error]);
 
   type SelectOption = {
     label: string;
@@ -613,40 +211,96 @@ export default function AdCustomizer() {
     return option ? option.label : "";
   };
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
+    // Store the form data for retry functionality
+    lastFormData.current = data;
+
     // Save form data
-    localStorage.setItem("adCustomizerData", JSON.stringify(data));
+    try {
+      // Create a copy of the data without the large image if present
+      const storageData = {
+        ...data,
+        // Either store a small thumbnail or nothing for the image
+        productImage: data.productImage
+          ? data.productImage.length > 50000
+            ? null
+            : data.productImage
+          : null,
+      };
 
-    // Format payload for API
-    const payload = {
-      ad_description: data.adDescription,
-      ad_placement: data.adPlacement,
-      target_audience: data.targetAudience,
-      product_image: data.productImage,
-    };
+      localStorage.setItem("adCustomizerData", JSON.stringify(storageData));
+    } catch (error) {
+      console.warn("Failed to save form data to localStorage:", error);
+      // Continue with form submission even if storage fails
+    }
 
-    console.log("Generating ad with payload:", payload);
+    // Additional validation check before submission
+    if (!data.adDescription || data.adDescription.trim().length === 0) {
+      form.setError("adDescription", {
+        type: "manual",
+        message: "Ad description is required",
+      });
+      toast.error("Ad description is required");
+      return;
+    }
 
+    if (!data.adSize || data.adSize.trim().length === 0) {
+      form.setError("adSize", {
+        type: "manual",
+        message: "Please select a platform",
+      });
+      toast.error("Please select a platform");
+      return;
+    }
+
+    // Reset error state
+    setErrorMessage("");
     // Start generation
     setStatus("generating");
 
-    // Simulate generation progress
-    let currentProgress = 0;
-    const interval = setInterval(() => {
-      currentProgress += 10;
-      setProgress(currentProgress);
+    try {
+      // Simple debugging - Clean values only
+      console.log("Image generation payload:", {
+        ad_goal: data.adDescription.trim(),
+        ad_size: data.adSize.trim(),
+        target_audience: data.targetAudience,
+        image: data.productImage ? "Image provided" : "No image provided",
+      });
 
-      if (currentProgress >= 100) {
-        clearInterval(interval);
-        setStatus("completed");
-      }
-    }, 300);
+      // Call the generate image function with clean payload
+      generateImage({
+        ad_goal: data.adDescription.trim(),
+        ad_size: data.adSize.trim(),
+        target_audience: data.targetAudience,
+        image: data.productImage || undefined,
+      });
+    } catch (error) {
+      console.error("Error generating image:", error);
+      toast.error("Failed to generate image");
+      setStatus("error");
+      setErrorMessage(
+        error instanceof Error ? error.message : "An unexpected error occurred"
+      );
+    }
   };
 
-  // const handleRegenerate = () => {
-  //   setStatus("ready");
-  //   setProgress(0);
-  // };
+  // Handle retry - restart the whole process
+  const handleRetry = () => {
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
+    // Reset state
+    setStatus("initial");
+    setErrorMessage("");
+
+    // If we have the last form data, resubmit it
+    if (lastFormData.current) {
+      onSubmit(lastFormData.current);
+    }
+  };
 
   if (!formLoaded) {
     return (
@@ -668,12 +322,7 @@ export default function AdCustomizer() {
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center px-3 py-1.5 text-sm border border-[#63A0E6] bg-[#FBFCFE] rounded-full hover:bg-gray-50">
               Image
-              {/* <ChevronDown className="w-4 h-4 ml-1" /> */}
             </DropdownMenuTrigger>
-            {/* <DropdownMenuContent>
-              <DropdownMenuItem>Upload Image</DropdownMenuItem>
-              <DropdownMenuItem>Browse Library</DropdownMenuItem>
-            </DropdownMenuContent> */}
           </DropdownMenu>
         </div>
 
@@ -702,7 +351,7 @@ export default function AdCustomizer() {
 
               <FormField
                 control={form.control}
-                name="adPlacement"
+                name="adSize"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-base leading-6 font-normal text-[#121316]">
@@ -732,7 +381,7 @@ export default function AdCustomizer() {
                               <SelectItem
                                 key={option.value}
                                 value={option.value}
-                                className="py-2 hover:bg-[#F6F6F6] text-[#121316]"
+                                className="py-3 hover:bg-[#F6F6F6] text-[#121316]"
                               >
                                 {option.label}
                               </SelectItem>
@@ -781,7 +430,7 @@ export default function AdCustomizer() {
                               <SelectItem
                                 key={option.value}
                                 value={option.value}
-                                className="py-2 hover:bg-[#F6F6F6} text-base leading-6"
+                                className="py-2 hover:bg-[#F6F6F6] leading-6"
                               >
                                 {option.label}
                               </SelectItem>
@@ -856,22 +505,16 @@ export default function AdCustomizer() {
 
             <Button
               type="submit"
-              disabled={!isValid}
+              disabled={!isValid || isLoading}
               className={`w-full text-white px-6 py-5 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 text-base leading-6 font-normal ${
-                isValid
+                isValid && !isLoading
                   ? "bg-[#B800B8] hover:bg-[#960096] cursor-pointer"
                   : "bg-[#EAC8F0] cursor-not-allowed"
               }`}
             >
-              Generate Ad
+              {isLoading ? "Generating" : "Generate Ad"}
               <ArrowRight size={20} className="text-white" />
             </Button>
-
-            {/* Debug values - remove in production */}
-            {/* <div className="mt-4 p-2 bg-gray-100 rounded text-xs">
-              <p>Target Audience: {form.watch("targetAudience")}</p>
-              <p>Ad Placement: {form.watch("adPlacement")}</p>
-            </div> */}
           </form>
         </Form>
       </div>
@@ -889,7 +532,7 @@ export default function AdCustomizer() {
             {(status === "initial" || status === "ready") && (
               <div className="flex flex-col">
                 <ImageIcon className="size-10 mb-4 text-[#A1A1A1] mx-auto" />
-                <p className="text-2xl leading-8  font-light text-[#A1A1A1] text-center">
+                <p className="text-2xl leading-8 font-light text-[#A1A1A1] text-center">
                   Your ad will be generated here
                 </p>
               </div>
@@ -903,27 +546,44 @@ export default function AdCustomizer() {
                     <div className="absolute inset-0 border-6 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                   </div>
                   <h2 className="text-2xl text-[#121316] text-center leading-8 font-semibold max-md:max-w-[338px]">
-                    Generating Your Image Ad... {progress}%
+                    Generating Your Image Ad... {Math.round(progress)}%
                   </h2>
                 </div>
               </div>
             )}
 
+            {status === "error" && (
+              <div className="max-w-[609px] w-full mx-auto flex items-center justify-center h-[70vh] rounded-sm">
+                <div className="flex flex-col gap-6 items-center justify-center text-center">
+                  <h2 className="text-2xl text-[#121316] text-center leading-8 font-semibold max-md:max-w-[338px]">
+                    Failed to Generate Image
+                  </h2>
+                  <Button
+                    onClick={handleRetry}
+                    className="bg-[#B800B8] hover:bg-[#960096] w-fit mx-auto text-white px-6 py-5 rounded-sm transition-colors flex items-center justify-center gap-2 text-base leading-6 font-normal"
+                  >
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                    Try Again
+                  </Button>
+                </div>
+              </div>
+            )}
+
             {status === "completed" && (
-                <ImageTextEditor
-                  imageSrc="/placeholder.svg"
-                  initialTexts={[
-                    {
-                      id: "1",
-                      content: "Edit this text",
-                      x: 50,
-                      y: 50,
-                      fontSize: 24,
-                      color: "#ffffff",
-                      fontFamily: "Arial",
-                    },
-                  ]}
-                />
+              <ImageTextEditor
+                imageSrc={generatedImageUrl || "/preview.png"}
+                initialTexts={[
+                  {
+                    id: "1",
+                    content: "Edit this text",
+                    x: 50,
+                    y: 50,
+                    fontSize: 24,
+                    color: "#ffffff",
+                    fontFamily: "Arial",
+                  },
+                ]}
+              />
             )}
           </div>
         </div>
