@@ -2,7 +2,6 @@
 
 import { useAuthStore } from "@/store/auth-store";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -20,7 +19,7 @@ interface ImageGenerationResponse {
     target_audience: string;
     ad_description: string;
     is_published: boolean;
-    metadata: Record<string, any>;
+    metadata: Record<string, unknown>;
     task_id?: string;
     error?: string;
   };
@@ -55,7 +54,7 @@ type AdStatus = "initial" | "ready" | "generating" | "completed" | "error";
 // API utility functions
 const postRequestFormData = async (
   endpoint: string,
-  data: Record<string, any>,
+  data: Record<string, unknown>,
   headers?: Record<string, string>
 ) => {
   const token = useAuthStore.getState().token;
@@ -63,7 +62,7 @@ const postRequestFormData = async (
 
   Object.keys(data).forEach((key) => {
     if (data[key] !== undefined) {
-      formData.append(key, data[key]);
+      formData.append(key, data[key] as Blob | string);
     }
   });
 
@@ -112,7 +111,6 @@ const getRequest = async (endpoint: string) => {
 };
 
 export const useGenerateImage = () => {
-  const router = useRouter();
   const [status, setStatus] = useState<AdStatus>("initial");
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<ImageGenerationResponse | null>(null);
@@ -123,6 +121,7 @@ export const useGenerateImage = () => {
   const maxPollTimeRef = useRef<NodeJS.Timeout | null>(null);
   const progressStuckTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastProgressRef = useRef<number>(0);
+  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Clear all timers on component unmount
   useEffect(() => {
@@ -131,9 +130,9 @@ export const useGenerateImage = () => {
       if (maxPollTimeRef.current) clearTimeout(maxPollTimeRef.current);
       if (progressStuckTimeoutRef.current)
         clearTimeout(progressStuckTimeoutRef.current);
-      if (progressInterval) {
-        clearInterval(progressInterval);
-        progressInterval = null;
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+        progressIntervalRef.current = null;
       }
     };
   }, []);
@@ -156,9 +155,9 @@ export const useGenerateImage = () => {
           // Clean up all timers
           if (pollTimerRef.current) clearInterval(pollTimerRef.current);
           if (maxPollTimeRef.current) clearTimeout(maxPollTimeRef.current);
-          if (progressInterval) {
-            clearInterval(progressInterval);
-            progressInterval = null;
+          if (progressIntervalRef.current) {
+            clearInterval(progressIntervalRef.current);
+            progressIntervalRef.current = null;
           }
 
           setStatus("error");
@@ -233,9 +232,9 @@ export const useGenerateImage = () => {
           }
 
           // Clear progress simulation
-          if (progressInterval) {
-            clearInterval(progressInterval);
-            progressInterval = null;
+          if (progressIntervalRef.current) {
+            clearInterval(progressIntervalRef.current);
+            progressIntervalRef.current = null;
           }
 
           setStatus("completed");
@@ -271,9 +270,9 @@ export const useGenerateImage = () => {
           }
 
           // Clear progress simulation
-          if (progressInterval) {
-            clearInterval(progressInterval);
-            progressInterval = null;
+          if (progressIntervalRef.current) {
+            clearInterval(progressIntervalRef.current);
+            progressIntervalRef.current = null;
           }
 
           setStatus("error");
@@ -328,7 +327,7 @@ export const useGenerateImage = () => {
       setStatus("generating");
 
       // Create the request payload
-      const requestData: Record<string, any> = {
+      const requestData: Record<string, unknown> = {
         ad_goal: params.ad_goal.trim(),
         ad_size: params.ad_size.trim(),
         target_audience: params.target_audience,
@@ -376,9 +375,9 @@ export const useGenerateImage = () => {
           startTaskPolling(data.data.task_id);
         } else if (data.data.direct_image_url) {
           // Immediate result available - clear any progress simulation
-          if (progressInterval) {
-            clearInterval(progressInterval);
-            progressInterval = null;
+          if (progressIntervalRef.current) {
+            clearInterval(progressIntervalRef.current);
+            progressIntervalRef.current = null;
           }
 
           setStatus("completed");
@@ -395,7 +394,7 @@ export const useGenerateImage = () => {
         toast.warning("Image generation completed with warnings");
       }
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       // Reset progress on error
       setProgress(0);
       setStatus("error");
@@ -403,54 +402,33 @@ export const useGenerateImage = () => {
       // Enhanced error logging
       console.error("Image generation failed:", error);
 
-      if (error.response) {
-        console.error("API Error Response:", error.response);
-        console.error("API Error Status:", error.response.status);
-        console.error("API Error Data:", error.response.data);
-      }
-
-      if (
-        error.response?.data?.data?.errors &&
-        error.response.data.data.errors.length > 0
-      ) {
-        // Show each validation error as a separate toast
-        const errors = error.response.data.data.errors;
-        errors.forEach((err: string) => {
-          toast.error(err);
-        });
-      } else if (error.response?.data?.message) {
-        // Show the general error message from the response
-        toast.error(error.response.data.message);
+      if (error instanceof Error) {
+        toast.error(error.message || "Failed to generate image. Please try again.");
       } else {
-        // Fallback error message
-        toast.error(
-          error.message || "Failed to generate image. Please try again."
-        );
+        toast.error("Failed to generate image. Please try again.");
       }
     },
     onSettled: () => {
       // Clear any progress intervals when complete (success or error)
-      if (progressInterval) {
-        clearInterval(progressInterval);
-        progressInterval = null;
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+        progressIntervalRef.current = null;
       }
     },
   });
 
   // Progress simulation for UI feedback
-  let progressInterval: NodeJS.Timeout | null = null;
-
   const startProgressSimulation = () => {
     setProgress(0);
     lastProgressRef.current = 0;
 
     // Clear any existing interval
-    if (progressInterval) {
-      clearInterval(progressInterval);
+    if (progressIntervalRef.current) {
+      clearInterval(progressIntervalRef.current);
     }
 
     // Create a new interval for progress simulation
-    progressInterval = setInterval(() => {
+    progressIntervalRef.current = setInterval(() => {
       setProgress((prev) => {
         const newProgress = prev + Math.random() * 5;
         return newProgress >= 90 ? 90 : newProgress;
@@ -464,9 +442,9 @@ export const useGenerateImage = () => {
     if (maxPollTimeRef.current) clearTimeout(maxPollTimeRef.current);
     if (progressStuckTimeoutRef.current)
       clearTimeout(progressStuckTimeoutRef.current);
-    if (progressInterval) {
-      clearInterval(progressInterval);
-      progressInterval = null;
+    if (progressIntervalRef.current) {
+      clearInterval(progressIntervalRef.current);
+      progressIntervalRef.current = null;
     }
 
     setStatus("initial");
