@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { TextLayer } from "./text-layer";
-import { ControlPanel } from "./control-panel";
-import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PlusCircle } from "lucide-react";
 import { nanoid } from "nanoid";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { ControlPanel } from "./control-panel";
+import { TextLayer } from "./text-layer";
 
 export interface TextElement {
   id: string;
@@ -26,7 +26,10 @@ interface ImageTextEditorProps {
   initialTexts?: TextElement[];
 }
 
-export function ImageTextEditor({ initialTexts = [] }: ImageTextEditorProps) {
+export function ImageTextEditor({
+  imageSrc,
+  initialTexts = [],
+}: ImageTextEditorProps) {
   const [texts, setTexts] = useState<TextElement[]>(initialTexts);
   const [selectedTextId, setSelectedTextId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -101,31 +104,29 @@ export function ImageTextEditor({ initialTexts = [] }: ImageTextEditorProps) {
           style={{ height: "500px" }}
         >
           <Image
-            src={"/preview.png"}
+            src={imageSrc ?? "/preview.png"}
             alt="Editable image"
             width={650}
             height={500}
             className="w-full h-full object-cover z-[-1]"
             onClick={(e) => {
-              if(e.target === e.currentTarget) {
-              setSelectedTextId('')
+              if (e.target === e.currentTarget) {
+                setSelectedTextId("");
               }
-            }
-          }
+            }}
           />
           {texts.map((text) => (
-          <TextLayer
-            key={text.id}
-            text={text}
-            isSelected={text.id === selectedTextId}
-            onSelect={() => setSelectedTextId(text.id)}
-            onChange={updateText}
-            containerSize={containerSize}
-            onClick={() => setSelectedTextId(text.id)}
-          />
-        ))}
-      </div>
-
+            <TextLayer
+              key={text.id}
+              text={text}
+              isSelected={text.id === selectedTextId}
+              onSelect={() => setSelectedTextId(text.id)}
+              onChange={updateText}
+              containerSize={containerSize}
+              onClick={() => setSelectedTextId(text.id)}
+            />
+          ))}
+        </div>
       </div>
 
       {selectedText && (

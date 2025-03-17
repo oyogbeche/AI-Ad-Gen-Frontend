@@ -11,9 +11,9 @@ import {
   ArrowLeft,
   Check,
   ChevronDown,
+  Copy,
   Download,
   Share2,
-  Copy,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
@@ -253,7 +253,7 @@ export const DesktopAdPreviewNavigation: React.FC<
           className="flex items-center text-[#650065] hover:text-gray-800 cursor-pointer p-0"
           type="button"
         >
-          <ArrowLeft className="w-6 h-6 mr-2" />
+          <ArrowLeft className="size-5 mr-2 text-[#650065]" />
           <span className="hidden md:block text-[#650065] font-medium text-base leading-6">
             Back
           </span>
@@ -324,11 +324,10 @@ export const DesktopAdPreviewNavigation: React.FC<
                 disabled={isDownloading || isLoading}
                 className="bg-[#EEF4FC] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
               >
-                <Download size={18} />
+                <Download size={18} color="#10509A" />
                 <span className="max-sm:hidden text-base leading-6 font-normal text-[#10509A]">
                   Export
                 </span>
-                <ChevronDown size={18} />
               </button>
 
               {isExportDropdownOpen && (
