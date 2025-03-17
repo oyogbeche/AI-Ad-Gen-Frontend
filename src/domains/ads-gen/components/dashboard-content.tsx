@@ -6,7 +6,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+// import { motion } from "framer-motion";
 import { motion } from "framer-motion";
+
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
