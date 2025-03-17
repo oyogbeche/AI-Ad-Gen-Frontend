@@ -7,10 +7,14 @@ import { getRequest } from "@/lib/api";
 export const useGoogleAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const isDevelopment = process.env.NODE_ENV === "development";
-  const googleAuthEndpoint = isDevelopment
-    ? "/auth/google/initiate?return_json=true&redirect_local=true"
-    : "/auth/google/initiate?return_json=true";
+ const isDevelopment = process.env.NODE_ENV === "development";
+ const isProduction = process.env.NODE_ENV === "production";
+
+ const googleAuthEndpoint = isDevelopment
+   ? "/auth/google/initiate?return_json=true&environment=staging"
+   : isProduction
+   ? "/auth/google/initiate?return_json=true&environment=prod"
+   : "/auth/google/initiate?return_json=true&environment=local";
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);

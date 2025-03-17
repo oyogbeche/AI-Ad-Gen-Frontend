@@ -94,9 +94,9 @@ export default function AdCustomizer() {
     generateImage,
     isLoading,
     progress,
-    result,
     error,
     cancelGeneration,
+    generatedImageUrl: hookImageUrl,
   } = useGenerateImage();
 
   const form = useForm<FormData>({
@@ -168,34 +168,65 @@ export default function AdCustomizer() {
     setFormLoaded(true);
   }, [form]);
 
-  // Update the generated image when the result changes
+  // Then add this useEffect to update the local state when the hook's URL changes
   useEffect(() => {
-    if (result && result.data) {
-      if (result.data.direct_image_url) {
-        setGeneratedImageUrl(result.data.direct_image_url);
-        setStatus("completed");
-
-        // Clear timeout if we successfully complete
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-          timeoutRef.current = null;
-        }
-      } else if (result.data.error) {
-        setStatus("error");
-        setErrorMessage(result.data.error || "Failed to generate image");
-      }
+    if (hookImageUrl) {
+      setGeneratedImageUrl(hookImageUrl);
     }
-  }, [result]);
+  }, [hookImageUrl]);
 
   // Handle error state
   useEffect(() => {
     if (error) {
+      // Ensure we cancel any ongoing generation
+      cancelGeneration();
+
+      // Set error status
       setStatus("error");
-      setErrorMessage(
-        error instanceof Error ? error.message : "Failed to generate image"
-      );
+
+      // Set error message
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to generate image";
+      setErrorMessage(errorMessage);
+
+      // Show toast notification
+      toast.error(errorMessage);
+
+      // Clear any existing timeout
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
     }
-  }, [error]);
+  }, [error, cancelGeneration]);
+
+  // Add a new useEffect to handle overall timeout for the generating state
+  useEffect(() => {
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
+    // If we're in generating state, set a timeout
+    if (status === "generating") {
+      timeoutRef.current = setTimeout(() => {
+        // If we're still generating after 5 seconds
+        if (status === "generating") {
+          setStatus("error");
+          setErrorMessage("Generation timed out. Please try again.");
+          cancelGeneration();
+          toast.error("Image generation timed out");
+        }
+      }, 5000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [status, cancelGeneration]);
 
   type SelectOption = {
     label: string;
@@ -570,20 +601,39 @@ export default function AdCustomizer() {
             )}
 
             {status === "completed" && (
-              <ImageTextEditor
-                imageSrc={generatedImageUrl || "/preview.png"}
-                initialTexts={[
-                  {
-                    id: "1",
-                    content: "Edit this text",
-                    x: 50,
-                    y: 50,
-                    fontSize: 24,
-                    color: "#ffffff",
-                    fontFamily: "Arial",
-                  },
-                ]}
-              />
+              <div className="w-full h-full">
+                {generatedImageUrl ? (
+                  <ImageTextEditor
+                    imageSrc={generatedImageUrl}
+                    initialTexts={[
+                      {
+                        id: "1",
+                        content: "Edit this text",
+                        x: 50,
+                        y: 50,
+                        fontSize: 24,
+                        color: "#ffffff",
+                        fontFamily: "Arial",
+                      },
+                    ]}
+                  />
+                ) : (
+                  <ImageTextEditor
+                    imageSrc="/preview.png"
+                    initialTexts={[
+                      {
+                        id: "1",
+                        content: "Edit this text",
+                        x: 50,
+                        y: 50,
+                        fontSize: 24,
+                        color: "#ffffff",
+                        fontFamily: "Arial",
+                      },
+                    ]}
+                  />
+                )}
+              </div>
             )}
           </div>
         </div>
