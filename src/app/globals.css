@@ -3,7 +3,6 @@
 @plugin "tailwindcss-animate";
 @custom-variant dark (&:is(.dark *));
 
-
 /* Hide scrollbar for all browsers */
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE and Edge */
@@ -13,7 +12,15 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Chrome, Safari, and Opera */
 }
-
+/* Custom Shadcn Overlay */
+[data-state="open"] .dialog-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+/* Hide Shadcn close icon */
+[data-state="open"] button[aria-label="Close"] {
+  display: none; /* This removes the icon */
+}
 
 @theme inline {
   --color-background: var(--background);
