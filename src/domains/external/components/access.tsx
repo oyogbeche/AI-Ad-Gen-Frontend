@@ -7,15 +7,14 @@ import * as z from "zod";
 const Access = () => {
   const router = useRouter();
 
-  // State for form fields
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
-  // State for error messages
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  // Zod schema for form validation
+  
   const formSchema = z.object({
     name: z.string().min(1, "Name is required"),
     email: z.string().email("Email is required"),
@@ -25,12 +24,11 @@ const Access = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate form data using Zod
+    
     const formData = { name, email, phone };
     const result = formSchema.safeParse(formData);
 
     if (!result.success) {
-      // Map errors to their respective fields
       const fieldErrors: { [key: string]: string } = {};
       result.error.errors.forEach((err) => {
         fieldErrors[err.path[0]] = err.message;
@@ -39,9 +37,9 @@ const Access = () => {
       return;
     }
 
-    // Clear errors and redirect
+    
     setErrors({});
-    router.push("/signup"); // Change "/signup" to any route you want
+    router.push("/signup"); 
   };
 
   return (
@@ -52,7 +50,7 @@ const Access = () => {
         {/* Left Column: Image */}
         <div className="flex items-center justify-center mt-8 sm:mt-12 md:mt-0">
           <Image
-            src="/early-access.svg" // Ensure this file is in /public
+            src="/early-access.svg" 
             alt="Early Access Visual"
             width={450}
             height={400}

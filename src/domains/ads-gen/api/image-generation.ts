@@ -5,7 +5,6 @@ import { useMutation } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
-// Define response types
 interface ImageGenerationResponse {
   status: string;
   status_code: number;
@@ -62,7 +61,7 @@ const postRequestFormData = async (
 
   Object.keys(data).forEach((key) => {
     if (data[key] !== undefined) {
-      formData.append(key, data[key] as Blob | string);
+      formData.append(key, data[key] as string | Blob);
     }
   });
 
@@ -122,6 +121,8 @@ export const useGenerateImage = () => {
   const progressStuckTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastProgressRef = useRef<number>(0);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  // Add a new timeout ref for low progress situations
+  const lowProgressTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Clear all timers on component unmount
   useEffect(() => {
@@ -130,12 +131,53 @@ export const useGenerateImage = () => {
       if (maxPollTimeRef.current) clearTimeout(maxPollTimeRef.current);
       if (progressStuckTimeoutRef.current)
         clearTimeout(progressStuckTimeoutRef.current);
+      if (lowProgressTimeoutRef.current)
+        clearTimeout(lowProgressTimeoutRef.current);
       if (progressIntervalRef.current) {
         clearInterval(progressIntervalRef.current);
         progressIntervalRef.current = null;
       }
     };
   }, []);
+
+  // Add a new useEffect to monitor for low progress situations
+  useEffect(() => {
+    // Clear any existing timeout
+    if (lowProgressTimeoutRef.current) {
+      clearTimeout(lowProgressTimeoutRef.current);
+      lowProgressTimeoutRef.current = null;
+    }
+
+    // If we're generating and progress is low for too long
+    if (status === "generating") {
+      lowProgressTimeoutRef.current = setTimeout(() => {
+        // If we're still generating
+        if (status === "generating") {
+          console.log("Generation taking too long, stopping task");
+
+          // Clean up all timers
+          if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+          if (maxPollTimeRef.current) clearTimeout(maxPollTimeRef.current);
+          if (progressStuckTimeoutRef.current)
+            clearTimeout(progressStuckTimeoutRef.current);
+          if (progressIntervalRef.current) {
+            clearInterval(progressIntervalRef.current);
+            progressIntervalRef.current = null;
+          }
+
+          setStatus("error");
+          toast.error("Image generation is taking too long. Please try again.");
+        }
+      }, 15000); // 15 seconds timeout
+    }
+
+    return () => {
+      if (lowProgressTimeoutRef.current) {
+        clearTimeout(lowProgressTimeoutRef.current);
+        lowProgressTimeoutRef.current = null;
+      }
+    };
+  }, [status]);
 
   // Monitor for progress getting stuck at high percentage
   useEffect(() => {
@@ -172,6 +214,14 @@ export const useGenerateImage = () => {
 
   // Start polling task status
   const startTaskPolling = (taskId: string) => {
+    // Validate task ID before starting polling
+    if (!taskId || taskId.trim() === "") {
+      console.error("Invalid task ID provided:", taskId);
+      setStatus("error");
+      toast.error("Invalid task ID. Please try again.");
+      return;
+    }
+
     setTaskId(taskId);
     console.log(`Starting to poll task status for task ID: ${taskId}`);
 
@@ -208,9 +258,23 @@ export const useGenerateImage = () => {
     // Poll every 2 seconds
     pollTimerRef.current = setInterval(async () => {
       try {
+        // Skip polling if task ID is invalid
+        if (!taskId || taskId.trim() === "") {
+          clearInterval(pollTimerRef.current!);
+          setStatus("error");
+          toast.error("Invalid task ID. Please try again.");
+          return;
+        }
+
         const response = (await getRequest(
           `/image/task/${taskId}`
         )) as TaskStatusResponse;
+
+        // Check if the response indicates an error
+        if (response.status === "error") {
+          throw new Error(response.message || "Error checking task status");
+        }
+
         const taskStatus = response.data.status;
 
         setTaskStatus(taskStatus);
@@ -229,6 +293,10 @@ export const useGenerateImage = () => {
           if (progressStuckTimeoutRef.current) {
             clearTimeout(progressStuckTimeoutRef.current);
             progressStuckTimeoutRef.current = null;
+          }
+          if (lowProgressTimeoutRef.current) {
+            clearTimeout(lowProgressTimeoutRef.current);
+            lowProgressTimeoutRef.current = null;
           }
 
           // Clear progress simulation
@@ -250,6 +318,24 @@ export const useGenerateImage = () => {
                 image_url: response.data.result.image_url,
               },
             });
+          } else {
+            // If result is null, create a new result object with the image URLs
+            setResult({
+              status: "success",
+              status_code: 200,
+              message: "Image generated successfully",
+              data: {
+                success: true,
+                image_url: response.data.result.image_url,
+                direct_image_url: response.data.result.direct_image_url,
+                image_id: "",
+                prompt_used: "",
+                target_audience: "",
+                ad_description: "",
+                is_published: false,
+                metadata: {},
+              },
+            });
           }
 
           // Remove task from localStorage
@@ -267,6 +353,10 @@ export const useGenerateImage = () => {
           if (progressStuckTimeoutRef.current) {
             clearTimeout(progressStuckTimeoutRef.current);
             progressStuckTimeoutRef.current = null;
+          }
+          if (lowProgressTimeoutRef.current) {
+            clearTimeout(lowProgressTimeoutRef.current);
+            lowProgressTimeoutRef.current = null;
           }
 
           // Clear progress simulation
@@ -296,8 +386,35 @@ export const useGenerateImage = () => {
           pollTimerRef.current = null;
         }
 
+        if (progressIntervalRef.current) {
+          clearInterval(progressIntervalRef.current);
+          progressIntervalRef.current = null;
+        }
+
+        if (maxPollTimeRef.current) {
+          clearTimeout(maxPollTimeRef.current);
+          maxPollTimeRef.current = null;
+        }
+
+        if (progressStuckTimeoutRef.current) {
+          clearTimeout(progressStuckTimeoutRef.current);
+          progressStuckTimeoutRef.current = null;
+        }
+
+        if (lowProgressTimeoutRef.current) {
+          clearTimeout(lowProgressTimeoutRef.current);
+          lowProgressTimeoutRef.current = null;
+        }
+
         setStatus("error");
-        toast.error("Error checking generation status");
+
+        // Extract error message
+        let errorMessage = "Error checking generation status";
+        if (error instanceof Error) {
+          errorMessage = error.message;
+        }
+
+        toast.error(errorMessage);
       }
     }, 2000);
   };
@@ -362,12 +479,12 @@ export const useGenerateImage = () => {
         requestData
       ) as Promise<ImageGenerationResponse>;
     },
-    onSuccess: (data) => {
+    onSuccess: (data: ImageGenerationResponse) => {
       setResult(data);
 
       if (data.status_code === 200 || data.status_code === 201) {
         // Check if we have a task_id
-        if (data.data.task_id) {
+        if (data.data.task_id && data.data.task_id.trim() !== "") {
           console.log(
             `Image generation task created with ID: ${data.data.task_id}`
           );
@@ -378,6 +495,10 @@ export const useGenerateImage = () => {
           if (progressIntervalRef.current) {
             clearInterval(progressIntervalRef.current);
             progressIntervalRef.current = null;
+          }
+          if (lowProgressTimeoutRef.current) {
+            clearTimeout(lowProgressTimeoutRef.current);
+            lowProgressTimeoutRef.current = null;
           }
 
           setStatus("completed");
@@ -403,10 +524,14 @@ export const useGenerateImage = () => {
       console.error("Image generation failed:", error);
 
       if (error instanceof Error) {
-        toast.error(error.message || "Failed to generate image. Please try again.");
-      } else {
-        toast.error("Failed to generate image. Please try again.");
+        console.error("Error message:", error.message);
       }
+
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to generate image. Please try again."
+      );
     },
     onSettled: () => {
       // Clear any progress intervals when complete (success or error)
@@ -442,6 +567,8 @@ export const useGenerateImage = () => {
     if (maxPollTimeRef.current) clearTimeout(maxPollTimeRef.current);
     if (progressStuckTimeoutRef.current)
       clearTimeout(progressStuckTimeoutRef.current);
+    if (lowProgressTimeoutRef.current)
+      clearTimeout(lowProgressTimeoutRef.current);
     if (progressIntervalRef.current) {
       clearInterval(progressIntervalRef.current);
       progressIntervalRef.current = null;
@@ -452,7 +579,6 @@ export const useGenerateImage = () => {
     setTaskId(null);
     setTaskStatus(null);
 
-    // Remove from localStorage
     try {
       localStorage.removeItem("currentTask");
     } catch (error) {
@@ -470,5 +596,6 @@ export const useGenerateImage = () => {
     taskId,
     taskStatus,
     cancelGeneration,
+    generatedImageUrl: result?.data?.direct_image_url || "/preview.png",
   };
 };

@@ -34,19 +34,20 @@ const Hero = () => {
         
       </motion.div>
 
-      {/* Laptop SVG Image */}
-      <motion.div
-        className="relative w-full flex justify-center "
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7, duration: 0.8 }}
-      >
-        <Image src="/Laptop2.png" alt="Laptop" width={1600} height={600} />
-      </motion.div>
-      <div className="relative w-full flex justify-center mt-[-236.5px]">
-       <EarlyAccess /> 
-      </div>
-      
+
+       {/* Laptop SVG Image */}
+            <motion.div
+              className="relative w-full flex justify-center "
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.8 }}
+            >
+              <Image src="/Laptop2.png" alt="Laptop" width={1600} height={600} />
+              
+            </motion.div>
+            <div className="relative w-full flex justify-center mt-[-85px]"> 
+            <EarlyAccess /> 
+            </div>
     </div>
   );
 };
