@@ -14,7 +14,7 @@ export const useGoogleAuth = () => {
    ? "/auth/google/initiate?return_json=true&environment=staging"
    : isProduction
    ? "/auth/google/initiate?return_json=true&environment=prod"
-   : "/auth/google/initiate?return_json=true&redirect_local=true";
+   : "/auth/google/initiate?return_json=true&environment=local";
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
