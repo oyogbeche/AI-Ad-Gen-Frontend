@@ -1,20 +1,8 @@
 "use client";
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { ImageAdFormData } from "@/domains/ads-gen/types";
 import { motion } from "framer-motion";
-import {
-  ArrowLeft,
-  Check,
-  ChevronDown,
-  Copy,
-  Download,
-  Share2,
-} from "lucide-react";
+import { ArrowLeft, Check, ChevronDown, Download, Share2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -38,7 +26,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   isLoading,
   imageUrl,
   imageName = "ad",
-  handleCopy,
+  // handleCopy,
   type,
   status,
 }) => {
@@ -46,10 +34,10 @@ export const DesktopAdPreviewNavigation: React.FC<
   const [isDownloading, setIsDownloading] = useState(false);
   const [isSaveDropdownOpen, setIsSaveDropdownOpen] = useState(false);
   const [isExportDropdownOpen, setIsExportDropdownOpen] = useState(false);
-  const [isCopying, setIsCopying] = useState(false);
+  // const [isCopying, setIsCopying] = useState(false);
   const saveDropdownRef = useRef<HTMLDivElement>(null);
   const exportDropdownRef = useRef<HTMLDivElement>(null);
-  const urlInputRef = useRef<HTMLInputElement>(null);
+  // const urlInputRef = useRef<HTMLInputElement>(null);
 
   // Use a fallback image URL when imageUrl is undefined or null
   const fallbackImageUrl = "image-fallback";
@@ -150,57 +138,57 @@ export const DesktopAdPreviewNavigation: React.FC<
     };
   }, [isSaveDropdownOpen, isExportDropdownOpen]);
 
-  const handleShareClick = async () => {
-    if (handleCopy) {
-      try {
-        await handleCopy();
-      } catch (error) {
-        console.error("Error in custom copy handler:", error);
-      }
-    }
+  // const handleShareClick = async () => {
+  //   if (handleCopy) {
+  //     try {
+  //       await handleCopy();
+  //     } catch (error) {
+  //       console.error("Error in custom copy handler:", error);
+  //     }
+  //   }
 
-    // Implement direct copy functionality as a fallback
-    try {
-      setIsCopying(true);
-      const shareUrl = `https://genz.ad/stand-alone/${effectiveImageUrl}`;
+  //   // Implement direct copy functionality as a fallback
+  //   try {
+  //     setIsCopying(true);
+  //     const shareUrl = `https://genz.ad/stand-alone/${effectiveImageUrl}`;
 
-      if (navigator.clipboard) {
-        await navigator.clipboard.writeText(shareUrl);
-      } else {
-        // Fallback for browsers that don't support clipboard API
-        if (urlInputRef.current) {
-          urlInputRef.current.select();
-          document.execCommand("copy");
-        }
-      }
+  //     if (navigator.clipboard) {
+  //       await navigator.clipboard.writeText(shareUrl);
+  //     } else {
+  //       // Fallback for browsers that don't support clipboard API
+  //       if (urlInputRef.current) {
+  //         urlInputRef.current.select();
+  //         document.execCommand("copy");
+  //       }
+  //     }
 
-      // Visual feedback animation
-      toast.custom(() => (
-        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-                <Check className="h-4 w-4 text-white" />
-              </div>
-              <div className="ml-3">
-                <p className="text-sm font-medium text-gray-900 mb-2">
-                  Copied to clipboard!
-                </p>
-                <p className="text-xs text-gray-500">
-                  Your link will allow users to view your image.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      ));
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-      toast.error("Failed to copy link");
-    } finally {
-      setIsCopying(false);
-    }
-  };
+  //     // Visual feedback animation
+  //     toast.custom(() => (
+  //       <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+  //         <div className="flex items-center justify-between w-full">
+  //           <div className="flex items-center">
+  //             <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+  //               <Check className="h-4 w-4 text-white" />
+  //             </div>
+  //             <div className="ml-3">
+  //               <p className="text-sm font-medium text-gray-900 mb-2">
+  //                 Copied to clipboard!
+  //               </p>
+  //               <p className="text-xs text-gray-500">
+  //                 Your link will allow users to view your image.
+  //               </p>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     ));
+  //   } catch (error) {
+  //     console.error("Error copying to clipboard:", error);
+  //     toast.error("Failed to copy link");
+  //   } finally {
+  //     setIsCopying(false);
+  //   }
+  // };
 
   const handleSaveAndExit = () => {
     setIsSaveDropdownOpen(false);

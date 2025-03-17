@@ -1,6 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import {
+  Close,
+  Copy,
+  Facebook2,
+  Insta,
+  LinkedIn,
+  Tiktok,
+  Whatsapp,
+  X,
+} from "@/components/icons/icon";
 import {
   Dialog,
   DialogClose,
@@ -9,20 +18,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import {
-  X,
-  Insta,
-  Facebook2,
-  LinkedIn,
-  Whatsapp,
-  Tiktok,
-  Copy,
-  Close,
-} from "@/components/icons/icon";
+import { Check } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface ShareModalProps {
   adUrl: string;
@@ -47,8 +46,26 @@ export default function ShareModal({
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(adUrl);
-      toast.success("The link has been copied to your clipboard");
-    } catch (err) {
+      toast.custom(() => (
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+                <Check className="h-4 w-4 text-white" />
+              </div>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-900 mb-2">
+                  Copied to clipboard!
+                </p>
+                <p className="text-xs text-gray-500">
+                  Your link will allow users to view your image.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ));
+    } catch {
       toast.error("Could not copy the link to clipboard");
     }
   };
