@@ -55,7 +55,7 @@ const Hero2 = () => {
         <Image src="/Laptop1.png" alt="Laptop" width={1600} height={600} />
         
       </motion.div>
-      <div className="relative w-full flex justify-center mt-[-165px]"> {/* Adjust the margin-top to position Access */}
+      <div className="relative w-full flex justify-center mt-[-75px]"> 
         <Access />
       </div>
     </div>
