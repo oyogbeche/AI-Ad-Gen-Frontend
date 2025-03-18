@@ -2,15 +2,16 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 
 interface Ad {
-  type: "image" | "video";
-  src: string;
-  title: string;
-  authorInfo:
-    | {
-        name: string;
-        avatar: string;
-      }
-    | string;
+  ad_description: string;
+  author_info: { name: string; avatar: string };
+  created_at: string;
+  final_url: string;
+  id: string;
+  image_url: string;
+  is_published: boolean;
+  prompt: string;
+  target_audience: string;
+  updated_at: string;
 }
 interface Ads {
   user: Ad[];
