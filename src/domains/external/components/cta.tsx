@@ -7,7 +7,7 @@ const Cta = () => {
   return (
     <section className="py-5 md:py-10 px-[40px] md:px-[60px] lg:px-[80px] bg-white w-full">
       <div className="bg-[#FCFCFC] rounded-2xl flex justify-between flex-wrap items-center w-full py-10 md:py-16 px-5 md:px-10 gap-2.5">
-        <p className="w-full max-w-[500px] text-base md:text-[24px] lg:text-[32px] text-[#121316]">
+        <p className="w-full max-w-[500px] text-base md:text-[24px] lg:text-[28px] text-[#121316]">
           Ready to launch ads that deliver real results?
         </p>
         <motion.div
