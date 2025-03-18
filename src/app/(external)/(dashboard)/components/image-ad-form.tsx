@@ -86,7 +86,7 @@ export default function AdCustomizer() {
   
  
   const lastFormData = useRef<FormData | null>(null);
-  console.log(errorMessage);
+ 
 
   // Use the generate image hook
   const {
