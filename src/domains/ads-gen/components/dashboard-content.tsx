@@ -23,11 +23,26 @@ const DashboardContent = () => {
 
   const [isLoaded, setIsLoaded] = useState(false);
 
-  interface Ad {
-    image_url: string;
-    prompt: string;
-  }
+  // interface Ad {
+  //   image_url: string;
+  //   prompt: string;
+  // }
 
+  interface Ad {
+    id: string;
+    prompt: string;
+    target_audience: string;
+    ad_description: string;
+    is_published: boolean;
+    image_url: string;
+    final_url: string;
+    created_at: string;
+    updated_at: string;
+    author_info: {
+      name: string;
+      avatar: string;
+    };
+  }
   interface Ads {
     user: Ad[];
     community: Ad[];
@@ -142,11 +157,11 @@ const DashboardContent = () => {
   };
 
   useEffect(() => {
-    // setIsLoaded(true);
     getRequest("/image/all/published")
       .then((data) => {
         if (data.success && data.data && data.images) {
           setPublishedImages(data.data.images);
+          console.log(data);
           console.log("data", data.data);
         }
       })
@@ -164,6 +179,7 @@ const DashboardContent = () => {
       .then((data) => {
         if (data.success && data.data && data.images) {
           setUserImages(data.data.images);
+          console.log(data);
           console.log("User images data:", data.data);
         }
       })
@@ -241,7 +257,7 @@ const DashboardContent = () => {
                       ? "text-[#7D7D7D] bg-[#ECECEC] border border-[#ECECEC]"
                       : "text-[#7D7D7D]"
                   }`}
-                  onClick={() => setFilter(category)}
+                  onClick={() => setFilter(category as keyof Ads)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -285,7 +301,7 @@ const DashboardContent = () => {
           >
             {(ads[filter] || []).map((ad, i) => (
               <motion.div
-                key={i}
+                key={ad.id}
                 className="border-[#ECECEC] border bg-[#FCFCFC] rounded-[8px] overflow-hidden"
                 variants={itemVariants}
                 whileHover="hover"
@@ -318,8 +334,7 @@ const DashboardContent = () => {
                     <div className="flex gap-2.5 items-center">
                       <div className="w-5 h-5 rounded-full overflow-hidden relative">
                         <Image
-                          // src={(ad.authorInfo as { avatar: string }).avatar}
-                          src={"/avatar-3.png"}
+                          src={(ad.author_info as { avatar: string }).avatar}
                           fill={true}
                           alt="avatar"
                           sizes="20px"
@@ -327,14 +342,13 @@ const DashboardContent = () => {
                         />
                       </div>
                       <span className="text-[#7D7D7D]">
-                        {/* {(ad.authorInfo as { name: string }).name} */}
-                        Ayscript Dev
+                        {(ad.author_info as { name: string }).name}
                       </span>
                     </div>
                   ) : (
                     <div className="flex gap-2.5 items-center">
                       <span className="text-[#7D7D7D]">
-                        {/* {ad.authorInfo as string} */}2 Days Ago
+                        {ad.created_at as string}
                       </span>
                     </div>
                   )}
