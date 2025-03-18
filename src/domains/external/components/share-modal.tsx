@@ -4,9 +4,9 @@ import {
   Close,
   Copy,
   Facebook2,
-  Insta,
+  // Insta,
   LinkedIn,
-  Tiktok,
+  // Tiktok,
   Whatsapp,
   X,
 } from "@/components/icons/icon";
@@ -28,6 +28,7 @@ interface ShareModalProps {
   onOpenChange?: (open: boolean) => void;
   defaultOpen?: boolean;
   children: React.ReactNode; // Add this line
+  imageUrl: string;
 }
 
 export default function ShareModal({
@@ -35,6 +36,7 @@ export default function ShareModal({
   onOpenChange,
   defaultOpen = false,
   children,
+  // imageUrl,
 }: ShareModalProps) {
   const [open, setOpen] = useState(defaultOpen);
 
@@ -126,7 +128,7 @@ export default function ShareModal({
               </DialogDescription>
             </DialogHeader>
 
-            <div className="grid grid-cols-3 lg:grid-cols-6 mt-6.5 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 mt-6.5 gap-6">
               <button
                 onClick={() => shareOnSocialMedia("facebook")}
                 className="flex flex-col items-center gap-2"
@@ -151,7 +153,7 @@ export default function ShareModal({
                 </span>
               </button>
 
-              <button
+              {/* <button
                 onClick={() => shareOnSocialMedia("instagram")}
                 className="flex flex-col items-center gap-2"
               >
@@ -161,7 +163,7 @@ export default function ShareModal({
                 <span className="text-[#121316] text-center font-nunito text-[14px] font-medium leading-[20px]">
                   Instagram
                 </span>
-              </button>
+              </button> */}
 
               <button
                 onClick={() => shareOnSocialMedia("whatsapp")}
@@ -187,7 +189,7 @@ export default function ShareModal({
                 </span>
               </button>
 
-              <button
+              {/* <button
                 onClick={() => shareOnSocialMedia("tiktok")}
                 className="flex flex-col items-center gap-2"
               >
@@ -197,7 +199,7 @@ export default function ShareModal({
                 <span className="text-[#121316] text-center font-nunito text-[14px] font-medium leading-[20px]">
                   TikTok
                 </span>
-              </button>
+              </button> */}
             </div>
           </div>
 
