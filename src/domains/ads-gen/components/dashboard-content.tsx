@@ -9,18 +9,11 @@ import {
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { getRequest } from "@/lib/api";
+import { useAdsContext } from "../context/AdsContext";
+import { useRouter } from "next/navigation";
 
 const DashboardContent = () => {
-  const [filter, setFilter] = useState<keyof Ads>("user");
-  const [sortOption, setSortOption] = useState("Most Popular");
-
-  const [publishedImages, setPublishedImages] = useState([]);
-  const [isPublishedLoading, setIsPublishedLoading] = useState(true);
-
-  const [userImages, setUserImages] = useState<Ad[]>([]);
-  const [isUserLoading, setIsUserLoading] = useState(true);
-
+  const [filter, setFilter] = useState<"user" | "community">("user");
   const [isLoaded, setIsLoaded] = useState(false);
 
   // interface Ad {
@@ -207,6 +200,10 @@ const DashboardContent = () => {
       },
     },
   };
+    
+  const [sortOption, setSortOption] = useState("Most Popular");
+  const { adData, setAdData } = useAdsContext();
+  const router = useRouter();
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -220,8 +217,7 @@ const DashboardContent = () => {
       },
     },
     hover: {
-      y: -5,
-      boxShadow: "0 10px 10px rgba(0,0,0,0.1)",
+      boxShadow: "0 2px 2px rgba(0,0,0,0.1)",
       transition: {
         type: "spring",
         stiffness: 400,
@@ -232,7 +228,7 @@ const DashboardContent = () => {
 
   return (
     <>
-      {ads.user.length && ads.community.length == 0 ? (
+      {adData?.user.length == 0 && adData?.community.length == 0 ? (
         <div className="flex flex-col items-center gap-4 my-32">
           <Image
             src="/get-started.png"
@@ -249,7 +245,7 @@ const DashboardContent = () => {
         >
           <div className="flex justify-between flex-col sm:flex-row gap-4">
             <div className="flex gap-3 md:gap-5">
-              {(["user", "community"] as (keyof Ads)[]).map((category) => (
+              {(["user", "community"] as const).map((category) => (
                 <motion.button
                   key={category}
                   className={`rounded-[8px] p-2 text-[14px] font-semibold cursor-pointer ${
@@ -294,11 +290,11 @@ const DashboardContent = () => {
 
           <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
-            variants={containerVariants}
             initial="hidden"
             animate="show"
             key={filter}
           >
+            
             {(ads[filter] || []).map((ad, i) => (
               <motion.div
                 key={ad.id}
@@ -324,11 +320,15 @@ const DashboardContent = () => {
                   </span>
                 </div>
                 <motion.div
-                  className="flex flex-col gap-[10px] mt-2.5 ml-4 mb-3"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
+                  key={i}
+                  className="border-[#ECECEC] border bg-[#FCFCFC] rounded-[8px] overflow-hidden"
+                  variants={itemVariants}
+                  whileHover="hover"
+                  onClick={() =>
+                    router.push(`/dashboard/details?type=${filter}&id=${i}`)
+                  }
                 >
+                  
                   <span className="font-semibold">{ad.prompt}</span>
                   {filter === "community" ? (
                     <div className="flex gap-2.5 items-center">
@@ -353,8 +353,7 @@ const DashboardContent = () => {
                     </div>
                   )}
                 </motion.div>
-              </motion.div>
-            ))}
+              ))}
           </motion.div>
         </section>
       )}
