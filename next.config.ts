@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       "2.img-dpreview.com",
       "www.sciencebuddies.org",
       " cdn.lucidpic.com",
+      "res.cloudinary.com"
     ],
   },
 };
