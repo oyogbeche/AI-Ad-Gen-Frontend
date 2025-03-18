@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 
 interface ImageContextProps {
   imageUrl: string | null;
@@ -11,7 +17,9 @@ interface ImageContextProps {
 
 const ImageContext = createContext<ImageContextProps | undefined>(undefined);
 
-export const ImageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const ImageProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [promptData, setPromptData] = useState<string | null>(null);
 
@@ -39,7 +47,9 @@ export const ImageProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   }, [promptData]);
 
   return (
-    <ImageContext.Provider value={{ imageUrl, setImageUrl, promptData, setPromptData }}>
+    <ImageContext.Provider
+      value={{ imageUrl, setImageUrl, promptData, setPromptData }}
+    >
       {children}
     </ImageContext.Provider>
   );

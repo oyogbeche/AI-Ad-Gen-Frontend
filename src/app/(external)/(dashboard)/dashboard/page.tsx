@@ -3,7 +3,6 @@
 import { ImageAdCard } from "@/app/(external)/(dashboard)/components/dashboard-hero";
 import DashboardContent from "@/domains/ads-gen/components/dashboard-content";
 export default function Dashboard() {
-
   return (
     <main className="container mx-auto px-6 py-4 md:py-8 max-w-[1316px]">
       <div>
