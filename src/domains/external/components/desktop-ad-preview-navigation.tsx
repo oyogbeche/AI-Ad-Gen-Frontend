@@ -17,7 +17,7 @@ interface DesktopAdPreviewNavigationProps {
   handleCopy?: () => Promise<void>;
   type: string;
   status?: string;
-  generatedImageUrl: string;
+  generatedImageUrl?: string;
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
@@ -30,7 +30,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   // handleCopy,
   type,
   status,
-  generatedImageUrl
+  generatedImageUrl = "/preview.png"
 }) => {
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
