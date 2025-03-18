@@ -40,7 +40,7 @@ const MobileSelectBottomSheet = dynamic(
   { ssr: false }
 );
 
-type AdStatus = "initial" | "ready" | "generating" | "completed" | "error";
+
 
 const adPlacementOptions = [
   { label: "Instagram", value: "Instagram post (1:1)" },
@@ -82,10 +82,8 @@ type FormData = z.infer<typeof formSchema>;
 
 export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const [status, setStatus] = useState<AdStatus>("initial");
-  const [generatedImageUrl, setGeneratedImageUrl] = useState<string>("");
   const [formLoaded, setFormLoaded] = useState(false);
-  const [, setErrorMessage] = useState<string>("");
+  
  
   const lastFormData = useRef<FormData | null>(null);
 
@@ -114,20 +112,11 @@ export default function AdCustomizer() {
   const { formState } = form;
   const isValid = formState.isValid;
 
- 
-  // Handle ad generation success
-  useEffect(() => {
-    if (adData?.data?.image_url) {
-      setGeneratedImageUrl(adData.data.image_url);
-      setStatus("completed");
-      toast.success("Ad generated successfully!");
-    }
-  }, [adData]);
 
   // Handle errors
   useEffect(() => {
     if (error) {
-      setStatus("error");
+    
       toast.error(error);
     }
   }, [error]);
@@ -216,10 +205,6 @@ export default function AdCustomizer() {
       return;
     }
 
-    // Reset error state
-    setErrorMessage("");
-    // Start generation
-    setStatus("generating");
 
     try {
       // Simple debugging - Clean values only
@@ -240,17 +225,14 @@ export default function AdCustomizer() {
     } catch (error) {
       console.error("Error generating image:", error);
       toast.error("Failed to generate image");
-      setStatus("error");
-      setErrorMessage(
-        error instanceof Error ? error.message : "An unexpected error occurred"
-      );
+
     }
   };
 
   // Handle retry - restart the whole process
   const handleRetry = () => {
     reset(); // Reset the hook state
-    setStatus("initial");
+ 
     if (lastFormData.current) {
       onSubmit(lastFormData.current);
     }
@@ -264,6 +246,7 @@ export default function AdCustomizer() {
     );
   }
 
+  console.log("Ad Data:", adData?.data.image_url);
   return (
     <div className="flex flex-col lg:flex-row p-4 lg:p-0">
       {/* Form Section */}
@@ -279,6 +262,7 @@ export default function AdCustomizer() {
             </DropdownMenuTrigger>
           </DropdownMenu>
         </div>
+     
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -473,13 +457,19 @@ export default function AdCustomizer() {
       <div className="lg:flex-1 flex flex-col order-1 lg:order-2 pb-4 lg:p-0 gap-2">
         {/* Preview Header */}
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
-          <DesktopAdPreviewNavigation type="image-form" status={status} />
+          <DesktopAdPreviewNavigation type="image-form"  status={
+              isFetchingAd
+                ? "generating"
+                : adData?.data?.image_url
+                ? "completed"
+                : "initial"
+            } />
         </div>
 
         {/* Preview Content */}
         <div className="flex-1 rounded-md flex items-center justify-center xl:min-h-[50vh] mx-auto w-full bg-[#F9FAFB]">
           <div className="w-full mx-auto flex items-center justify-center md:h-screen rounded-sm">
-            {(status === "initial" || status === "ready") && (
+            {!isFetchingAd && !adData?.data?.image_url && (
               <div className="flex flex-col">
                 <ImageIcon className="size-10 mb-4 text-[#A1A1A1] mx-auto" />
                 <p className="text-2xl leading-8 font-light text-[#A1A1A1] text-center">
@@ -488,7 +478,7 @@ export default function AdCustomizer() {
               </div>
             )}
 
-            {status === "generating" && (
+            {isFetchingAd && (
               <div className="max-w-[609px] w-full mx-auto flex items-center justify-center h-[70vh] rounded-sm">
                 <div className="flex flex-col gap-6 items-center justify-center rounded-md">
                   <div className="relative w-12 h-12">
@@ -502,7 +492,7 @@ export default function AdCustomizer() {
               </div>
             )}
 
-            {status === "error" && (
+            {error && (
               <div className="max-w-[609px] w-full mx-auto flex items-center justify-center h-[70vh] rounded-sm">
                 <div className="flex flex-col gap-6 items-center justify-center text-center">
                   <h2 className="text-2xl text-[#121316] text-center leading-8 font-semibold max-md:max-w-[338px]">
@@ -519,11 +509,11 @@ export default function AdCustomizer() {
               </div>
             )}
 
-            {status === "completed" && generatedImageUrl && (
+            {adData?.data?.image_url && (
               <div className="w-full h-full">
-                {generatedImageUrl ? (
+             
                   <ImageTextEditor
-                    imageSrc={generatedImageUrl}
+                    imageSrc={adData.data.image_url}
                     initialTexts={[
                       {
                         id: "1",
@@ -536,25 +526,11 @@ export default function AdCustomizer() {
                       },
                     ]}
                   />
-                ) : (
-                  <ImageTextEditor
-                    imageSrc="/preview.png"
-                    initialTexts={[
-                      {
-                        id: "1",
-                        content: "Edit this text",
-                        x: 50,
-                        y: 50,
-                        fontSize: 24,
-                        color: "#ffffff",
-                        fontFamily: "Arial",
-                      },
-                    ]}
-                  />
-                )}
+              
               </div>
             )}
           </div>
+        
         </div>
       </div>
     </div>
