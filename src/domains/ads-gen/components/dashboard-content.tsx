@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 import { useAdsContext } from "../context/AdsContext";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
-import { log } from "console";
 
 const DashboardContent = () => {
   const [filter, setFilter] = useState<"user" | "community">("user");
@@ -22,12 +21,12 @@ const DashboardContent = () => {
   const [userImages, setUserImages] = useState<Ad[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // const { adData, setAdData } = useAdsContext();
+  const { adData, setAdData } = useAdsContext();
   const router = useRouter();
 
   interface Ad {
     ad_description: string;
-    author_info:{name: string, avatar:string;
+    author_info: { name: string; avatar: string };
     created_at: string;
     final_url: string;
     id: string;
@@ -37,6 +36,15 @@ const DashboardContent = () => {
     target_audience: string;
     updated_at: string;
   }
+
+  useEffect(
+    () =>
+      setAdData({
+        user: userImages,
+        community: publishedImages,
+      }),
+    [userImages, publishedImages]
+  );
 
   const getRequest = async (endpoint: string) => {
     const token = useAuthStore.getState().token;
@@ -148,7 +156,7 @@ const DashboardContent = () => {
 
   return (
     <>
-      {publishedImages?.length == 0 && userImages?.length == 0 ? (
+      {adData?.user.length == 0 && adData?.community.length == 0 ? (
         <div className="flex flex-col items-center gap-4 my-32">
           <Image
             src="/get-started.png"
@@ -178,7 +186,7 @@ const DashboardContent = () => {
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  {category === "user" ? "Your Ads" : "Community"}
+                  {category === "user" ? "Recent Ads" : "Community"}
                 </motion.button>
               ))}
             </div>
@@ -214,8 +222,8 @@ const DashboardContent = () => {
             animate="show"
             key={filter}
           >
-            {(filter == "community" ? publishedImages : userImages).map(
-              (ad, i) => (
+            {adData &&
+              adData[filter]?.map((ad, i) => (
                 <motion.div
                   key={i}
                   className="border-[#ECECEC] border bg-[#FCFCFC] rounded-[8px] overflow-hidden"
@@ -242,16 +250,17 @@ const DashboardContent = () => {
                       <div className="flex gap-2.5 items-center">
                         <div className="w-5 h-5 rounded-full overflow-hidden relative">
                           <div className="bg-[#2C2C2C] size-6 rounded-3xl text-[#F5F5F5] font-semibold text-center">
-                            {ad.prompt[0].toUpperCase()}
+                            {ad.author_info.name[0].toUpperCase()}
                           </div>
                         </div>
-                        <span className="text-[#7D7D7D]">{"Author"}</span>
+                        <span className="text-[#7D7D7D]">
+                          {ad.author_info.name}
+                        </span>
                       </div>
                     )}
                   </motion.div>
                 </motion.div>
-              )
-            )}
+              ))}
           </motion.div>
         </section>
       )}
