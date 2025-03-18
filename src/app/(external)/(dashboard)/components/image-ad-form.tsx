@@ -82,12 +82,15 @@ type FormData = z.infer<typeof formSchema>;
 
 export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const [status, setStatus] = useState<AdStatus>("initial");
-  const [generatedImageUrl, setGeneratedImageUrl] = useState<string>("");
   const [formLoaded, setFormLoaded] = useState(false);
-  const [, setErrorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(
+    null
+  );
+  const [status, setStatus] = useState<AdStatus>("initial");
 
   const lastFormData = useRef<FormData | null>(null);
+  console.log(errorMessage);
 
   // Use the generate image hook
   const {
@@ -113,6 +116,7 @@ export default function AdCustomizer() {
 
   const { formState } = form;
   const isValid = formState.isValid;
+
 
   // Handle ad generation success
   useEffect(() => {
@@ -214,8 +218,6 @@ export default function AdCustomizer() {
 
     // Reset error state
     setErrorMessage("");
-    // Start generation
-    setStatus("generating");
 
     try {
       // Simple debugging - Clean values only
@@ -236,7 +238,6 @@ export default function AdCustomizer() {
     } catch (error) {
       console.error("Error generating image:", error);
       toast.error("Failed to generate image");
-      setStatus("error");
       setErrorMessage(
         error instanceof Error ? error.message : "An unexpected error occurred"
       );
@@ -468,9 +469,8 @@ export default function AdCustomizer() {
       <div className="lg:flex-1 flex flex-col order-1 lg:order-2 pb-4 lg:p-0 gap-2 max-md:bg-white ">
         {/* Preview Header */}
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
-          <DesktopAdPreviewNavigation type="image-form" status={status} />
+          <DesktopAdPreviewNavigation type="image-form" status={status} generatedImageUrl={generatedImageUrl || undefined} />
         </div>
-
         {/* Preview Content */}
         <div className="bg-[#F2F2F2] md:bg-[#F2F2F2] max-md:mt-4 flex-1 rounded-md flex items-center justify-center min-h-[50vh] mx-auto max-h-[648px] max-w-[699px] w-full max-md:w-[90%] md:my-10">
           <div className="bg-[#F2F2F2]">
