@@ -24,6 +24,147 @@ const DashboardContent = () => {
   const { adData, setAdData } = useAdsContext();
   const router = useRouter();
 
+  const [publishedImages, setPublishedImages] = useState([]);
+  const [isPublishedLoading, setIsPublishedLoading] = useState(true);
+
+  const [userImages, setUserImages] = useState<Ad[]>([]);
+  const [isUserLoading, setIsUserLoading] = useState(true);
+
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // interface Ad {
+  //   image_url: string;
+  //   prompt: string;
+  // }
+
+  interface Ad {
+    id: string;
+    prompt: string;
+    target_audience: string;
+    ad_description: string;
+    is_published: boolean;
+    image_url: string;
+    final_url: string;
+    created_at: string;
+    updated_at: string;
+    author_info: {
+      name: string;
+      avatar: string;
+    };
+  }
+  interface Ads {
+    user: Ad[];
+    community: Ad[];
+  }
+  const ads: Ads = {
+    // user: [
+    //   {
+    //     // type: "image",
+    //     image_url: "/images/my-ad-1.png",
+    //     prompt: "Soft Drinks Ad",
+    //     // authorInfo: "5 days ago",
+    //   },
+    //   {
+    //     // type: "image",
+    //     image_url: "/images/my-ad-2.png",
+    //     prompt: "Soft Drinks Ad",
+    //     // authorInfo: "1 week ago",
+    //   },
+    //   {
+    //     // type: "image",
+    //     image_url: "/images/my-ad-3.png",
+    //     prompt: "Soft Drinks Ad",
+    //     // authorInfo: "2 weeks ago",
+    //   },
+    //   {
+    //     // type: "video",
+    //     image_url: "/images/hng-wig-1.png",
+    //     prompt: "Soft Drinks Ad",
+    //     // authorInfo: "3 days ago",
+    //   },
+    //   {
+    //     // type: "image",
+    //     image_url: "/images/hng-wig-2.png",
+    //     prompt: "Soft Drinks Ad",
+    //     // authorInfo: "2 days ago",
+    //   },
+    //   {
+    //     // type: "image",
+    //     image_url: "/images/hng-wig-3.png",
+    //     prompt: "Soft Drinks Ad",
+    //     // authorInfo: "1 day ago",
+    //   },
+    // ],
+    // {
+    // type: "image",
+    //   image_url: "/images/hng-wig-1.png",
+    //   title: "HNG Wigs Ad",
+    //   authorInfo: {
+    //     name: "FaithJames",
+    //     avatar: "/images/avatar-1.png",
+    //   },
+
+    user: userImages,
+    community: publishedImages,
+
+    // [
+    //   {
+    //     // type: "image",
+    //     image_url: "/images/hng-wig-1.png",
+    //     title: "HNG Wigs Ad",
+    //     authorInfo: {
+    //       name: "FaithJames",
+    //       avatar: "/images/avatar-1.png",
+    //     },
+    //   },
+    //   {
+    //     // type: "image",
+    //     image_url: "/images/hng-wig-2.png",
+    //     title: "HNG Wigs Ad",
+    //     authorInfo: {
+    //       name: "FaithJames",
+    //       avatar: "/images/avatar-2.png",
+    //     },
+    //   },
+    //   {
+    //     type: "video",
+    //     image_url: "/images/hng-wig-3.png",
+    //     title: "HNG Wigs Ad",
+    //     authorInfo: {
+    //       name: "FaithJames",
+    //       avatar: "/images/avatar-3.png",
+    //     },
+    //   },
+    //   {
+    //     // type: "image",
+    //     image_url: "/images/my-ad-1.png",
+    //     title: "HNG Wigs Ad",
+    //     authorInfo: {
+    //       name: "FaithJames",
+    //       avatar: "/images/avatar-4.png",
+    //     },
+    //   },
+    //   {
+    //     // type: "image",
+    //     image_url: "/images/my-ad-2.png",
+    //     title: "HNG Wigs Ad",
+    //     authorInfo: {
+    //       name: "FaithJames",
+    //       avatar: "/images/avatar-5.png",
+    //     },
+    //   },
+    //   {
+    //     // type: "image",
+    //     image_url: "/images/my-ad-3.png",
+    //     title: "HNG Wigs Ad",
+    //     authorInfo: {
+    //       name: "FaithJames",
+    //       avatar: "/images/avatar-1.png",
+    //     },
+    //   },
+    // ],
+  };
+
   interface Ad {
     ad_description: string;
     author_info: { name: string; avatar: string };
@@ -181,7 +322,7 @@ const DashboardContent = () => {
                       ? "text-[#7D7D7D] bg-[#ECECEC] border border-[#ECECEC]"
                       : "text-[#7D7D7D]"
                   }`}
-                  onClick={() => setFilter(category)}
+                  onClick={() => setFilter(category as keyof Ads)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -222,8 +363,31 @@ const DashboardContent = () => {
             animate="show"
             key={filter}
           >
-            {adData &&
-              adData[filter]?.map((ad, i) => (
+            
+            {(ads[filter] || []).map((ad, i) => (
+              <motion.div
+                key={ad.id}
+                className="border-[#ECECEC] border bg-[#FCFCFC] rounded-[8px] overflow-hidden"
+                variants={itemVariants}
+                whileHover="hover"
+              >
+                <div className="relative group h-[294px] overflow-hidden">
+                  <div className="absolute inset-0 bg-slate-100"></div>
+                  <Image
+                    src={ad.image_url}
+                    fill={true}
+                    alt="ad"
+                    priority={i < 3}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    style={{ height: "100%" }}
+                  />
+                  <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#00000066] transition-opacity duration-300 group-hover:opacity-40"></div>
+                  <span className="absolute top-4 left-4 bg-white rounded-[40px] px-3 py-1 text-sm font-medium z-10">
+                    {/* {ad.type === "image" ? "Image ad" : "Video ad"} */}
+                    image
+                  </span>
+                </div>
                 <motion.div
                   key={i}
                   className="border-[#ECECEC] border bg-[#FCFCFC] rounded-[8px] overflow-hidden"

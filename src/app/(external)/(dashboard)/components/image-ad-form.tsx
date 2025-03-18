@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useGenerateImage } from "@/domains/ads-gen/api/image-generation";
+import { useGenerateAdImage } from "@/domains/ads-gen/api/ad-image-generate";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -75,29 +75,33 @@ const formSchema = z.object({
       }
     ),
   targetAudience: z.string().min(1, "Please select a target audience"),
-  productImage: z.string().optional(),
+  productImage: z.instanceof(File).optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
 export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const [status, setStatus] = useState<AdStatus>("initial");
-  const [generatedImageUrl, setGeneratedImageUrl] = useState<string>("");
   const [formLoaded, setFormLoaded] = useState(false);
-  const [, setErrorMessage] = useState<string>("");
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(
+    null
+  );
+  const [status, setStatus] = useState<AdStatus>("initial");
+
   const lastFormData = useRef<FormData | null>(null);
+  console.log(errorMessage);
 
   // Use the generate image hook
   const {
-    generateImage,
-    isLoading,
+    generateAd,
+    adData,
+    isFetchingAd,
+    //isGenerating,
     progress,
     error,
-    cancelGeneration,
-    generatedImageUrl: hookImageUrl,
-  } = useGenerateImage();
+    reset,
+  } = useGenerateAdImage();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -105,7 +109,7 @@ export default function AdCustomizer() {
       adDescription: "",
       adSize: "",
       targetAudience: "Gen Z",
-      productImage: "",
+      productImage: undefined,
     },
     mode: "onChange",
   });
@@ -113,30 +117,23 @@ export default function AdCustomizer() {
   const { formState } = form;
   const isValid = formState.isValid;
 
-  // Set a timeout to show error if progress reaches 90% but doesn't complete
+
+  // Handle ad generation success
   useEffect(() => {
-    // Clear any existing timeout
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
+    if (adData?.data?.image_url) {
+      setGeneratedImageUrl(adData.data.image_url);
+      setStatus("completed");
+      toast.success("Ad generated successfully!");
     }
+  }, [adData]);
 
-    // If we're generating and progress is high, set a timeout
-    if (status === "generating" && progress >= 90) {
-      timeoutRef.current = setTimeout(() => {
-        setStatus("error");
-        setErrorMessage("Generation timed out. Please try again.");
-        cancelGeneration();
-        toast.error("Image generation timed out");
-      }, 10000); // 10 seconds timeout
+  // Handle errors
+  useEffect(() => {
+    if (error) {
+      setStatus("error");
+      toast.error(error);
     }
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [progress, status, cancelGeneration]);
+  }, [error]);
 
   // Load saved form data on component mount
   useEffect(() => {
@@ -151,7 +148,7 @@ export default function AdCustomizer() {
             adDescription: parsedData.adDescription || "",
             adSize: parsedData.adSize || "",
             targetAudience: parsedData.targetAudience || "Gen Z",
-            productImage: parsedData.productImage || "",
+            productImage: parsedData.productImage || undefined,
           });
 
           // Trigger validation after setting values
@@ -167,66 +164,6 @@ export default function AdCustomizer() {
     // Mark form as loaded to prevent default value overrides
     setFormLoaded(true);
   }, [form]);
-
-  // Then add this useEffect to update the local state when the hook's URL changes
-  useEffect(() => {
-    if (hookImageUrl) {
-      setGeneratedImageUrl(hookImageUrl);
-    }
-  }, [hookImageUrl]);
-
-  // Handle error state
-  useEffect(() => {
-    if (error) {
-      // Ensure we cancel any ongoing generation
-      cancelGeneration();
-
-      // Set error status
-      setStatus("error");
-
-      // Set error message
-      const errorMessage =
-        error instanceof Error ? error.message : "Failed to generate image";
-      setErrorMessage(errorMessage);
-
-      // Show toast notification
-      toast.error(errorMessage);
-
-      // Clear any existing timeout
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
-    }
-  }, [error, cancelGeneration]);
-
-  // Add a new useEffect to handle overall timeout for the generating state
-  useEffect(() => {
-    // Clear any existing timeout
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-
-    // If we're in generating state, set a timeout
-    if (status === "generating") {
-      timeoutRef.current = setTimeout(() => {
-        // If we're still generating after 5 seconds
-        if (status === "generating") {
-          setStatus("error");
-          setErrorMessage("Generation timed out. Please try again.");
-          cancelGeneration();
-          toast.error("Image generation timed out");
-        }
-      }, 5000);
-    }
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [status, cancelGeneration]);
 
   type SelectOption = {
     label: string;
@@ -251,12 +188,7 @@ export default function AdCustomizer() {
       // Create a copy of the data without the large image if present
       const storageData = {
         ...data,
-        // Either store a small thumbnail or nothing for the image
-        productImage: data.productImage
-          ? data.productImage.length > 50000
-            ? null
-            : data.productImage
-          : null,
+        productImage: data.productImage ? "Image provided" : null,
       };
 
       localStorage.setItem("adCustomizerData", JSON.stringify(storageData));
@@ -286,8 +218,6 @@ export default function AdCustomizer() {
 
     // Reset error state
     setErrorMessage("");
-    // Start generation
-    setStatus("generating");
 
     try {
       // Simple debugging - Clean values only
@@ -299,16 +229,15 @@ export default function AdCustomizer() {
       });
 
       // Call the generate image function with clean payload
-      generateImage({
+      generateAd({
         ad_goal: data.adDescription.trim(),
         ad_size: data.adSize.trim(),
         target_audience: data.targetAudience,
-        image: data.productImage || undefined,
+        productImage: data.productImage || undefined,
       });
     } catch (error) {
       console.error("Error generating image:", error);
       toast.error("Failed to generate image");
-      setStatus("error");
       setErrorMessage(
         error instanceof Error ? error.message : "An unexpected error occurred"
       );
@@ -317,17 +246,8 @@ export default function AdCustomizer() {
 
   // Handle retry - restart the whole process
   const handleRetry = () => {
-    // Clear any existing timeout
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-
-    // Reset state
+    reset(); // Reset the hook state
     setStatus("initial");
-    setErrorMessage("");
-
-    // If we have the last form data, resubmit it
     if (lastFormData.current) {
       onSubmit(lastFormData.current);
     }
@@ -495,7 +415,7 @@ export default function AdCustomizer() {
                         {field.value ? (
                           <div className="relative w-full h-[170px]">
                             <Image
-                              src={field.value || "/placeholder.svg"}
+                              src={URL.createObjectURL(field.value as File)} // Convert File to a preview URL
                               alt="Product"
                               fill
                               className="object-cover rounded-lg"
@@ -517,12 +437,7 @@ export default function AdCustomizer() {
                           onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) {
-                              const reader = new FileReader();
-                              reader.onload = (e) => {
-                                const result = e.target?.result as string;
-                                field.onChange(result);
-                              };
-                              reader.readAsDataURL(file);
+                              field.onChange(file); // Store File object instead of base64
                             }
                           }}
                         />
@@ -536,14 +451,14 @@ export default function AdCustomizer() {
 
             <Button
               type="submit"
-              disabled={!isValid || isLoading}
+              disabled={!isValid || isFetchingAd}
               className={`w-full text-white px-6 py-5 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 text-base leading-6 font-normal ${
-                isValid && !isLoading
+                isValid && !isFetchingAd
                   ? "bg-[#B800B8] hover:bg-[#960096] cursor-pointer"
                   : "bg-[#EAC8F0] cursor-not-allowed"
               }`}
             >
-              {isLoading ? "Generating" : "Generate Ad"}
+              {isFetchingAd ? "Generating" : "Generate Ad"}
               <ArrowRight size={20} className="text-white" />
             </Button>
           </form>
@@ -554,9 +469,8 @@ export default function AdCustomizer() {
       <div className="lg:flex-1 flex flex-col order-1 lg:order-2 pb-4 lg:p-0 gap-2 max-md:bg-white ">
         {/* Preview Header */}
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
-          <DesktopAdPreviewNavigation type="image-form" status={status} />
+          <DesktopAdPreviewNavigation type="image-form" status={status} generatedImageUrl={generatedImageUrl || undefined} />
         </div>
-
         {/* Preview Content */}
         <div className="bg-[#F2F2F2] md:bg-[#F2F2F2] max-md:mt-4 flex-1 rounded-md flex items-center justify-center min-h-[50vh] mx-auto max-h-[648px] max-w-[699px] w-full max-md:w-[90%] md:my-10">
           <div className="bg-[#F2F2F2]">
@@ -578,7 +492,7 @@ export default function AdCustomizer() {
                       <div className="absolute inset-0 border-6 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                     </div>
                     <h2 className="text-lg md:text-2xl text-[#121316] text-center leading-8 font-semibold max-md:max-w-[338px]">
-                      Generating Your Image Ad... {Math.round(progress)}%
+                      Generating Your Image Ad... {progress}%
                     </h2>
                   </div>
                 </div>
