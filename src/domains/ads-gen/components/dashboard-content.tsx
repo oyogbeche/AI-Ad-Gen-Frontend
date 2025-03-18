@@ -11,95 +11,129 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAdsContext } from "../context/AdsContext";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/auth-store";
 
 const DashboardContent = () => {
   const [filter, setFilter] = useState<"user" | "community">("user");
-  const [isLoaded, setIsLoaded] = useState(false);
   const [sortOption, setSortOption] = useState("Most Popular");
+
+  const [publishedImages, setPublishedImages] = useState<Ad[]>([]);
+  const [userImages, setUserImages] = useState<Ad[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const { adData, setAdData } = useAdsContext();
   const router = useRouter();
 
+  interface Ad {
+    ad_description: string;
+    author_info: { name: string; avatar: string };
+    created_at: string;
+    final_url: string;
+    id: string;
+    image_url: string;
+    is_published: boolean;
+    prompt: string;
+    target_audience: string;
+    updated_at: string;
+  }
+
+  useEffect(
+    () =>
+      setAdData({
+        user: userImages,
+        community: publishedImages,
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [userImages, publishedImages]
+  );
+
+  const getRequest = async (endpoint: string) => {
+    const token = useAuthStore.getState().token;
+
+    if (!token) {
+      console.error("No access token found. User might not be authenticated.");
+      throw new Error("Unauthorized: No token found.");
+    }
+
+    // Check if token is expired
+    if (isTokenExpired(token)) {
+      console.warn("Access token expired. Consider refreshing the token.");
+      throw new Error("Unauthorized: Token expired.");
+    }
+
+    try {
+      const response = await fetch(
+        `https://staging.api.genz.ad/api/v1${endpoint}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const responseData = await response.json();
+      console.log(responseData.data.images);
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          console.error(
+            "Unauthorized request. Token might be invalid or expired."
+          );
+        }
+        throw new Error(responseData.message || "Something went wrong");
+      }
+
+      return responseData;
+    } catch (error) {
+      console.error("API Request Error:", error);
+      throw error;
+    }
+  };
+
+  // Function to check token expiration
+  const isTokenExpired = (token: string) => {
+    try {
+      const decoded = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
+      return Date.now() > decoded.exp * 1000; // Compare current time with expiry
+    } catch (error) {
+      console.error("Failed to decode token:", error);
+      return true; // Assume expired if decoding fails
+    }
+  };
+
   useEffect(() => {
-    setAdData({
-      user: [
-        {
-          type: "image",
-          src: "/images/my-ad-1.png",
-          title: "Soft Drinks Ad",
-          authorInfo: "5 days ago",
-        },
-        {
-          type: "image",
-          src: "/images/my-ad-2.png",
-          title: "Soft Drinks Ad",
-          authorInfo: "1 week ago",
-        },
-        {
-          type: "image",
-          src: "/images/my-ad-3.png",
-          title: "Soft Drinks Ad",
-          authorInfo: "2 weeks ago",
-        },
-        {
-          type: "video",
-          src: "/images/hng-wig-1.png",
-          title: "Soft Drinks Ad",
-          authorInfo: "3 days ago",
-        },
-        {
-          type: "image",
-          src: "/images/hng-wig-2.png",
-          title: "Soft Drinks Ad",
-          authorInfo: "2 days ago",
-        },
-        {
-          type: "image",
-          src: "/images/hng-wig-3.png",
-          title: "Soft Drinks Ad",
-          authorInfo: "1 day ago",
-        },
-      ],
-      community: [
-        {
-          type: "image",
-          src: "/images/hng-wig-1.png",
-          title: "HNG Wigs Ad",
-          authorInfo: { name: "FaithJames", avatar: "/images/avatar-1.png" },
-        },
-        {
-          type: "image",
-          src: "/images/hng-wig-2.png",
-          title: "HNG Wigs Ad",
-          authorInfo: { name: "FaithJames", avatar: "/images/avatar-2.png" },
-        },
-        {
-          type: "video",
-          src: "/images/hng-wig-3.png",
-          title: "HNG Wigs Ad",
-          authorInfo: { name: "FaithJames", avatar: "/images/avatar-3.png" },
-        },
-        {
-          type: "image",
-          src: "/images/my-ad-1.png",
-          title: "HNG Wigs Ad",
-          authorInfo: { name: "FaithJames", avatar: "/images/avatar-4.png" },
-        },
-        {
-          type: "image",
-          src: "/images/my-ad-2.png",
-          title: "HNG Wigs Ad",
-          authorInfo: { name: "FaithJames", avatar: "/images/avatar-5.png" },
-        },
-        {
-          type: "image",
-          src: "/images/my-ad-3.png",
-          title: "HNG Wigs Ad",
-          authorInfo: { name: "FaithJames", avatar: "/images/avatar-1.png" },
-        },
-      ],
-    });
-    setIsLoaded(true);
-  }, [setAdData]);
+    const fetchImages = async () => {
+      const token = useAuthStore.getState().token;
+      console.log("Token in useEffect:", token); // Check if token is present
+      if (!token) {
+        console.warn("No token found, skipping API request.");
+        return;
+      }
+
+      try {
+        const [publishedResponse, userResponse] = await Promise.all([
+          getRequest("/image/all/published"),
+          getRequest("/image/"),
+        ]);
+
+        if (publishedResponse.status === "success") {
+          setPublishedImages(publishedResponse.data.images);
+        }
+
+        if (userResponse.status === "success") {
+          setUserImages(userResponse.data.images);
+        }
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      } finally {
+        setIsLoaded(true);
+      }
+    };
+
+    fetchImages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -124,7 +158,7 @@ const DashboardContent = () => {
 
   return (
     <>
-      {adData?.user.length == 0 && adData?.community.length == 0 ? (
+      {adData.user.length == 0 && adData.community.length == 0 ? (
         <div className="flex flex-col items-center gap-4 my-32">
           <Image
             src="/get-started.png"
@@ -154,7 +188,7 @@ const DashboardContent = () => {
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  {category === "user" ? "Your Ads" : "Community"}
+                  {category === "user" ? "Recent Ads" : "Community"}
                 </motion.button>
               ))}
             </div>
@@ -174,8 +208,8 @@ const DashboardContent = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="Most Popular">Most Recent</SelectItem>
-                      <SelectItem value="Most Recent">Most Viewed</SelectItem>
+                      <SelectItem value="Most Popular">Most Popular</SelectItem>
+                      <SelectItem value="Most Recent">Most Recent</SelectItem>
                       <SelectItem value="Most Viewed">Date Created</SelectItem>
                     </SelectGroup>
                   </SelectContent>
@@ -191,7 +225,7 @@ const DashboardContent = () => {
             key={filter}
           >
             {adData &&
-              adData[filter]?.map((ad, i) => (
+              adData[filter].map((ad, i) => (
                 <motion.div
                   key={i}
                   className="border-[#ECECEC] border bg-[#FCFCFC] rounded-[8px] overflow-hidden"
@@ -203,8 +237,8 @@ const DashboardContent = () => {
                 >
                   <div className="relative group h-[294px] overflow-hidden">
                     <Image
-                      src={ad.src}
-                      fill={true}
+                      src={ad.image_url}
+                      fill
                       alt="ad"
                       priority={i < 3}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -213,28 +247,16 @@ const DashboardContent = () => {
                     />
                   </div>
                   <motion.div className="flex flex-col gap-[10px] mt-2.5 ml-4 mb-3">
-                    <span className="font-semibold">{ad.title}</span>
-                    {filter === "community" &&
-                    ad.authorInfo &&
-                    typeof ad.authorInfo === "object" ? (
+                    <span className="font-semibold">{"Title"}</span>
+                    {filter === "community" && (
                       <div className="flex gap-2.5 items-center">
                         <div className="w-5 h-5 rounded-full overflow-hidden relative">
-                          <Image
-                            src={ad.authorInfo.avatar}
-                            fill={true}
-                            alt="avatar"
-                            sizes="20px"
-                            className="object-cover"
-                          />
+                          <div className="bg-[#2C2C2C] size-6 rounded-3xl text-[#F5F5F5] font-semibold text-center">
+                            {ad.author_info.name[0].toUpperCase()}
+                          </div>
                         </div>
                         <span className="text-[#7D7D7D]">
-                          {ad.authorInfo.name}
-                        </span>
-                      </div>
-                    ) : (
-                      <div className="flex gap-2.5 items-center">
-                        <span className="text-[#7D7D7D]">
-                          {ad.authorInfo.toString()}
+                          {ad.author_info.name}
                         </span>
                       </div>
                     )}

@@ -86,6 +86,7 @@ export default function AdCustomizer() {
   
  
   const lastFormData = useRef<FormData | null>(null);
+  console.log(errorMessage);
 
   // Use the generate image hook
   const {
@@ -121,8 +122,6 @@ export default function AdCustomizer() {
     }
   }, [error]);
 
-  
-
   // Load saved form data on component mount
   useEffect(() => {
     try {
@@ -152,7 +151,6 @@ export default function AdCustomizer() {
     // Mark form as loaded to prevent default value overrides
     setFormLoaded(true);
   }, [form]);
-
 
   type SelectOption = {
     label: string;
@@ -250,7 +248,7 @@ export default function AdCustomizer() {
   return (
     <div className="flex flex-col lg:flex-row p-4 lg:p-0">
       {/* Form Section */}
-      <div className="w-full lg:w-[440px] lg:min-w-[440px] scrollbar-hide p-4 md:py-6 md:px-10 flex flex-col gap-10 lg:max-w-[440px] bg-white order-2 lg:order-1 z-20 border-r border-[#ECF1F5]">
+      <div className="w-full lg:w-[440px] lg:min-w-[440px] scrollbar-hide p-4 md:py-6 md:px-10 flex flex-col gap-10 lg:max-w-[440px] bg-white order-2 lg:order-1 z-20 lg:border-r md:border-[#ECF1F5]">
         {/* Form Header */}
         <div className="lg:flex items-center justify-between hidden">
           <h1 className="text-2xl font-medium leading-8 text-[#2A2A2A]">
@@ -278,7 +276,7 @@ export default function AdCustomizer() {
                     <FormControl>
                       <Textarea
                         placeholder="Type in your Ad description"
-                        className="w-full min-h-[100px] p-4 border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#121316]"
+                        className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#121316]"
                         {...field}
                       />
                     </FormControl>
@@ -401,13 +399,12 @@ export default function AdCustomizer() {
                       >
                         {field.value ? (
                           <div className="relative w-full h-[170px]">
-                         <Image
-      src={URL.createObjectURL(field.value as File)} // Convert File to a preview URL
-      alt="Product"
-      fill
-      className="object-cover rounded-lg"
-    />
-
+                            <Image
+                              src={URL.createObjectURL(field.value as File)} // Convert File to a preview URL
+                              alt="Product"
+                              fill
+                              className="object-cover rounded-lg"
+                            />
                           </div>
                         ) : (
                           <>
@@ -417,18 +414,18 @@ export default function AdCustomizer() {
                             </p>
                           </>
                         )}
-           <input
-  type="file"
-  id="product-image"
-  className="hidden"
-  accept="image/*"
-  onChange={(e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      field.onChange(file); // Store File object instead of base64
-    }
-  }}
-/>
+                        <input
+                          type="file"
+                          id="product-image"
+                          className="hidden"
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              field.onChange(file); // Store File object instead of base64
+                            }
+                          }}
+                        />
                       </div>
                     </FormControl>
                     <FormMessage className="text-red-500 text-xs mt-1" />
@@ -454,7 +451,7 @@ export default function AdCustomizer() {
       </div>
 
       {/* Preview Section */}
-      <div className="lg:flex-1 flex flex-col order-1 lg:order-2 pb-4 lg:p-0 gap-2">
+      <div className="lg:flex-1 flex flex-col order-1 lg:order-2 pb-4 lg:p-0 gap-2 max-md:bg-white ">
         {/* Preview Header */}
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
           <DesktopAdPreviewNavigation type="image-form"  status={
@@ -465,7 +462,6 @@ export default function AdCustomizer() {
                 : "initial"
             } />
         </div>
-
         {/* Preview Content */}
         <div className="flex-1 rounded-md flex items-center justify-center xl:min-h-[50vh] mx-auto w-full bg-[#F9FAFB]">
           <div className="w-full mx-auto flex items-center justify-center md:h-screen rounded-sm">
