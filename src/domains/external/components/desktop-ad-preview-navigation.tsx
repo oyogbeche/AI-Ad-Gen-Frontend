@@ -290,7 +290,7 @@ export const DesktopAdPreviewNavigation: React.FC<
           {/* Share button - Show only when type is image-form and status is completed */}
           {type === "image-form" && status === "completed" && (
             <ShareModal
-              adUrl={`<a href="https://www.ai-adgen.com/png/18930572-youtube-logo-png-youtube-i`}
+              adUrl={`https://genz.ad/stand-alone/${effectiveImageUrl}`}
               defaultOpen={false}
             >
               {/* Custom Share Button */}
