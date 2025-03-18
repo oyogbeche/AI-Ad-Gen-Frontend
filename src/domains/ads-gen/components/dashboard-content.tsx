@@ -11,10 +11,10 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAdsContext } from "../context/AdsContext";
 import { useRouter } from "next/navigation";
+import { getRequest } from "@/lib/api";
 
 const DashboardContent = () => {
   const [filter, setFilter] = useState<"user" | "community">("user");
-  const [isLoaded, setIsLoaded] = useState(false);
   const [sortOption, setSortOption] = useState("Most Popular");
   const { adData, setAdData } = useAdsContext();
   const router = useRouter();
@@ -256,7 +256,23 @@ const DashboardContent = () => {
         setIsPublishedLoading(false);
         updateLoadedState();
       });
-  }, []);
+  useEffect(() => {
+    getRequest("/image/all/published")
+      .then((data) => {
+        if (data.success && data.data && data.images) {
+          setPublishedImages(data.data.images);
+          console.log(data);
+          console.log("data", data.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching community images", error);
+      })
+      .finally(() => {
+        setIsPublishedLoading(false);
+        updateLoadedState();
+      });
+  }, );
 
   useEffect(() => {
     getRequest("/image/")
@@ -274,7 +290,7 @@ const DashboardContent = () => {
         setIsUserLoading(false);
         updateLoadedState();
       });
-  }, []);
+  },);
 
   const updateLoadedState = () => {
     if (!isUserLoading && !isPublishedLoading) {
@@ -282,19 +298,15 @@ const DashboardContent = () => {
     }
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-    
-  const [sortOption, setSortOption] = useState("Most Popular");
-  const { adData, setAdData } = useAdsContext();
-  const router = useRouter();
+  // const containerVariants = {
+  //   hidden: { opacity: 0 },
+  //   show: {
+  //     opacity: 1,
+  //     transition: {
+  //       staggerChildren: 0.1,
+  //     },
+  //   },
+  // };
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
