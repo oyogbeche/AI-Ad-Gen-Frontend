@@ -1,6 +1,7 @@
 "use client"
 
 import { useAuthStore } from "@/store/auth-store"
+import { ImageGenerationResponse, TaskStatusResponse } from "@/types";
 import { useMutation } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
