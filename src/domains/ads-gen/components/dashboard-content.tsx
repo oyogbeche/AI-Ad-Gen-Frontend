@@ -43,6 +43,7 @@ const DashboardContent = () => {
         user: userImages,
         community: publishedImages,
       }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [userImages, publishedImages]
   );
 
@@ -116,11 +117,11 @@ const DashboardContent = () => {
           getRequest("/image/"),
         ]);
 
-        if (publishedResponse?.status === "success") {
+        if (publishedResponse.status === "success") {
           setPublishedImages(publishedResponse.data.images);
         }
 
-        if (userResponse?.status === "success") {
+        if (userResponse.status === "success") {
           setUserImages(userResponse.data.images);
         }
       } catch (error) {
@@ -131,6 +132,7 @@ const DashboardContent = () => {
     };
 
     fetchImages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const itemVariants = {
@@ -156,7 +158,7 @@ const DashboardContent = () => {
 
   return (
     <>
-      {adData?.user.length == 0 && adData?.community.length == 0 ? (
+      {adData.user.length == 0 && adData.community.length == 0 ? (
         <div className="flex flex-col items-center gap-4 my-32">
           <Image
             src="/get-started.png"
@@ -223,7 +225,7 @@ const DashboardContent = () => {
             key={filter}
           >
             {adData &&
-              adData[filter]?.map((ad, i) => (
+              adData[filter].map((ad, i) => (
                 <motion.div
                   key={i}
                   className="border-[#ECECEC] border bg-[#FCFCFC] rounded-[8px] overflow-hidden"
