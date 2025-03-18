@@ -3,18 +3,18 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import * as z from "zod";
+import { useSubmitMarketingForm } from "@/domains/ads-gen/api/use-submit-marketing";
 
 const Access = () => {
   const router = useRouter();
-
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const { mutate: submitForm } = useSubmitMarketingForm();
 
-  
   const formSchema = z.object({
     name: z.string().min(1, "Name is required"),
     email: z.string().email("Email is required"),
@@ -24,7 +24,6 @@ const Access = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    
     const formData = { name, email, phone };
     const result = formSchema.safeParse(formData);
 
@@ -37,20 +36,23 @@ const Access = () => {
       return;
     }
 
-    
+    submitForm(formData);
     setErrors({});
-    router.push("/signup"); 
+    router.push("/signup");
   };
 
   return (
-    <div className="w-full bg-[#520052] bg-cover bg-center" style={{
-        backgroundImage: "url('/Map.png')", 
-      }}>
+    <div
+      className="w-full bg-[#520052] bg-cover bg-center"
+      style={{
+        backgroundImage: "url('/Map.png')",
+      }}
+    >
       <div className="grid grid-cols-1 md:grid-cols-2">
         {/* Left Column: Image */}
         <div className="flex items-center justify-center mt-8 sm:mt-12 md:mt-0">
           <Image
-            src="/early-access.svg" 
+            src="/early-access.svg"
             alt="Early Access Visual"
             width={450}
             height={400}
@@ -67,13 +69,18 @@ const Access = () => {
           transition={{ duration: 0.8 }}
         >
           <h3 className="text-md md:text-2xl font-semibold text-white text-left w-full">
-            <span className="whitespace-nowrap text-left">Stop struggling with creating ads,</span>{" "}
+            <span className="whitespace-nowrap text-left">
+              Stop struggling with creating ads,
+            </span>{" "}
             <br />
             and get early to GenZ Ad.
           </h3>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4 w-full max-w-[600px] self-start">
+          <form
+            onSubmit={handleSubmit}
+            className="mt-6 flex flex-col gap-4 w-full max-w-[600px] self-start"
+          >
             <div>
               <input
                 type="text"
@@ -83,7 +90,9 @@ const Access = () => {
                 onChange={(e) => setName(e.target.value)}
                 required
               />
-              {errors.name && <div className="text-red-500 text-sm mt-1">{errors.name}</div>}
+              {errors.name && (
+                <div className="text-red-500 text-sm mt-1">{errors.name}</div>
+              )}
             </div>
             <div>
               <input
@@ -94,7 +103,9 @@ const Access = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              {errors.email && <div className="text-red-500 text-sm mt-1">{errors.email}</div>}
+              {errors.email && (
+                <div className="text-red-500 text-sm mt-1">{errors.email}</div>
+              )}
             </div>
             <div>
               <input
@@ -104,7 +115,9 @@ const Access = () => {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
-              {errors.phone && <div className="text-red-500 text-sm mt-1">{errors.phone}</div>}
+              {errors.phone && (
+                <div className="text-red-500 text-sm mt-1">{errors.phone}</div>
+              )}
             </div>
             <button
               type="submit"
