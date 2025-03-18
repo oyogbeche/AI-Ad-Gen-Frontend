@@ -82,12 +82,15 @@ type FormData = z.infer<typeof formSchema>;
 
 export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const [status, setStatus] = useState<AdStatus>("initial");
-  const [generatedImageUrl, setGeneratedImageUrl] = useState<string>("");
   const [formLoaded, setFormLoaded] = useState(false);
-  const [, setErrorMessage] = useState<string>("");
- 
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(
+    null
+  );
+  const [status, setStatus] = useState<AdStatus>("initial");
+
   const lastFormData = useRef<FormData | null>(null);
+  console.log(errorMessage);
 
   // Use the generate image hook
   const {
@@ -114,7 +117,7 @@ export default function AdCustomizer() {
   const { formState } = form;
   const isValid = formState.isValid;
 
- 
+
   // Handle ad generation success
   useEffect(() => {
     if (adData?.data?.image_url) {
@@ -131,8 +134,6 @@ export default function AdCustomizer() {
       toast.error(error);
     }
   }, [error]);
-
-  
 
   // Load saved form data on component mount
   useEffect(() => {
@@ -163,7 +164,6 @@ export default function AdCustomizer() {
     // Mark form as loaded to prevent default value overrides
     setFormLoaded(true);
   }, [form]);
-
 
   type SelectOption = {
     label: string;
@@ -218,8 +218,6 @@ export default function AdCustomizer() {
 
     // Reset error state
     setErrorMessage("");
-    // Start generation
-    setStatus("generating");
 
     try {
       // Simple debugging - Clean values only
@@ -240,7 +238,6 @@ export default function AdCustomizer() {
     } catch (error) {
       console.error("Error generating image:", error);
       toast.error("Failed to generate image");
-      setStatus("error");
       setErrorMessage(
         error instanceof Error ? error.message : "An unexpected error occurred"
       );
@@ -417,13 +414,12 @@ export default function AdCustomizer() {
                       >
                         {field.value ? (
                           <div className="relative w-full h-[170px]">
-                         <Image
-      src={URL.createObjectURL(field.value as File)} // Convert File to a preview URL
-      alt="Product"
-      fill
-      className="object-cover rounded-lg"
-    />
-
+                            <Image
+                              src={URL.createObjectURL(field.value as File)} // Convert File to a preview URL
+                              alt="Product"
+                              fill
+                              className="object-cover rounded-lg"
+                            />
                           </div>
                         ) : (
                           <>
@@ -433,18 +429,18 @@ export default function AdCustomizer() {
                             </p>
                           </>
                         )}
-           <input
-  type="file"
-  id="product-image"
-  className="hidden"
-  accept="image/*"
-  onChange={(e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      field.onChange(file); // Store File object instead of base64
-    }
-  }}
-/>
+                        <input
+                          type="file"
+                          id="product-image"
+                          className="hidden"
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              field.onChange(file); // Store File object instead of base64
+                            }
+                          }}
+                        />
                       </div>
                     </FormControl>
                     <FormMessage className="text-red-500 text-xs mt-1" />
@@ -475,7 +471,6 @@ export default function AdCustomizer() {
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
           <DesktopAdPreviewNavigation type="image-form" status={status} generatedImageUrl={generatedImageUrl} />
         </div>
-
         {/* Preview Content */}
         <div className="flex-1 rounded-md flex items-center justify-center xl:min-h-[50vh] mx-auto w-full bg-[#F9FAFB]">
           <div className="w-full mx-auto flex items-center justify-center md:h-screen rounded-sm">
