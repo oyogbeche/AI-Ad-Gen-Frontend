@@ -9,12 +9,15 @@ export const useSubmitMarketingForm = () => {
       postRequest("/contact/submit", formData),
     onSuccess: (data) => {
       if (data.status_code === 201) {
-        toast.success("Form submitted successfully!, Please check your Mail for early access");
+        toast.success(
+          "Form submitted successfully!, Please check your Mail for early access"
+        );
       } else {
         toast.error("Something went wrong. Please try again.");
         console.error("Submission failed:", data.message);
       }
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
       console.error("Submission failed:", error);
 
