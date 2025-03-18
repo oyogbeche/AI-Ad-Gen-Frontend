@@ -469,7 +469,7 @@ export default function AdCustomizer() {
       <div className="lg:flex-1 flex flex-col order-1 lg:order-2 pb-4 lg:p-0 gap-2">
         {/* Preview Header */}
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
-          <DesktopAdPreviewNavigation type="image-form" status={status} generatedImageUrl={generatedImageUrl} />
+          <DesktopAdPreviewNavigation type="image-form" status={status} generatedImageUrl={generatedImageUrl || undefined} />
         </div>
         {/* Preview Content */}
         <div className="flex-1 rounded-md flex items-center justify-center xl:min-h-[50vh] mx-auto w-full bg-[#F9FAFB]">
