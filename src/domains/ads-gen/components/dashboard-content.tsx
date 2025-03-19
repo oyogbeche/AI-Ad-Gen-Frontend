@@ -6,14 +6,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-// import { motion } from "framer-motion";
+import { useAuthStore } from "@/store/auth-store";
 import { motion } from "framer-motion";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAdsContext } from "../context/AdsContext";
-import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/store/auth-store";
 
 const DashboardContent = () => {
   const [filter, setFilter] = useState<"user" | "community">("user");
@@ -107,7 +106,6 @@ const DashboardContent = () => {
   useEffect(() => {
     const fetchImages = async () => {
       const token = useAuthStore.getState().token;
-      console.log("Token in useEffect:", token); // Check if token is present
       if (!token) {
         console.warn("No token found, skipping API request.");
         return;
@@ -241,11 +239,12 @@ const DashboardContent = () => {
                     <Image
                       src={ad.image_url}
                       fill
-                      alt="ad"
+                      alt={`${ad.prompt}`}
                       priority={i < 3}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105 cursor-pointer"
                       style={{ height: "100%" }}
+                      unoptimized
                     />
                   </div>
                   <motion.div className="flex flex-col gap-[10px] mt-2.5 ml-4 mb-3">
