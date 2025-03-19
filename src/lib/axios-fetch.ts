@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useAuthStore } from "@/store/auth-store";
 
 const API_BASE_URL = "https://staging.api.genz.ad/api/v1";
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
+  withCredentials: true,
 });
 
-// Function to get Authorization and Content-Type headers
+
 const getHeaders = (headers?: Record<string, string>) => {
   const token = useAuthStore.getState().token;
 
@@ -19,68 +20,80 @@ const getHeaders = (headers?: Record<string, string>) => {
   };
 };
 
-export const postRequest = async (
-  endpoint: string,
-  data: Record<string, any>,
-  headers?: Record<string, string>
-) => {
+// Function to refresh the access token
+const refreshAccessToken = async () => {
   try {
-    const response = await axiosInstance.post(endpoint, data, {
-      headers: getHeaders(headers),
-    });
-    return response.data;
-  } catch (error: any) {
-    throw new Error(
-      error.response?.data?.message || "Something went wrong"
-    );
+    const response = await axiosInstance.post("/auth/refresh-access-token");
+    const newAccessToken = response.data.data.access_token;
+
+
+    useAuthStore.setState({ token: newAccessToken });
+
+    return newAccessToken;
+  } catch (error) {
+    console.error("Failed to refresh access token:", error);
+    useAuthStore.getState().logout(); 
+    throw new Error("Session expired. Please log in again.");
   }
 };
 
-export const getRequest = async (
+
+const requestWithRetry = async (
+  method: "get" | "post" | "patch" | "delete",
   url: string,
+  data?: Record<string, any>,
   headers?: Record<string, string>
 ) => {
   try {
-    const response = await axiosInstance.get(url, {
+    const response = await axiosInstance({
+      method,
+      url,
+      data,
       headers: getHeaders(headers),
     });
+
     return response.data;
-  } catch (error: any) {
+  } catch (error) {
+    const axiosError = error as AxiosError;
+
+    if (axiosError.response?.status === 401) {
+      try {
+        const newToken = await refreshAccessToken();
+
+        const retryResponse = await axiosInstance({
+          method,
+          url,
+          data,
+          headers: getHeaders({ Authorization: `Bearer ${newToken}` }),
+        });
+
+        return retryResponse.data;
+      } catch (refreshError: any) {
+        throw new Error("Authentication failed. Please log in again.", refreshError);
+      }
+    }
+
     throw new Error(
-      error.response?.data?.message || `Request failed with status ${error.response?.status}`
+      (axiosError.response?.data as { message?: string })?.message || "Something went wrong"
     );
   }
 };
 
-export const patchRequest = async (
+// Exporting functions
+export const getRequest = (url: string, headers?: Record<string, string>) =>
+  requestWithRetry("get", url, undefined, headers);
+
+export const postRequest = (
   endpoint: string,
   data: Record<string, any>,
   headers?: Record<string, string>
-) => {
-  try {
-    const response = await axiosInstance.patch(endpoint, data, {
-      headers: getHeaders(headers),
-    });
-    return response.data;
-  } catch (error: any) {
-    throw new Error(
-      error.response?.data?.message || "Something went wrong"
-    );
-  }
-};
+) => requestWithRetry("post", endpoint, data, headers);
 
-export const deleteRequest = async (
+export const patchRequest = (
   endpoint: string,
+  data: Record<string, any>,
   headers?: Record<string, string>
-) => {
-  try {
-    const response = await axiosInstance.delete(endpoint, {
-      headers: getHeaders(headers),
-    });
-    return response.data;
-  } catch (error: any) {
-    throw new Error(
-      error.response?.data?.message || "Something went wrong"
-    );
-  }
-};
+) => requestWithRetry("patch", endpoint, data, headers);
+
+export const deleteRequest = (endpoint: string, headers?: Record<string, string>) =>
+  requestWithRetry("delete", endpoint, undefined, headers);
