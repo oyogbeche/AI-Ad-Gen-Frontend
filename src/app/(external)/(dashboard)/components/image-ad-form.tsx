@@ -463,7 +463,9 @@ export default function AdCustomizer() {
           {/* pass download function here */}
           <DesktopAdPreviewNavigation
             type="image-form"
-            imageUrl={adData?.data.image_id}
+
+            imageId={adData?.data?.image_id || ""}
+
             downloadFunction={() => {
               const element = document.getElementById("outputImg");
               if (element) {
