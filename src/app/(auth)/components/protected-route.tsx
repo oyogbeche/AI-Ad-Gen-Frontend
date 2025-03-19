@@ -16,8 +16,8 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (isHydrated && !token) {
-      toast.error("Please sign in");
-      router.push("/signin");
+      toast.error("You're signed out");
+      router.push("/");
     }
   }, [token, router, isHydrated]);
 

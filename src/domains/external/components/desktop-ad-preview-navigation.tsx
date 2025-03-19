@@ -17,6 +17,7 @@ interface DesktopAdPreviewNavigationProps {
   handleCopy?: () => Promise<void>;
   type: string;
   status?: string;
+  generatedImageUrl?: string;
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
@@ -29,6 +30,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   // handleCopy,
   type,
   status,
+  generatedImageUrl = "/preview.png"
 }) => {
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
@@ -40,7 +42,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   // const urlInputRef = useRef<HTMLInputElement>(null);
 
   // Use a fallback image URL when imageUrl is undefined or null
-  const fallbackImageUrl = "image-fallback";
+  const fallbackImageUrl = "d889a-153e-7e1f-8000-4dad23d69053";
   const effectiveImageUrl = imageUrl || fallbackImageUrl;
 
   // Fixed back button handler for all types
@@ -291,6 +293,9 @@ export const DesktopAdPreviewNavigation: React.FC<
           {/* {type === "image-form" && status === "completed" && ( */}
             <ShareModal
               adUrl={`https://genz.ad/stand-alone/${effectiveImageUrl}`}
+              // Added image url for when we want to switch to sharing natively and not the link to the social
+              // media platforms using Web Share API
+              imageUrl={generatedImageUrl}
               defaultOpen={false}
             >
               {/* Custom Share Button */}
