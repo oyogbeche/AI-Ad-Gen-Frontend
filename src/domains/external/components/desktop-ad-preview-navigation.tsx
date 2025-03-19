@@ -18,6 +18,7 @@ interface DesktopAdPreviewNavigationProps {
   type: string;
   status?: string;
   generatedImageUrl?: string;
+  downloadFunction?: () => void;
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
@@ -30,7 +31,8 @@ export const DesktopAdPreviewNavigation: React.FC<
   // handleCopy,
   type,
   status,
-  generatedImageUrl = "/preview.png"
+  generatedImageUrl = "/preview.png",
+  downloadFunction
 }) => {
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
@@ -313,7 +315,6 @@ export const DesktopAdPreviewNavigation: React.FC<
             (type === "image-form" && status === "completed")) && (
             <div className="relative" ref={exportDropdownRef}>
               <button
-                onClick={() => setIsExportDropdownOpen(!isExportDropdownOpen)}
                 disabled={isDownloading || isLoading}
                 className="bg-[#EEF4FC] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
               >
@@ -332,7 +333,11 @@ export const DesktopAdPreviewNavigation: React.FC<
                 >
                   <div className="py-1">
                     <button
-                      onClick={() => downloadImage("png")}
+                      // onClick={() => downloadImage("png")}
+                      onClick={() => {
+                        setIsExportDropdownOpen(!isExportDropdownOpen)
+                        downloadFunction?.()
+                      }}
                       disabled={isDownloading || isLoading}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                     >

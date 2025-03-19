@@ -1,8 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
-import { nanoid } from "nanoid";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ControlPanel } from "./control-panel";
@@ -55,19 +52,19 @@ export function ImageTextEditor({
   }, []);
 
   // Add a new text element
-  const addNewText = () => {
-    const newText: TextElement = {
-      id: nanoid(),
-      content: "New Text",
-      x: 0,
-      y: 0,
-      fontSize: 24,
-      color: "#ffffff",
-      fontFamily: "Arial",
-    };
-    setTexts([...texts, newText]);
-    setSelectedTextId(newText.id);
-  };
+  // const addNewText = () => {
+  //   const newText: TextElement = {
+  //     id: nanoid(),
+  //     content: "New Text",
+  //     x: 0,
+  //     y: 0,
+  //     fontSize: 24,
+  //     color: "#ffffff",
+  //     fontFamily: "Arial",
+  //   };
+  //   setTexts([...texts, newText]);
+  //   setSelectedTextId(newText.id);
+  // };
 
   // Update a text element
   const updateText = (updatedText: TextElement) => {
@@ -86,7 +83,7 @@ export function ImageTextEditor({
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className="flex justify-between items-center">
+      {/* <div className="flex justify-between items-center">
         <Button
           onClick={addNewText}
           variant="outline"
@@ -95,20 +92,36 @@ export function ImageTextEditor({
           <PlusCircle className="h-4 w-4" />
           Add Text
         </Button>
-      </div>
+      </div> */}
 
       <div className="p-[48px] bg-[#F0F3F5] flex items-center justify-center gap-0 mx-auto">
+        
+        {/* element I want to download */}
         <div
           ref={containerRef}
-          className="relative border overflow-hidden bg-[#F0F3F5] w-[80%] max-w-[650px] p-0"
-          style={{ height: "500px" }}
+          style={{
+            position: "relative",
+            border: "1px solid #ccc",
+            overflow: "hidden",
+            backgroundColor: "#F0F3F5",
+            maxWidth: "650px",
+            padding: "0",
+            height: "500px",
+          }}
+          id="outputImg"
         >
           <Image
             src={imageSrc ?? "/preview.png"}
             alt="Editable image"
             width={650}
             height={500}
-            className="w-full h-full object-cover z-[-1]"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              zIndex: -1,
+              borderRadius: "8px",
+            }}
             onClick={(e) => {
               if (e.target === e.currentTarget) {
                 setSelectedTextId("");

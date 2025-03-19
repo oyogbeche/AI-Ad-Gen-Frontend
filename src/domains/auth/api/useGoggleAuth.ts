@@ -14,7 +14,7 @@ export const useGoogleAuth = () => {
       ? "/auth/google/initiate?return_json=true&environment=local"
       : environment === "production"
       ? "/auth/google/initiate?return_json=true&environment=prod"
-      : environment === "test"
+      : environment === "staging"
       ? "/auth/google/initiate?return_json=true&environment=staging"
       : "/auth/google/initiate?return_json=true&environment=prod";
 
