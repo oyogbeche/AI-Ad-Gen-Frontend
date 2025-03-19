@@ -317,6 +317,7 @@ export const DesktopAdPreviewNavigation: React.FC<
               <button
                 disabled={isDownloading || isLoading}
                 className="bg-[#EEF4FC] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
+                onClick={() => setIsExportDropdownOpen(!isExportDropdownOpen)}
               >
                 <Download size={18} color="#10509A" />
                 <span className="max-sm:hidden text-base leading-6 font-normal text-[#10509A]">
