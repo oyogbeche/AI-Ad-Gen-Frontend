@@ -114,6 +114,7 @@ export function ImageTextEditor({
                 setSelectedTextId("");
               }
             }}
+            unoptimized
           />
           {texts.map((text) => (
             <TextLayer
