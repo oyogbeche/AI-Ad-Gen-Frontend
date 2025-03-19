@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import ImageSelectionTool from "@/domains/external/components/image-selector";
 import { useEffect, useRef, useState } from "react";
 import { ControlPanel } from "./control-panel";
 import { TextLayer } from "./text-layer";
@@ -39,9 +39,15 @@ export function ImageTextEditor({
   useEffect(() => {
     const updateSize = () => {
       if (containerRef.current) {
+        const parentWidth =
+          containerRef.current.parentElement?.clientWidth || 0;
+        const maxWidth = Math.min(650, parentWidth - 40);
+        const aspectRatio = 500 / 650; // Assuming a fixed aspect ratio
+        const newHeight = maxWidth * aspectRatio;
+
         setContainerSize({
-          width: containerRef.current.offsetWidth,
-          height: containerRef.current.offsetHeight,
+          width: maxWidth,
+          height: newHeight,
         });
       }
     };
@@ -94,16 +100,14 @@ export function ImageTextEditor({
         </Button>
       </div> */}
 
-      <div className="p-[48px] bg-[#F0F3F5] flex items-center justify-center gap-0 mx-auto">
-        
+      <div className="">
         {/* element I want to download */}
         <div
           ref={containerRef}
-          className="relative border overflow-hidden bg-[#F0F3F5] max-w-[650px] p-0"
-          style={{ height: "500px" }}
+          className="relative min-h-[200px] md:min-h-[500px] max-w-[650px] p-0"
           id="outputImg"
         >
-          <Image
+          {/* <Image
             src={imageSrc ?? "/preview.png"}
             alt="Editable image"
             width={650}
@@ -115,6 +119,22 @@ export function ImageTextEditor({
               }
             }}
             unoptimized
+          /> */}
+          <ImageSelectionTool
+            imageSrc={imageSrc ?? "/preview.png"}
+            width={650}
+            height={500}
+            onSelectionComplete={(selection, prompt) => {
+              console.log(
+                `Selection at (${selection.x},${selection.y}) with dimensions ${selection.width}x${selection.height}`
+              );
+              console.log(`Prompt: ${prompt}`);
+            }}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setSelectedTextId("");
+              }
+            }}
           />
           {texts.map((text) => (
             <TextLayer
