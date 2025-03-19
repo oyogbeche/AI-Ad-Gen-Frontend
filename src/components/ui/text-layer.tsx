@@ -4,7 +4,6 @@ import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
 import type { TextElement } from "./image-editor"
-import { cn } from "@/lib/utils"
 
 interface TextLayerProps {
   text: TextElement
