@@ -94,7 +94,6 @@ export default function EmailVerify() {
         }, 1500);
       });
 
-      console.log("Verification success:", response);
       setError("");
 
       router.push("/set-password");
