@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { Query, useMutation, useQuery } from "@tanstack/react-query";
 import { postRequest, getRequest } from "@/lib/axios-fetch";
 
 interface GenerateAdParams {
@@ -18,24 +18,27 @@ interface AdTaskResponse {
 }
 }
 
-/* interface AdDataResponse {
-  success: boolean;
-  image_url: string;
-  prompt_used: string;
-  keywords: string[];
-  target_audience: string;
-  ad_description: string;
-  is_published: boolean;
-} */
+
+interface TaskStatusResponse {
+  status: string;
+  status_code: number;
+  message: string;
+  data: {
+    status: string;
+    image_url?: string;
+  };
+}
 
 export function useGenerateAdImage() {
   const [taskId, setTaskId] = useState<string | null>(null);
-  const [progress, setProgress] = useState<number>(0); // Progress state
-  const [error, setError] = useState<string | null>(null); // Error state
+  const [progress, setProgress] = useState<number>(0);
+  const [error, setError] = useState<string | null>(null); 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Mutation to generate the image
+  
   const generateAd = useMutation({
     mutationFn: async (data: GenerateAdParams) => {
+      setIsLoading(true);
       const formData = new FormData();
       formData.append("ad_goal", data.ad_goal);
       formData.append("ad_size", data.ad_size);
@@ -48,31 +51,43 @@ export function useGenerateAdImage() {
       });
     },
     onSuccess: (response: AdTaskResponse) => {
-      console.log("Full Response:", response);
-      setTaskId(response?.data?.task_id); // Set task ID for polling
-      setProgress(10); // Initial progress after task creation
+  
+      setTaskId(response?.data?.task_id); 
+      setProgress(10); 
       setError(null);
-      console.log("Task ID:", response.data.task_id);
+   
     },
     onError: (error: Error) => {
       console.error("Error generating ad image:", error);
-      setError("Failed to start image generation. Please try again."); // Set error message
-      setProgress(0); // Reset progress
+      setError("Failed to start image generation. Please try again.");
+      setProgress(0);
+      setIsLoading(false);
     },
   });
 
   // Query to fetch the generated ad data
   const adDataQuery = useQuery({
     queryKey: ["adTask", taskId],
-    queryFn: async () => {
-      if (!taskId) return null;
+    queryFn: async (): Promise<TaskStatusResponse>  => {
+      if (!taskId) throw new Error("No task ID");
       const response = await getRequest(`/image/task/${taskId}`);
-      // Simulate progress updates (replace with actual progress if available from the API)
-      setProgress((prev) => Math.min(prev + 30, 90)); // Increment progress
+     
+      if (response.data.status === "pending") {
+        setProgress((prev) => Math.min(prev + 30, 90));
+      } else if (response.data.status === "completed") {
+        setProgress(100);
+      }
+
       return response;
     },
     enabled: !!taskId,
-    refetchInterval: (data) => (data ? false : 3000), // Poll every 3 seconds
+    refetchInterval: (query: Query<TaskStatusResponse, Error>) => {
+      const data = query.state.data;
+      if (!data || (data.data.status === "pending")) {
+        return 3000; 
+      }
+      return false;
+    },
   });
 
   // Handle errors from the query
@@ -80,27 +95,29 @@ export function useGenerateAdImage() {
     if (adDataQuery.error) {
       setError("Failed to fetch image generation status. Please try again."); 
       setProgress(0); 
+      setIsLoading(false);
     }
   }, [adDataQuery.error]);
 
-  // Effect to handle completion
+  
   useEffect(() => {
     if (adDataQuery.data?.data?.image_url) {
-      setProgress(100); // Mark progress as complete
+      setProgress(100);
+      setIsLoading(false);
     }
   }, [adDataQuery.data]);
 
   return {
     generateAd: generateAd.mutate,
-    isGenerating: generateAd.isPending,
+    isGenerating: generateAd.isPending || (!!taskId && progress < 100),
     adData: adDataQuery.data,
-    isFetchingAd: adDataQuery.isFetching,
-    progress, // Expose progress state
-    error, // Expose error state
+    isFetchingAd: isLoading,
+    progress, 
+    error, 
     reset: () => {
       setTaskId(null);
       setProgress(0);
       setError(null);
-    }, // Reset function
+    },
   };
 }

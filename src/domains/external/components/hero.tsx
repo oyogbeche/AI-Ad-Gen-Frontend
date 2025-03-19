@@ -37,7 +37,6 @@ const heroImages = [
 ];
 
 const HeroSection = () => {
-
   const token = useAuthStore((state) => state.token);
 
   return (
@@ -45,19 +44,20 @@ const HeroSection = () => {
       <div className="absolute inset-0 z-0"></div>
 
       <motion.div
-        className="relative z-10 max-w-[1037px] w-full px-4 mt-16 md:mt-[120px] text-center "
+        className="relative z-10 max-w-[1037px] w-full px-4 mt-16 md:mt-[120px] text-center"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         exit={{ opacity: 0, y: -20 }}
       >
         <motion.h1
-          className="text-3xl md:text-[64px] font-medium text-[#121316] tracking-tight mb-4"
+          className="text-3xl md:text-[64px] font-medium text-[#121316] tracking-tight mb-4 lg:max-w-5xl text-center lg:mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
         >
-          Generate High-converting, Smarter Adverts in minutes
+          Generate High-converting, <br className="hidden xl:block" /> Smarter
+          Adverts in minutes
           <span className="text-[#B800B8] ml-2 font-semibold">with AI</span>
         </motion.h1>
         <motion.p
@@ -66,7 +66,7 @@ const HeroSection = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.8 }}
         >
-          Create compelling, high-converting ads to maximize ROI
+          AI generated ads that maximise engagement and revenue
         </motion.p>
         <div className="flex gap-4 md:gap-10 flex-col md:flex-row justify-center">
           <motion.div
@@ -80,7 +80,7 @@ const HeroSection = () => {
               href={"/generate-ad"}
               className="cursor-pointer px-6 py-3 rounded-sm text-[#520052] transition-colors flex justify-center items-center gap-2 border border-[#B800B8] hover:bg-[#cf54cf21] w-fit mx-auto"
             >
-               <p>Try a Demo Ad</p> <ArrowRight />
+              <p>Try a Demo Ad</p> <ArrowRight />
             </Link>
           </motion.div>
           <motion.div
@@ -90,9 +90,8 @@ const HeroSection = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            
             <Link
-              href={token? "dashboard" : "/signin"}
+              href={token ? "dashboard" : "/signin"}
               className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 w-fit mx-auto"
             >
               <p>Generate Your Ad</p> <ArrowRight />
