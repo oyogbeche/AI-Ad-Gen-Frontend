@@ -99,8 +99,15 @@ export function ImageTextEditor({
         {/* element I want to download */}
         <div
           ref={containerRef}
-          className="relative border overflow-hidden bg-[#F0F3F5] max-w-[650px] p-0"
-          style={{ height: "500px" }}
+          style={{
+            position: "relative",
+            border: "1px solid #ccc",
+            overflow: "hidden",
+            backgroundColor: "#F0F3F5",
+            maxWidth: "650px",
+            padding: "0",
+            height: "500px",
+          }}
           id="outputImg"
         >
           <Image
@@ -108,7 +115,13 @@ export function ImageTextEditor({
             alt="Editable image"
             width={650}
             height={500}
-            className="w-full h-full object-cover z-[-1] rounded-lg"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              zIndex: -1,
+              borderRadius: "8px",
+            }}
             onClick={(e) => {
               if (e.target === e.currentTarget) {
                 setSelectedTextId("");
