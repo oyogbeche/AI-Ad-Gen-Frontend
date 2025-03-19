@@ -39,7 +39,7 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   // Use proper TypeScript types for refs
-  const imageRef = useRef<HTMLImageElement>(null);
+  // const imageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Handle responsive resizing and detect mobile
