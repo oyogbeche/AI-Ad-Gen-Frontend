@@ -85,7 +85,9 @@ export default function AdCustomizer() {
 
   const downloadFunction = async (elementRef: HTMLElement) => {
     // const element = elementRef;
-    const canvas = await html2canvas(elementRef as HTMLElement, {useCORS: true});
+    const canvas = await html2canvas(elementRef as HTMLElement, {
+      useCORS: true,
+    });
     const dataURL = canvas.toDataURL();
     const link = document.createElement("a");
     link.href = dataURL;
@@ -461,6 +463,7 @@ export default function AdCustomizer() {
           {/* pass download function here */}
           <DesktopAdPreviewNavigation
             type="image-form"
+            imageUrl={adData?.data.image_id}
             downloadFunction={() => {
               const element = document.getElementById("outputImg");
               if (element) {
@@ -548,7 +551,15 @@ export default function AdCustomizer() {
                     initialTexts={[
                       {
                         id: "1",
-                        content: "Edit this text",
+                        content:
+                          adData.data.keywords &&
+                          adData.data.keywords.length > 0
+                            ? adData.data.keywords[
+                                Math.floor(
+                                  Math.random() * adData.data.keywords.length
+                                )
+                              ]
+                            : "Edit this text",
                         x: 50,
                         y: 50,
                         fontSize: 24,
