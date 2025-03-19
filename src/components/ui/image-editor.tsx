@@ -1,8 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
-import { nanoid } from "nanoid";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ControlPanel } from "./control-panel";
