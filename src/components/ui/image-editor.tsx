@@ -88,7 +88,7 @@ export function ImageTextEditor({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center mb-10">
       {/* <div className="flex justify-between items-center">
         <Button
           onClick={addNewText}
@@ -104,17 +104,7 @@ export function ImageTextEditor({
         {/* element I want to download */}
         <div
           ref={containerRef}
-          className="relative border overflow-hidden bg-[#F0F3F5] max-w-[650px] p-0"
-          style={{ height: "500px" }}
-          style={{
-            position: "relative",
-            border: "1px solid #ccc",
-            overflow: "hidden",
-            backgroundColor: "#F0F3F5",
-            maxWidth: "650px",
-            padding: "0",
-            height: "500px",
-          }}
+          className="relative border overflow-hidden bg-[#F0F3F5] max-w-[650px] rounded-lg p-0"
           id="outputImg"
         >
           {/* <Image
