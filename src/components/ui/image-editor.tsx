@@ -98,10 +98,13 @@ export function ImageTextEditor({
       </div>
 
       <div className="p-[48px] bg-[#F0F3F5] flex items-center justify-center gap-0 mx-auto">
+        
+        {/* element I want to download */}
         <div
           ref={containerRef}
           className="relative border overflow-hidden bg-[#F0F3F5] w-[80%] max-w-[650px] p-0"
           style={{ height: "500px" }}
+          id="outputImg"
         >
           <Image
             src={imageSrc ?? "/preview.png"}

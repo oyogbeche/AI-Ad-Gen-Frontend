@@ -40,8 +40,6 @@ const MobileSelectBottomSheet = dynamic(
   { ssr: false }
 );
 
-
-
 const adPlacementOptions = [
   { label: "Instagram", value: "Instagram post (1:1)" },
   { label: "Facebook", value: "Facebook Ad (4:5)" },
@@ -83,10 +81,18 @@ type FormData = z.infer<typeof formSchema>;
 export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [formLoaded, setFormLoaded] = useState(false);
-  
- 
+
+  const downloadFunction = async (elementRef: HTMLElement) => {
+    // const element = elementRef;
+    const canvas = await html2canvas(elementRef as HTMLElement);
+    const dataURL = canvas.toDataURL();
+    const link = document.createElement("a");
+    link.href = dataURL;
+    link.download = "element.png";
+    link.click();
+  };
+
   const lastFormData = useRef<FormData | null>(null);
- 
 
   // Use the generate image hook
   const {
@@ -113,11 +119,9 @@ export default function AdCustomizer() {
   const { formState } = form;
   const isValid = formState.isValid;
 
-
   // Handle errors
   useEffect(() => {
     if (error) {
-    
       toast.error(error);
     }
   }, [error]);
@@ -203,7 +207,6 @@ export default function AdCustomizer() {
       return;
     }
 
-
     try {
       // Simple debugging - Clean values only
       console.log("Image generation payload:", {
@@ -223,14 +226,13 @@ export default function AdCustomizer() {
     } catch (error) {
       console.error("Error generating image:", error);
       toast.error("Failed to generate image");
-
     }
   };
 
   // Handle retry - restart the whole process
   const handleRetry = () => {
     reset(); // Reset the hook state
- 
+
     if (lastFormData.current) {
       onSubmit(lastFormData.current);
     }
@@ -260,7 +262,6 @@ export default function AdCustomizer() {
             </DropdownMenuTrigger>
           </DropdownMenu>
         </div>
-     
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -454,13 +455,24 @@ export default function AdCustomizer() {
       <div className="lg:flex-1 flex flex-col order-1 lg:order-2 pb-4 lg:p-0 gap-2 max-md:bg-white ">
         {/* Preview Header */}
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
-          <DesktopAdPreviewNavigation type="image-form"  status={
+          {/* pass download function here */}
+          <DesktopAdPreviewNavigation
+            type="image-form"
+            downloadFunction={() => {
+              const element = document.getElementById("outputImg");
+              if (element) {
+                downloadFunction(element);
+              }
+            }}
+            status={
               isFetchingAd
                 ? "generating"
                 : adData?.data?.image_url
                 ? "completed"
                 : "initial"
-            } />
+            }
+          />
+          <button></button>
         </div>
         {/* Preview Content */}
         <div className="flex-1 rounded-md flex items-center justify-center xl:min-h-[50vh] mx-auto w-full bg-[#F9FAFB]">
@@ -507,28 +519,28 @@ export default function AdCustomizer() {
 
             {adData?.data?.image_url && (
               <div className="w-full h-full">
-             
-                  <ImageTextEditor
-                    imageSrc={adData.data.image_url}
-                    initialTexts={[
-                      {
-                        id: "1",
-                        content: "Edit this text",
-                        x: 50,
-                        y: 50,
-                        fontSize: 24,
-                        color: "#ffffff",
-                        fontFamily: "Arial",
-                      },
-                    ]}
-                  />
-              
+                {/* text editor here */}
+                <ImageTextEditor
+                  imageSrc={adData.data.image_url}
+                  initialTexts={[
+                    {
+                      id: "1",
+                      content: "Edit this text",
+                      x: 50,
+                      y: 50,
+                      fontSize: 24,
+                      color: "#ffffff",
+                      fontFamily: "Arial",
+                    },
+                  ]}
+                />
               </div>
             )}
           </div>
-        
         </div>
       </div>
     </div>
   );
 }
+// Import html2canvas from the library
+import html2canvas from "html2canvas";
