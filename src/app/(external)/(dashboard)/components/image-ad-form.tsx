@@ -85,7 +85,7 @@ export default function AdCustomizer() {
 
   const downloadFunction = async (elementRef: HTMLElement) => {
     // const element = elementRef;
-    const canvas = await html2canvas(elementRef as HTMLElement);
+    const canvas = await html2canvas(elementRef as HTMLElement, {useCORS: true});
     const dataURL = canvas.toDataURL();
     const link = document.createElement("a");
     link.href = dataURL;
@@ -210,12 +210,12 @@ export default function AdCustomizer() {
 
     try {
       // Simple debugging - Clean values only
-      console.log("Image generation payload:", {
-        ad_goal: data.adDescription.trim(),
-        ad_size: data.adSize.trim(),
-        target_audience: data.targetAudience,
-        image: data.productImage ? "Image provided" : "No image provided",
-      });
+      // console.log("Image generation payload:", {
+      //   ad_goal: data.adDescription.trim(),
+      //   ad_size: data.adSize.trim(),
+      //   target_audience: data.targetAudience,
+      //   image: data.productImage ? "Image provided" : "No image provided",
+      // });
 
       // Call the generate image function with clean payload
       generateAd({
@@ -248,7 +248,6 @@ export default function AdCustomizer() {
     );
   }
 
-  console.log("Ad Data:", adData?.data.image_url);
   return (
     <div className="flex flex-col lg:flex-row p-4 lg:p-0">
       {/* Form Section */}

@@ -111,10 +111,39 @@ export function TextLayer({ text, isSelected, onSelect, onChange, onClick, conta
   return (
     <div
       ref={textRef}
-      className={cn("absolute cursor-move select-none", isSelected && "outline-2 outline-blue-500")}
       style={{
-        left: `${text.x}px`,
-        top: `${text.y}px`,
+      position: "absolute",
+      cursor: "move",
+      userSelect: "none",
+      outline: isSelected ? "2px solid blue" : "none",
+      left: `${text.x}px`,
+      top: `${text.y}px`,
+      color: text.color,
+      fontFamily: text.fontFamily,
+      fontSize: `${text.fontSize}px`,
+      fontWeight: text.isBold ? "bold" : "normal",
+      fontStyle: text.isItalic ? "italic" : "normal",
+      textDecoration: text.isUnderline ? "underline" : "none",
+      lineHeight: 1.2,
+      padding: "4px",
+      zIndex: isSelected ? 10 : 1,
+      }}
+      onMouseDown={handleMouseDown}
+      onDoubleClick={handleDoubleClick}
+    >
+      {isEditing ? (
+      <textarea
+        ref={editRef}
+        value={text.content}
+        onChange={handleTextChange}
+        onBlur={handleBlur}
+        style={{
+        backgroundColor: "transparent",
+        border: "1px solid blue",
+        outline: "none",
+        resize: "none",
+        width: "100%",
+        minWidth: "100px",
         color: text.color,
         fontFamily: text.fontFamily,
         fontSize: `${text.fontSize}px`,
@@ -122,40 +151,27 @@ export function TextLayer({ text, isSelected, onSelect, onChange, onClick, conta
         fontStyle: text.isItalic ? "italic" : "normal",
         textDecoration: text.isUnderline ? "underline" : "none",
         lineHeight: 1.2,
-        padding: "4px",
-        zIndex: isSelected ? 10 : 1,
-      }}
-      onMouseDown={handleMouseDown}
-      onDoubleClick={handleDoubleClick}
-    >
-      {isEditing ? (
-        <textarea
-          ref={editRef}
-          value={text.content}
-          onChange={handleTextChange}
-          onBlur={handleBlur}
-          className="bg-transparent border border-blue-500 outline-none resize-none w-full min-w-[100px]"
-          style={{
-            color: text.color,
-            fontFamily: text.fontFamily,
-            fontSize: `${text.fontSize}px`,
-            fontWeight: text.isBold ? "bold" : "normal",
-            fontStyle: text.isItalic ? "italic" : "normal",
-            textDecoration: text.isUnderline ? "underline" : "none",
-            lineHeight: 1.2,
-          }}
-          onClick={onClick}
-        />
+        }}
+        onClick={onClick}
+      />
       ) : (
-        <>
-          <div>{text.content}</div>
-          {isSelected && (
-            <div
-              className="absolute bottom-0 right-0 w-4 h-4 bg-blue-500 cursor-se-resize"
-              onMouseDown={handleResizeStart}
-            />
-          )}
-        </>
+      <>
+        <div>{text.content}</div>
+        {isSelected && (
+        <div
+          style={{
+          position: "absolute",
+          bottom: 0,
+          right: 0,
+          width: "16px",
+          height: "16px",
+          backgroundColor: "blue",
+          cursor: "se-resize",
+          }}
+          onMouseDown={handleResizeStart}
+        />
+        )}
+      </>
       )}
     </div>
   )
