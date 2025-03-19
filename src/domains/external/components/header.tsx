@@ -40,11 +40,33 @@ const Header: React.FC = () => {
         {!predefinedPromptPages && (
           <>
             {user ? (
-              <UserAvatar
-                name={name}
-                imageUrl={user.avatar_url}
-                onSignOut={logout}
-              />
+              <div className="flex gap-10">
+                <div>
+                  <div className=" bg-white rounded-[8px]">
+                    <Image
+                      src="/star-fall2.svg"
+                      height={24}
+                      width={24}
+                      alt="Star fall"
+                    />
+                    <span className="pl-1.5 font-semibold text-[#5F5F5F]">
+                      5 credits
+                    </span>
+                  </div>
+                  <Image
+                    src="/separate.svg"
+                    height={24}
+                    width={24}
+                    alt="Star fall"
+                  />
+                  <span className="font-semibold text-[#121316]">Upgrade</span>
+                </div>
+                <UserAvatar
+                  name={name}
+                  imageUrl={user.avatar_url}
+                  onSignOut={logout}
+                />
+              </div>
             ) : (
               <Link
                 href={"/signin"}
