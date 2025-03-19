@@ -87,13 +87,19 @@ jobs:
             echo "DOMAIN=staging.genz.ad" >> $GITHUB_ENV
           fi
 
+      - name: Setup SSH Key
+        run: |
+          echo "${{ secrets.SERVER_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+
+
       - name: Create Backup and Deploy
         id: deploy
         run: |
           echo "Starting deployment process with rollback capability..."
 
           # Connect to server using SSH Key and perform backup + deploy
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
+          ssh -i private_key.pem -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
             set -e
 
             if [ "${{ github.ref }}" == "refs/heads/main" ]; then
@@ -121,7 +127,7 @@ jobs:
           EOF
 
           # Copy new build files to server
-          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml .env \
+          scp -i private_key.pem -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml .env \
           "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend"
 
           # Start the application
@@ -155,7 +161,7 @@ jobs:
         if: failure() && env.BACKUP_EXISTS == 'true'
         run: |
           echo "Rolling back to previous deployment..."
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
+          ssh -i private_key.pem -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
             cp -r ${{ env.BACKUP_PATH }}/.next /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
             cp -r ${{ env.BACKUP_PATH }}/public /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
             cp ${{ env.BACKUP_PATH }}/package.json /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
@@ -169,3 +175,73 @@ jobs:
             pm2 delete ${{ env.DEPLOY_NAME }} || true
             PORT=${{ env.DEPLOY_PORT }} pm2 start pnpm --name ${{ env.DEPLOY_NAME }} -- start
           EOF
+
+      - name: Send Slack Notification
+        if: always()
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          payload: |
+            {
+              "channel": "genzad-mvp",
+              "attachments": [
+                {
+                  "color": "${{ env.DEPLOY_FAILED == 'true' && '#D00000' || '#36a64f' }}",
+                  "blocks": [
+                    {
+                      "type": "header",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "${{ env.DEPLOY_FAILED == 'true' && 'Deployment Failed' || '✅ Deployment Successful' }}"
+                      }
+                    },
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Environment:*\n${{ env.DEPLOY_NAME }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Domain:*\n${{ env.DOMAIN }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Branch:*\n${{ github.ref_name }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Triggered by:*\n${{ github.actor }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Test Status:*\n${{ env.TEST_FAILED == 'true' && '❗ Test Failed' || '✅ Test Passed' }}"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "${{ env.TEST_FAILED == 'true' && '❗ Some tests failed, but deployment is continuing. Please check the logs.' || 'All tests passed successfully.' }}"
+                      }
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "context",
+                      "elements": [
+                        {
+                          "type": "mrkdwn",
+                          "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Pipeline Details>"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
