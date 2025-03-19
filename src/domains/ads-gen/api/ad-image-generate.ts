@@ -20,13 +20,20 @@ interface AdTaskResponse {
 
 
 interface TaskStatusResponse {
-  status: string;
-  status_code: number;
-  message: string;
+  status: string
+  status_code: number
+  message: string
   data: {
-    status: string;
-    image_url?: string;
-  };
+    status: string
+    image_url?: string
+    success?: boolean
+    image_id?: string
+    prompt_used?: string
+    keywords?: string[]
+    target_audience?: string
+    ad_description?: string
+    is_published?: boolean
+  }
 }
 
 export function useGenerateAdImage() {
