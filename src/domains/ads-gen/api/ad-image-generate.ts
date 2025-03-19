@@ -26,6 +26,7 @@ interface TaskStatusResponse {
   data: {
     status: string;
     image_url?: string;
+    image_id?: string
   };
 }
 
