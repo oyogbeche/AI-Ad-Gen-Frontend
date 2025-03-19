@@ -20,14 +20,20 @@ interface AdTaskResponse {
 
 
 interface TaskStatusResponse {
-  status: string;
-  status_code: number;
-  message: string;
+  status: string
+  status_code: number
+  message: string
   data: {
-    status: string;
-    image_url?: string;
+    status: string
+    image_url?: string
+    success?: boolean
     image_id?: string
-  };
+    prompt_used?: string
+    keywords?: string[]
+    target_audience?: string
+    ad_description?: string
+    is_published?: boolean
+  }
 }
 
 export function useGenerateAdImage() {
@@ -69,10 +75,10 @@ export function useGenerateAdImage() {
   // Query to fetch the generated ad data
   const adDataQuery = useQuery({
     queryKey: ["adTask", taskId],
-    queryFn: async (): Promise<TaskStatusResponse>  => {
+    queryFn: async (): Promise<TaskStatusResponse> => {
       if (!taskId) throw new Error("No task ID");
       const response = await getRequest(`/image/task/${taskId}`);
-     
+      
       if (response.data.status === "pending") {
         setProgress((prev) => Math.min(prev + 30, 90));
       } else if (response.data.status === "completed") {
@@ -85,10 +91,17 @@ export function useGenerateAdImage() {
     refetchInterval: (query: Query<TaskStatusResponse, Error>) => {
       const data = query.state.data;
       if (!data || (data.data.status === "pending")) {
-        return 3000; 
+        return 3000;
       }
       return false;
     },
+    select: (data) => ({
+      ...data,
+      data: {
+        ...data.data,
+        image_id: taskId, // Add image_id as another property
+      },
+    }),
   });
 
   // Handle errors from the query

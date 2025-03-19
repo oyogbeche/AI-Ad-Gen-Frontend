@@ -7,8 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logoPng from "../../../../public/logo.png";
-import { useState } from "react";
-import UpgradePlanModal from "./upgrade-plan-modal";
+// import { useState } from "react";
+// import UpgradePlanModal from "./upgrade-plan-modal";
 
 const Header: React.FC = () => {
   const user = useAuthStore((state) => state.user);
@@ -19,8 +19,8 @@ const Header: React.FC = () => {
     pathname.startsWith("/preview-ad") || pathname.startsWith("/generate-ad");
   const isSpecialPage =
     pathname.startsWith("/dashboard") || predefinedPromptPages;
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalComplete, setIsModalComplete] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalComplete, setIsModalComplete] = useState(false);
 
   return (
     <header
@@ -44,39 +44,39 @@ const Header: React.FC = () => {
         {!predefinedPromptPages && (
           <>
             {user ? (
-              <div
-                className="flex sm:gap-10 gap-2"
-                onClick={() => setIsModalOpen(true)}
-              >
-                <div className="flex items-center gap-2 sm:gap-4 px-1 sm:px-4 sm:py-2 bg-white rounded-[8px]">
-                  <div className="flex items-center">
-                    <Image
-                      src="/star-fall2.svg"
-                      height={24}
-                      width={24}
-                      alt="Star fall"
-                    />
-                    <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
-                      5 <span className="hidden sm:inline-block">credits</span>
-                    </span>
-                  </div>
-                  <Image
-                    src="/separate.svg"
-                    height={16}
-                    width={3}
-                    alt="Star fall"
-                  />
-                  <span className="font-semibold text-[#121316]">
-                    U<span className="hidden sm:inline-block">pgrade</span>
-                  </span>
-                </div>
-                <UserAvatar
-                  name={name}
-                  imageUrl={user.avatar_url}
-                  onSignOut={logout}
-                />
-              </div>
+              // <div
+              //   className="flex sm:gap-10 gap-2"
+              //   onClick={() => setIsModalOpen(true)}
+              // >
+              //   <div className="flex items-center gap-2 sm:gap-4 px-1 sm:px-4 sm:py-2 bg-white rounded-[8px]">
+              //     <div className="flex items-center">
+              //       <Image
+              //         src="/star-fall2.svg"
+              //         height={24}
+              //         width={24}
+              //         alt="Star fall"
+              //       />
+              //       <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
+              //         5 <span className="hidden sm:inline-block">credits</span>
+              //       </span>
+              //     </div>
+              //     <Image
+              //       src="/separate.svg"
+              //       height={16}
+              //       width={3}
+              //       alt="Star fall"
+              //     />
+              //     <span className="font-semibold text-[#121316]">
+              //       U<span className="hidden sm:inline-block">pgrade</span>
+              //     </span>
+              //   </div>
+              <UserAvatar
+                name={name}
+                imageUrl={user.avatar_url}
+                onSignOut={logout}
+              />
             ) : (
+              // </div>
               <Link
                 href={"/signin"}
                 className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors hidden md:flex justify-center items-center gap-2"
@@ -84,12 +84,12 @@ const Header: React.FC = () => {
                 <p>Generate Your Ad</p> <ArrowRight />
               </Link>
             )}
-            <UpgradePlanModal
+            {/* <UpgradePlanModal
               isOpen={isModalOpen}
               isComplete={isModalComplete}
               onClose={setIsModalOpen}
               onComplete={setIsModalComplete}
-            />
+            /> */}
           </>
         )}
       </div>

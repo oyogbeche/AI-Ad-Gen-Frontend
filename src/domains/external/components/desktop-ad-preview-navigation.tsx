@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 import ShareModal from "./share-modal";
+import { patchRequest } from "@/lib/axios-fetch";
+import { useGenerateAdImage } from "@/domains/ads-gen/api/ad-image-generate";
 
 interface DesktopAdPreviewNavigationProps {
   className?: string;
@@ -19,6 +21,7 @@ interface DesktopAdPreviewNavigationProps {
   status?: string;
   generatedImageUrl?: string;
   downloadFunction?: () => void;
+  imageId?: string; // Added imageId property
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
@@ -32,7 +35,8 @@ export const DesktopAdPreviewNavigation: React.FC<
   type,
   status,
   generatedImageUrl = "/preview.png",
-  downloadFunction
+  downloadFunction,
+  imageId,
 }) => {
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
@@ -56,6 +60,9 @@ export const DesktopAdPreviewNavigation: React.FC<
       router.push("/dashboard");
     }
   };
+
+  // get generated image id
+  const {adData} = useGenerateAdImage();
 
   const downloadImage = async (format: "png" | "jpg") => {
     if (!effectiveImageUrl || isDownloading) return;
@@ -215,7 +222,12 @@ export const DesktopAdPreviewNavigation: React.FC<
   };
 
   const handleSaveAndPublish = () => {
-    setIsSaveDropdownOpen(false);
+    patchRequest(`/image/publish/${imageId}`, { status: "published" })
+      .then(() => {
+        setIsSaveDropdownOpen(false);
+      }
+      )
+    console.log(adData)
     toast.custom(() => (
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
         <div className="flex items-center justify-between w-full">
