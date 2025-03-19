@@ -70,6 +70,7 @@ const formSchema = z.object({
       (val) => adPlacementOptions.some((option) => option.value === val),
       {
         message: "Please select a valid platform",
+      // Ensure this closing brace is correctly placed or remove it if unnecessary
       }
     ),
   targetAudience: z.string().min(1, "Please select a target audience"),
@@ -81,6 +82,16 @@ type FormData = z.infer<typeof formSchema>;
 export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [formLoaded, setFormLoaded] = useState(false);
+
+  const downloadFunction = async (elementRef: HTMLElement) => {
+    // const element = elementRef;
+    const canvas = await html2canvas(elementRef as HTMLElement);
+    const dataURL = canvas.toDataURL();
+    const link = document.createElement("a");
+    link.href = dataURL;
+    link.download = "element.png";
+    link.click();
+  };
 
   const lastFormData = useRef<FormData | null>(null);
 
@@ -222,6 +233,7 @@ export default function AdCustomizer() {
   // Handle retry - restart the whole process
   const handleRetry = () => {
     reset(); // Reset the hook state
+
 
     if (lastFormData.current) {
       onSubmit(lastFormData.current);
@@ -448,9 +460,15 @@ export default function AdCustomizer() {
       <div className="lg:flex-1 flex flex-col order-1 lg:order-2 pb-4 lg:p-0 gap-2 max-md:bg-white ">
         {/* Preview Header */}
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
+          {/* pass download function here */}
           <DesktopAdPreviewNavigation
             type="image-form"
-            imageUrl={adData?.data?.image_url}
+            downloadFunction={() => {
+              const element = document.getElementById("outputImg");
+              if (element) {
+                downloadFunction(element);
+              }
+            }}
             status={
               isFetchingAd
                 ? "generating"
@@ -459,6 +477,7 @@ export default function AdCustomizer() {
                 : "initial"
             }
           />
+          <button></button>
         </div>
         {/* Preview Content */}
         <div className="bg-[#F2F2F2] md:bg-[#F2F2F2] max-md:mt-4 flex-1 rounded-md flex items-center justify-center min-h-[50vh] mx-auto max-h-[648px] max-w-[699px] w-full max-md:w-[90%] md:my-10">
@@ -500,28 +519,31 @@ export default function AdCustomizer() {
                 </div>
               ) : null}
 
-              {adData?.data?.image_url && (
-                <div className="w-full h-full">
-                  <ImageTextEditor
-                    imageSrc={adData.data.image_url}
-                    initialTexts={[
-                      {
-                        id: "1",
-                        content: "Edit this text",
-                        x: 50,
-                        y: 50,
-                        fontSize: 24,
-                        color: "#ffffff",
-                        fontFamily: "Arial",
-                      },
-                    ]}
-                  />
-                </div>
-              )}
-            </div>
+            {adData?.data?.image_url && (
+              <div className="w-full h-full">
+                {/* text editor here */}
+                <ImageTextEditor
+                  imageSrc={adData.data.image_url}
+                  initialTexts={[
+                    {
+                      id: "1",
+                      content: "Edit this text",
+                      x: 50,
+                      y: 50,
+                      fontSize: 24,
+                      color: "#ffffff",
+                      fontFamily: "Arial",
+                    },
+                  ]}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
     </div>
+  </div>
   );
 }
+
+import html2canvas from "html2canvas";
