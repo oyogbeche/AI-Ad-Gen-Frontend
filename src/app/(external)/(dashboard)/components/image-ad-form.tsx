@@ -70,6 +70,7 @@ const formSchema = z.object({
       (val) => adPlacementOptions.some((option) => option.value === val),
       {
         message: "Please select a valid platform",
+      // Ensure this closing brace is correctly placed or remove it if unnecessary
       }
     ),
   targetAudience: z.string().min(1, "Please select a target audience"),
@@ -232,6 +233,7 @@ export default function AdCustomizer() {
   // Handle retry - restart the whole process
   const handleRetry = () => {
     reset(); // Reset the hook state
+
 
     if (lastFormData.current) {
       onSubmit(lastFormData.current);
@@ -401,7 +403,10 @@ export default function AdCustomizer() {
                         {field.value ? (
                           <div className="relative w-full h-[170px]">
                             <Image
-                              src={URL.createObjectURL(field.value as File)} // Convert File to a preview URL
+                              src={
+                                URL.createObjectURL(field.value as File) ||
+                                "/placeholder.svg"
+                              } // Convert File to a preview URL
                               alt="Product"
                               fill
                               className="object-cover rounded-lg"
@@ -475,47 +480,44 @@ export default function AdCustomizer() {
           <button></button>
         </div>
         {/* Preview Content */}
-        <div className="flex-1 rounded-md flex items-center justify-center xl:min-h-[50vh] mx-auto w-full bg-[#F9FAFB]">
-          <div className="w-full mx-auto flex items-center justify-center md:h-screen rounded-sm">
-            {!isFetchingAd && !adData?.data?.image_url && (
-              <div className="flex flex-col">
-                <ImageIcon className="size-10 mb-4 text-[#A1A1A1] mx-auto" />
-                <p className="text-2xl leading-8 font-light text-[#A1A1A1] text-center">
-                  Your ad will be generated here
-                </p>
-              </div>
-            )}
-
-            {isFetchingAd && (
-              <div className="max-w-[609px] w-full mx-auto flex items-center justify-center h-[70vh] rounded-sm">
-                <div className="flex flex-col gap-6 items-center justify-center rounded-md">
-                  <div className="relative w-12 h-12">
-                    <div className="absolute inset-0 border-6 border-gray-300 rounded-full"></div>
-                    <div className="absolute inset-0 border-6 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="bg-[#F2F2F2] md:bg-[#F2F2F2] max-md:mt-4 flex-1 rounded-md flex items-center justify-center min-h-[50vh] mx-auto max-h-[648px] max-w-[699px] w-full max-md:w-[90%] md:my-10">
+          <div className="bg-[#F2F2F2]">
+            <div className="w-full mx-auto flex items-center justify-center rounded-sm">
+              {error ? (
+                <div className="max-w-[609px] w-full mx-auto flex items-center justify-center max-h-[648px] rounded-sm">
+                  <div className="flex flex-col gap-4 md:gap-6 items-center justify-center text-center">
+                    <h2 className="text-lg md:text-2xl text-[#121316] text-center leading-8 font-semibold max-md:max-w-[338px]">
+                      Failed to Generate Image
+                    </h2>
+                    <Button
+                      onClick={handleRetry}
+                      className="bg-[#B800B8] hover:bg-[#960096] w-fit mx-auto text-white px-6 py-5 rounded-sm transition-colors flex items-center justify-center gap-2 text-sm md:text-base leading-6 font-normal"
+                    >
+                      <RefreshCw className="w-4 h-4 mr-2" />
+                      Try Again
+                    </Button>
                   </div>
-                  <h2 className="text-2xl text-[#121316] text-center leading-8 font-semibold max-md:max-w-[338px]">
-                    Generating Your Image Ad... {progress}%
-                  </h2>
                 </div>
-              </div>
-            )}
-
-            {error && (
-              <div className="max-w-[609px] w-full mx-auto flex items-center justify-center h-[70vh] rounded-sm">
-                <div className="flex flex-col gap-6 items-center justify-center text-center">
-                  <h2 className="text-2xl text-[#121316] text-center leading-8 font-semibold max-md:max-w-[338px]">
-                    Failed to Generate Image
-                  </h2>
-                  <Button
-                    onClick={handleRetry}
-                    className="bg-[#B800B8] hover:bg-[#960096] w-fit mx-auto text-white px-6 py-5 rounded-sm transition-colors flex items-center justify-center gap-2 text-base leading-6 font-normal"
-                  >
-                    <RefreshCw className="w-4 h-4 mr-2" />
-                    Try Again
-                  </Button>
+              ) : isFetchingAd ? (
+                <div className="max-w-[609px] w-full mx-auto flex items-center justify-center max-h-[648px] rounded-sm">
+                  <div className="flex flex-col gap-6 items-center justify-center rounded-md">
+                    <div className="relative w-12 h-12">
+                      <div className="absolute inset-0 border-6 border-gray-300 rounded-full"></div>
+                      <div className="absolute inset-0 border-6 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                    <h2 className="text-lg md:text-2xl text-[#121316] text-center leading-8 font-semibold max-md:max-w-[338px]">
+                      Generating Your Image Ad... {progress}%
+                    </h2>
+                  </div>
                 </div>
-              </div>
-            )}
+              ) : !adData?.data?.image_url ? (
+                <div className="flex flex-col">
+                  <ImageIcon className="size-10 mb-4 text-[#A1A1A1] mx-auto" />
+                  <p className="text-lg md:text-2xl leading-8 font-light text-[#A1A1A1] text-center">
+                    Your ad will be generated here
+                  </p>
+                </div>
+              ) : null}
 
             {adData?.data?.image_url && (
               <div className="w-full h-full">
@@ -540,7 +542,8 @@ export default function AdCustomizer() {
         </div>
       </div>
     </div>
+  </div>
   );
 }
-// Import html2canvas from the library
+
 import html2canvas from "html2canvas";
