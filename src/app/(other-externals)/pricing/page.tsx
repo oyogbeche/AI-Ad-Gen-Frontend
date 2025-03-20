@@ -28,7 +28,7 @@ const Pricings = () => {
               </div>
               <div>
                 <h1 className="font-[600] text-[36px] text-[#B800B8] mt-[17px] border-b-[1px] border-b-[#E3E3E3]">
-                  $50<sub className="font-[400] text-[14px]">/150 Points </sub>
+                  $15<sub className="font-[400] text-[14px]">/150 Points </sub>
                 </h1>
               </div>
             </div>
@@ -42,9 +42,14 @@ const Pricings = () => {
               </Link>
             </div>
 
-            <div className="mt-[24px]">
-              <span className="pr-[14px]">&#x2713;</span> 150 Ad Credits <br />
-            </div>
+            <ul className="mt-[24px] flex flex-col gap-[16px]">
+              <li className="flex items-center">
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2 flex-shrink-0">
+                  <path d="M20.5 6L9.5 17L4.5 12" stroke="#121316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                150 Ad Credits
+              </li>
+            </ul>
           </div>
         </div>
 
@@ -74,27 +79,50 @@ const Pricings = () => {
               </Link>
             </div>
 
-            <div className="mt-[44px] text-[#FFFFFF]">
-              <span className="pr-[14px]">&#x2713;</span> Access to predefined
-              prompts <br />
-              <br />
-              <span className="pr-[14px]">&#x2713;</span> 50 ad credit <br />
-              <br />
-              <span className="pr-[14px]">&#x2713;</span> Advanced AI-powered
-              image and text editing <br />
-              <br />
-              <span className="pr-[14px]">&#x2713;</span> Download the image ad
-              generated <br />
-              <br />
-              <span className="pr-[14px]">&#x2713;</span> Access to explore our
-              community <br />
-              <br />
-              <span className="pr-[14px]">&#x2713;</span> Ad text and image
-              editing tools <br />
-              <br />
-              <span className="pr-[14px]">&#x2713;</span> Expires after 1 month{" "}
-              <br />
-            </div>
+            <ul className="mt-[24px] flex flex-col gap-[16px] text-[#FFFFFF]">
+              <li className="flex items-center">
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2 flex-shrink-0">
+                  <path d="M20.5 6L9.5 17L4.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Access to predefined prompts
+              </li>
+              <li className="flex items-center">
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2 flex-shrink-0">
+                  <path d="M20.5 6L9.5 17L4.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                50 ad credit
+              </li>
+              <li className="flex items-center">
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2 flex-shrink-0">
+                  <path d="M20.5 6L9.5 17L4.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Advanced AI-powered image and text editing
+              </li>
+              <li className="flex items-center">
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2 flex-shrink-0">
+                  <path d="M20.5 6L9.5 17L4.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Download the image ad generated
+              </li>
+              <li className="flex items-center">
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2 flex-shrink-0">
+                  <path d="M20.5 6L9.5 17L4.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Access to explore our community
+              </li>
+              <li className="flex items-center">
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2 flex-shrink-0">
+                  <path d="M20.5 6L9.5 17L4.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Ad text and image editing tools
+              </li>
+              <li className="flex items-center">
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2 flex-shrink-0">
+                  <path d="M20.5 6L9.5 17L4.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Expires after 1 month
+              </li>
+            </ul>
           </div>
         </div>
 
@@ -124,34 +152,50 @@ const Pricings = () => {
               </Link>
             </div>
 
-            <div className="mt-[44px] flex flex-col gap-[16px]">
-              <p>
-                <span className="pr-[14px]">&#x2713;</span> All Basic features
-              </p>
-              <p>
-                <span className="pr-[14px]">&#x2713;</span> 150 ad credits
-              </p>
-              <p>
-                <span className="pr-[14px]">&#x2713;</span> Advanced AI-powered
-                image and text editing (Inpainting)
-              </p>
-              <p>
-                <span className="pr-[14px]">&#x2713;</span> High-resolution
-                downloads (PNG/JPEG)
-              </p>
-              <p>
-                <span className="pr-[14px]">&#x2713;</span> Access to explore
-                our community
-              </p>
-              <p>
-                <span className="pr-[14px]">&#x2713;</span> Expires after 3
-                months
-              </p>
-              <p>
-                <span className="pr-[14px]">&#x2713;</span> Rollover ad credits
-                on resubscription.
-              </p>
-            </div>
+            <ul className="mt-[24px] flex flex-col gap-[16px]">
+              <li className="flex items-center">
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2 flex-shrink-0">
+                  <path d="M20.5 6L9.5 17L4.5 12" stroke="#121316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                All Basic features
+              </li>
+              <li className="flex items-center">
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2 flex-shrink-0">
+                  <path d="M20.5 6L9.5 17L4.5 12" stroke="#121316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                150 ad credits
+              </li>
+              <li className="flex items-center">
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2 flex-shrink-0">
+                  <path d="M20.5 6L9.5 17L4.5 12" stroke="#121316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Advanced AI-powered image and text editing (Inpainting)
+              </li>
+              <li className="flex items-center">
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2 flex-shrink-0">
+                  <path d="M20.5 6L9.5 17L4.5 12" stroke="#121316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                High-resolution downloads (PNG/JPEG)
+              </li>
+              <li className="flex items-center">
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2 flex-shrink-0">
+                  <path d="M20.5 6L9.5 17L4.5 12" stroke="#121316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Access to explore our community
+              </li>
+              <li className="flex items-center">
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2 flex-shrink-0">
+                  <path d="M20.5 6L9.5 17L4.5 12" stroke="#121316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Expires after 3 months
+              </li>
+              <li className="flex items-center">
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2 flex-shrink-0">
+                  <path d="M20.5 6L9.5 17L4.5 12" stroke="#121316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Rollover ad credits on resubscription.
+              </li>
+            </ul>
           </div>
         </div>
       </div>
