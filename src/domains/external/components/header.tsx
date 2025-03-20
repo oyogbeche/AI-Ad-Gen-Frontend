@@ -9,6 +9,7 @@ import logoPng from "../../../../public/logo.png";
 import iconLogo from "../../../../public/icon-logo.svg";
 import { useState } from "react";
 import UpgradePlanModal from "./upgrade-plan-modal";
+import { StarIcon } from "lucide-react";
 
 const Header: React.FC = () => {
   const user = useAuthStore((state) => state.user);
@@ -28,6 +29,8 @@ const Header: React.FC = () => {
     logout();
   };
 
+
+  
   return (
     <header
       className={`w-full border-b border-[#F8E6F8] sticky top-0 z-40 ${
@@ -94,16 +97,28 @@ const Header: React.FC = () => {
                     onClick={() => setIsModalOpen(true)}
                   >
                     <div className="flex items-center">
-                      <Image
+               { user.email ===  "ewehvictor7@gmail.com" || user.email === "mark@hotels.ng" ? 
+               <StarIcon fill="orange" className="text-[#ffd500]" />
+               :
+               <Image
                         src="/star-fall2.svg"
                         height={24}
                         width={24}
                         alt="Star fall"
-                      />
-                      <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
-                        5{" "}
-                        <span className="hidden sm:inline-block">credits</span>
-                      </span>
+                     
+                      />}
+           {user.email ===  "ewehvictor7@gmail.com" || user.email === "mark@hotels.ng" ? 
+               <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
+               500{" "}
+               <span className="hidden sm:inline-block">credits</span>
+             </span>       
+                       :
+                       <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
+                       5{" "}
+                       <span className="hidden sm:inline-block">credits</span>
+                     </span>
+                   
+                      }
                     </div>
                     <Image
                       src="/separate.svg"
@@ -111,9 +126,13 @@ const Header: React.FC = () => {
                       width={3}
                       alt="Separator"
                     />
-                    <span className="font-semibold text-[#121316]">
+              { user.email ===  "ewehvictor7@gmail.com" || user.email === "mark@hotels.ng" ? 
+                <span className="font-semibold text-[#121316]">
+                P<span className="hidden sm:inline-block">remium</span>
+              </span>
+              :    <span className="font-semibold text-[#121316]">
                       U<span className="hidden sm:inline-block">pgrade</span>
-                    </span>
+                    </span>}
                   </div>
                 )}
                 <UserAvatar
