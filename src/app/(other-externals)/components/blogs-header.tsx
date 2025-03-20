@@ -2,6 +2,7 @@
 // import { useState } from "react";
 import { Logo } from "@/components/icons/icon";
 import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/store/auth-store";
 import { ArrowRight, Menu, X } from "lucide-react";
 // import { Google } from "@/components/icons/icon";
 // import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ import { useState } from "react";
 const BlogHeader: React.FC = () => {
   // const { handleGoogleLogin, isLoading } = useGoogleAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const user = useAuthStore((state) => state.user);
 
   return (
     <header className="w-full border-b border-[#F8E6F8] bg-white sticky top-0 z-40">
@@ -42,7 +44,7 @@ const BlogHeader: React.FC = () => {
           <Link href="/how-it-works" className="hover:text-purple-700">
             How it works
           </Link>
-          <Link href="/pricings" className="hover:text-purple-700">
+          <Link href="/pricing" className="hover:text-purple-700">
             Pricing
           </Link>
         </nav>
@@ -70,7 +72,7 @@ const BlogHeader: React.FC = () => {
         </button>
 
         <Link
-          href={"/signin"}
+          href={user ? "/dashboard" : "/signin"}
           className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors hidden md:flex justify-center items-center gap-2"
         >
           <p>Generate Your Ad</p> <ArrowRight />
@@ -98,17 +100,12 @@ const BlogHeader: React.FC = () => {
             >
               Pricing
             </Link>
-            <Button variant="ghost" asChild>
-              <Link href="/signin" className="text-[#520052]">
-                Sign in
-              </Link>
-            </Button>
-            <Button
-              className="bg-dark-purple text-white px-4 py-2 rounded-md"
-              asChild
+            <Link
+              href={user ? "/dashboard" : "/signin"}
+              className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors hidden md:flex justify-center items-center gap-2"
             >
-              <Link href="/signup">Create account</Link>
-            </Button>
+              <p>Generate Your Ad</p> <ArrowRight />
+            </Link>
           </nav>
         </div>
       )}

@@ -7,7 +7,7 @@ const BlogFooter = () => {
     { href: "/about", label: "About Us" },
     { href: "/how-it-works", label: "How It Works" },
     { href: "/faq", label: "FAQs" },
-    { href: "/pricings", label: "Pricing" },
+    { href: "/pricing", label: "Pricing" },
   ];
 
   const featuresLinks = [
@@ -21,10 +21,21 @@ const BlogFooter = () => {
   ];
 
   const socialLinks = [
-    { href: "#", icon: <Facebook color="#4A5568" />, label: "Facebook" },
-    { href: "#", icon: <Twitter color="#4A5568" />, label: "Twitter" },
-    { href: "#", icon: <Instagram color="#4A5568" />, label: "Instagram" },
-    { href: "#", icon: <Github color="#4A5568" />, label: "Github" },
+    {
+      href: "http://facebook.com/genz.ads",
+      icon: <Facebook color="#4A5568" />,
+      label: "Facebook",
+    },
+    {
+      href: "http://x.com/genz_ad",
+      icon: <Twitter color="#4A5568" />,
+      label: "Twitter",
+    },
+    {
+      href: "http://instagram.com/genz.adgen",
+      icon: <Instagram color="#4A5568" />,
+      label: "Instagram",
+    },
   ];
 
   const headingStyle = `text-black text-2xl font-semibold leading-8`;
