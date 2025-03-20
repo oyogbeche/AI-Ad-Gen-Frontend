@@ -14,13 +14,17 @@ export const useGoogleAuth = () => {
       ? "/auth/google/initiate?return_json=true&environment=local"
       : environment === "production"
       ? "/auth/google/initiate?return_json=true&environment=prod"
-      : environment === "staging"
+      : environment === "test"
       ? "/auth/google/initiate?return_json=true&environment=staging"
       : "/auth/google/initiate?return_json=true&environment=prod";
+
+console.log("Environment:", environment);
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
     try {
+      console.log("Environment:", environment);
+      console.log("Google auth endpoint:", googleAuthEndpoint);
       const response = await getRequest(googleAuthEndpoint);
 
       if (response?.data?.auth_url) {
