@@ -1,7 +1,7 @@
 "use client";
 // import react from "react";
 import Link from "next/link";
-import ToggleSwitch from "../components/toggle-switch";
+// import ToggleSwitch from "../components/toggle-switch";
 const Pricings = () => {
   return (
     <div className="w-full xl:mx-auto max-lg:px-4 pt-8 flex flex-col gap-8 items-center bg-[#F8E6F8]">
