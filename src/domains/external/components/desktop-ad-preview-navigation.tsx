@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 import ShareModal from "./share-modal";
+import { patchRequest } from "@/lib/axios-fetch";
+import { useGenerateAdImage } from "@/domains/ads-gen/api/ad-image-generate";
 
 interface DesktopAdPreviewNavigationProps {
   className?: string;
@@ -19,6 +21,7 @@ interface DesktopAdPreviewNavigationProps {
   status?: string;
   generatedImageUrl?: string;
   downloadFunction?: () => void;
+  imageId?: string; // Added imageId property
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
@@ -32,7 +35,8 @@ export const DesktopAdPreviewNavigation: React.FC<
   type,
   status,
   generatedImageUrl = "/preview.png",
-  downloadFunction
+  downloadFunction,
+  imageId,
 }) => {
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
@@ -56,6 +60,9 @@ export const DesktopAdPreviewNavigation: React.FC<
       router.push("/dashboard");
     }
   };
+
+  // get generated image id
+  const {adData} = useGenerateAdImage();
 
   const downloadImage = async (format: "png" | "jpg") => {
     if (!effectiveImageUrl || isDownloading) return;
@@ -215,7 +222,12 @@ export const DesktopAdPreviewNavigation: React.FC<
   };
 
   const handleSaveAndPublish = () => {
-    setIsSaveDropdownOpen(false);
+    patchRequest(`/image/publish/${imageId}`, { status: "published" })
+      .then(() => {
+        setIsSaveDropdownOpen(false);
+      }
+      )
+    console.log(adData)
     toast.custom(() => (
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
         <div className="flex items-center justify-between w-full">
@@ -315,12 +327,9 @@ export const DesktopAdPreviewNavigation: React.FC<
             (type === "image-form" && status === "completed")) && (
             <div className="relative" ref={exportDropdownRef}>
               <button
-                onClick={() => {
-                  // setIsExportDropdownOpen(!isExportDropdownOpen)
-                  downloadFunction?.()
-                }}
                 disabled={isDownloading || isLoading}
                 className="bg-[#EEF4FC] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
+                onClick={() => setIsExportDropdownOpen(!isExportDropdownOpen)}
               >
                 <Download size={18} color="#10509A" />
                 <span className="max-sm:hidden text-base leading-6 font-normal text-[#10509A]">
@@ -337,11 +346,15 @@ export const DesktopAdPreviewNavigation: React.FC<
                 >
                   <div className="py-1">
                     <button
-                      onClick={() => downloadImage("png")}
+                      // onClick={() => downloadImage("png")}
+                      onClick={() => {
+                        setIsExportDropdownOpen(!isExportDropdownOpen)
+                        downloadFunction?.()
+                      }}
                       disabled={isDownloading || isLoading}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                     >
-                      Download as PNGg
+                      Download as PNG
                     </button>
                     <button
                       onClick={() => downloadImage("jpg")}

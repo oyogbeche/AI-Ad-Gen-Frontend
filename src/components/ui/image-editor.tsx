@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import ImageSelectionTool from "@/domains/external/components/image-selector";
 import { useEffect, useRef, useState } from "react";
 import { ControlPanel } from "./control-panel";
 import { TextLayer } from "./text-layer";
@@ -39,9 +39,15 @@ export function ImageTextEditor({
   useEffect(() => {
     const updateSize = () => {
       if (containerRef.current) {
+        const parentWidth =
+          containerRef.current.parentElement?.clientWidth || 0;
+        const maxWidth = Math.min(650, parentWidth - 40);
+        const aspectRatio = 500 / 650; // Assuming a fixed aspect ratio
+        const newHeight = maxWidth * aspectRatio;
+
         setContainerSize({
-          width: containerRef.current.offsetWidth,
-          height: containerRef.current.offsetHeight,
+          width: maxWidth,
+          height: newHeight,
         });
       }
     };
@@ -82,7 +88,7 @@ export function ImageTextEditor({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center mb-10">
       {/* <div className="flex justify-between items-center">
         <Button
           onClick={addNewText}
@@ -94,27 +100,47 @@ export function ImageTextEditor({
         </Button>
       </div> */}
 
-      <div className="p-[48px] bg-[#F0F3F5] flex items-center justify-center gap-0 mx-auto">
-        
+      <div className="">
         {/* element I want to download */}
         <div
           ref={containerRef}
-          className="relative border overflow-hidden bg-[#F0F3F5] max-w-[650px] p-0"
-          style={{ height: "500px" }}
+          className="relative border overflow-hidden bg-[#F0F3F5] max-w-[650px] rounded-lg p-0"
           id="outputImg"
         >
-          <Image
+          {/* <Image
             src={imageSrc ?? "/preview.png"}
             alt="Editable image"
             width={650}
             height={500}
-            className="w-full h-full object-cover z-[-1] rounded-lg"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              zIndex: -1,
+              borderRadius: "8px",
+            }}
             onClick={(e) => {
               if (e.target === e.currentTarget) {
                 setSelectedTextId("");
               }
             }}
             unoptimized
+          /> */}
+          <ImageSelectionTool
+            imageSrc={imageSrc ?? "/preview.png"}
+            width={650}
+            height={500}
+            onSelectionComplete={(selection, prompt) => {
+              console.log(
+                `Selection at (${selection.x},${selection.y}) with dimensions ${selection.width}x${selection.height}`
+              );
+              console.log(`Prompt: ${prompt}`);
+            }}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setSelectedTextId("");
+              }
+            }}
           />
           {texts.map((text) => (
             <TextLayer

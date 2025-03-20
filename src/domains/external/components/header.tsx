@@ -22,14 +22,20 @@ const Header: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalComplete, setIsModalComplete] = useState(false);
 
+  const handleLogout = () => {
+    setIsModalOpen(false);
+    setIsModalComplete(false);
+    logout();
+  };
+
   return (
     <header
-      className={`w-full border-b  border-[#F8E6F8] sticky top-0 z-40 ${
+      className={`w-full border-b border-[#F8E6F8] sticky top-0 z-40 ${
         isSpecialPage ? "bg-[#292929]" : "bg-white"
       } focus:outline-none focus:ring-0`}
     >
       <div
-        className={`max-w-[1440px] m-auto  flex justify-between w-full px-6 py-4 lg:pl-20 lg:pr-9 `}
+        className={`max-w-[1440px] m-auto flex justify-between w-full px-6 py-4 lg:pl-20 lg:pr-9`}
       >
         <div className="w-fit">
           <Link href="/">
@@ -44,11 +50,11 @@ const Header: React.FC = () => {
         {!predefinedPromptPages && (
           <>
             {user ? (
-              <div
-                className="flex sm:gap-10 gap-2"
-                onClick={() => setIsModalOpen(true)}
-              >
-                <div className="flex items-center gap-2 sm:gap-4 px-1 sm:px-4 sm:py-2 bg-white rounded-[8px]">
+              <div className="flex sm:gap-10 gap-2">
+                <div
+                  className="flex items-center gap-2 sm:gap-4 px-1 sm:px-4 sm:py-2 bg-white rounded-[8px] cursor-pointer"
+                  onClick={() => setIsModalOpen(true)}
+                >
                   <div className="flex items-center">
                     <Image
                       src="/star-fall2.svg"
@@ -64,7 +70,7 @@ const Header: React.FC = () => {
                     src="/separate.svg"
                     height={16}
                     width={3}
-                    alt="Star fall"
+                    alt="Separator"
                   />
                   <span className="font-semibold text-[#121316]">
                     U<span className="hidden sm:inline-block">pgrade</span>
@@ -73,7 +79,7 @@ const Header: React.FC = () => {
                 <UserAvatar
                   name={name}
                   imageUrl={user.avatar_url}
-                  onSignOut={logout}
+                  onSignOut={handleLogout}
                 />
               </div>
             ) : (
@@ -84,12 +90,15 @@ const Header: React.FC = () => {
                 <p>Generate Your Ad</p> <ArrowRight />
               </Link>
             )}
-            <UpgradePlanModal
-              isOpen={isModalOpen}
-              isComplete={isModalComplete}
-              onClose={setIsModalOpen}
-              onComplete={setIsModalComplete}
-            />
+
+            {user && (
+              <UpgradePlanModal
+                isOpen={isModalOpen}
+                isComplete={isModalComplete}
+                onClose={setIsModalOpen}
+                onComplete={setIsModalComplete}
+              />
+            )}
           </>
         )}
       </div>
