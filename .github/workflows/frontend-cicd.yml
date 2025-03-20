@@ -87,10 +87,10 @@ jobs:
             echo "DOMAIN=staging.genz.ad" >> $GITHUB_ENV
           fi
 
-      - name: Setup SSH Key
-        run: |
-          echo "${{ secrets.SERVER_PRIVATE_KEY }}" > private_key.pem
-          chmod 600 private_key.pem
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SERVER_PRIVATE_KEY }}
 
 
       - name: Create Backup and Deploy
@@ -99,7 +99,7 @@ jobs:
           echo "Starting deployment process with rollback capability..."
 
           # Connect to server using SSH Key and perform backup + deploy
-          ssh -i private_key.pem -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
+          ssh -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
             set -e
 
             if [ "${{ github.ref }}" == "refs/heads/main" ]; then
@@ -127,12 +127,12 @@ jobs:
           EOF
 
           # Copy new build files to server
-          scp -i private_key.pem -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml .env \
+          scp -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml .env \
           "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend"
 
           # Start the application
           echo "Starting application with PM2..."
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
+          ssh -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
             cd /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend
             pnpm install --frozen-lockfile
             pm2 delete ${{ env.DEPLOY_NAME }} || true
