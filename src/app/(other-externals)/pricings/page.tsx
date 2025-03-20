@@ -31,7 +31,7 @@ const Pricings = () => {
       {/* Card Components */}
       <div className="flex lg:flex-row flex-col gap-[16px] lg:gap-[24px] pb-[30px]">
         {/* card 1 */}
-        <div className="bg-[#FCFCFC] rounded-[16px] w-[381px]">
+        <div className="bg-[#FCFCFC] rounded-[16px] w-[381px] min-h-[637px]">
           <div className="px-[36px] py-[39px] flex flex-col">
             <div>
               <div className="h-[76px]">
@@ -130,6 +130,7 @@ const Pricings = () => {
         </div>
       </div>
 
+        {/* Getting started */}
       <p className="pb-[73px]">Just getting started? <a href="#" className="text-[#B800B8] underline">Try our free plan</a></p>
     </div>
   );
