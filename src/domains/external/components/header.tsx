@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logoPng from "../../../../public/logo.png";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import UpgradePlanModal from "./upgrade-plan-modal";
 
 const Header: React.FC = () => {
