@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
       "www.sciencebuddies.org",
       " cdn.lucidpic.com",
     ],
-  }
+  },
 };
 
 export default nextConfig;
