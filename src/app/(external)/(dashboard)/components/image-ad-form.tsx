@@ -248,7 +248,7 @@ export default function AdCustomizer() {
       </div>
     );
   }
-
+console.log("Ad data",adData)
   return (
     <div className="flex flex-col lg:flex-row p-4 lg:p-0">
       {/* Form Section */}
@@ -479,6 +479,7 @@ export default function AdCustomizer() {
                 ? "completed"
                 : "initial"
             }
+            imageUrl={adData?.data?.image_id}
           />
           <button></button>
         </div>
