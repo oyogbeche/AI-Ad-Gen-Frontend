@@ -4,7 +4,7 @@ import Link from "next/link";
 import ToggleSwitch from "../components/toggle-switch";
 const Pricings = () => {
   return (
-    <div className="max-w-7xl w-full xl:mx-auto max-lg:px-4 pt-8 flex flex-col gap-8 items-center bg-[#F8E6F8]">
+    <div className="w-full xl:mx-auto max-lg:px-4 pt-8 flex flex-col gap-8 items-center bg-[#F8E6F8]">
       <div>
         <h1 className="md:text-[40px] md:font-[700] text-center font-[600] text-[35px]">
           Pricing Plans
@@ -29,7 +29,7 @@ const Pricings = () => {
       </div>
 
       {/* Card Components */}
-      <div className="flex md:flex-row flex-col gap-[16px] md:gap-[24px] pb-[30px]">
+      <div className="flex lg:flex-row flex-col gap-[16px] lg:gap-[24px] pb-[30px]">
         {/* card 1 */}
         <div className="bg-[#FCFCFC] rounded-[16px] w-[381px]">
           <div className="px-[36px] py-[39px] flex flex-col">
