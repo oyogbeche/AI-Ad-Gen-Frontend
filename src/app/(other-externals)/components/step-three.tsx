@@ -11,7 +11,7 @@ const TryItNow: React.FC = () => {
         overflow-hidden
       "
     >
-      {/* Big step number in the center background */}
+      
       <div
         className="
           absolute
@@ -45,7 +45,7 @@ const TryItNow: React.FC = () => {
           relative
         "
       >
-        {/* Text Side */}
+        
         <div className="pl-8">
           <h3 className="text-2xl font-bold mb-4">Click &ldquo;Try it Now&rdquo;</h3>
           <ul className="list-disc list-inside space-y-1 text-gray-700 leading-relaxed">
@@ -54,7 +54,7 @@ const TryItNow: React.FC = () => {
           </ul>
         </div>
 
-        {/* Image Side */}
+        
         <div className="flex items-end justify-end overflow-hidden">
           <Image
             src="/hiw3.svg"

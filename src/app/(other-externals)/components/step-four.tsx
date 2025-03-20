@@ -5,9 +5,9 @@ const CustomizeSection: React.FC = () => {
   return (
     <section className="w-full py-0 bg-[#F4F4F4]">
       <div className="container mx-auto px-4">
-        {/* Two-column layout: image on the left, text on the right */}
+        
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 relative">
-          {/* Left Column - Large Image */}
+          
           <div className="flex justify-center pl-8">
             <Image
               src="/hiw4.svg"
@@ -19,9 +19,9 @@ const CustomizeSection: React.FC = () => {
             />
           </div>
 
-          {/* Right Column - Text with big "2" behind */}
+          
           <div className="relative p-8">
-            {/* Big "2" in the background, centered vertically */}
+            
             <span
               className="
                 text-[128px]
@@ -40,7 +40,7 @@ const CustomizeSection: React.FC = () => {
               4
             </span>
 
-            {/* Foreground content */}
+           
             <div className="relative z-10 max-w-md">
               <h1 className="text-5xl font-bold mb-10">Customize Your Ad</h1>
               <ul className="space-y-4 list-disc list-inside text-lg">
