@@ -42,7 +42,7 @@ const Header: React.FC = () => {
             {isSpecialPage ? (
               <Image src={logoPng} alt="Logo" width={128} height={64} />
             ) : (
-              <Logo className="w-32 md:w-auto" />
+              <Logo className="w-32 md:w-auto" h-auto />
             )}
           </Link>
         </div>
