@@ -1,5 +1,5 @@
 "use client";
-import react from "react";
+// import react from "react";
 import Link from "next/link";
 import ToggleSwitch from "../components/toggle-switch";
 const Pricings = () => {
