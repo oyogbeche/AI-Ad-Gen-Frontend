@@ -62,9 +62,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={nunito.variable}>
       <head>
-        <meta http-equiv="Pragma" content="no-cache" />
+        <meta httpEquiv="Pragma" content="no-cache" />
         <meta
-          http-equiv="Cache-Control"
+          httpEquiv="Cache-Control"
           content="no-store, no-cache, must-revalidate"
         />
       </head>
