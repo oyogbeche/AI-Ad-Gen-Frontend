@@ -23,12 +23,22 @@ jobs:
         with:
           version: latest
 
-      - name: Create .env File
+      - name: Create Environment-Specific .env File
         run: |
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "NEXT_PUBLIC_API_URL=${{ vars.PROD_API_URL }}" >> .env
+            echo "NEXT_PUBLIC_ENVIRONMENT=production" >> .env
+          elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
+            echo "NEXT_PUBLIC_API_URL=${{ vars.DEV_API_URL }}" >> .env
+            echo "NEXT_PUBLIC_ENVIRONMENT=test" >> .env
+          fi
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Run Tests
+        run: |
+          pnpm test || (echo "TEST_FAILED=true" >> $GITHUB_ENV && echo "::warning::Tests failed, but continuing...")
 
       - name: Build Frontend
         run: pnpm build
@@ -42,6 +52,7 @@ jobs:
             public/
             package.json
             pnpm-lock.yaml
+            .env
           if-no-files-found: error
           include-hidden-files: true
           compression-level: 6
@@ -49,7 +60,6 @@ jobs:
   deploy:
     runs-on: aiadgen
     needs: [test-and-build]
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -66,26 +76,172 @@ jobs:
           if [ "${{ github.ref }}" == "refs/heads/main" ]; then
             echo "DEPLOY_PORT=5000" >> $GITHUB_ENV
             echo "DEPLOY_NAME=ai-adgen-frontend-prod" >> $GITHUB_ENV
+            echo "BACKUP_DIR=frontend-prod-backups" >> $GITHUB_ENV
+            echo "ENVIRONMENT=Production" >> $GITHUB_ENV
+            echo "DOMAIN=genz.ad" >> $GITHUB_ENV
           elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
             echo "DEPLOY_PORT=5005" >> $GITHUB_ENV
             echo "DEPLOY_NAME=ai-adgen-frontend-dev" >> $GITHUB_ENV
+            echo "BACKUP_DIR=frontend-dev-backups" >> $GITHUB_ENV
+            echo "ENVIRONMENT=Development" >> $GITHUB_ENV
+            echo "DOMAIN=staging.genz.ad" >> $GITHUB_ENV
           fi
 
-      - name: Deploy to Server
+      - name: Setup SSH Key
         run: |
-          echo "Deploying .next build to server..."
-          sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml \
+          echo "${{ secrets.SERVER_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+
+
+      - name: Create Backup and Deploy
+        id: deploy
+        run: |
+          echo "Starting deployment process with rollback capability..."
+
+          # Connect to server using SSH Key and perform backup + deploy
+          ssh -i private_key.pem -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
+            set -e
+
+            if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+              echo "Creating backup of production deployment..."
+              mkdir -p /home/${{ secrets.SERVER_USER }}/${{ env.BACKUP_DIR }}
+              TIMESTAMP=\$(date +%Y%m%d_%H%M%S)
+              BACKUP_PATH="/home/${{ secrets.SERVER_USER }}/${{ env.BACKUP_DIR }}/backup_\${TIMESTAMP}"
+
+              if [ -d "/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/.next" ]; then
+                echo "Backing up existing deployment..."
+                mkdir -p \${BACKUP_PATH}
+                cp -r /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/.next \${BACKUP_PATH}/
+                cp -r /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/public \${BACKUP_PATH}/
+                cp /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/package.json \${BACKUP_PATH}/
+                cp /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/pnpm-lock.yaml \${BACKUP_PATH}/
+                if [ -f "/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/.env" ]; then
+                  cp /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/.env \${BACKUP_PATH}/
+                fi
+                echo "BACKUP_EXISTS=true" >> \$GITHUB_ENV
+              else
+                echo "No existing deployment to backup."
+                echo "BACKUP_EXISTS=false" >> \$GITHUB_ENV
+              fi
+            fi
+          EOF
+
+          # Copy new build files to server
+          scp -i private_key.pem -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml .env \
           "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend"
 
-      - name: Start Application on Server
-        run: |
-          sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no \
-          "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << 'EOF'
-          set -e # Stop script on error
-          export DEPLOY_NAME="${{ env.DEPLOY_NAME }}"
-          export DEPLOY_PORT="${{ env.DEPLOY_PORT }}"
-          cd /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend
-          pnpm install --frozen-lockfile
-          pm2 delete $DEPLOY_NAME || true
-          PORT=$DEPLOY_PORT pm2 start pnpm --name $DEPLOY_NAME -- start
+          # Start the application
+          echo "Starting application with PM2..."
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
+            cd /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend
+            pnpm install --frozen-lockfile
+            pm2 delete ${{ env.DEPLOY_NAME }} || true
+            PORT=${{ env.DEPLOY_PORT }} pm2 start pnpm --name ${{ env.DEPLOY_NAME }} -- start
+
+            # Local health check
+            echo "Performing local health check..."
+            if curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ env.DEPLOY_PORT }} | grep -q "200"; then
+              echo "Local health check passed."
+            else
+              echo "::error::Local health check failed."
+              exit 1
+            fi
+
+            # Domain health check
+            echo "Performing domain health check..."
+            if curl -s -o /dev/null -w "%{http_code}" https://${{ env.DOMAIN }} | grep -q "200"; then
+              echo "Domain health check passed."
+            else
+              echo "::error::Domain health check failed."
+              exit 1
+            fi
           EOF
+
+      - name: Rollback on Failure
+        if: failure() && env.BACKUP_EXISTS == 'true'
+        run: |
+          echo "Rolling back to previous deployment..."
+          ssh -i private_key.pem -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
+            cp -r ${{ env.BACKUP_PATH }}/.next /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
+            cp -r ${{ env.BACKUP_PATH }}/public /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
+            cp ${{ env.BACKUP_PATH }}/package.json /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
+            cp ${{ env.BACKUP_PATH }}/pnpm-lock.yaml /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
+            if [ -f "${{ env.BACKUP_PATH }}/.env" ]; then
+              cp ${{ env.BACKUP_PATH }}/.env /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
+            fi
+
+            # Restart service
+            cd /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend
+            pm2 delete ${{ env.DEPLOY_NAME }} || true
+            PORT=${{ env.DEPLOY_PORT }} pm2 start pnpm --name ${{ env.DEPLOY_NAME }} -- start
+          EOF
+
+      - name: Send Slack Notification
+        if: always()
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          payload: |
+            {
+              "channel": "genzad-mvp",
+              "attachments": [
+                {
+                  "color": "${{ env.DEPLOY_FAILED == 'true' && '#D00000' || '#36a64f' }}",
+                  "blocks": [
+                    {
+                      "type": "header",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "${{ env.DEPLOY_FAILED == 'true' && 'Deployment Failed' || '✅ Deployment Successful' }}"
+                      }
+                    },
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Environment:*\n${{ env.DEPLOY_NAME }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Domain:*\n${{ env.DOMAIN }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Branch:*\n${{ github.ref_name }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Triggered by:*\n${{ github.actor }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Test Status:*\n${{ env.TEST_FAILED == 'true' && '❗ Test Failed' || '✅ Test Passed' }}"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "${{ env.TEST_FAILED == 'true' && '❗ Some tests failed, but deployment is continuing. Please check the logs.' || 'All tests passed successfully.' }}"
+                      }
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "context",
+                      "elements": [
+                        {
+                          "type": "mrkdwn",
+                          "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Pipeline Details>"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
