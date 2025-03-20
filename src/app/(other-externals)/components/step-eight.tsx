@@ -8,10 +8,10 @@ const StepEight = () => {
       number={8}
       title="Click on Generate Ad"
       content={
-        <ul className="list-disc list-inside space-y-1 text-gray-700 leading-relaxed">
+        <>
           <li>Tap the &ldquo;Generate Ad&rdquo; button to get started</li>
           <li>No experience needed! Just follow the easy steps!</li>
-        </ul>
+        </>
       }
       image={
         <Image

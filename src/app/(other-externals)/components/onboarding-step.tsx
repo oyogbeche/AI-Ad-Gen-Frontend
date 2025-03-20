@@ -112,13 +112,14 @@ export default function OnboardingStep({
           grid-cols-1
           md:grid-cols-2
           items-center
+          justify-between
           gap-8
           relative
           w-full
         "
           >
             {/* Image Side */}
-            <div className="flex items-end justify-start overflow-hidden w-full bg-amber-500">
+            <div className="flex items-center justify-start  overflow-hidden  bg-amber-500">
               {image}
             </div>
 
