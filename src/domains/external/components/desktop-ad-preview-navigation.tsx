@@ -304,7 +304,7 @@ export const DesktopAdPreviewNavigation: React.FC<
           )}
 
           {/* Share button - Show only when type is image-form and status is completed */}
-          {type === "image-form" && status === "completed" && (
+          {/* {type === "image-form" && status === "completed" && ( */}
             <ShareModal
               adUrl={`https://genz.ad/stand-alone/${effectiveImageUrl}`}
               // Added image url for when we want to switch to sharing natively and not the link to the social
@@ -320,7 +320,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                 </span>
               </button>
             </ShareModal>
-          )}
+          {/* {()} */}
 
           {/* Export button - Show for demo type always, and for image-form only when status is completed */}
           {(type === "demo" ||
