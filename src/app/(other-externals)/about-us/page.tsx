@@ -1,9 +1,8 @@
 "use client";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react"
-// import teamTogether from "../components/icons/team-together.png";
+import { ArrowRight } from "lucide-react";
+
 const AboutUs = () => {
     return (
         <div className="w-full xl:mx-auto max-lg:px-4 flex flex-col items-center ">
@@ -16,7 +15,7 @@ const AboutUs = () => {
                             Transforming Advertising with AI Innovation
                         </h1>
                         <h5 className="text-[#16151E] font-[400] text-[20px] w-[1159px]">
-                            At Genz.ad, we believe that every business deserves high-quality, engaging ads without the need for a design or marketing team. That's why we built an AI-powered ad generator that simplifies ad creation, making it fast, effortless, and accessible to everyone.
+                            At Genz.ad, we believe that every business deserves high-quality, engaging ads without the need for a design or marketing team. That&apos;s why we built an AI-powered ad generator that simplifies ad creation, making it fast, effortless, and accessible to everyone.
                         </h5>
                     </div>
 
@@ -39,7 +38,7 @@ const AboutUs = () => {
                         <div className="bg-white p-8 rounded-lg">
                             <h2 className="text-xl font-bold text-[#520052] mb-2">Our Mission</h2>
                             <p className="text-gray-700">
-                                We're on a mission to democratize ad creation by providing product owners, startups, and businesses with an intuitive platform that generates customized, localized, and high-performing ads with ease.
+                                We&apos;re on a mission to democratize ad creation by providing product owners, startups, and businesses with an intuitive platform that generates customized, localized, and high-performing ads with ease.
                             </p>
                         </div>
 
