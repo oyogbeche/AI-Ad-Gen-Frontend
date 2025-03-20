@@ -10,6 +10,7 @@ interface Ad {
   image_url: string;
   is_published: boolean;
   prompt: string;
+  product_name: string;
   target_audience: string;
   updated_at: string;
 }

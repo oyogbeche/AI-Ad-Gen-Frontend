@@ -126,22 +126,25 @@ export function ImageTextEditor({
             }}
             unoptimized
           /> */}
-          <ImageSelectionTool
-            imageSrc={imageSrc ?? "/preview.png"}
-            width={650}
-            height={500}
-            onSelectionComplete={(selection, prompt) => {
-              console.log(
-                `Selection at (${selection.x},${selection.y}) with dimensions ${selection.width}x${selection.height}`
-              );
-              console.log(`Prompt: ${prompt}`);
-            }}
-            onClick={(e) => {
-              if (e.target === e.currentTarget) {
-                setSelectedTextId("");
-              }
-            }}
-          />
+          <div className="flex flex-col gap-4 bg-[#F2F2F2] flex-1 rounded-md items-center justify-center min-h-[50vh] mx-auto max-h-[648px] max-w-[699px] w-full max-md:w-full max-md:p-2 md:p-10">
+            <ImageSelectionTool
+              imageSrc={imageSrc ?? "/preview.png"}
+              width={650}
+              height={500}
+              onSelectionComplete={(selection, prompt) => {
+                console.log(
+                  `Selection at (${selection.x},${selection.y}) with dimensions ${selection.width}x${selection.height}`
+                );
+                console.log(`Prompt: ${prompt}`);
+              }}
+              onClick={(e) => {
+                if (e.target === e.currentTarget) {
+                  setSelectedTextId("");
+                }
+              }}
+            />
+          </div>
+
           {texts.map((text) => (
             <TextLayer
               key={text.id}
