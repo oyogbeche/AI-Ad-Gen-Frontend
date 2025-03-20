@@ -11,7 +11,7 @@ const Pricings = () => {
         </h1>
         <p className="md:font-[500] md:text-[18px] text-[#7D7D7D] font-[500] text-[12px]">Generate your ads for free and pay as you grow.</p>
       </div>
-      <div className="pt-[30px] pb-[50px] hidden md:inline">
+      <div className="pt-[30px] pb-[50px] hidden lg:inline">
         <p className="flex flex-row items-center justify-center font-[500] text-[16px] text-[#5F5F5F]">
           <span className="pr-[13px]">Bill Monthly</span>
           <svg width="36" height="20" viewBox="0 0 36 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -23,7 +23,7 @@ const Pricings = () => {
       </div>
       {/* toggler component */}
       <div>
-      <div className="flex justify-center items-center md:hidden pt-[15px] pb-[25px]">
+      <div className="flex justify-center items-center lg:hidden pt-[15px] pb-[25px]">
       <ToggleSwitch />
     </div> 
       </div>
