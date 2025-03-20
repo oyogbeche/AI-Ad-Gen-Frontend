@@ -1,16 +1,16 @@
 import React from "react";
 import Image from "next/image";
 
-const SignInSection: React.FC = () => {
+const CustomizeSection: React.FC = () => {
   return (
-    <section className="w-full py-16 bg-[#F4F4F4]">
+    <section className="w-full py-0 bg-[#F4F4F4]">
       <div className="container mx-auto px-4">
         {/* Two-column layout: image on the left, text on the right */}
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 relative">
           {/* Left Column - Large Image */}
           <div className="flex justify-center pl-8">
             <Image
-              src="/howitworks2.svg"
+              src="/hiw4.svg"
               alt="Sign in options"
               width={600}
               height={450}
@@ -28,7 +28,7 @@ const SignInSection: React.FC = () => {
                 text-gray-200
                 font-light
                 absolute
-                top-60
+                top-80
                 right-8
                 -translate-y-80
                 z-0
@@ -37,27 +37,21 @@ const SignInSection: React.FC = () => {
               "
               aria-hidden="true"
             >
-              2
+              4
             </span>
 
             {/* Foreground content */}
             <div className="relative z-10 max-w-md">
-              <h1 className="text-5xl font-bold mb-10">Sign in or Sign up</h1>
+              <h1 className="text-5xl font-bold mb-10">Customize Your Ad</h1>
+              <ul className="space-y-4 list-disc list-inside text-lg">
+  <li> Type a clear and simple description of your product or service</li>
+  <li> A well-written description helps generate an effective ad</li>
+  <li> Choose your platform - Facebook, Instagram, or other options</li>
+  <li> Select your audience - Pick who should see your ad for better results</li>
+  <li> Upload a product image (optional) - Add a visual to make your ad stand out</li>
+</ul>
 
-              <ul className="space-y-6">
-                <li className="flex items-center">
-                  <div className="mr-3 w-2 h-2 rounded-full bg-black" />
-                  <span className="text-lg">
-                    Use your Google account for fast and secure access
-                  </span>
-                </li>
-                <li className="flex items-center">
-                  <div className="mr-3 w-2 h-2 rounded-full bg-black" />
-                  <span className="text-lg">
-                    No long forms – just a one-click login!
-                  </span>
-                </li>
-              </ul>
+
             </div>
           </div>
         </div>
@@ -66,4 +60,4 @@ const SignInSection: React.FC = () => {
   );
 };
 
-export default SignInSection;
+export default CustomizeSection;

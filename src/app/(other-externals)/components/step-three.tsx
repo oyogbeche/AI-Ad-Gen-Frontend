@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const StepOne: React.FC = () => {
+const TryItNow: React.FC = () => {
   return (
     <section
       className="
@@ -29,7 +29,7 @@ const StepOne: React.FC = () => {
         "
         aria-hidden="true"
       >
-        1
+        3
       </div>
 
       <div
@@ -47,17 +47,17 @@ const StepOne: React.FC = () => {
       >
         {/* Text Side */}
         <div className="pl-8">
-          <h3 className="text-2xl font-bold mb-4">Click on Generate Ad</h3>
+          <h3 className="text-2xl font-bold mb-4">Click &ldquo;Try it Now&rdquo;</h3>
           <ul className="list-disc list-inside space-y-1 text-gray-700 leading-relaxed">
-            <li>Tap the &ldquo;Generate Ad&rdquo; button to get started</li>
-            <li>No experience needed! Just follow the easy steps!</li>
+            <li>Test how genz.ad works instantly</li>
+            <li>No payment is required - just explore and create</li>
           </ul>
         </div>
 
         {/* Image Side */}
         <div className="flex items-end justify-end overflow-hidden">
           <Image
-            src="/howitworks1.svg"
+            src="/hiw3.svg"
             alt="Step 1 illustration"
             width={1200}  
             height={800}   
@@ -70,4 +70,4 @@ const StepOne: React.FC = () => {
   );
 };
 
-export default StepOne;
+export default TryItNow;
