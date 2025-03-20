@@ -61,6 +61,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={nunito.variable}>
+      <head>
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta
+          http-equiv="Cache-Control"
+          content="no-store, no-cache, must-revalidate"
+        />
+      </head>
       <body
         className="font-nunito bg-[#F9FAFB] overflow-x-hidden"
         cz-shortcut-listen="true"
