@@ -2,11 +2,11 @@
 import { Logo } from "@/components/icons/icon";
 import { UserAvatar } from "@/domains/ads-gen/components/avatar";
 import { useAuthStore } from "@/store/auth-store";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logoPng from "../../../../public/logo.png";
+import iconLogo from "../../../../public/icon-logo.svg";
 import { useState } from "react";
 import UpgradePlanModal from "./upgrade-plan-modal";
 
@@ -40,9 +40,33 @@ const Header: React.FC = () => {
         <div className="w-fit">
           <Link href="/">
             {isSpecialPage ? (
-              <Image src={logoPng} alt="Logo" width={128} height={64} />
+              <>
+                <Image
+                  src={logoPng}
+                  alt="Logo"
+                  width={128}
+                  height={64}
+                  className="hidden sm:inline-block"
+                />
+                <Image
+                  src={iconLogo}
+                  alt="Logo"
+                  width={35}
+                  height={40}
+                  className="inline-block sm:hidden"
+                />
+              </>
             ) : (
-              <Logo className="w-32 md:w-auto" />
+              <>
+                <Logo className="w-32 md:w-auto hidden sm:inline-block" />
+                <Image
+                  src={iconLogo}
+                  alt="Logo"
+                  width={35}
+                  height={40}
+                  className="inline-block sm:hidden"
+                />
+              </>
             )}
           </Link>
         </div>
@@ -99,12 +123,20 @@ const Header: React.FC = () => {
                 />
               </div>
             ) : (
-              <Link
-                href={"/signin"}
-                className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors hidden md:flex justify-center items-center gap-2"
-              >
-                Sign in
-              </Link>
+              <div className="flex gap-3">
+                <Link
+                  href={"/signin?type=signin"}
+                  className="bg-light-purple cursor-pointer text-white px-2 sm:px-6 py-1 sm:py-3 rounded-sm hover:bg-dark-purple transition-colors justify-center items-center gap-2"
+                >
+                  Sign in
+                </Link>
+                <Link
+                  href={"/signin?type=signup"}
+                  className="cursor-pointer px-2 sm:px-6 py-1 sm:py-3 rounded-sm text-[#520052] transition-colors justify-center items-center gap-2 border border-[#B800B8] hover:bg-[#cf54cf21] w-fit mx-auto flex"
+                >
+                  Sign up
+                </Link>
+              </div>
             )}
 
             {user && (

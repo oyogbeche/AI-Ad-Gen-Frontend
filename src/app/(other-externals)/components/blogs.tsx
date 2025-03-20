@@ -1,5 +1,3 @@
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import Blogs1 from "../../../../public/blog-1.png";
 import Blogs2 from "../../../../public/blog-2.jpeg";
 import Blogs3 from "../../../../public/blog-3.jpeg";
