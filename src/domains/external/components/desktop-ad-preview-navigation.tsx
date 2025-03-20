@@ -251,7 +251,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 
   return (
     <div className={`w-full ${className}`}>
-      <div className="flex justify-between items-center w-full py-3">
+      <div className="flex justify-between items-center w-full pt-3">
         <button
           onClick={handleBack}
           className="flex items-center text-[#650065] hover:text-gray-800 cursor-pointer p-0"

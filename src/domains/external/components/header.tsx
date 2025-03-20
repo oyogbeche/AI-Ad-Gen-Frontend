@@ -2,11 +2,11 @@
 import { Logo } from "@/components/icons/icon";
 import { UserAvatar } from "@/domains/ads-gen/components/avatar";
 import { useAuthStore } from "@/store/auth-store";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logoPng from "../../../../public/logo.png";
+import iconLogo from "../../../../public/icon-logo.svg";
 import { useState } from "react";
 import UpgradePlanModal from "./upgrade-plan-modal";
 
@@ -40,55 +40,82 @@ const Header: React.FC = () => {
         <div className="w-fit">
           <Link href="/">
             {isSpecialPage ? (
-              <Image src={logoPng} alt="Logo" width={128} height={64} />
+              <>
+                <Image
+                  src={logoPng}
+                  alt="Logo"
+                  width={128}
+                  height={64}
+                  className="hidden sm:inline-block"
+                />
+                <Image
+                  src={iconLogo}
+                  alt="Logo"
+                  width={35}
+                  height={40}
+                  className="inline-block sm:hidden"
+                />
+              </>
             ) : (
-              <Logo className="w-32 md:w-auto" h-auto />
+              <>
+                <Logo className="w-32 md:w-auto hidden sm:inline-block" />
+                <Image
+                  src={iconLogo}
+                  alt="Logo"
+                  width={35}
+                  height={40}
+                  className="inline-block sm:hidden"
+                />
+              </>
             )}
           </Link>
         </div>
-
-             <nav className={`hidden md:flex items-center space-x-6 text-gray-600 ${isSpecialPage ? "text-white" : "text-gray-600"}`}>
-                  <Link href="/features" className="hover:text-purple-700">
-                    Features
-                  </Link>
-                  <Link href="/how-it-works" className="hover:text-purple-700">
-                    How it works
-                  </Link>
-                  <Link href="/pricings" className="hover:text-purple-700">
-                    Pricing
-                  </Link>
-                </nav>
-        
+        {!isSpecialPage && (
+          <nav className="hidden md:flex items-center space-x-6 text-gray-600">
+            <Link href="/features" className="hover:text-purple-700">
+              Features
+            </Link>
+            <Link href="/how-it-works" className="hover:text-purple-700">
+              How it works
+            </Link>
+            <Link href="/pricing" className="hover:text-purple-700">
+              Pricing
+            </Link>
+          </nav>
+        )}
 
         {!predefinedPromptPages && (
           <>
             {user ? (
               <div className="flex sm:gap-10 gap-2">
-                <div
-                  className="flex items-center gap-2 sm:gap-4 px-1 sm:px-4 sm:py-2 bg-white rounded-[8px] cursor-pointer"
-                  onClick={() => setIsModalOpen(true)}
-                >
-                  <div className="flex items-center">
+                {isSpecialPage && (
+                  <div
+                    className="flex items-center gap-2 sm:gap-4 px-1 sm:px-4 sm:py-2 bg-white rounded-[8px] cursor-pointer"
+                    onClick={() => setIsModalOpen(true)}
+                  >
+                    <div className="flex items-center">
+                      <Image
+                        src="/star-fall2.svg"
+                        height={24}
+                        width={24}
+                        alt="Star fall"
+                      />
+                      <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
+                        5{" "}
+                        <span className="hidden sm:inline-block">credits</span>
+                      </span>
+                    </div>
                     <Image
-                      src="/star-fall2.svg"
-                      height={24}
-                      width={24}
-                      alt="Star fall"
+                      src="/separate.svg"
+                      height={16}
+                      width={3}
+                      alt="Separator"
                     />
-                    <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
-                      5 <span className="hidden sm:inline-block">credits</span>
+                    <span className="font-semibold text-[#121316]">
+                      U<span className="hidden sm:inline-block">pgrade</span>
                     </span>
                   </div>
-                  <Image
-                    src="/separate.svg"
-                    height={16}
-                    width={3}
-                    alt="Separator"
-                  />
-                  <span className="font-semibold text-[#121316]">
-                    U<span className="hidden sm:inline-block">pgrade</span>
-                  </span>
-                </div>
+                )}
                 <UserAvatar
                   name={name}
                   imageUrl={user.avatar_url}
@@ -96,12 +123,20 @@ const Header: React.FC = () => {
                 />
               </div>
             ) : (
-              <Link
-                href={"/signin"}
-                className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors hidden md:flex justify-center items-center gap-2"
-              >
-                <p>Generate Your Ad</p> <ArrowRight />
-              </Link>
+              <div className="flex gap-3">
+                <Link
+                  href={"/signin?type=signin"}
+                  className="bg-light-purple cursor-pointer text-white px-2 sm:px-6 py-1 sm:py-3 rounded-sm hover:bg-dark-purple transition-colors justify-center items-center gap-2"
+                >
+                  Sign in
+                </Link>
+                <Link
+                  href={"/signin?type=signup"}
+                  className="cursor-pointer px-2 sm:px-6 py-1 sm:py-3 rounded-sm text-[#520052] transition-colors justify-center items-center gap-2 border border-[#B800B8] hover:bg-[#cf54cf21] w-fit mx-auto flex"
+                >
+                  Sign up
+                </Link>
+              </div>
             )}
 
             {user && (
