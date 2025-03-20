@@ -92,24 +92,33 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SERVER_PRIVATE_KEY }}
 
-
       - name: Create Backup and Deploy
         id: deploy
         run: |
           echo "Starting deployment process with rollback capability..."
-
-          # Connect to server using SSH Key and perform backup + deploy
-          ssh -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
-            set -e
-
-            if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-              echo "Creating backup of production deployment..."
-              mkdir -p /home/${{ secrets.SERVER_USER }}/${{ env.BACKUP_DIR }}
-              TIMESTAMP=\$(date +%Y%m%d_%H%M%S)
-              BACKUP_PATH="/home/${{ secrets.SERVER_USER }}/${{ env.BACKUP_DIR }}/backup_\${TIMESTAMP}"
-
-              if [ -d "/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/.next" ]; then
-                echo "Backing up existing deployment..."
+          
+          # Initialize BACKUP_EXISTS variable and BACKUP_PATH
+          echo "BACKUP_EXISTS=false" >> $GITHUB_ENV
+          
+          # Create backup if this is a production deployment
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            BACKUP_EXISTS=$(ssh -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" \
+              "if [ -d \"/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/.next\" ]; then echo 'true'; else echo 'false'; fi")
+            echo "BACKUP_EXISTS=$BACKUP_EXISTS" >> $GITHUB_ENV
+            
+            if [ "$BACKUP_EXISTS" == "true" ]; then
+              # Create backup on server
+              TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+              BACKUP_PATH="/home/${{ secrets.SERVER_USER }}/${{ env.BACKUP_DIR }}/backup_${TIMESTAMP}"
+              echo "BACKUP_PATH=$BACKUP_PATH" >> $GITHUB_ENV
+              
+              ssh -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
+                set -e
+                echo "Creating backup of production deployment..."
+                mkdir -p /home/${{ secrets.SERVER_USER }}/${{ env.BACKUP_DIR }}
+                TIMESTAMP=\$(date +%Y%m%d_%H%M%S)
+                BACKUP_PATH="/home/${{ secrets.SERVER_USER }}/${{ env.BACKUP_DIR }}/backup_\${TIMESTAMP}"
+                echo "Backing up to \$BACKUP_PATH"
                 mkdir -p \${BACKUP_PATH}
                 cp -r /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/.next \${BACKUP_PATH}/
                 cp -r /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/public \${BACKUP_PATH}/
@@ -118,63 +127,121 @@ jobs:
                 if [ -f "/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/.env" ]; then
                   cp /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/.env \${BACKUP_PATH}/
                 fi
-                echo "BACKUP_EXISTS=true" >> \$GITHUB_ENV
-              else
-                echo "No existing deployment to backup."
-                echo "BACKUP_EXISTS=false" >> \$GITHUB_ENV
-              fi
+                echo "Backup completed successfully."
+EOF
+            else
+              echo "No existing deployment to backup."
             fi
-          EOF
+          fi
 
           # Copy new build files to server
+          echo "Copying build files to server..."
           scp -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml .env \
           "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend"
 
-          # Start the application
+          # Start the application and run health checks
           echo "Starting application with PM2..."
-          ssh -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
+          DEPLOY_SUCCESS="true"
+          ssh -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF || DEPLOY_SUCCESS="false"
             cd /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend
             pnpm install --frozen-lockfile
             pm2 delete ${{ env.DEPLOY_NAME }} || true
             PORT=${{ env.DEPLOY_PORT }} pm2 start pnpm --name ${{ env.DEPLOY_NAME }} -- start
 
-            # Local health check
-            echo "Performing local health check..."
-            if curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ env.DEPLOY_PORT }} | grep -q "200"; then
-              echo "Local health check passed."
-            else
-              echo "::error::Local health check failed."
-              exit 1
-            fi
+            # Wait for app to initialize
+            echo "Waiting for application to start..."
+            sleep 15
 
-            # Domain health check
+            # Local health check with retries
+            echo "Performing local health check..."
+            MAX_RETRIES=5
+            RETRY_COUNT=0
+            HEALTH_CHECK_PASSED=false
+
+            while [ \$RETRY_COUNT -lt \$MAX_RETRIES ] && [ "\$HEALTH_CHECK_PASSED" = "false" ]; do
+              if curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ env.DEPLOY_PORT }} | grep -q "200"; then
+                echo "Local health check passed."
+                HEALTH_CHECK_PASSED=true
+              else
+                RETRY_COUNT=\$((RETRY_COUNT+1))
+                if [ \$RETRY_COUNT -lt \$MAX_RETRIES ]; then
+                  echo "Health check attempt \$RETRY_COUNT failed. Retrying in 10 seconds..."
+                  sleep 10
+                else
+                  echo "::error::Local health check failed after \$MAX_RETRIES attempts."
+                  exit 1
+                fi
+              fi
+            done
+
+            # Domain health check with retries
             echo "Performing domain health check..."
-            if curl -s -o /dev/null -w "%{http_code}" https://${{ env.DOMAIN }} | grep -q "200"; then
-              echo "Domain health check passed."
-            else
-              echo "::error::Domain health check failed."
-              exit 1
-            fi
-          EOF
+            RETRY_COUNT=0
+            HEALTH_CHECK_PASSED=false
+
+            while [ \$RETRY_COUNT -lt \$MAX_RETRIES ] && [ "\$HEALTH_CHECK_PASSED" = "false" ]; do
+              if curl -s -o /dev/null -w "%{http_code}" https://${{ env.DOMAIN }} | grep -q "200"; then
+                echo "Domain health check passed."
+                HEALTH_CHECK_PASSED=true
+              else
+                RETRY_COUNT=\$((RETRY_COUNT+1))
+                if [ \$RETRY_COUNT -lt \$MAX_RETRIES ]; then
+                  echo "Domain health check attempt \$RETRY_COUNT failed. Retrying in 10 seconds..."
+                  sleep 10
+                else
+                  echo "::error::Domain health check failed after \$MAX_RETRIES attempts."
+                  exit 1
+                fi
+              fi
+            done
+EOF
+          
+          # Set status for notifications
+          if [ "$DEPLOY_SUCCESS" == "false" ]; then
+            echo "DEPLOY_FAILED=true" >> $GITHUB_ENV
+          else
+            echo "DEPLOY_FAILED=false" >> $GITHUB_ENV
+          fi
 
       - name: Rollback on Failure
         if: failure() && env.BACKUP_EXISTS == 'true'
         run: |
-          echo "Rolling back to previous deployment..."
+          echo "BACKUP_EXISTS is set to ${{ env.BACKUP_EXISTS }}"
+          echo "Starting rollback process to previous deployment..."
+          
+          # Get the latest backup if BACKUP_PATH is not already set
+          if [ -z "${{ env.BACKUP_PATH }}" ]; then
+            BACKUP_PATH=$(ssh -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" "ls -td /home/${{ secrets.SERVER_USER }}/${{ env.BACKUP_DIR }}/backup_* | head -1")
+            echo "Using latest backup at: $BACKUP_PATH"
+          else
+            echo "Using backup at: ${{ env.BACKUP_PATH }}"
+            BACKUP_PATH="${{ env.BACKUP_PATH }}"
+          fi
+          
+          # Perform rollback
           ssh -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
-            cp -r ${{ env.BACKUP_PATH }}/.next /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
-            cp -r ${{ env.BACKUP_PATH }}/public /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
-            cp ${{ env.BACKUP_PATH }}/package.json /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
-            cp ${{ env.BACKUP_PATH }}/pnpm-lock.yaml /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
-            if [ -f "${{ env.BACKUP_PATH }}/.env" ]; then
-              cp ${{ env.BACKUP_PATH }}/.env /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
-            fi
+            set -x  # Enable command echo for debugging
+            if [ -d "$BACKUP_PATH" ]; then
+              echo "Copying files from backup..."
+              cp -rv $BACKUP_PATH/.next /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
+              cp -rv $BACKUP_PATH/public /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
+              cp -v $BACKUP_PATH/package.json /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
+              cp -v $BACKUP_PATH/pnpm-lock.yaml /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
+              if [ -f "$BACKUP_PATH/.env" ]; then
+                cp -v $BACKUP_PATH/.env /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
+              fi
 
-            # Restart service
-            cd /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend
-            pm2 delete ${{ env.DEPLOY_NAME }} || true
-            PORT=${{ env.DEPLOY_PORT }} pm2 start pnpm --name ${{ env.DEPLOY_NAME }} -- start
-          EOF
+              # Restart service
+              cd /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend
+              echo "Restarting service..."
+              pm2 delete ${{ env.DEPLOY_NAME }} || true
+              PORT=${{ env.DEPLOY_PORT }} pm2 start pnpm --name ${{ env.DEPLOY_NAME }} -- start
+              echo "Rollback completed successfully."
+            else
+              echo "ERROR: Backup directory not found at $BACKUP_PATH"
+              exit 1
+            fi
+EOF
 
       - name: Send Slack Notification
         if: always()
@@ -182,7 +249,7 @@ jobs:
         with:
           payload: |
             {
-              "channel": "genzad-mvp",
+              "channel": "devops-alert",
               "attachments": [
                 {
                   "color": "${{ env.DEPLOY_FAILED == 'true' && '#D00000' || '#36a64f' }}",
@@ -199,7 +266,7 @@ jobs:
                       "fields": [
                         {
                           "type": "mrkdwn",
-                          "text": "*Environment:*\n${{ env.DEPLOY_NAME }}"
+                          "text": "*Environment:*\n${{ env.ENVIRONMENT }}"
                         },
                         {
                           "type": "mrkdwn",
@@ -243,5 +310,5 @@ jobs:
               ]
             }
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
