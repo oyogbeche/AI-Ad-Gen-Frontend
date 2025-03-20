@@ -161,7 +161,7 @@ jobs:
         if: failure() && env.BACKUP_EXISTS == 'true'
         run: |
           echo "Rolling back to previous deployment..."
-          ssh -i private_key.pem -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
+          ssh -o StrictHostKeyChecking=no "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
             cp -r ${{ env.BACKUP_PATH }}/.next /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
             cp -r ${{ env.BACKUP_PATH }}/public /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
             cp ${{ env.BACKUP_PATH }}/package.json /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/
