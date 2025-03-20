@@ -1,7 +1,6 @@
 "use client";
 // import { useState } from "react";
 import { Logo } from "@/components/icons/icon";
-import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/auth-store";
 import { ArrowRight, Menu, X } from "lucide-react";
 // import { Google } from "@/components/icons/icon";

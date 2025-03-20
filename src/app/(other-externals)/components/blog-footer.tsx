@@ -1,5 +1,5 @@
 import { Logo } from "@/components/icons/icon";
-import { Facebook, Github, Instagram, Twitter } from "lucide-react";
+import { Facebook, Instagram, Twitter } from "lucide-react";
 import Link from "next/link";
 
 const BlogFooter = () => {
