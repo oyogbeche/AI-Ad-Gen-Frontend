@@ -47,6 +47,19 @@ const Header: React.FC = () => {
           </Link>
         </div>
 
+             <nav className={`hidden md:flex items-center space-x-6 text-gray-600 ${isSpecialPage ? "text-white" : "text-gray-600"}`}>
+                  <Link href="/features" className="hover:text-purple-700">
+                    Features
+                  </Link>
+                  <Link href="/how-it-works" className="hover:text-purple-700">
+                    How it works
+                  </Link>
+                  <Link href="/pricings" className="hover:text-purple-700">
+                    Pricing
+                  </Link>
+                </nav>
+        
+
         {!predefinedPromptPages && (
           <>
             {user ? (

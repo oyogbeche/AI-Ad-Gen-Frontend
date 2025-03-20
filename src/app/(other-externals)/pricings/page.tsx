@@ -45,7 +45,7 @@ const Pricings = () => {
 
             <div className="pt-[16px]">
               <Link
-                href="#"
+                href="/signin"
                 className="bg-light-purple cursor-pointer text-white px-6 py-[12px] rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 mx-auto"
               >
                 <p>Choose plan</p>
@@ -74,7 +74,7 @@ const Pricings = () => {
 
             <div className="pt-[16px]">
               <Link
-                href="#"
+                href="/signin"
                 className="bg-[#FFFFFF] cursor-pointer text-[#520052] px-6 py-[12px] rounded-sm transition-colors flex items-center justify-center gap-2 mx-auto"
               >
                 <p>Choose plan</p>
@@ -109,7 +109,7 @@ const Pricings = () => {
 
             <div className="pt-[16px]">
               <Link
-                href="#"
+                href="/signin"
                 className="bg-light-purple cursor-pointer text-white px-6 py-[12px] rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 mx-auto"
               >
                 <p>Choose plan</p>
