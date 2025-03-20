@@ -70,7 +70,6 @@ const formSchema = z.object({
       (val) => adPlacementOptions.some((option) => option.value === val),
       {
         message: "Please select a valid platform",
-        // Ensure this closing brace is correctly placed or remove it if unnecessary
       }
     ),
   targetAudience: z.string().min(1, "Please select a target audience"),
@@ -84,7 +83,6 @@ export default function AdCustomizer() {
   const [formLoaded, setFormLoaded] = useState(false);
 
   const downloadFunction = async (elementRef: HTMLElement) => {
-    // const element = elementRef;
     const canvas = await html2canvas(elementRef as HTMLElement, {
       useCORS: true,
     });
@@ -102,7 +100,6 @@ export default function AdCustomizer() {
     generateAd,
     adData,
     isFetchingAd,
-    //isGenerating,
     progress,
     error,
     reset,
@@ -129,10 +126,10 @@ export default function AdCustomizer() {
     }
   }, [error]);
 
-  // Load saved form data on component mount
+  // Load saved form data on component mount using sessionStorage
   useEffect(() => {
     try {
-      const savedData = localStorage.getItem("adCustomizerData");
+      const savedData = sessionStorage.getItem("adCustomizerData");
       if (savedData) {
         try {
           const parsedData = JSON.parse(savedData);
@@ -152,7 +149,7 @@ export default function AdCustomizer() {
         }
       }
     } catch (error) {
-      console.error("Error accessing localStorage:", error);
+      console.error("Error accessing sessionStorage:", error);
     }
 
     // Mark form as loaded to prevent default value overrides
@@ -177,7 +174,7 @@ export default function AdCustomizer() {
     // Store the form data for retry functionality
     lastFormData.current = data;
 
-    // Save form data
+    // Save form data using sessionStorage
     try {
       // Create a copy of the data without the large image if present
       const storageData = {
@@ -185,9 +182,9 @@ export default function AdCustomizer() {
         productImage: data.productImage ? "Image provided" : null,
       };
 
-      localStorage.setItem("adCustomizerData", JSON.stringify(storageData));
+      sessionStorage.setItem("adCustomizerData", JSON.stringify(storageData));
     } catch (error) {
-      console.warn("Failed to save form data to localStorage:", error);
+      console.warn("Failed to save form data to sessionStorage:", error);
       // Continue with form submission even if storage fails
     }
 
@@ -211,15 +208,6 @@ export default function AdCustomizer() {
     }
 
     try {
-      // Simple debugging - Clean values only
-      // console.log("Image generation payload:", {
-      //   ad_goal: data.adDescription.trim(),
-      //   ad_size: data.adSize.trim(),
-      //   target_audience: data.targetAudience,
-      //   image: data.productImage ? "Image provided" : "No image provided",
-      // });
-
-      // Call the generate image function with clean payload
       generateAd({
         ad_goal: data.adDescription.trim(),
         ad_size: data.adSize.trim(),
@@ -406,7 +394,7 @@ export default function AdCustomizer() {
                               src={
                                 URL.createObjectURL(field.value as File) ||
                                 "/placeholder.svg"
-                              } // Convert File to a preview URL
+                              }
                               alt="Product"
                               fill
                               className="object-cover rounded-lg"
@@ -428,7 +416,7 @@ export default function AdCustomizer() {
                           onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) {
-                              field.onChange(file); // Store File object instead of base64
+                              field.onChange(file);
                             }
                           }}
                         />
@@ -460,12 +448,9 @@ export default function AdCustomizer() {
       <div className="lg:flex-1 flex flex-col order-1 lg:order-2 pb-4 lg:p-0 gap-2 max-md:bg-white ">
         {/* Preview Header */}
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
-          {/* pass download function here */}
           <DesktopAdPreviewNavigation
             type="image-form"
-
             imageId={adData?.data?.image_id || ""}
-
             downloadFunction={() => {
               const element = document.getElementById("outputImg");
               if (element) {
@@ -547,7 +532,6 @@ export default function AdCustomizer() {
 
               {adData?.data?.image_url && (
                 <div className="w-full h-full">
-                  {/* text editor here */}
                   <ImageTextEditor
                     imageSrc={adData.data.image_url}
                     initialTexts={[
