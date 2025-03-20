@@ -74,7 +74,7 @@ const BlogHeader: React.FC = () => {
           href={user ? "/dashboard" : "/signin"}
           className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors hidden md:flex justify-center items-center gap-2"
         >
-          <p>Generate Your Ad</p> <ArrowRight />
+          Sign in
         </Link>
       </div>
 

@@ -17,17 +17,7 @@ const BlogDetail = () => {
       <h1 className="text-3xl font-bold mb-4">{blog.title}</h1>
       <Image src={blog.image} alt={blog.title} className="w-full h-auto mb-4" />
       <p className="text-lg mb-4">{blog.description}</p>
-      <div className="flex items-center mb-4">
-        <Image
-          src={blog.avatar}
-          alt={blog.author}
-          className="w-10 h-10 rounded-full mr-4"
-        />
-        <div>
-          <p className="text-sm font-semibold">{blog.author}</p>
-          <p className="text-sm text-gray-500">{blog.date}</p>
-        </div>
-      </div>
+      <div className="flex items-center mb-4"></div>
       <p>{blog.description}</p>
     </div>
   );
