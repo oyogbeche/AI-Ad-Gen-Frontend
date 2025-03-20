@@ -2,29 +2,32 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 const AboutUs = () => {
     return (
-        <div className="w-full xl:mx-auto max-lg:px-4 flex flex-col items-center ">
+        <div className="w-full max-lg:px-4 flex flex-col items-center ">
             {/* Hero Section */}
-            <section className="px-6 md:px-12 lg:px-24 bg-[#F8E6F8]">
-                <div className="max-w-6xl mx-auto">
-                    <div className="text-center mb-6">
+            <section className="px-6 md:px-12 lg:px-24 bg-[#F8E6F8] w-full">
+                <div className="mx-auto">
+                    <div className="text-center mb-6 justify-center">
                         <h2 className="text-[#B800B8] font-[700] text-[40px] mb-2 mt-[47.5px]">About us</h2>
                         <h1 className="text-[48px] md:text-4xl lg:text-5xl font-[700] text-gray-900 mb-6">
                             Transforming Advertising with AI Innovation
                         </h1>
-                        <h5 className="text-[#16151E] font-[400] text-[20px] w-[1159px]">
+                        <h5 className="text-[#16151E] font-[400] text-[20px] self-center">
                             At Genz.ad, we believe that every business deserves high-quality, engaging ads without the need for a design or marketing team. That&apos;s why we built an AI-powered ad generator that simplifies ad creation, making it fast, effortless, and accessible to everyone.
                         </h5>
                     </div>
 
                     {/* Team Illustration */}
                     <div className="flex justify-center mb-10">
-                        <img
+                        <Image
                             src='/images/team-together.png'
                             alt="Team working together"
                             className="rounded-lg shadow-md w-[1248px] h-auto"
+                            width={1248}
+                            height={700}
                         />
                     </div>
                 </div>
@@ -118,10 +121,12 @@ const AboutUs = () => {
                             {/* Team Member 1 */}
                             <div className="text-center">
                                 <div className="w-48 h-48 overflow-hidden rounded-lg mx-auto mb-4">
-                                    <img
+                                    <Image
                                         src="/images/ebiye-ikiriko.png"
                                         alt="Ebiye Kiriko"
                                         className="w-full h-full object-cover"
+                                        width={192}
+                                        height={192}
                                     />
                                 </div>
                                 <h3 className="text-xl font-semibold">Ebiye Kiriko</h3>
@@ -131,10 +136,12 @@ const AboutUs = () => {
                             {/* Team Member 2 */}
                             <div className="text-center">
                                 <div className="w-48 h-48 overflow-hidden rounded-lg mx-auto mb-4">
-                                    <img
+                                    <Image
                                         src="/images/iretiola-adekola.png"
                                         alt="Iretola Adeola"
                                         className="w-full h-full object-cover"
+                                        width={192}
+                                        height={192}
                                     />
                                 </div>
                                 <h3 className="text-xl font-semibold">Iretola Adeola</h3>
@@ -144,10 +151,12 @@ const AboutUs = () => {
                             {/* Team Member 3 */}
                             <div className="text-center">
                                 <div className="w-48 h-48 overflow-hidden rounded-lg mx-auto mb-4">
-                                    <img
+                                    <Image
                                         src="/images/apeli-ziworitin.png"
                                         alt="April Ziweriltin"
                                         className="w-full h-full object-cover"
+                                        width={192}
+                                        height={192}
                                     />
                                 </div>
                                 <h3 className="text-xl font-semibold">April Ziweriltin</h3>
@@ -158,14 +167,16 @@ const AboutUs = () => {
                 </section>
 
                 {/* Product Showcase Section */}
-                <section className="py-16 px-6 md:px-12 lg:px-24 bg-white">
-                    <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                <section className="py-16 px-6 md:px-12 lg:px-24">
+                    <div className="mx-auto grid md:grid-cols-2 gap-12 items-center">
                         {/* Left - Product Image */}
                         <div>
-                            <img
+                            <Image
                                 src="/images/turn-ideas.png"
                                 alt="Platform interface"
                                 className="rounded-lg shadow-md w-full"
+                                width={1248}
+                                height={700}
                             />
                         </div>
 
@@ -206,10 +217,12 @@ const AboutUs = () => {
 
                         {/* Right - Image */}
                         <div>
-                            <img
+                            <Image
                                 src="/images/help-small.png"
                                 alt="User working with platform"
                                 className="rounded-lg shadow-md w-full"
+                                width={1248}
+                                height={700}
                             />
                         </div>
                     </div>
