@@ -1,4 +1,6 @@
+import { ArrowRight } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export interface BlogCardProps {
@@ -6,21 +8,16 @@ export interface BlogCardProps {
   image: string | StaticImageData;
   title: string;
   description: string;
-  author: string;
-  avatar: string | StaticImageData;
-  date: string;
 }
 
 const BlogCard: React.FC<BlogCardProps> = ({
+  id,
   image,
   title,
   description,
-  author,
-  avatar,
-  date,
 }) => {
   return (
-    <div className="max-w-[410px] w-full ">
+    <div className="max-w-[410px] w-full flex flex-col">
       <div>
         <Image
           className="rounded-2xl w-full object-cover mb-[25px]"
@@ -32,27 +29,20 @@ const BlogCard: React.FC<BlogCardProps> = ({
           unoptimized
         />
       </div>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-5">
         <h2 className="text-[#121316] text-2xl leading-8 font-semibold line-clamp-2">
           {title}
         </h2>
         <p className="text-[#5F5F5F] text-[20px] leading-8 font-normal line-clamp-3">
           {description}
         </p>
-        <div className="flex gap-3 items-center">
-          <Image
-            className="rounded-full"
-            src={avatar}
-            height={32}
-            width={32}
-            alt="Author's avatar"
-          />
-          <p className="text-[#121316] text-[14px] leading-5 font-semibold">
-            <span>{author}</span>
-            <span className="pl-2">{date}</span>
-          </p>
-        </div>
       </div>
+      <Link
+        href={`/blog/${id}`}
+        className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors hidden md:flex justify-center items-center gap-2 w-fit"
+      >
+        <p>Read more</p> <ArrowRight />
+      </Link>
     </div>
   );
 };

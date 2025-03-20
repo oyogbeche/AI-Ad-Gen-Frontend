@@ -6,9 +6,6 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-//import { Button } from "@/components/ui/button";
-//import { Input } from "@/components/ui/input";
-//import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
@@ -17,7 +14,6 @@ import { LoadingButton } from "@/domains/auth/components/loading-button";
 import Image from "next/image";
 import googlelogo from "../../../../public/google.svg";
 
-// Define the form schema with Zod
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email" }),
   password: z
@@ -26,16 +22,14 @@ const formSchema = z.object({
   rememberMe: z.boolean().default(false),
 });
 
-// Define the form values type
 type FormValues = z.infer<typeof formSchema>;
+interface SignInFormProps {
+  type: "signin" | "signup";
+}
 
-export function SignInForm() {
-  //const [showPassword, setShowPassword] = useState(false);
-  //const [isLoading, setIsLoading] = useState(false);
-
+export function SignInForm({ type }: SignInFormProps) {
   const { handleGoogleLogin, isLoading: isGoogleLoading } = useGoogleAuth();
 
-  // Initialize react-hook-form with zod resolver
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
@@ -45,22 +39,6 @@ export function SignInForm() {
       rememberMe: false,
     },
   });
-
-  // Handle form submission
-  /* const onSubmit = async (data: FormValues) => {
-    setIsLoading(true);
-
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log("Form submitted:", data);
-      // Here you would typically call your authentication API
-    } catch (error) {
-      console.error("Error signing in:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }; */
 
   return (
     <Card className="min-w-[320px] max-w-[550px] w-full mx-auto border rounded-lg">
@@ -80,16 +58,14 @@ export function SignInForm() {
         </div>
 
         <div className="space-y-2 mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">Welcome</h1>
+          <h1 className="text-3xl font-bold tracking-tight">
+            {type == "signin" ? "Welcome Back" : "Sign Up"}
+          </h1>
           <p className="text-muted-foreground">Continue with google</p>
         </div>
 
         <Form {...form}>
           <form onSubmit={() => {}} className="space-y-6">
-            {/*
-              Additional form fields can be added here.
-            */}
-
             <div className="w-full flex flex-col items-center justify-center space-y-4">
               <LoadingButton
                 type="button"
@@ -101,10 +77,6 @@ export function SignInForm() {
                 <p>Continue With Google</p>
               </LoadingButton>
             </div>
-
-            {/*
-              Additional components can be added below.
-            */}
           </form>
         </Form>
       </CardContent>
