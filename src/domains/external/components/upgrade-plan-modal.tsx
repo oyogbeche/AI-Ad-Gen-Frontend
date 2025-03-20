@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Check } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 interface UpgradePlanModalProps {
@@ -24,6 +25,8 @@ const UpgradePlanModal: React.FC<UpgradePlanModalProps> = ({
   isComplete,
   onComplete,
 }) => {
+
+  const router = useRouter()
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
@@ -75,9 +78,8 @@ const UpgradePlanModal: React.FC<UpgradePlanModalProps> = ({
                         ? "bg-light-purple hover:bg-dark-purple"
                         : "bg-dark-purple hover:bg-light-purple"
                     }`}
-                    onClick={() => {
-                      onComplete(true);
-                      onClose(false);
+                    onClick={index === 0 ? () => {router.push("https://buy.stripe.com/7sIdUP1JCdCAgOQaFm")} : () => {
+                      router.push("https://buy.stripe.com/6oEbMH1JC0PO9mo6p7")
                     }}
                   >
                     <p>Upgrade</p>
