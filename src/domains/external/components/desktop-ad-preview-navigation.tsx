@@ -251,7 +251,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 
   return (
     <div className={`w-full ${className}`}>
-      <div className="flex justify-between items-center w-full py-3">
+      <div className="flex justify-between items-center w-full pt-3">
         <button
           onClick={handleBack}
           className="flex items-center text-[#650065] hover:text-gray-800 cursor-pointer p-0"
@@ -304,7 +304,7 @@ export const DesktopAdPreviewNavigation: React.FC<
           )}
 
           {/* Share button - Show only when type is image-form and status is completed */}
-          {/* {type === "image-form" && status === "completed" && ( */}
+          {type === "image-form" && status === "completed" && (
             <ShareModal
               adUrl={`https://genz.ad/stand-alone/${effectiveImageUrl}`}
               // Added image url for when we want to switch to sharing natively and not the link to the social
@@ -320,7 +320,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                 </span>
               </button>
             </ShareModal>
-          {/* {()} */}
+          )}
 
           {/* Export button - Show for demo type always, and for image-form only when status is completed */}
           {(type === "demo" ||
