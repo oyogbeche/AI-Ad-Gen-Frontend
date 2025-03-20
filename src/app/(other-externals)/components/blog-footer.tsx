@@ -1,5 +1,5 @@
 import { Logo } from "@/components/icons/icon";
-import { Facebook, Github, Instagram, Twitter } from "lucide-react";
+import { Facebook, Instagram, Twitter } from "lucide-react";
 import Link from "next/link";
 
 const BlogFooter = () => {
@@ -12,23 +12,30 @@ const BlogFooter = () => {
 
   const featuresLinks = [
     { href: "/image-ads", label: "Image Ads" },
-    { href: "/video-ads", label: "Video Ads" },
     { href: "/community", label: "Community" },
-    { href: "/templates", label: "Templates" },
   ];
 
   const supportLinks = [
     { href: "/blog", label: "Blogs" },
-    { href: "/help", label: "Help Center" },
-    { href: "/api", label: "API Docs" },
     { href: "/contact", label: "Contact Us" },
   ];
 
   const socialLinks = [
-    { href: "#", icon: <Facebook color="#4A5568" />, label: "Facebook" },
-    { href: "#", icon: <Twitter color="#4A5568" />, label: "Twitter" },
-    { href: "#", icon: <Instagram color="#4A5568" />, label: "Instagram" },
-    { href: "#", icon: <Github color="#4A5568" />, label: "Github" },
+    {
+      href: "http://facebook.com/genz.ads",
+      icon: <Facebook color="#4A5568" />,
+      label: "Facebook",
+    },
+    {
+      href: "http://x.com/genz_ad",
+      icon: <Twitter color="#4A5568" />,
+      label: "Twitter",
+    },
+    {
+      href: "http://instagram.com/genz.adgen",
+      icon: <Instagram color="#4A5568" />,
+      label: "Instagram",
+    },
   ];
 
   const headingStyle = `text-black text-2xl font-semibold leading-8`;

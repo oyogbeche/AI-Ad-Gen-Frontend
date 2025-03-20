@@ -70,6 +70,7 @@ const formSchema = z.object({
       (val) => adPlacementOptions.some((option) => option.value === val),
       {
         message: "Please select a valid platform",
+        // Ensure this closing brace is correctly placed or remove it if unnecessary
       }
     ),
   targetAudience: z.string().min(1, "Please select a target audience"),
@@ -81,6 +82,18 @@ type FormData = z.infer<typeof formSchema>;
 export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [formLoaded, setFormLoaded] = useState(false);
+
+  const downloadFunction = async (elementRef: HTMLElement) => {
+    // const element = elementRef;
+    const canvas = await html2canvas(elementRef as HTMLElement, {
+      useCORS: true,
+    });
+    const dataURL = canvas.toDataURL();
+    const link = document.createElement("a");
+    link.href = dataURL;
+    link.download = "element.png";
+    link.click();
+  };
 
   const lastFormData = useRef<FormData | null>(null);
 
@@ -199,12 +212,12 @@ export default function AdCustomizer() {
 
     try {
       // Simple debugging - Clean values only
-      console.log("Image generation payload:", {
-        ad_goal: data.adDescription.trim(),
-        ad_size: data.adSize.trim(),
-        target_audience: data.targetAudience,
-        image: data.productImage ? "Image provided" : "No image provided",
-      });
+      // console.log("Image generation payload:", {
+      //   ad_goal: data.adDescription.trim(),
+      //   ad_size: data.adSize.trim(),
+      //   target_audience: data.targetAudience,
+      //   image: data.productImage ? "Image provided" : "No image provided",
+      // });
 
       // Call the generate image function with clean payload
       generateAd({
@@ -235,8 +248,7 @@ export default function AdCustomizer() {
       </div>
     );
   }
-
-  console.log("Ad Data:", adData?.data.image_url);
+console.log("Ad data",adData)
   return (
     <div className="flex flex-col lg:flex-row p-4 lg:p-0">
       {/* Form Section */}
@@ -448,9 +460,18 @@ export default function AdCustomizer() {
       <div className="lg:flex-1 flex flex-col order-1 lg:order-2 pb-4 lg:p-0 gap-2 max-md:bg-white ">
         {/* Preview Header */}
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
+          {/* pass download function here */}
           <DesktopAdPreviewNavigation
             type="image-form"
-            imageUrl={adData?.data?.image_url}
+
+            imageId={adData?.data?.image_id || ""}
+
+            downloadFunction={() => {
+              const element = document.getElementById("outputImg");
+              if (element) {
+                downloadFunction(element);
+              }
+            }}
             status={
               isFetchingAd
                 ? "generating"
@@ -458,11 +479,36 @@ export default function AdCustomizer() {
                 ? "completed"
                 : "initial"
             }
+            imageUrl={adData?.data?.image_id}
           />
+          <button></button>
         </div>
         {/* Preview Content */}
-        <div className="bg-[#F2F2F2] md:bg-[#F2F2F2] max-md:mt-4 flex-1 rounded-md flex items-center justify-center min-h-[50vh] mx-auto max-h-[648px] max-w-[699px] w-full max-md:w-[90%] md:my-10">
-          <div className="bg-[#F2F2F2]">
+        {adData?.data?.image_url && (
+          <div className="flex items-center gap-1 text-sm md:text-base leading-6 font-normal py-4 mx-auto">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                d="M8 11.75C8.2125 11.75 8.39075 11.678 8.53475 11.534C8.67875 11.39 8.7505 11.212 8.75 11V8C8.75 7.7875 8.678 7.6095 8.534 7.466C8.39 7.3225 8.212 7.2505 8 7.25C7.788 7.2495 7.61 7.3215 7.466 7.466C7.322 7.6105 7.25 7.7885 7.25 8V11C7.25 11.2125 7.322 11.3907 7.466 11.5347C7.61 11.6787 7.788 11.7505 8 11.75ZM8 5.75C8.2125 5.75 8.39075 5.678 8.53475 5.534C8.67875 5.39 8.7505 5.212 8.75 5C8.7495 4.788 8.6775 4.61 8.534 4.466C8.3905 4.322 8.2125 4.25 8 4.25C7.7875 4.25 7.6095 4.322 7.466 4.466C7.3225 4.61 7.2505 4.788 7.25 5C7.2495 5.212 7.3215 5.39025 7.466 5.53475C7.6105 5.67925 7.7885 5.751 8 5.75ZM8 15.5C6.9625 15.5 5.9875 15.303 5.075 14.909C4.1625 14.515 3.36875 13.9808 2.69375 13.3063C2.01875 12.6318 1.4845 11.838 1.091 10.925C0.697501 10.012 0.500501 9.037 0.500001 8C0.499501 6.963 0.696501 5.988 1.091 5.075C1.4855 4.162 2.01975 3.36825 2.69375 2.69375C3.36775 2.01925 4.1615 1.485 5.075 1.091C5.9885 0.697 6.9635 0.5 8 0.5C9.0365 0.5 10.0115 0.697 10.925 1.091C11.8385 1.485 12.6323 2.01925 13.3063 2.69375C13.9803 3.36825 14.5148 4.162 14.9098 5.075C15.3048 5.988 15.5015 6.963 15.5 8C15.4985 9.037 15.3015 10.012 14.909 10.925C14.5165 11.838 13.9823 12.6318 13.3063 13.3063C12.6303 13.9808 11.8365 14.5152 10.925 14.9097C10.0135 15.3042 9.0385 15.501 8 15.5Z"
+                fill="#B800B8"
+              />
+            </svg>
+            <p>Click on your image to make edits</p>
+          </div>
+        )}
+        <div
+          className={`${
+            adData?.data?.image_url
+              ? ""
+              : "bg-[#F2F2F2] md:bg-[#F2F2F2] max-md:mt-4 flex-1 rounded-md flex items-center justify-center min-h-[50vh] mx-auto max-h-[648px] max-w-[699px] w-full max-md:w-[90%] md:my-10 max-md:py-10"
+          }`}
+        >
+          <div className={`${adData?.data?.image_url ? "" : "bg-[#F2F2F2]"}`}>
             <div className="w-full mx-auto flex items-center justify-center rounded-sm">
               {error ? (
                 <div className="max-w-[609px] w-full mx-auto flex items-center justify-center max-h-[648px] rounded-sm">
@@ -502,12 +548,21 @@ export default function AdCustomizer() {
 
               {adData?.data?.image_url && (
                 <div className="w-full h-full">
+                  {/* text editor here */}
                   <ImageTextEditor
                     imageSrc={adData.data.image_url}
                     initialTexts={[
                       {
                         id: "1",
-                        content: "Edit this text",
+                        content:
+                          adData.data.keywords &&
+                          adData.data.keywords.length > 0
+                            ? adData.data.keywords[
+                                Math.floor(
+                                  Math.random() * adData.data.keywords.length
+                                )
+                              ]
+                            : "Edit this text",
                         x: 50,
                         y: 50,
                         fontSize: 24,
@@ -525,3 +580,5 @@ export default function AdCustomizer() {
     </div>
   );
 }
+
+import html2canvas from "html2canvas";

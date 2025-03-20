@@ -88,13 +88,12 @@ export default function EmailVerify() {
       }
 
       // Simulate an API call for OTP verification
-      const response = await new Promise((resolve, reject) => {
-        setTimeout(() => {
-         return otpCode === "12345" ? resolve("success") : reject("Invalid OTP");
-        }, 1500);
-      });
+      // const response = await new Promise((resolve, reject) => {
+      //   setTimeout(() => {
+      //    return otpCode === "12345" ? resolve("success") : reject("Invalid OTP");
+      //   }, 1500);
+      // });
 
-      console.log("Verification success:", response);
       setError("");
 
       router.push("/set-password");

@@ -6,12 +6,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAuthStore } from "@/store/auth-store";
 import { motion } from "framer-motion";
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAdsContext } from "../context/AdsContext";
+import { getRequest } from "@/lib/axios-fetch";
+import Loader from "@/components/ui/loader";
 
 const DashboardContent = () => {
   const [filter, setFilter] = useState<"user" | "community">("user");
@@ -47,68 +49,12 @@ const DashboardContent = () => {
     [userImages, publishedImages]
   );
 
-  const getRequest = async (endpoint: string) => {
-    const token = useAuthStore.getState().token;
+ 
 
-    if (!token) {
-      console.error("No access token found. User might not be authenticated.");
-      throw new Error("Unauthorized: No token found.");
-    }
-
-    // Check if token is expired
-    if (isTokenExpired(token)) {
-      console.warn("Access token expired. Consider refreshing the token.");
-      throw new Error("Unauthorized: Token expired.");
-    }
-
-    try {
-      const response = await fetch(
-        `https://staging.api.genz.ad/api/v1${endpoint}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const responseData = await response.json();
-      console.log(responseData.data.images);
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          console.error(
-            "Unauthorized request. Token might be invalid or expired."
-          );
-        }
-        throw new Error(responseData.message || "Something went wrong");
-      }
-
-      return responseData;
-    } catch (error) {
-      console.error("API Request Error:", error);
-      throw error;
-    }
-  };
-
-  // Function to check token expiration
-  const isTokenExpired = (token: string) => {
-    try {
-      const decoded = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
-      return Date.now() > decoded.exp * 1000; // Compare current time with expiry
-    } catch (error) {
-      console.error("Failed to decode token:", error);
-      return true; // Assume expired if decoding fails
-    }
-  };
 
   useEffect(() => {
     const fetchImages = async () => {
-      const token = useAuthStore.getState().token;
-      if (!token) {
-        console.warn("No token found, skipping API request.");
-        return;
-      }
+    
 
       try {
         const [publishedResponse, userResponse] = await Promise.all([
@@ -156,6 +102,9 @@ const DashboardContent = () => {
   };
 
   return (
+    !isLoaded ? (
+        <Loader />
+      ) : 
     <>
       {adData.user.length == 0 && adData.community.length == 0 ? (
         <div className="flex flex-col items-center gap-4 my-32">

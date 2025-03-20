@@ -1,13 +1,6 @@
-import BlogHeroSection from "../components/blog-hero-section";
-import Blogs from "../components/blogs";
-
-const Page = () => {
+const Blogs = () => {
   return (
-    <div className="max-w-7xl w-full xl:mx-auto max-lg:px-4 pt-8">
-      <BlogHeroSection />
-      <Blogs />
-    </div>
+    <div className="max-w-7xl w-full xl:mx-auto max-lg:px-4 pt-8">Blogs</div>
   );
 };
-
-export default Page;
+export default Blogs;
