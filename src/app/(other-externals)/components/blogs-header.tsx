@@ -42,7 +42,7 @@ const BlogHeader: React.FC = () => {
           <Link href="/how-it-works" className="hover:text-purple-700">
             How it works
           </Link>
-          <Link href="/pricing" className="hover:text-purple-700">
+          <Link href="/pricings" className="hover:text-purple-700">
             Pricing
           </Link>
         </nav>

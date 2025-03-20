@@ -7,20 +7,16 @@ const BlogFooter = () => {
     { href: "/about", label: "About Us" },
     { href: "/how-it-works", label: "How It Works" },
     { href: "/faq", label: "FAQs" },
-    { href: "/pricing", label: "Pricing" },
+    { href: "/pricings", label: "Pricing" },
   ];
 
   const featuresLinks = [
     { href: "/image-ads", label: "Image Ads" },
-    { href: "/video-ads", label: "Video Ads" },
     { href: "/community", label: "Community" },
-    { href: "/templates", label: "Templates" },
   ];
 
   const supportLinks = [
     { href: "/blog", label: "Blogs" },
-    { href: "/help", label: "Help Center" },
-    { href: "/api", label: "API Docs" },
     { href: "/contact", label: "Contact Us" },
   ];
 
