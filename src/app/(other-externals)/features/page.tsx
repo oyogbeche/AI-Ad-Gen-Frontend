@@ -20,7 +20,7 @@ const Features = () => {
           </p>
           <Link
             href="/signin"
-            className="bg-[#b800b8] text-white text-[18px] tracking-[0%] px-6 py-3 rounded-[6px] font-medium flex items-center justify-center mx-auto mt-6 w-fit"
+            className="bg-[#b800b8] text-white text-[18px] tracking-[0%] px-6 py-3 rounded-[6px] hover:bg-dark-purple font-medium flex items-center justify-center mx-auto mt-6 w-fit"
           >
             Get Started Now <ArrowRight className="ml-2 w-6 h-6" />
           </Link>
@@ -111,7 +111,7 @@ const Features = () => {
             </p>
             <Link
               href="/signin"
-              className="mt-6 bg-[#B800B8] text-white px-6 py-3 rounded-[6px] text-[18px] leading-[28px] tracking-[0%] font-medium flex items-center gap-[10px] mx-auto md:mx-0 w-fit"
+              className="mt-6 bg-[#B800B8] text-white px-6 py-3 rounded-[6px] text-[18px] leading-[28px] tracking-[0%] font-medium flex items-center gap-[10px] hover:bg-dark-purple mx-auto md:mx-0 w-fit"
             >
               Get Started Now <ArrowRight className="w-6 h-6" />
             </Link>
