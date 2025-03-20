@@ -42,53 +42,56 @@ const Header: React.FC = () => {
             {isSpecialPage ? (
               <Image src={logoPng} alt="Logo" width={128} height={64} />
             ) : (
-              <Logo className="w-32 md:w-auto" h-auto />
+              <Logo className="w-32 md:w-auto" />
             )}
           </Link>
         </div>
-
-             <nav className={`hidden md:flex items-center space-x-6 text-gray-600 ${isSpecialPage ? "text-white" : "text-gray-600"}`}>
-                  <Link href="/features" className="hover:text-purple-700">
-                    Features
-                  </Link>
-                  <Link href="/how-it-works" className="hover:text-purple-700">
-                    How it works
-                  </Link>
-                  <Link href="/pricings" className="hover:text-purple-700">
-                    Pricing
-                  </Link>
-                </nav>
-        
+        {!isSpecialPage && (
+          <nav className="hidden md:flex items-center space-x-6 text-gray-600">
+            <Link href="/features" className="hover:text-purple-700">
+              Features
+            </Link>
+            <Link href="/how-it-works" className="hover:text-purple-700">
+              How it works
+            </Link>
+            <Link href="/pricing" className="hover:text-purple-700">
+              Pricing
+            </Link>
+          </nav>
+        )}
 
         {!predefinedPromptPages && (
           <>
             {user ? (
               <div className="flex sm:gap-10 gap-2">
-                <div
-                  className="flex items-center gap-2 sm:gap-4 px-1 sm:px-4 sm:py-2 bg-white rounded-[8px] cursor-pointer"
-                  onClick={() => setIsModalOpen(true)}
-                >
-                  <div className="flex items-center">
+                {isSpecialPage && (
+                  <div
+                    className="flex items-center gap-2 sm:gap-4 px-1 sm:px-4 sm:py-2 bg-white rounded-[8px] cursor-pointer"
+                    onClick={() => setIsModalOpen(true)}
+                  >
+                    <div className="flex items-center">
+                      <Image
+                        src="/star-fall2.svg"
+                        height={24}
+                        width={24}
+                        alt="Star fall"
+                      />
+                      <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
+                        5{" "}
+                        <span className="hidden sm:inline-block">credits</span>
+                      </span>
+                    </div>
                     <Image
-                      src="/star-fall2.svg"
-                      height={24}
-                      width={24}
-                      alt="Star fall"
+                      src="/separate.svg"
+                      height={16}
+                      width={3}
+                      alt="Separator"
                     />
-                    <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
-                      5 <span className="hidden sm:inline-block">credits</span>
+                    <span className="font-semibold text-[#121316]">
+                      U<span className="hidden sm:inline-block">pgrade</span>
                     </span>
                   </div>
-                  <Image
-                    src="/separate.svg"
-                    height={16}
-                    width={3}
-                    alt="Separator"
-                  />
-                  <span className="font-semibold text-[#121316]">
-                    U<span className="hidden sm:inline-block">pgrade</span>
-                  </span>
-                </div>
+                )}
                 <UserAvatar
                   name={name}
                   imageUrl={user.avatar_url}
