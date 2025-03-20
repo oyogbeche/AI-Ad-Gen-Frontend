@@ -251,7 +251,7 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-4 bg-[#F2F2F2] flex-1 rounded-md items-center justify-center min-h-[50vh] mx-auto max-h-[648px] max-w-[699px] w-full max-md:w-full max-md:p-2 md:p-10">
+    <div>
       <div
         ref={containerRef}
         className="relative cursor-crosshair rounded-lg"
