@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const BlogFooter = () => {
   const companyLinks = [
-    { href: "/about", label: "About Us" },
+    { href: "/about-us", label: "About Us" },
     { href: "/how-it-works", label: "How It Works" },
     { href: "/faq", label: "FAQs" },
     { href: "/pricing", label: "Pricing" },
@@ -49,13 +49,13 @@ const BlogFooter = () => {
           audiences and cultural contexts, without needing design or marketing
           expertise.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[fit-content(100%)_auto_auto_auto] justify-between w-full lg:gap-6 gap-11 md:gap-12 xl:gap-24">
-          <div className="h-52 md:h-60 flex flex-col justify-between">
-            <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[fit-content(100%)_auto_auto_auto] justify-between w-full lg:gap-6 gap-10 md:gap-12 xl:gap-24">
+          <div className="flex flex-col justify-between">
+            <div className="flex flex-col gap-2.5 md:gap-5">
               <Link href="/" className="flex items-center">
                 <Logo className="w-41 h-12" />
               </Link>
-              <p className="text-[20px] md:text-[28px] font-semibold leading-7 md:leading-9">
+              <p className="text-[20px] md:text-[28px] font-semibold">
                 <span className="text-[#B800B8]">Smarter Ads, {""}</span>
                 <span className="text-[#121316] ">Faster Results</span>
               </p>
@@ -69,7 +69,9 @@ const BlogFooter = () => {
                     className="text-gray-900 hover:text-gray-500 p-2.5"
                     aria-label={social.label}
                   >
-                    <div className="h-[18px] w-[18px]">{social.icon}</div>
+                    <div className="h-[18px] w-[18px] hover:scale-110 transition-all">
+                      {social.icon}
+                    </div>
                   </Link>
                 ))}
               </div>
