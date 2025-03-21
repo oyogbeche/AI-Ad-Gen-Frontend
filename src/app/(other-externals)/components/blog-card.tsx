@@ -35,7 +35,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
       </div>
       <div className="flex-[2]">
         <div className={`flex flex-col ${id == 1 ? "gap-5" : "gap-3"}`}>
-          <h2 className="text-[#121316] text-2xl font-semibold line-clamp-2">
+          <h2 className="text-[#121316] text-2xl text-center font-semibold line-clamp-2">
             {title}
           </h2>
           <p className="text-[#5F5F5F] text-xl font-normal line-clamp-3">

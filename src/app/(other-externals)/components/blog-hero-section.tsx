@@ -5,7 +5,7 @@ const BlogHeroSection = () => {
   return (
     <section>
       <hgroup className="flex items-center flex-col p-2 gap-4">
-        <h1 className="text-[#121316] text-lg font-semibold md:text-3xl lg:text-[40px] text-center">
+        <h1 className="text-[#121316] text-[28px] font-semibold md:text-3xl lg:text-[40px] text-center">
           Stay Ahead with Expert Insights on Marketing Trends
         </h1>
         <p className="max-w-4xl text-base sm:text-xl text-center">
@@ -20,7 +20,7 @@ const BlogHeroSection = () => {
           <p>Explore Articles</p>
         </Link>
       </hgroup>
-      <div className="relative h-fit w-full overflow-hidden rounded-2xl my-6 md:mb-12">
+      <div className="relative h-fit w-full overflow-hidden rounded-2xl mt-6">
         <div className="w-full mx-auto h-[350px] sm:h-[704px] md:h-[500px]">
           <Image
             src="/blog-hero.jpeg"
