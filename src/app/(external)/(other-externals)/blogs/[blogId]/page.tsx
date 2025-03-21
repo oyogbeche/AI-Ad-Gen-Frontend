@@ -1,8 +1,8 @@
 "use client";
 
+import { blogData } from "@/domains/other-externals/components/blogs";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { blogData } from "../../components/blogs";
 
 const BlogDetail = () => {
   const { blogId } = useParams();
