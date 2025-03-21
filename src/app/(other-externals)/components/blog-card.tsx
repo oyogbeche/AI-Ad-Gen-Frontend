@@ -43,7 +43,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
           </p>
         </div>
         <Link
-          href={`/blog/${id}`}
+          href={`/blogs/${id}`}
           className={`bg-light-purple cursor-pointer text-white px-6 py-3 ${
             id == 1 ? "mt-6" : "mt-3"
           } rounded-sm hover:bg-dark-purple transition-colors flex justify-center items-center gap-2 w-fit`}
