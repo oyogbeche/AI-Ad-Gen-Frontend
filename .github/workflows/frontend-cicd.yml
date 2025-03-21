@@ -48,13 +48,20 @@ jobs:
         with:
           name: next-build
           path: |
-            .next/!(cache)
+            .next/**
+            !.next/cache/**
             public/
             package.json
             pnpm-lock.yaml
           if-no-files-found: error
           include-hidden-files: true
           compression-level: 6
+
+      - name: Debug Available Files
+        run: |
+          pwd
+          ls -la
+          find . -name ".next" -type d || echo ".next directory not found"
 
   deploy:
     runs-on: aiadgen
