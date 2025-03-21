@@ -17,6 +17,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Debug Branch Information
+        run: |
+          echo "Current branch: ${{ github.ref }}"
+          echo "Is main? ${{ github.ref == 'refs/heads/main' }}"
+          echo "Is dev? ${{ github.ref == 'refs/heads/dev' }}"
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -32,36 +38,41 @@ jobs:
           if [ "${{ github.ref }}" == "refs/heads/main" ]; then
             echo "NEXT_PUBLIC_API_URL=${{ vars.PROD_API_URL }}" >> .env
             echo "NEXT_PUBLIC_ENVIRONMENT=production" >> .env
+            echo "Building with production environment"
           elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
             echo "NEXT_PUBLIC_API_URL=${{ vars.DEV_API_URL }}" >> .env
             echo "NEXT_PUBLIC_ENVIRONMENT=test" >> .env
+            echo "Building with test environment"
           fi
+
+      - name: Debug Environment File
+        run: |
+          echo "Contents of .env file:"
+          cat .env
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Build Frontend
-        run: pnpm build
+        run: |
+          echo "Building for branch: ${{ github.ref }}"
+          echo "Environment value: ${{ github.ref == 'refs/heads/main' && 'production' || 'test' }}"
+          pnpm build
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: next-build
+          name: next-build-${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
           path: |
             .next/**
             !.next/cache/**
             public/
             package.json
             pnpm-lock.yaml
+            .env
           if-no-files-found: error
           include-hidden-files: true
           compression-level: 6
-
-      - name: Debug Available Files
-        run: |
-          pwd
-          ls -la
-          find . -name ".next" -type d || echo ".next directory not found"
 
   deploy:
     runs-on: aiadgen
@@ -71,48 +82,69 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Download Build Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: next-build
-          path: .
-
       - name: Determine Deployment Environment
         id: set-env
         run: |
           if [ "${{ github.ref }}" == "refs/heads/main" ]; then
             echo "DEPLOY_PORT=5000" >> $GITHUB_ENV
             echo "DEPLOY_NAME=ai-adgen-frontend-prod" >> $GITHUB_ENV
+            echo "DEPLOY_ENV=production" >> $GITHUB_ENV
+            echo "Deploying to production environment"
           elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
             echo "DEPLOY_PORT=5005" >> $GITHUB_ENV
             echo "DEPLOY_NAME=ai-adgen-frontend-dev" >> $GITHUB_ENV
+            echo "DEPLOY_ENV=test" >> $GITHUB_ENV
+            echo "Deploying to test environment"
           fi
-      
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: next-build-${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+          path: .
+
+      - name: Debug Downloaded Files
+        run: |
+          pwd
+          ls -la
+          echo "Contents of .env file after download:"
+          cat .env || echo "No .env file found"
+          ls -la .next || echo "No .next directory found"
+
+      - name: Install rsync and sshpass
+        run: |
+          apt-get update && apt-get install -y rsync sshpass || sudo apt-get update && sudo apt-get install -y rsync sshpass
+
+      - name: Clean Previous Deployment
+        run: |
+          sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no \
+          "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << 'EOF'
+          rm -rf /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend/.next
+          EOF
+
       - name: Deploy to Server
         run: |
-          echo "Deploying .next build to server..."
-          sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml \
+          echo "Deploying build to server for environment: ${{ env.DEPLOY_ENV }}"
+          sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml .env \
           "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend"
 
       - name: Start Application on Server
         run: |
           sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no \
-          "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << 'EOF'
+          "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
           set -e # Stop script on error
           export DEPLOY_NAME="${{ env.DEPLOY_NAME }}"
           export DEPLOY_PORT="${{ env.DEPLOY_PORT }}"
           cd /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend
           
-          # Recreate environment file
-          if [[ "$DEPLOY_NAME" == *"prod"* ]]; then
-            echo "NEXT_PUBLIC_API_URL=${{ vars.PROD_API_URL }}" > .env
-            echo "NEXT_PUBLIC_ENVIRONMENT=production" >> .env
-          else
-            echo "NEXT_PUBLIC_API_URL=${{ vars.DEV_API_URL }}" > .env
-            echo "NEXT_PUBLIC_ENVIRONMENT=test" >> .env
-          fi
+          # Verify environment settings on server
+          echo "Server deployment environment:"
+          cat .env
           
           pnpm install --frozen-lockfile
-          pm2 delete $DEPLOY_NAME || true
-          PORT=$DEPLOY_PORT pm2 start pnpm --name $DEPLOY_NAME -- start
-      EOF
+          pm2 delete \$DEPLOY_NAME || true
+          PORT=\$DEPLOY_PORT pm2 start pnpm --name \$DEPLOY_NAME -- start
+          
+          # Confirm deployment
+          echo "Deployed ${{ env.DEPLOY_ENV }} environment at port \$DEPLOY_PORT"
+EOF
