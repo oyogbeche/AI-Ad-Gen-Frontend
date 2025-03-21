@@ -81,10 +81,6 @@ jobs:
             echo "DEPLOY_NAME=ai-adgen-frontend-dev" >> $GITHUB_ENV
           fi
       
-      - name: Install rsync
-        run: sudo apt-get update && sudo apt-get install -y rsync sshpass
-
-
       - name: Deploy to Server
         run: |
           sshpass -p "${{ secrets.SERVER_PASSWORD }}" rsync -avz --delete \
