@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface ImageAdCardProps {
   title: string;
@@ -18,19 +18,60 @@ export function ImageAdCard({
 }: ImageAdCardProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [isCardHovering, setIsCardHovering] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (cardRef.current) {
+      const rect = cardRef.current.getBoundingClientRect();
+      setMousePosition({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+    }
+  };
+
   return (
     <div
-      className={`w-full rounded-3xl bg-gradient-to-r from-[#F8E6F8] to-[#B7D3F3] p-8 md:p-12 transition-all duration-700 ${
+      ref={cardRef}
+      className={`relative w-full rounded-3xl bg-gradient-to-r from-[#F8E6F8] to-[#B7D3F3] p-8 md:p-12 overflow-hidden transition-all duration-700 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
+      onMouseEnter={() => setIsCardHovering(true)}
+      onMouseLeave={() => setIsCardHovering(false)}
+      onMouseMove={handleMouseMove}
     >
-      <div className="max-w-3xl">
+      {isCardHovering && (
+        <div
+          className="absolute bg-[#4d024a] rounded-full opacity-20 blur-sm pointer-events-none transition-all duration-200"
+          style={{
+            left: mousePosition.x - 10,
+            top: mousePosition.y - 0,
+            width: "50px",
+            height: "50px",
+            transform: "translate(0, 0)",
+          }}
+        />
+      )}
+
+      <div
+        className={`absolute inset-0 bg-white/10 backdrop-blur-sm rounded-3xl transition-transform duration-700 ease-out opacity-0 ${
+          isCardHovering ? "opacity-100" : ""
+        }`}
+        style={{
+          backgroundImage:
+            "linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      <div className="max-w-3xl relative z-10">
         <h2
           className={`mb-2 text-2xl font-bold tracking-tight text-gray-900 md:text-3xl transition-transform duration-500 ${
             isVisible ? "translate-x-0" : "translate-x-4"

@@ -25,7 +25,7 @@ const DashboardContent = () => {
 
   const { adData, setAdData } = useAdsContext();
 
-  console.log("DASHBOARD",adData)
+  // console.log("DASHBOARD", adData);
   const router = useRouter();
 
   interface Ad {
@@ -52,13 +52,8 @@ const DashboardContent = () => {
     [userImages, publishedImages]
   );
 
- 
-
-
   useEffect(() => {
     const fetchImages = async () => {
-    
-
       try {
         const [publishedResponse, userResponse] = await Promise.all([
           getRequest("/image/all/published"),
@@ -80,7 +75,6 @@ const DashboardContent = () => {
     };
 
     fetchImages();
-    
   }, []);
 
   const itemVariants = {
@@ -95,7 +89,7 @@ const DashboardContent = () => {
       },
     },
     hover: {
-      boxShadow: "0 2px 2px rgba(0,0,0,0.1)",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
       transition: {
         type: "spring",
         stiffness: 400,
@@ -104,10 +98,9 @@ const DashboardContent = () => {
     },
   };
 
-  return (
-    !isLoaded ? (
-        <Loader />
-      ) : 
+  return !isLoaded ? (
+    <Loader />
+  ) : (
     <>
       {adData.user.length == 0 && adData.community.length == 0 ? (
         <div className="flex flex-col items-center gap-4 my-32">
@@ -170,7 +163,7 @@ const DashboardContent = () => {
           </div>
 
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
             initial="hidden"
             animate="show"
             key={filter}
@@ -179,7 +172,7 @@ const DashboardContent = () => {
               adData[filter].map((ad, i) => (
                 <motion.div
                   key={i}
-                  className="border-[#ECECEC] border bg-[#FCFCFC] rounded-[8px] overflow-hidden"
+                  className="border-[#ECECEC] border bg-[#FCFCFC] rounded-[8px] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
                   variants={itemVariants}
                   whileHover="hover"
                   onClick={() =>
@@ -187,27 +180,40 @@ const DashboardContent = () => {
                   }
                 >
                   <div className="relative group h-[294px] overflow-hidden">
-                    <Image
-                      src={ad.image_url}
-                      fill
-                      alt={`${ad.prompt}`}
-                      priority={i < 3}
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105 cursor-pointer"
-                      style={{ height: "100%" }}
-                      unoptimized
-                    />
+                    <motion.div
+                      className="absolute inset-0"
+                      whileHover={{
+                        scale: 1.05,
+                        transition: { duration: 0.4, ease: "easeOut" },
+                      }}
+                    >
+                      <Image
+                        src={ad.image_url}
+                        fill
+                        alt={`${ad.prompt}`}
+                        priority={i < 3}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover cursor-pointer"
+                        style={{ height: "100%" }}
+                        unoptimized
+                      />
+                      <motion.div
+                        className="absolute inset-0 bg-black opacity-0"
+                        whileHover={{ opacity: 0.5 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </motion.div>
                   </div>
                   <motion.div className="flex flex-col gap-[10px] mt-2.5 ml-4 mb-3">
                     <span className="font-semibold">{ad.product_name}</span>
                     {filter === "community" && (
                       <div className="flex gap-2.5 items-center">
-                        <div className="w-5 h-5 rounded-full overflow-hidden relative">
-                          <div className="bg-[#2C2C2C] size-6 rounded-3xl text-[#F5F5F5] font-semibold text-center">
+                        <div className="w-5 h-5 rounded-full overflow-hidden relative flex items-center justify-center">
+                          <div className="bg-[#2C2C2C] flex items-center justify-center size-[20px] rounded-full text-[#F5F5F5] font-semibold text-xs">
                             {ad.author_info.name[0].toUpperCase()}
                           </div>
                         </div>
-                        <span className="text-[#7D7D7D]">
+                        <span className="text-[#7D7D7D] text-sm">
                           {ad.author_info.name}
                         </span>
                       </div>
