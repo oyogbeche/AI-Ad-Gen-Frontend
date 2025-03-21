@@ -254,9 +254,9 @@ const AboutUs = () => {
               </h2>
               <p className="text-gray-700 mb-6">
                 Our AI-powered platform helps you create visually compelling
-                content in seconds—no design skills needed! Whether you&apos;re a
-                creator, marketer, or entrepreneur, our intuitive tools let you
-                bring your vision to life effortlessly.
+                content in seconds—no design skills needed! Whether you&apos;re
+                a creator, marketer, or entrepreneur, our intuitive tools let
+                you bring your vision to life effortlessly.
               </p>
             </div>
           </div>
