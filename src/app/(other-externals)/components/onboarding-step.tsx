@@ -125,7 +125,7 @@ export default function OnboardingStep({
             animate={
               isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: isLeftImage ? -50 : 50 }
             }
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.4, delay: 0.05 }}
           >
             {image}
           </motion.div>
