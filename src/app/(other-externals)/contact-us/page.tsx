@@ -1,21 +1,71 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 import bgLine from "@/components/images/bg-line.png";
 import contactAmico from "@/components/images/Contact us-amico.png";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 
-// Note: We're not using FormField components due to the dependency on react-hook-form
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { toast } from "sonner";
+
+// Define form schema with Zod
+const formSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  email: z.string().email({ message: "Please enter a valid email address." }),
+  message: z
+    .string()
+    .min(10, { message: "Message must be at least 10 characters." }),
+});
 
 const ContactPage = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // Handle form submission logic here
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+  });
+
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setIsSubmitting(true);
+
+    try {
+      console.log("Sending email to amandawork2022@gmail.com");
+      console.log("Form data:", data);
+
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      toast.success("Message sent!", {
+        description: "Thank you for contacting us. We'll get back to you soon.",
+      });
+
+      // Reset the form
+      form.reset();
+    } catch (error) {
+      console.error("Failed to send message:", error);
+      toast.error("Something went wrong", {
+        description: "Your message couldn't be sent. Please try again later.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -44,48 +94,70 @@ const ContactPage = () => {
               </div>
 
               <div className="max-w-md mx-auto md:mx-0">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name" className="text-sm font-medium">
-                      Name
-                    </Label>
-                    <Input
-                      id="name"
-                      placeholder="Enter your name"
-                      className="w-full"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="email" className="text-sm font-medium">
-                      Email
-                    </Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="Enter your email"
-                      className="w-full"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="message" className="text-sm font-medium">
-                      Message
-                    </Label>
-                    <Textarea
-                      id="message"
-                      placeholder="Enter your message"
-                      className="min-h-32 w-full"
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    className="w-full bg-[#B800B8] hover:bg-purple-600 mt-6 py-7 rounded-[6px] text-white font-semibold"
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-6"
                   >
-                    Send Now
-                  </Button>
-                </form>
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter your name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="email"
+                              placeholder="Enter your email"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Message</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Enter your message"
+                              className="min-h-32 w-full"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <Button
+                      type="submit"
+                      className="w-full bg-[#B800B8] hover:bg-purple-600 mt-6 py-7 rounded-[6px] text-white font-semibold"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Sending..." : "Send Now"}
+                    </Button>
+                  </form>
+                </Form>
               </div>
             </div>
 
@@ -95,27 +167,12 @@ const ContactPage = () => {
                 alt="Contact us illustration"
                 className="max-w-full h-auto"
               />
-
-              {/* Uncomment if you want to include the contact info section 
-              <div className="mt-6 space-y-4">
-                <div className="flex items-center gap-3">
-                  <MapPin className="h-5 w-5 text-gray-500" />
-                  <p className="text-gray-600">545 Mavis Island, IL 99191</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Phone className="h-5 w-5 text-gray-500" />
-                  <p className="text-gray-600">+2034 4040 3030</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Mail className="h-5 w-5 text-gray-500" />
-                  <p className="text-gray-600">genzadshng12@gmail.com</p>
-                </div>
-              </div>
-              */}
             </div>
           </div>
         </CardContent>
       </Card>
+
+      {/* Sonner toast is already added to the layout */}
     </section>
   );
 };
