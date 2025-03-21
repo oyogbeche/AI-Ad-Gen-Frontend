@@ -89,10 +89,10 @@ export default function OnboardingStep({
         <div className={containerClasses}>
           {/* Text Side */}
           <div className={textContainerClasses}>
-            <h3 className="text-[#121316] font-nunito text-[40px] font-bold leading-[48px] mb-4">
+            <h3 className="text-[#121316] font-nunito text-[18px] md:text-[40px] font-semibold md:font-bold leading-7 md:leading-[48px] mb-4">
               {title}
             </h3>
-            <ul className="list-disc list-inside space-y-1  text-[#121316] font-nunito text-[18px] font-normal leading-[28px]">
+            <ul className="list-disc list-inside space-y-1  text-[#121316] font-nunito text-base md:text-[18px] font-normal leading-6 md:leading-[28px]">
               {content}
             </ul>
           </div>
