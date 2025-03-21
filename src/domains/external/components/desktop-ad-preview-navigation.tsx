@@ -87,6 +87,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 
     try {
       const response = await fetch(imageUrl || fallbackImageUrl);
+
       const blob = await response.blob();
 
       const extension = format === "png" ? "png" : "jpg";
