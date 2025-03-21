@@ -2,14 +2,14 @@
 import { Logo } from "@/components/icons/icon";
 import { UserAvatar } from "@/domains/ads-gen/components/avatar";
 import { useAuthStore } from "@/store/auth-store";
+import { StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import logoPng from "../../../../public/logo.png";
-import iconLogo from "../../../../public/icon-logo.svg";
 import { useState } from "react";
+import iconLogo from "../../../../public/icon-logo.svg";
+import logoPng from "../../../../public/logo.png";
 import UpgradePlanModal from "./upgrade-plan-modal";
-import { StarIcon } from "lucide-react";
 
 const Header: React.FC = () => {
   const user = useAuthStore((state) => state.user);
@@ -91,7 +91,7 @@ const Header: React.FC = () => {
               <div className="flex sm:gap-10 gap-2">
                 {isSpecialPage && (
                   <div
-                    className="flex items-center gap-2 sm:gap-4 px-1 sm:px-4 sm:py-2 bg-white rounded-[8px] cursor-pointer"
+                    className="flex items-center gap-2 sm:gap-4 px-2 sm:px-4 py-1 sm:py-2 bg-white rounded-[8px] cursor-pointer max-sm:mr-2 max-sm:h-fit my-auto"
                     onClick={() => setIsModalOpen(true)}
                   >
                     <div className="flex items-center">
@@ -123,22 +123,26 @@ const Header: React.FC = () => {
                         </span>
                       )}
                     </div>
-                    <Image
-                      src="/separate.svg"
-                      height={16}
-                      width={3}
-                      alt="Separator"
-                    />
-                    {user.email === "ewehvictor7@gmail.com" ||
-                    user.email === "mark@hotels.ng" ? (
-                      <span className="font-semibold text-[#121316]">
-                        P<span className="hidden sm:inline-block">remium</span>
-                      </span>
-                    ) : (
-                      <span className="font-semibold text-[#121316]">
-                        U<span className="hidden sm:inline-block">pgrade</span>
-                      </span>
-                    )}
+                    <div className="hidden sm:flex items-center gap-4 ">
+                      <Image
+                        src="/separate.svg"
+                        height={16}
+                        width={3}
+                        alt="Separator"
+                      />
+                      {user.email === "ewehvictor7@gmail.com" ||
+                      user.email === "mark@hotels.ng" ? (
+                        <span className="font-semibold text-[#121316]">
+                          P
+                          <span className="hidden sm:inline-block">remium</span>
+                        </span>
+                      ) : (
+                        <span className="font-semibold text-[#121316]">
+                          U
+                          <span className="hidden sm:inline-block">pgrade</span>
+                        </span>
+                      )}
+                    </div>
                   </div>
                 )}
                 <UserAvatar
@@ -150,16 +154,16 @@ const Header: React.FC = () => {
             ) : (
               <div className="flex gap-3">
                 <Link
-                  href={"/signin?type=signup"}
+                  href={"/signin?type=signin"}
                   className="cursor-pointer px-2 sm:px-6 py-1 sm:py-3 rounded-sm text-[#520052] transition-colors justify-center items-center gap-2 border border-[#B800B8] hover:bg-[#cf54cf21] w-fit mx-auto flex"
                 >
-                  Sign up
+                  Sign in
                 </Link>
                 <Link
-                  href={"/signin?type=signin"}
-                  className="bg-light-purple cursor-pointer text-white px-2 sm:px-6 py-1 sm:py-3 rounded-sm hover:bg-dark-purple transition-colors flex justify-center items-center gap-2"
+                  href={"/signin?type=signup"}
+                  className="cursor-pointer px-2 sm:px-6 py-1 sm:py-3 rounded-sm bg-light-purple text-white hover:bg-dark-purple transition-colors justify-center items-center gap-2 border w-fit mx-auto flex"
                 >
-                  Sign in
+                  Sign up
                 </Link>
               </div>
             )}

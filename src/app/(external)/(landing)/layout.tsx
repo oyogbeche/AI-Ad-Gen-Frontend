@@ -1,3 +1,4 @@
+import BlogFooter from "@/app/(other-externals)/components/blog-footer";
 import Footer from "@/domains/external/components/footer";
 
 export default function RootLayout({
@@ -8,7 +9,9 @@ export default function RootLayout({
   return (
     <>
       {children}
-      <Footer />
+      <div className="max-w-7xl w-full xl:mx-auto max-lg:px-4 pt-8">
+        <BlogFooter />
+      </div>
     </>
   );
 }
