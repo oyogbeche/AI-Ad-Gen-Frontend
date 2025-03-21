@@ -102,17 +102,8 @@ jobs:
           export DEPLOY_NAME="${{ env.DEPLOY_NAME }}"
           export DEPLOY_PORT="${{ env.DEPLOY_PORT }}"
           cd /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend
-          
-          # Recreate environment file
-          if [[ "$DEPLOY_NAME" == *"prod"* ]]; then
-            echo "NEXT_PUBLIC_API_URL=${{ vars.PROD_API_URL }}" > .env
-            echo "NEXT_PUBLIC_ENVIRONMENT=production" >> .env
-          else
-            echo "NEXT_PUBLIC_API_URL=${{ vars.DEV_API_URL }}" > .env
-            echo "NEXT_PUBLIC_ENVIRONMENT=test" >> .env
-          fi
-          
           pnpm install --frozen-lockfile
           pm2 delete $DEPLOY_NAME || true
           PORT=$DEPLOY_PORT pm2 start pnpm --name $DEPLOY_NAME -- start
-      EOF
+          EOF
+#          
