@@ -8,14 +8,31 @@ const nextConfig: NextConfig = {
         hostname: "res.cloudinary.com",
         pathname: "**",
       },
-    ],
-    domains: [
-      "oaidalleapiprodscus.blob.core.windows.net",
-      "genz.ad",
-      "res.cloudinary.com",
-      "2.img-dpreview.com",
-      "www.sciencebuddies.org",
-      " cdn.lucidpic.com",
+      {
+        protocol: "https",
+        hostname: "oaidalleapiprodscus.blob.core.windows.net",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "genz.ad",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "2.img-dpreview.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.sciencebuddies.org",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.lucidpic.com",
+        pathname: "**",
+      },
     ],
   },
 };

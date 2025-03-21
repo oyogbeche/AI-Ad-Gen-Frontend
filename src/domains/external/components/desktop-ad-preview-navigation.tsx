@@ -21,10 +21,12 @@ interface DesktopAdPreviewNavigationProps {
   status?: string;
   generatedImageUrl?: string;
   downloadFunction?: () => void;
-  imageId?: string; 
+  imageId?: string;
   hideSaveButton?: boolean;
   hideSaveAndExit?: boolean;
   isPublished?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  pageAdData?: any;
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
@@ -35,6 +37,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   imageUrl,
   imageName = "ad",
   // handleCopy,
+  pageAdData,
   type,
   status,
   generatedImageUrl = "/preview.png",
@@ -44,7 +47,6 @@ export const DesktopAdPreviewNavigation: React.FC<
   hideSaveAndExit = false,
   isPublished = false,
 }) => {
-      console.log("IMAGEID", imageId);
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
   const [isSaveDropdownOpen, setIsSaveDropdownOpen] = useState(false);
@@ -236,33 +238,40 @@ export const DesktopAdPreviewNavigation: React.FC<
     router.push("/dashboard");
   };
 
-  const handleSaveAndPublish = () => {
-    patchRequest(`/image/publish/${imageId}`, { status: "published" }).then(
-      () => {
-        setIsSaveDropdownOpen(false);
-      }
-    );
-    // console.log(adData);
-    toast.custom(() => (
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-        <div className="flex items-center justify-between w-full">
-          <div className="flex items-center">
-            <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-              <Check className="h-4 w-4 text-white" />
-            </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-gray-900 mb-2">
-                Ad Published Successfully!
-              </p>
-              <p className="text-xs text-gray-500">
-                Your ad is now live and ready to reach your audience.
-              </p>
+  const handleSaveAndPublish = async () => {
+    try {
+      const newStatus = pageAdData.is_published ? "unpublished" : "published";
+      await patchRequest(`/image/publish/${imageId}`, { status: newStatus });
+
+      toast.custom(() => (
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+                <Check className="h-4 w-4 text-white" />
+              </div>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-900 mb-2">
+                  {pageAdData.is_published
+                    ? "Ad Unpublished Successfully!"
+                    : "Ad Published Successfully!"}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {pageAdData.is_published
+                    ? "Your ad is no longer live."
+                    : "Your ad is now live and ready to reach your audience."}
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    ));
-    router.push("/dashboard");
+      ));
+
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Error updating publish status:", error);
+      toast.error("Failed to update publish status");
+    }
   };
 
   return (
@@ -314,7 +323,9 @@ export const DesktopAdPreviewNavigation: React.FC<
                         onClick={handleSaveAndPublish}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                       >
-                        Save & Publish
+                        {pageAdData.is_published
+                          ? "Unpublish"
+                          : "Save & Publish"}
                       </button>
                     )}
                   </div>
