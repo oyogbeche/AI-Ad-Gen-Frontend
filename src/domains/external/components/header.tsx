@@ -165,12 +165,6 @@ const Header: React.FC = () => {
                 >
                   Sign up
                 </Link>
-                <Link
-                  href={"/signin?type=signin"}
-                  className="bg-light-purple cursor-pointer text-white px-2 sm:px-6 py-1 sm:py-3 rounded-sm hover:bg-dark-purple transition-colors flex justify-center items-center gap-2"
-                >
-                  Sign in
-                </Link>
               </div>
             )}
 
