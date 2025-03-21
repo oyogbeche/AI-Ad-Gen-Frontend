@@ -1,4 +1,7 @@
+"use client";
 import type { ReactNode } from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 interface OnboardingStepProps {
   number: number;
@@ -21,13 +24,13 @@ export default function OnboardingStep({
 }: OnboardingStepProps) {
   const isLeftImage = imagePosition === "left";
 
-  // Default background colors based on image position
+  
   const bgColor =
     backgroundColor ||
     (isLeftImage ? "#F2F2F2" : isLeftImage ? "#F2F2F2" : "#FDF2FD");
   const numColor = numberColor || (isLeftImage ? "#cfcfcf" : "#F6E1F6");
 
-  // Conditional classes based on image position
+  
   const sectionClasses = `
     relative
     rounded-[20px]
@@ -75,9 +78,20 @@ export default function OnboardingStep({
     }
   `;
 
+  
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+
   return (
     <div className="w-full">
-      <section className={sectionClasses} style={{ backgroundColor: bgColor }}>
+      <motion.section
+        ref={sectionRef}
+        className={sectionClasses}
+        style={{ backgroundColor: bgColor }}
+        initial={{ opacity: 0, y: 50 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+        transition={{ duration: 0.8 }}
+      >
         <div
           className={numberClasses}
           style={{ color: numColor }}
@@ -88,19 +102,35 @@ export default function OnboardingStep({
 
         <div className={`max-md:mb-2 max-md:mt-[53px] ${containerClasses}`}>
           {/* Text Side */}
-          <div className={`max-md:px-5 ${textContainerClasses}`}>
+          <motion.div
+            className={`max-md:px-5 ${textContainerClasses}`}
+            initial={{ opacity: 0, x: isLeftImage ? 50 : -50 }}
+            animate={
+              isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: isLeftImage ? 50 : -50 }
+            }
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             <h3 className="text-[#121316] font-nunito text-[18px] md:text-[40px] font-semibold md:font-bold leading-7 md:leading-[48px] mb-4">
               {title}
             </h3>
-            <ul className="list-disc list-inside space-y-1  text-[#121316] font-nunito text-base md:text-[18px] font-normal leading-6 md:leading-[28px]">
+            <ul className="list-disc list-inside space-y-1 text-[#121316] font-nunito text-base md:text-[18px] font-normal leading-6 md:leading-[28px]">
               {content}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Image Side */}
-          <div className={imageContainerClasses}>{image}</div>
+          <motion.div
+            className={imageContainerClasses}
+            initial={{ opacity: 0, x: isLeftImage ? -50 : 50 }}
+            animate={
+              isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: isLeftImage ? -50 : 50 }
+            }
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            {image}
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }
