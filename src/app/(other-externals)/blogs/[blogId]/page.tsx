@@ -37,17 +37,20 @@ const BlogDetail = () => {
         </h1>
         <div className="flex flex-col md:flex-row gap-6 md:gap-8">
           {otherBlog.map((b, index) => (
-            <picture className="flex-[1] max-h-[337px]" key={index}>
-              <Image
-                className="rounded-2xl w-full h-full object-cover mb-[25px]"
-                src={b.image}
-                width={410}
-                height={350}
-                alt="Blog image"
-                priority
-                unoptimized
-              />
-            </picture>
+            <div className="" key={index}>
+              <picture className="flex-[1] max-h-[337px]">
+                <Image
+                  className="rounded-2xl w-full h-full object-cover mb-[25px]"
+                  src={b.image}
+                  width={410}
+                  height={350}
+                  alt="Blog image"
+                  priority
+                  unoptimized
+                />
+              </picture>
+              <p className="font-semibold text-xl">{b.title}</p>
+            </div>
           ))}
         </div>
       </div>
