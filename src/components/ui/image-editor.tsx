@@ -100,11 +100,11 @@ export function ImageTextEditor({
         </Button>
       </div> */}
 
-      <div className="">
+      <div className="flex flex-col gap-4 md:bg-[#F2F2F2] flex-1 rounded-md items-center justify-center min-h-[50vh] mx-auto max-w-[699px] w-full max-md:px-4 md:p-8">
         {/* element I want to download */}
         <div
           ref={containerRef}
-          className="relative border overflow-hidden bg-[#F0F3F5] max-w-[650px] rounded-lg p-0"
+          className="relative w-full rounded-md p-0"
           id="outputImg"
         >
           {/* <Image
@@ -126,24 +126,22 @@ export function ImageTextEditor({
             }}
             unoptimized
           /> */}
-          <div className="flex flex-col gap-4 bg-[#F2F2F2] flex-1 rounded-md items-center justify-center min-h-[50vh] mx-auto max-h-[648px] max-w-[699px] w-full max-md:w-full max-md:p-2 md:p-10">
-            <ImageSelectionTool
-              imageSrc={imageSrc ?? "/preview.png"}
-              width={650}
-              height={500}
-              onSelectionComplete={(selection, prompt) => {
-                console.log(
-                  `Selection at (${selection.x},${selection.y}) with dimensions ${selection.width}x${selection.height}`
-                );
-                console.log(`Prompt: ${prompt}`);
-              }}
-              onClick={(e) => {
-                if (e.target === e.currentTarget) {
-                  setSelectedTextId("");
-                }
-              }}
-            />
-          </div>
+          <ImageSelectionTool
+            imageSrc={imageSrc ?? "/preview.png"}
+            // width={650}
+            // height={500}
+            onSelectionComplete={(selection, prompt) => {
+              console.log(
+                `Selection at (${selection.x},${selection.y}) with dimensions ${selection.width}x${selection.height}`
+              );
+              console.log(`Prompt: ${prompt}`);
+            }}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setSelectedTextId("");
+              }
+            }}
+          />
 
           {texts.map((text) => (
             <TextLayer

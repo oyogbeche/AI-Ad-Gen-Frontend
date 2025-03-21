@@ -251,14 +251,15 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
   };
 
   return (
-    <div>
+    <>
       <div
         ref={containerRef}
-        className="relative cursor-crosshair rounded-lg"
+        className="relative cursor-crosshair rounded-md"
         style={{
-          width: `${containerSize.width}px`,
-          height: `${containerSize.height}px`,
-          maxWidth: "100%",
+          // width: `${containerSize.width}px`,
+          // height: `${containerSize.height}px`,
+          width: "100%",
+          height: "100%",
         }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -272,7 +273,7 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
           alt="Selectable image"
           width={containerSize.width}
           height={containerSize.height}
-          className="select-none w-full md:max-w-[650px] mx-auto h-full object-cover z-[-1] rounded-lg"
+          className="select-none w-full h-full object-cover z-[-1]"
           draggable={false}
           onClick={onClick}
           unoptimized
@@ -345,7 +346,7 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
           </form>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
