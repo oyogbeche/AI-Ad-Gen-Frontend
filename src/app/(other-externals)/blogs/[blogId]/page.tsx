@@ -32,25 +32,22 @@ const BlogDetail = () => {
       <p className="text-lg mb-4">{blog.description}</p>
       <p>{blog.description}</p>
       <div>
-        <h1 className="text-2xl text-center md:text-[32px] font-semibold">
+        <h1 className="text-2xl md:text-[32px] font-semibold">
           Most Popular Articles
         </h1>
         <div className="flex flex-col md:flex-row gap-6 md:gap-8">
           {otherBlog.map((b, index) => (
-            <div className="">
-              <picture className="flex-[1] max-h-[337px]" key={index}>
-                <Image
-                  className="rounded-2xl w-full h-full object-cover mb-[25px]"
-                  src={b.image}
-                  width={410}
-                  height={350}
-                  alt="Blog image"
-                  priority
-                  unoptimized
-                />
-              </picture>
-              <p className="font-semibold text-xl">{b.title}</p>
-            </div>
+            <picture className="flex-[1] max-h-[337px]" key={index}>
+              <Image
+                className="rounded-2xl w-full h-full object-cover mb-[25px]"
+                src={b.image}
+                width={410}
+                height={350}
+                alt="Blog image"
+                priority
+                unoptimized
+              />
+            </picture>
           ))}
         </div>
       </div>
