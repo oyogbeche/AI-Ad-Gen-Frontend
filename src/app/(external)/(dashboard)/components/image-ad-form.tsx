@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { ImageTextEditor } from "@/components/ui/image-editor";
+import { Input } from "@/components/ui/input";
 import Loader from "@/components/ui/loader";
 import {
   Select,
@@ -26,6 +27,7 @@ import { useGenerateAdImage } from "@/domains/ads-gen/api/ad-image-generate";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { zodResolver } from "@hookform/resolvers/zod";
+import html2canvas from "html2canvas";
 import { ArrowRight, ImageIcon, RefreshCw, Upload } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -72,6 +74,10 @@ const formSchema = z.object({
         message: "Please select a valid platform",
       }
     ),
+  productName: z
+    .string()
+    .min(2, "Product name must be at least 2 characters")
+    .nonempty("Product name is required"),
   targetAudience: z.string().min(1, "Please select a target audience"),
   productImage: z.instanceof(File).optional(),
 });
@@ -96,20 +102,15 @@ export default function AdCustomizer() {
   const lastFormData = useRef<FormData | null>(null);
 
   // Use the generate image hook
-  const {
-    generateAd,
-    adData,
-    isFetchingAd,
-    progress,
-    error,
-    reset,
-  } = useGenerateAdImage();
+  const { generateAd, adData, isFetchingAd, progress, error, reset } =
+    useGenerateAdImage();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       adDescription: "",
       adSize: "",
+      productName: "",
       targetAudience: "Gen Z",
       productImage: undefined,
     },
@@ -138,6 +139,7 @@ export default function AdCustomizer() {
           form.reset({
             adDescription: parsedData.adDescription || "",
             adSize: parsedData.adSize || "",
+            productName: parsedData.productName || "",
             targetAudience: parsedData.targetAudience || "Gen Z",
             productImage: parsedData.productImage || undefined,
           });
@@ -207,10 +209,20 @@ export default function AdCustomizer() {
       return;
     }
 
+    if (!data.productName || data.productName.trim().length === 0) {
+      form.setError("productName", {
+        type: "manual",
+        message: "Product name is required",
+      });
+      toast.error("Product name is required");
+      return;
+    }
+
     try {
       generateAd({
         ad_goal: data.adDescription.trim(),
         ad_size: data.adSize.trim(),
+        product_name: data.productName.trim(),
         target_audience: data.targetAudience,
         productImage: data.productImage || undefined,
       });
@@ -236,7 +248,7 @@ export default function AdCustomizer() {
       </div>
     );
   }
-console.log("Ad data",adData)
+  console.log("Ad data", adData);
   return (
     <div className="flex flex-col lg:flex-row p-4 lg:p-0">
       {/* Form Section */}
@@ -256,6 +268,26 @@ console.log("Ad data",adData)
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-6">
+              <FormField
+                control={form.control}
+                name="productName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base leading-6 font-normal text-[#121316]">
+                      Ad Title
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your Ad title"
+                        className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-11 md:h-[56px] text-base leading-6 text-[#121316]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-500 text-xs mt-1" />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name="adDescription"
@@ -564,5 +596,3 @@ console.log("Ad data",adData)
     </div>
   );
 }
-
-import html2canvas from "html2canvas";

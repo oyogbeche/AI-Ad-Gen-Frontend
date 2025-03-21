@@ -12,6 +12,7 @@ interface Ad {
   prompt: string;
   target_audience: string;
   updated_at: string;
+  product_name: string;
 }
 interface Ads {
   user: Ad[];

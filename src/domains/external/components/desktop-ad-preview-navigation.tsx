@@ -22,6 +22,7 @@ interface DesktopAdPreviewNavigationProps {
   generatedImageUrl?: string;
   downloadFunction?: () => void;
   imageId?: string; // Added imageId property
+  hideSaveButton?: boolean;
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
@@ -37,6 +38,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   generatedImageUrl = "/preview.png",
   downloadFunction,
   imageId,
+  hideSaveButton = false,
 }) => {
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
@@ -62,7 +64,8 @@ export const DesktopAdPreviewNavigation: React.FC<
   };
 
   // get generated image id
-  const {adData} = useGenerateAdImage();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { adData } = useGenerateAdImage();
 
   const downloadImage = async (format: "png" | "jpg") => {
     if (!effectiveImageUrl || isDownloading) return;
@@ -219,15 +222,16 @@ export const DesktopAdPreviewNavigation: React.FC<
         </div>
       </div>
     ));
+    router.push("/dashboard");
   };
 
   const handleSaveAndPublish = () => {
-    patchRequest(`/image/publish/${imageId}`, { status: "published" })
-      .then(() => {
+    patchRequest(`/image/publish/${imageId}`, { status: "published" }).then(
+      () => {
         setIsSaveDropdownOpen(false);
       }
-      )
-    console.log(adData)
+    );
+    // console.log(adData);
     toast.custom(() => (
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
         <div className="flex items-center justify-between w-full">
@@ -247,6 +251,7 @@ export const DesktopAdPreviewNavigation: React.FC<
         </div>
       </div>
     ));
+    router.push("/dashboard");
   };
 
   return (
@@ -265,43 +270,45 @@ export const DesktopAdPreviewNavigation: React.FC<
 
         <div className="flex gap-4">
           {/* Save button - Show only when type is image-form and status is completed */}
-          {type === "image-form" && status === "completed" && (
-            <div className="relative" ref={saveDropdownRef}>
-              <button
-                onClick={() => setIsSaveDropdownOpen(!isSaveDropdownOpen)}
-                className="bg-[#F6F6F6] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
-              >
-                <span className="max-sm:hidden text-base leading-6 font-normal text-[#1B1B1B]">
-                  Save
-                </span>
-                <ChevronDown size={18} />
-              </button>
-
-              {isSaveDropdownOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10"
+          {!hideSaveButton &&
+            type === "image-form" &&
+            status === "completed" && (
+              <div className="relative" ref={saveDropdownRef}>
+                <button
+                  onClick={() => setIsSaveDropdownOpen(!isSaveDropdownOpen)}
+                  className="bg-[#F6F6F6] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
                 >
-                  <div className="py-1">
-                    <button
-                      onClick={handleSaveAndExit}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                    >
-                      Save & Exit
-                    </button>
-                    <button
-                      onClick={handleSaveAndPublish}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                    >
-                      Save & Publish
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </div>
-          )}
+                  <span className="max-sm:hidden text-base leading-6 font-normal text-[#1B1B1B]">
+                    Save
+                  </span>
+                  <ChevronDown size={18} />
+                </button>
+
+                {isSaveDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10"
+                  >
+                    <div className="py-1">
+                      <button
+                        onClick={handleSaveAndExit}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                      >
+                        Save & Exit
+                      </button>
+                      <button
+                        onClick={handleSaveAndPublish}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                      >
+                        Save & Publish
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            )}
 
           {/* Share button - Show only when type is image-form and status is completed */}
           {type === "image-form" && status === "completed" && (
@@ -348,8 +355,8 @@ export const DesktopAdPreviewNavigation: React.FC<
                     <button
                       // onClick={() => downloadImage("png")}
                       onClick={() => {
-                        setIsExportDropdownOpen(!isExportDropdownOpen)
-                        downloadFunction?.()
+                        setIsExportDropdownOpen(!isExportDropdownOpen);
+                        downloadFunction?.();
                       }}
                       disabled={isDownloading || isLoading}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"

@@ -1,8 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const AboutUs = () => {
   return (
@@ -254,7 +254,7 @@ const AboutUs = () => {
               </h2>
               <p className="text-gray-700 mb-6">
                 Our AI-powered platform helps you create visually compelling
-                content in seconds—no design skills needed! Whether you`&apos;re
+                content in seconds—no design skills needed! Whether you&apos;re
                 a creator, marketer, or entrepreneur, our intuitive tools let
                 you bring your vision to life effortlessly.
               </p>
@@ -285,7 +285,7 @@ const AboutUs = () => {
               >
                 <Link
                   href={"/signup"}
-                  className="cursor-pointer px-6 py-3 rounded-sm text-[#FFFFFF] transition-colors flex justify-center gap-2 border border-[#B800B8] bg-[#B800B8] hover:bg-[#B800B8] hover:bg-dark-purple transition-colors w-fit"
+                  className="cursor-pointer px-6 py-3 rounded-sm text-[#FFFFFF] transition-colors flex justify-center gap-2 border border-[#B800B8] bg-[#B800B8] hover:bg-[#B800B8] w-fit"
                 >
                   <p>Get Started Now</p> <ArrowRight />
                 </Link>
