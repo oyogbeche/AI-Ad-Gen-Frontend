@@ -25,7 +25,7 @@ const tagData = [
 export default function FeaturesSection() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
-    const videoLink = "https://www.youtube.com/watch?v=szWGvpaQkVk"; 
+    const videoLink = "https://www.youtube.com/embed/szWGvpaQkVk"; 
 
   return (
     <section
