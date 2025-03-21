@@ -8,13 +8,13 @@ import FeaturesSection from "@/domains/external/components/key-features";
 import VideoPlayer from "@/domains/external/components/video-player";
 
 
-export default function MarketingPage() { 
+export default function Page() { 
      const videoLink = "https://www.youtube.com/embed/szWGvpaQkVk"; 
   return ( 
     <div> 
       <Hero2 />
-      <FeaturesSection />
     <VideoPlayer videoLink={videoLink} />
+      <FeaturesSection />
       <CreateAds /> 
       <CreateAd />
       <FAQ /> 
