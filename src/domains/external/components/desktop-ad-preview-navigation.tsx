@@ -41,7 +41,6 @@ export const DesktopAdPreviewNavigation: React.FC<
   type,
   status,
   generatedImageUrl = "/preview.png",
-  downloadFunction,
   imageId,
   hideSaveButton = false,
   hideSaveAndExit = false,
@@ -88,6 +87,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 
     try {
       const response = await fetch(imageUrl || fallbackImageUrl);
+
       const blob = await response.blob();
 
       const extension = format === "png" ? "png" : "jpg";
@@ -297,7 +297,7 @@ export const DesktopAdPreviewNavigation: React.FC<
         </div>
       ));
     }
-     router.push("/dashboard");
+    router.push("/dashboard");
   };
 
   return (
@@ -404,10 +404,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                   <div className="py-1">
                     <button
                       // onClick={() => downloadImage("png")}
-                      onClick={() => {
-                        setIsExportDropdownOpen(!isExportDropdownOpen);
-                        downloadFunction?.();
-                      }}
+                      onClick={() => downloadImage("png")}
                       disabled={isDownloading || isLoading}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                     >
