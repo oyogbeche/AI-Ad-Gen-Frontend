@@ -477,7 +477,7 @@ export default function AdCustomizer() {
       </div>
 
       {/* Preview Section */}
-      <div className="lg:flex-1 flex flex-col order-1 lg:order-2 pb-4 lg:p-0 gap-2 max-md:bg-white ">
+      <div className="lg:flex-1 flex flex-col order-1 lg:order-2 md:pb-4 lg:p-0 gap-2 max-md:bg-white ">
         {/* Preview Header */}
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
           <DesktopAdPreviewNavigation
@@ -502,7 +502,7 @@ export default function AdCustomizer() {
         </div>
         {/* Preview Content */}
         {adData?.data?.image_url && (
-          <div className="flex items-center gap-1 text-sm md:text-base leading-6 font-normal py-4 mx-auto">
+          <div className="flex items-center gap-1 text-sm md:text-base leading-6 font-normal md:py-4 mx-auto">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -567,17 +567,14 @@ export default function AdCustomizer() {
                 <div className="w-full h-full">
                   <ImageTextEditor
                     imageSrc={adData.data.image_url}
+                    imageId={adData.data.image_id || ""}
                     initialTexts={[
                       {
                         id: "1",
                         content:
                           adData.data.keywords &&
                           adData.data.keywords.length > 0
-                            ? adData.data.keywords[
-                                Math.floor(
-                                  Math.random() * adData.data.keywords.length
-                                )
-                              ]
+                            ? adData.data.keywords[0]
                             : "Edit this text",
                         x: 50,
                         y: 50,

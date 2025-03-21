@@ -20,6 +20,7 @@ const CtaHowItWorks: React.FC = () => {
         bg-[#B800B8]
         overflow-hidden
         text-white
+        rounded-[10px]
       "
     >
       <div
@@ -41,8 +42,8 @@ const CtaHowItWorks: React.FC = () => {
             Simple &amp; Quick Ad Creation.
           </h3>
           <p className="mb-6 leading-relaxed">
-            With Genz.ad, you can turn ideas into powerful ads in minutes.
-            No complex tools. No expensive software. Just your vision!
+            With Genz.ad, you can turn ideas into powerful ads in minutes. No
+            complex tools. No expensive software. Just your vision!
           </p>
 
           {/* CTA Button using onClick */}
