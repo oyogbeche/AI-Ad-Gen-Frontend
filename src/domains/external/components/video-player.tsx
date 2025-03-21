@@ -8,7 +8,7 @@ interface VideoPlayerProps {
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoLink, className }) => {
   return (
     <div
-      className={`relative aspect-video w-full max-w-[400px] md:max-w-[1000px]  mx-auto overflow-hidden rounded-lg shadow-lg ${className}`}
+      className={`relative aspect-video w-full max-w-[400px] md:max-w-[995px]  mx-auto overflow-hidden rounded-lg shadow-lg ${className}`}
     >
       <iframe
         src={videoLink}
