@@ -1,4 +1,3 @@
-import { useSubmitMarketingForm } from "@/domains/ads-gen/api/use-submit-marketing";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -22,7 +21,6 @@ const Access = ({ heading, imageSrc }: AccessProps) => {
   const [phone, setPhone] = useState("");
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const { mutate: submitForm } = useSubmitMarketingForm();
   const { mutate: submitForm } = useSubmitMarketingForm();
 
   const formSchema = z.object({
