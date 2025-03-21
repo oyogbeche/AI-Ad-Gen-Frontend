@@ -33,6 +33,7 @@ export function ImageTextEditor({
   const [selectedTextId, setSelectedTextId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+  const [currentImageSrc, setCurrentImageSrc] = useState(imageSrc);
 
   // Get the selected text element
   const selectedText = texts.find((text) => text.id === selectedTextId);
@@ -58,6 +59,11 @@ export function ImageTextEditor({
     window.addEventListener("resize", updateSize);
     return () => window.removeEventListener("resize", updateSize);
   }, []);
+
+  // Update currentImageSrc when imageSrc prop changes
+  useEffect(() => {
+    setCurrentImageSrc(imageSrc);
+  }, [imageSrc]);
 
   // Add a new text element
   // const addNewText = () => {
@@ -87,6 +93,12 @@ export function ImageTextEditor({
     if (selectedTextId === id) {
       setSelectedTextId(null);
     }
+  };
+
+  // Handle image update from inpainting
+  const handleImageUpdate = (newImageUrl: string, newImageId: string) => {
+    setCurrentImageSrc(newImageUrl);
+    // You might want to update the imageId as well if needed
   };
 
   return (
@@ -129,7 +141,7 @@ export function ImageTextEditor({
             unoptimized
           /> */}
           <ImageSelectionTool
-            imageSrc={imageSrc ?? "/preview.png"}
+            imageSrc={currentImageSrc}
             imageId={imageId}
             // width={650}
             // height={500}
@@ -144,6 +156,7 @@ export function ImageTextEditor({
                 setSelectedTextId("");
               }
             }}
+            onImageUpdate={handleImageUpdate}
           />
 
           {texts.map((text) => (

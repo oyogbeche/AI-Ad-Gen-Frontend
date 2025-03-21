@@ -1,7 +1,10 @@
+"use client";
+
 import { useInpaintImage } from "@/domains/ads-gen/api/use-image-paint";
-import { Send } from "lucide-react";
+import { Send, Loader2 } from "lucide-react";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Define TypeScript interfaces for our props and state
 interface ImageSelectionToolProps {
@@ -11,6 +14,7 @@ interface ImageSelectionToolProps {
   height?: number;
   onSelectionComplete?: (selection: SelectionArea, prompt: string) => void;
   onClick: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
+  onImageUpdate?: (newImageUrl: string, newImageId: string) => void;
 }
 
 interface SelectionArea {
@@ -32,6 +36,7 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
   height = 500,
   onSelectionComplete,
   onClick,
+  onImageUpdate,
 }) => {
   const [selection, setSelection] = useState<SelectionArea | null>(null);
   const [isSelecting, setIsSelecting] = useState<boolean>(false);
@@ -41,14 +46,31 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
   const [containerSize, setContainerSize] = useState({ width, height });
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [currentImageSrc, setCurrentImageSrc] = useState(imageSrc);
-  const { inpaintImage } = useInpaintImage();
+  const [processingArea, setProcessingArea] = useState<SelectionArea | null>(
+    null
+  );
 
+  const { inpaintImage, isInpainting, result, isLoading, progress, error } =
+    useInpaintImage();
+
+  // Update current image when prop changes
   useEffect(() => {
     setCurrentImageSrc(imageSrc);
   }, [imageSrc]);
 
+  // Update image when inpainting result is available
+  useEffect(() => {
+    if (result?.success && result.image_url) {
+      setCurrentImageSrc(result.image_url);
+      setProcessingArea(null);
+
+      if (onImageUpdate) {
+        onImageUpdate(result.image_url, result.image_id);
+      }
+    }
+  }, [result, onImageUpdate]);
+
   // Use proper TypeScript types for refs
-  // const imageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Handle responsive resizing and detect mobile
@@ -95,7 +117,7 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
 
   // Handle mouse down to start selection
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || isInpainting) return;
 
     const rect = containerRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -109,7 +131,7 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
 
   // Handle mouse move to update selection
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isSelecting || !containerRef.current) return;
+    if (!isSelecting || !containerRef.current || isInpainting) return;
 
     const rect = containerRef.current.getBoundingClientRect();
     const currentX = Math.max(
@@ -131,7 +153,7 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
 
   // Handle touch events for mobile devices
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!containerRef.current || e.touches.length !== 1) return;
+    if (!containerRef.current || e.touches.length !== 1 || isInpainting) return;
 
     const rect = containerRef.current.getBoundingClientRect();
     const x = e.touches[0].clientX - rect.left;
@@ -144,7 +166,13 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
   };
 
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!isSelecting || !containerRef.current || e.touches.length !== 1) return;
+    if (
+      !isSelecting ||
+      !containerRef.current ||
+      e.touches.length !== 1 ||
+      isInpainting
+    )
+      return;
     e.preventDefault(); // Prevent scrolling while selecting
 
     const rect = containerRef.current.getBoundingClientRect();
@@ -252,20 +280,14 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
       }
 
       if (imageId) {
-        try {
-          const response = await inpaintImage({
-            image_id: imageId,
-            prompt: prompt,
-          });
+        // Store the current selection as the processing area
+        setProcessingArea(selection);
 
-          if (response?.success && response.image_url) {
-            // Update the image source with the new inpainted image
-            setCurrentImageSrc(response.image_url);
-            console.log("Inpainting successful:", response.image_url);
-          }
-        } catch (error) {
-          console.error("Error during inpainting:", error);
-        }
+        // Call the inpaint API
+        inpaintImage({
+          image_id: imageId,
+          prompt: prompt,
+        });
       }
 
       setPrompt("");
@@ -277,10 +299,8 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
     <>
       <div
         ref={containerRef}
-        className="relative cursor-crosshair rounded-md"
+        className="relative cursor-crosshair rounded-md overflow-hidden"
         style={{
-          // width: `${containerSize.width}px`,
-          // height: `${containerSize.height}px`,
           width: "100%",
           height: "100%",
         }}
@@ -292,7 +312,7 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
         onTouchEnd={handleTouchEnd}
       >
         <Image
-          src={currentImageSrc}
+          src={currentImageSrc || "/preview.svg"}
           alt="Selectable image"
           width={containerSize.width}
           height={containerSize.height}
@@ -334,6 +354,43 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
             {renderCornerCircles(selection)}
           </>
         )}
+
+        {/* Show processing overlay */}
+        {isInpainting && processingArea && (
+          <div
+            className="absolute flex items-center justify-center bg-black/50"
+            style={{
+              left: `${processingArea.x}px`,
+              top: `${processingArea.y}px`,
+              width: `${processingArea.width}px`,
+              height: `${processingArea.height}px`,
+            }}
+          >
+            <div className="flex flex-col items-center gap-2 text-white">
+              <Loader2 className="h-6 w-6 animate-spin" />
+              <span className="text-xs font-medium">
+                Processing... {progress}%
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Show error overlay */}
+        {error && processingArea && (
+          <div
+            className="absolute flex items-center justify-center bg-red-500/50"
+            style={{
+              left: `${processingArea.x}px`,
+              top: `${processingArea.y}px`,
+              width: `${processingArea.width}px`,
+              height: `${processingArea.height}px`,
+            }}
+          >
+            <div className="text-white text-xs font-medium p-2 text-center">
+              Error: {error}
+            </div>
+          </div>
+        )}
       </div>
 
       {showPrompt && (
@@ -359,12 +416,18 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
               />
               <button
                 type="submit"
+                disabled={isInpainting}
                 className={`${
                   isMobile ? "px-4 py-4" : "px-3 py-3"
-                } hover:bg-slate-200 cursor-pointer focus:outline-none rounded-md`}
+                } hover:bg-slate-200 cursor-pointer focus:outline-none rounded-md ${
+                  isInpainting ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
-                {/* <Image src={send} alt="send" /> */}
-                <Send size={20} color="#121316" />
+                {isInpainting ? (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                ) : (
+                  <Send size={20} color="#121316" />
+                )}
               </button>
             </div>
           </form>
