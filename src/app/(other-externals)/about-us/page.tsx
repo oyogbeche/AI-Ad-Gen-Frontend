@@ -251,7 +251,7 @@ const AboutUs = () => {
             <div>
               <h2 className="text-[28px] lg:text-[40px] font-[600] lg:font-[700] mb-6">Turn Ideas into Stunning Visuals Instantly</h2>
               <p className="text-gray-700 font-[400] text-[20px] mb-6">
-                Our AI-powered platform helps you create visually compelling content in seconds—no design skills needed! Whether you're a creator, marketer, or entrepreneur, our intuitive tools let you bring your vision to life effortlessly.
+                Our AI-powered platform helps you create visually compelling content in seconds—no design skills needed! Whether you&apos;re a creator, marketer, or entrepreneur, our intuitive tools let you bring your vision to life effortlessly.
               </p>
             </div>
           </div>
