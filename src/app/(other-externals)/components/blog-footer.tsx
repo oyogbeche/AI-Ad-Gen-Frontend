@@ -1,6 +1,12 @@
 "use client"; // Required for usePathname in Next.js App Router
 
-import { Logo, FooterFB, FooterX, FooterIG, FooterEmail } from "@/components/icons/icon";
+import {
+  Logo,
+  FooterFb,
+  FooterX,
+  FooterIg,
+  FooterEmail,
+} from "@/components/icons/icon";
 import Link from "next/link";
 import { usePathname } from "next/navigation"; // Import usePathname
 
@@ -32,7 +38,7 @@ const BlogFooter = () => {
   const socialLinks = [
     {
       href: "http://facebook.com/genz.ads",
-      icon: <FooterFB className="hover:scale-125" />,
+      icon: <FooterFb className="hover:scale-125" />,
       label: "Facebook",
     },
     {
@@ -42,7 +48,7 @@ const BlogFooter = () => {
     },
     {
       href: "http://instagram.com/genz.adgen",
-      icon: <FooterIG className="hover:scale-125" />,
+      icon: <FooterIg className="hover:scale-125" />,
       label: "Instagram",
     },
     {
