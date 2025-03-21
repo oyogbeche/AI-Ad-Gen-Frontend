@@ -6,18 +6,18 @@ import Link from "next/link";
 
 const AboutUs = () => {
   return (
-    <div className="w-full max-lg:px-4 flex flex-col items-center ">
+    <div className="w-screen max-lg:px-4 flex flex-col items-center ">
       {/* Hero Section */}
-      <section className="px-6 md:px-12 lg:px-24 bg-[#F8E6F8] w-full">
+      <section className="px-6 md:px-12 lg:px-24 bg-[#F8E6F8] w-screen">
         <div className="mx-auto">
           <div className="text-center mb-6 justify-center">
-            <h2 className="text-[#B800B8] font-[700] text-[40px] mb-2 mt-[47.5px]">
+            <h2 className="text-[#B800B8] font-[600] lg:font-[700] text-[32px] lg:text-[40px] mb-2 mt-[47.5px]">
               About us
             </h2>
-            <h1 className="text-[48px] md:text-4xl lg:text-5xl font-[700] text-gray-900 mb-6">
+            <h1 className=" text-[28px] lg:text-[48px] md:text-4xl lg:font-[700] font-[600] text-gray-900 mb-6">
               Transforming Advertising with AI Innovation
             </h1>
-            <h5 className="text-[#16151E] font-[400] text-[20px] self-center">
+            <h5 className="text-[#16151E] font-[400] text:-[18px] lg:text-[20px] self-center">
               At Genz.ad, we believe that every business deserves high-quality,
               engaging ads without the need for a design or marketing team.
               That&apos;s why we built an AI-powered ad generator that
@@ -31,7 +31,7 @@ const AboutUs = () => {
             <Image
               src="/images/team-together.png"
               alt="Team working together"
-              className="rounded-lg shadow-md w-[1248px] h-auto"
+              className="w-[1248px] h-auto"
               width={1248}
               height={700}
             />
@@ -42,13 +42,13 @@ const AboutUs = () => {
       {/* Mission and Story Section */}
       <div className="bg-[#F9FAFB]">
         <section className="py-16 px-6 md:px-12 lg:px-24">
-          <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
+          <div className="max-w-[392px] lg:max-w-6xl mx-auto grid grid-rows-2 lg:grid-rows-none lg:grid-cols-2 gap-[40px] lg:gap-12 text-center lg:text-left">
             {/* Mission Column */}
-            <div className="bg-white p-8 rounded-lg">
+            <div className="bg-white p-8 rounded-lg border">
               <h2 className="text-xl font-bold text-[#520052] mb-2">
                 Our Mission
               </h2>
-              <p className="text-gray-700">
+              <p className="text-gray-700 text-[18px] lg:text-[20px]">
                 We&apos;re on a mission to democratize ad creation by providing
                 product owners, startups, and businesses with an intuitive
                 platform that generates customized, localized, and
@@ -57,11 +57,11 @@ const AboutUs = () => {
             </div>
 
             {/* Story Column */}
-            <div className="bg-white p-8 rounded-lg">
+            <div className="bg-white p-8 rounded-lg border">
               <h2 className="text-xl font-bold text-[#520052] mb-2">
                 Our Story
               </h2>
-              <p className="text-gray-700">
+              <p className="text-gray-700 text-[18px] lg:text-[20px]">
                 Born out of the need for simple, effective, and automated
                 advertising, Genz.ad was founded by a team of passionate
                 designers, marketers, and AI experts. We saw a gap: small
@@ -74,11 +74,11 @@ const AboutUs = () => {
 
         {/* Features Overview Section */}
         <section className="py-16 px-6 md:px-12 lg:px-24 bg-gray-50">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-[40px] md:text-3xl font-[700] text-center mb-8">
+          <div className="max-w-[392px] lg:max-w-6xl mx-auto">
+            <h2 className="text-[28px] lg:text-[40px] md:text-3xl font-[600] lg:font-[700] text-center mb-8">
               We make sure your ideas are brought to life
             </h2>
-            <p className="text-center text-[#121316] mb-12 max-w-[1201px]">
+            <p className="text-center text-[#121316] mb-12 max-w-[1201px] font-[400] text-[20px] leading-[28px]">
               We ensure your ideas and creations reach the right audience. Our
               AI-powered platform simplifies ad generation, helping you craft
               localized, inclusive, and high-performing campaigns. From
@@ -87,10 +87,10 @@ const AboutUs = () => {
             </p>
 
             {/* Feature Cards */}
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid lg:grid-cols-3 gap-8">
               {/* Feature 1 */}
               <div className="bg-white p-8 rounded-lg shadow-sm text-center">
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-6">
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <svg
                     width="61"
                     height="60"
@@ -104,10 +104,10 @@ const AboutUs = () => {
                     />
                   </svg>
                 </div>
-                <h3 className="text-lg font-semibold mb-4">
+                <h3 className="text-[24px] font-[600] leading-[32px] mb-4">
                   AI Power Creative
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-gray-600 text-[18px] font-[600] leading-[28px]">
                   Instantly generate texts, visuals, and layouts tailored to
                   your brand, saving time and boosting engagement.
                 </p>
@@ -115,7 +115,7 @@ const AboutUs = () => {
 
               {/* Feature 2 */}
               <div className="bg-white p-8 rounded-lg shadow-sm text-center">
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-6">
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <svg
                     width="60"
                     height="60"
@@ -129,10 +129,10 @@ const AboutUs = () => {
                     />
                   </svg>
                 </div>
-                <h3 className="text-lg font-semibold mb-4">
+                <h3 className="text-[24px] font-[600] leading-[32px] mb-4">
                   User Friendly Tools
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-gray-600 text-[18px] font-[600] leading-[28px]">
                   Access hundreds of professional templates designed to connect
                   with your target audience.
                 </p>
@@ -140,7 +140,7 @@ const AboutUs = () => {
 
               {/* Feature 3 */}
               <div className="bg-white p-8 rounded-lg shadow-sm text-center">
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-6">
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <svg
                     width="61"
                     height="60"
@@ -164,10 +164,10 @@ const AboutUs = () => {
                     />
                   </svg>
                 </div>
-                <h3 className="text-lg font-semibold mb-4">
+                <h3 className="text-[24px] font-[600] leading-[32px] mb-4">
                   Localized & Inclusive Ads
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-gray-600 text-[18px] font-[600] leading-[28px]">
                   Edit text, images, and layouts with a live preview for instant
                   updates, ensuring a smooth workflow.
                 </p>
@@ -177,17 +177,17 @@ const AboutUs = () => {
         </section>
 
         {/* Team Section */}
-        <section className="py-16 px-6 md:px-[75px] lg:px-24 bg-[#520052] text-white w-[1248px] mx-auto rounded-[16px]">
+        <section className="max-w-[392px] lg:max-w-7xl py-16 px-6 md:px-[75px] lg:px-24 bg-[#520052] text-white mx-auto rounded-[16px]">
           <div className="mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">
+            <h2 className="text-[32px] lg:text-[40px] md:text-3xl font-[600] lg:font-[700] text-center mb-12">
               People Behind Genz.ad
             </h2>
 
             {/* Team Members */}
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid lg:grid-cols-3 gap-8">
               {/* Team Member 1 */}
               <div className="text-center">
-                <div className="w-48 h-48 overflow-hidden rounded-lg mx-auto mb-4">
+                <div className="lg:w-[296px] h-[346px] overflow-hidden rounded-[8px] mx-auto mb-4">
                   <Image
                     src="/images/ebiye-ikiriko.png"
                     alt="Ebiye Kiriko"
@@ -202,7 +202,7 @@ const AboutUs = () => {
 
               {/* Team Member 2 */}
               <div className="text-center">
-                <div className="w-48 h-48 overflow-hidden rounded-lg mx-auto mb-4">
+                <div className="lg:w-[296px] h-[346px] overflow-hidden rounded-[8px] mx-auto mb-4">
                   <Image
                     src="/images/iretiola-adekola.png"
                     alt="Iretola Adeola"
@@ -217,7 +217,7 @@ const AboutUs = () => {
 
               {/* Team Member 3 */}
               <div className="text-center">
-                <div className="w-48 h-48 overflow-hidden rounded-lg mx-auto mb-4">
+                <div className="lg:w-[296px] h-[346px] overflow-hidden rounded-[8px] mx-auto mb-4">
                   <Image
                     src="/images/apeli-ziworitin.png"
                     alt="April Ziweriltin"
@@ -234,10 +234,10 @@ const AboutUs = () => {
         </section>
 
         {/* Product Showcase Section */}
-        <section className="py-16 px-6 md:px-12 lg:px-24">
-          <div className="mx-auto grid md:grid-cols-2 gap-12 items-center">
+        <section className="max-w-[392px] lg:max-w-7xl mx-auto py-16 lg:px-12">
+          <div className="mx-auto grid lg:grid-cols-2 gap-12 items-center">
             {/* Left - Product Image */}
-            <div>
+            <div className="w-[392px] lg:w-[548px] lg:h-[411px]">
               <Image
                 src="/images/turn-ideas.png"
                 alt="Platform interface"
@@ -249,32 +249,24 @@ const AboutUs = () => {
 
             {/* Right - Product Description */}
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-6">
-                Turn Ideas into Stunning Visuals Instantly
-              </h2>
-              <p className="text-gray-700 mb-6">
-                Our AI-powered platform helps you create visually compelling
-                content in seconds—no design skills needed! Whether you&apos;re
-                a creator, marketer, or entrepreneur, our intuitive tools let
-                you bring your vision to life effortlessly.
+              <h2 className="text-[28px] lg:text-[40px] font-[600] lg:font-[700] mb-6">Turn Ideas into Stunning Visuals Instantly</h2>
+              <p className="text-gray-700 font-[400] text-[20px] mb-6">
+                Our AI-powered platform helps you create visually compelling content in seconds—no design skills needed! Whether you&apos;re a creator, marketer, or entrepreneur, our intuitive tools let you bring your vision to life effortlessly.
               </p>
             </div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 px-6 md:px-12 lg:px-24 bg-[#F8E6F8] rounded-[16px]">
-          <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        <section className="max-w-[392px] lg:max-w-7xl mx-auto py-16 md:px-12 lg:px-24 bg-[#F8E6F8] rounded-[16px] text-center lg:text-left">
+          <div className="mx-auto grid lg:grid-cols-2 gap-12 items-center px-[20px]">
             {/* Left - CTA Text */}
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-6">
+            <div className="order-2 lg:order-1">
+              <h2 className="text-[28px] lg:text-[40px] font-[600] lg:font-[700] leading-[36px] mb-6">
                 We help small businesses grow faster & smarter
               </h2>
-              <p className="text-gray-700 mb-8">
-                We understand small businesses need faster and smarter ways to
-                drive ad creation. Our platform simplifies marketing, enhances
-                engagement, and helps businesses reach the right audience
-                effortlessly.
+              <p className="text-gray-700 text-[20px] lg:text-[24px] font-[500] leading-[30px] mb-8">
+                We empower small businesses to grow faster and smarter with AI-driven ad creation. Our platform simplifies marketing, enhances engagement, and helps businesses reach the right audience effortlessly.
               </p>
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -285,15 +277,15 @@ const AboutUs = () => {
               >
                 <Link
                   href={"/signup"}
-                  className="cursor-pointer px-6 py-3 rounded-sm text-[#FFFFFF] transition-colors flex justify-center gap-2 border border-[#B800B8] bg-[#B800B8] hover:bg-[#B800B8] w-fit"
+                  className="cursor-pointer px-6 py-3 rounded-sm text-[#FFFFFF] transition-colors flex justify-center gap-2 border border-[#B800B8] bg-[#B800B8] hover:bg-[#B800B8] lg:w-fit"
                 >
-                  <p>Get Started Now</p> <ArrowRight />
+                  <p>Get Started <span className="hidden lg:inline">Now</span></p> <ArrowRight className="hidden lg:inline" />
                 </Link>
               </motion.div>
             </div>
 
             {/* Right - Image */}
-            <div>
+            <div className="order-1 lg:order-2">
               <Image
                 src="/images/help-small.png"
                 alt="User working with platform"
@@ -302,17 +294,6 @@ const AboutUs = () => {
                 height={700}
               />
             </div>
-          </div>
-        </section>
-
-        {/* Additional Information Section */}
-        <section className="py-12 px-6 md:px-12 lg:px-24 bg-gray-50 text-center">
-          <div className="max-w-4xl mx-auto">
-            <p className="text-gray-600 text-sm">
-              genz.ad helps you generate image ads tailored for different
-              platforms, audiences and cultural contexts, without needing design
-              or marketing expertise.
-            </p>
           </div>
         </section>
       </div>

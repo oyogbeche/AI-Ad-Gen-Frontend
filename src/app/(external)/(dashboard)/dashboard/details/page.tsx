@@ -50,6 +50,7 @@ const AddDetails = () => {
   }
 
   const pageAdData = adData[filter][adIndex];
+
   const handleCopy = async () => {
     const copiedLink = `https://genz.ad/stand-alone/${pageAdData}`;
 
@@ -60,7 +61,7 @@ const AddDetails = () => {
       setCopyStatus(String(error));
     }
   };
-  
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formatDate = (dateString: any) => {
     const date = new Date(dateString);
@@ -125,7 +126,9 @@ const AddDetails = () => {
       <section className="w-full md:flex-[7] bg-[#F9FAFB] flex flex-col items-center">
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] w-full">
           <DesktopAdPreviewNavigation
-            imageUrl={pageAdData.image_url}
+            imageUrl={pageAdData.id}
+            imageId={pageAdData.id}
+            pageAdData={pageAdData}
             handleCopy={handleCopy}
             status="completed"
             type="image-form"
