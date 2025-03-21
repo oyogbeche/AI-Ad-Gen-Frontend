@@ -56,7 +56,7 @@ export default function OnboardingStep({
     grid-cols-1
     lg:grid-cols-2
     items-center
-    gap-8
+    gap-4 md:gap-8
     relative
     w-full
   `;
@@ -86,13 +86,13 @@ export default function OnboardingStep({
           {number}
         </div>
 
-        <div className={containerClasses}>
+        <div className={`max-md:mb-2 max-md:mt-[53px] ${containerClasses}`}>
           {/* Text Side */}
-          <div className={textContainerClasses}>
-            <h3 className="text-[#121316] font-nunito text-[40px] font-bold leading-[48px] mb-4">
+          <div className={`max-md:px-5 ${textContainerClasses}`}>
+            <h3 className="text-[#121316] font-nunito text-[18px] md:text-[40px] font-semibold md:font-bold leading-7 md:leading-[48px] mb-4">
               {title}
             </h3>
-            <ul className="list-disc list-inside space-y-1  text-[#121316] font-nunito text-[18px] font-normal leading-[28px]">
+            <ul className="list-disc list-inside space-y-1  text-[#121316] font-nunito text-base md:text-[18px] font-normal leading-6 md:leading-[28px]">
               {content}
             </ul>
           </div>

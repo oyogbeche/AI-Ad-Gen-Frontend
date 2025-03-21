@@ -23,6 +23,8 @@ interface DesktopAdPreviewNavigationProps {
   downloadFunction?: () => void;
   imageId?: string; // Added imageId property
   hideSaveButton?: boolean;
+  hideSaveAndExit?: boolean;
+  isPublished?: boolean;
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
@@ -39,6 +41,8 @@ export const DesktopAdPreviewNavigation: React.FC<
   downloadFunction,
   imageId,
   hideSaveButton = false,
+  hideSaveAndExit = false,
+  isPublished = false,
 }) => {
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
@@ -62,6 +66,12 @@ export const DesktopAdPreviewNavigation: React.FC<
       router.push("/dashboard");
     }
   };
+
+  const showSaveButton =
+    !hideSaveButton &&
+    type === "image-form" &&
+    status === "completed" &&
+    (!hideSaveAndExit || !isPublished);
 
   // get generated image id
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -270,45 +280,47 @@ export const DesktopAdPreviewNavigation: React.FC<
 
         <div className="flex gap-4">
           {/* Save button - Show only when type is image-form and status is completed */}
-          {!hideSaveButton &&
-            type === "image-form" &&
-            status === "completed" && (
-              <div className="relative" ref={saveDropdownRef}>
-                <button
-                  onClick={() => setIsSaveDropdownOpen(!isSaveDropdownOpen)}
-                  className="bg-[#F6F6F6] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
-                >
-                  <span className="max-sm:hidden text-base leading-6 font-normal text-[#1B1B1B]">
-                    Save
-                  </span>
-                  <ChevronDown size={18} />
-                </button>
+          {showSaveButton && (
+            <div className="relative" ref={saveDropdownRef}>
+              <button
+                onClick={() => setIsSaveDropdownOpen(!isSaveDropdownOpen)}
+                className="bg-[#F6F6F6] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
+              >
+                <span className="max-sm:hidden text-base leading-6 font-normal text-[#1B1B1B]">
+                  Save
+                </span>
+                <ChevronDown size={18} />
+              </button>
 
-                {isSaveDropdownOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10"
-                  >
-                    <div className="py-1">
+              {isSaveDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10"
+                >
+                  <div className="py-1">
+                    {!hideSaveAndExit && (
                       <button
                         onClick={handleSaveAndExit}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                       >
                         Save & Exit
                       </button>
+                    )}
+                    {!isPublished && (
                       <button
                         onClick={handleSaveAndPublish}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                       >
                         Save & Publish
                       </button>
-                    </div>
-                  </motion.div>
-                )}
-              </div>
-            )}
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          )}
 
           {/* Share button - Show only when type is image-form and status is completed */}
           {type === "image-form" && status === "completed" && (
