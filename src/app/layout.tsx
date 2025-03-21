@@ -18,7 +18,6 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  // metadataBase: new URL("https://genz.ad"),
   title: {
     default: "genz.ad",
     template: "%s | genz.ad",
@@ -61,6 +60,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={nunito.variable}>
+      <head>
+        <meta httpEquiv="Pragma" content="no-cache" />
+        <meta
+          httpEquiv="Cache-Control"
+          content="no-store, no-cache, must-revalidate"
+        />
+      </head>
       <body
         className="font-nunito bg-[#F9FAFB] overflow-x-hidden"
         cz-shortcut-listen="true"

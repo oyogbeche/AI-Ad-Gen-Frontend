@@ -29,27 +29,28 @@ const AddDetails = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col gap-3 items-center justify-center">
-        <p className="text-red-500 text-2xl">Error: Ad not found</p>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.9, duration: 0.5 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Link
-            href={"/dashboard"}
-            className="flex items-center justify-center gap-2.5 cursor-pointer text-white px-6 py-3 rounded-sm bg-[#B800B8] hover:bg-[#960096] transition-colors"
+          <p className="text-red-500 text-2xl">Error: Ad not found</p>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.9, duration: 0.5 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            Go to Dashbard <ArrowRight size={20} className="text-white" />
-          </Link>
-        </motion.div>
-      </div>
+            <Link
+              href={"/dashboard"}
+              className="flex items-center justify-center gap-2.5 cursor-pointer text-white px-6 py-3 rounded-sm bg-[#B800B8] hover:bg-[#960096] transition-colors"
+            >
+              Go to Dashbard <ArrowRight size={20} className="text-white" />
+            </Link>
+          </motion.div>
+        </div>
       </div>
     );
   }
 
   const pageAdData = adData[filter][adIndex];
+
   const handleCopy = async () => {
     const copiedLink = `https://genz.ad/stand-alone/${pageAdData}`;
 
@@ -59,6 +60,20 @@ const AddDetails = () => {
     } catch (error) {
       setCopyStatus(String(error));
     }
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const formatDate = (dateString: any) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      timeZoneName: "short",
+    });
   };
 
   return (
@@ -86,7 +101,9 @@ const AddDetails = () => {
         </div>
         <div>
           <p className="text-[#121316]">Product Name</p>
-          <span className="text-[#5F5F5F] font-medium">{"Title"}</span>
+          <span className="text-[#5F5F5F] font-medium">
+            {pageAdData.product_name || "No Product Name"}
+          </span>
         </div>
         <div>
           <p className="text-[#121316]">Ad Size & Format</p>
@@ -101,7 +118,7 @@ const AddDetails = () => {
         <div>
           <p className="text-[#121316]">Date created</p>
           <span className="text-[#5F5F5F] font-medium">
-            {pageAdData.created_at}
+            {formatDate(pageAdData.created_at)}
           </span>
         </div>
       </section>
@@ -109,10 +126,13 @@ const AddDetails = () => {
       <section className="w-full md:flex-[7] bg-[#F9FAFB] flex flex-col items-center">
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] w-full">
           <DesktopAdPreviewNavigation
-            imageUrl={pageAdData.image_url}
+            imageUrl={pageAdData.id}
+            imageId={pageAdData.id}
+            pageAdData={pageAdData}
             handleCopy={handleCopy}
             status="completed"
             type="image-form"
+            hideSaveAndExit={true}
           />
         </div>
         <picture className="md:my-10 py-3 bg-[#F0F3F5] rounded-lg md:p-10  max-w-[699px] w-full max-md:w-[90%] flex items-center justify-center">

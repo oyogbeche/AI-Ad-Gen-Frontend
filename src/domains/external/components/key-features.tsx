@@ -25,6 +25,7 @@ const tagData = [
 export default function FeaturesSection() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+ 
 
   return (
     <section
@@ -64,6 +65,7 @@ export default function FeaturesSection() {
       >
         <FeatureCard />
       </motion.div>
+   
     </section>
   );
 }

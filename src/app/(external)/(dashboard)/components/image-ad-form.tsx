@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { ImageTextEditor } from "@/components/ui/image-editor";
+import { Input } from "@/components/ui/input";
 import Loader from "@/components/ui/loader";
 import {
   Select,
@@ -26,6 +27,7 @@ import { useGenerateAdImage } from "@/domains/ads-gen/api/ad-image-generate";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { zodResolver } from "@hookform/resolvers/zod";
+import html2canvas from "html2canvas";
 import { ArrowRight, ImageIcon, RefreshCw, Upload } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -70,9 +72,12 @@ const formSchema = z.object({
       (val) => adPlacementOptions.some((option) => option.value === val),
       {
         message: "Please select a valid platform",
-        // Ensure this closing brace is correctly placed or remove it if unnecessary
       }
     ),
+  productName: z
+    .string()
+    .min(2, "Product name must be at least 2 characters")
+    .nonempty("Product name is required"),
   targetAudience: z.string().min(1, "Please select a target audience"),
   productImage: z.instanceof(File).optional(),
 });
@@ -84,7 +89,6 @@ export default function AdCustomizer() {
   const [formLoaded, setFormLoaded] = useState(false);
 
   const downloadFunction = async (elementRef: HTMLElement) => {
-    // const element = elementRef;
     const canvas = await html2canvas(elementRef as HTMLElement, {
       useCORS: true,
     });
@@ -98,21 +102,15 @@ export default function AdCustomizer() {
   const lastFormData = useRef<FormData | null>(null);
 
   // Use the generate image hook
-  const {
-    generateAd,
-    adData,
-    isFetchingAd,
-    //isGenerating,
-    progress,
-    error,
-    reset,
-  } = useGenerateAdImage();
+  const { generateAd, adData, isFetchingAd, progress, error, reset } =
+    useGenerateAdImage();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       adDescription: "",
       adSize: "",
+      productName: "",
       targetAudience: "Gen Z",
       productImage: undefined,
     },
@@ -129,10 +127,10 @@ export default function AdCustomizer() {
     }
   }, [error]);
 
-  // Load saved form data on component mount
+  // Load saved form data on component mount using sessionStorage
   useEffect(() => {
     try {
-      const savedData = localStorage.getItem("adCustomizerData");
+      const savedData = sessionStorage.getItem("adCustomizerData");
       if (savedData) {
         try {
           const parsedData = JSON.parse(savedData);
@@ -141,6 +139,7 @@ export default function AdCustomizer() {
           form.reset({
             adDescription: parsedData.adDescription || "",
             adSize: parsedData.adSize || "",
+            productName: parsedData.productName || "",
             targetAudience: parsedData.targetAudience || "Gen Z",
             productImage: parsedData.productImage || undefined,
           });
@@ -152,7 +151,7 @@ export default function AdCustomizer() {
         }
       }
     } catch (error) {
-      console.error("Error accessing localStorage:", error);
+      console.error("Error accessing sessionStorage:", error);
     }
 
     // Mark form as loaded to prevent default value overrides
@@ -177,7 +176,7 @@ export default function AdCustomizer() {
     // Store the form data for retry functionality
     lastFormData.current = data;
 
-    // Save form data
+    // Save form data using sessionStorage
     try {
       // Create a copy of the data without the large image if present
       const storageData = {
@@ -185,9 +184,9 @@ export default function AdCustomizer() {
         productImage: data.productImage ? "Image provided" : null,
       };
 
-      localStorage.setItem("adCustomizerData", JSON.stringify(storageData));
+      sessionStorage.setItem("adCustomizerData", JSON.stringify(storageData));
     } catch (error) {
-      console.warn("Failed to save form data to localStorage:", error);
+      console.warn("Failed to save form data to sessionStorage:", error);
       // Continue with form submission even if storage fails
     }
 
@@ -210,19 +209,20 @@ export default function AdCustomizer() {
       return;
     }
 
-    try {
-      // Simple debugging - Clean values only
-      // console.log("Image generation payload:", {
-      //   ad_goal: data.adDescription.trim(),
-      //   ad_size: data.adSize.trim(),
-      //   target_audience: data.targetAudience,
-      //   image: data.productImage ? "Image provided" : "No image provided",
-      // });
+    if (!data.productName || data.productName.trim().length === 0) {
+      form.setError("productName", {
+        type: "manual",
+        message: "Product name is required",
+      });
+      toast.error("Product name is required");
+      return;
+    }
 
-      // Call the generate image function with clean payload
+    try {
       generateAd({
         ad_goal: data.adDescription.trim(),
         ad_size: data.adSize.trim(),
+        product_name: data.productName.trim(),
         target_audience: data.targetAudience,
         productImage: data.productImage || undefined,
       });
@@ -248,7 +248,7 @@ export default function AdCustomizer() {
       </div>
     );
   }
-console.log("Ad data",adData)
+  
   return (
     <div className="flex flex-col lg:flex-row p-4 lg:p-0">
       {/* Form Section */}
@@ -268,6 +268,26 @@ console.log("Ad data",adData)
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-6">
+              <FormField
+                control={form.control}
+                name="productName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base leading-6 font-normal text-[#121316]">
+                      Ad Title
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your Ad title"
+                        className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-11 md:h-[56px] text-base leading-6 text-[#121316]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-500 text-xs mt-1" />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name="adDescription"
@@ -406,7 +426,7 @@ console.log("Ad data",adData)
                               src={
                                 URL.createObjectURL(field.value as File) ||
                                 "/placeholder.svg"
-                              } // Convert File to a preview URL
+                              }
                               alt="Product"
                               fill
                               className="object-cover rounded-lg"
@@ -428,7 +448,7 @@ console.log("Ad data",adData)
                           onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) {
-                              field.onChange(file); // Store File object instead of base64
+                              field.onChange(file);
                             }
                           }}
                         />
@@ -457,15 +477,12 @@ console.log("Ad data",adData)
       </div>
 
       {/* Preview Section */}
-      <div className="lg:flex-1 flex flex-col order-1 lg:order-2 pb-4 lg:p-0 gap-2 max-md:bg-white ">
+      <div className="lg:flex-1 flex flex-col order-1 lg:order-2 md:pb-4 lg:p-0 gap-2 max-md:bg-white ">
         {/* Preview Header */}
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
-          {/* pass download function here */}
           <DesktopAdPreviewNavigation
             type="image-form"
-
             imageId={adData?.data?.image_id || ""}
-
             downloadFunction={() => {
               const element = document.getElementById("outputImg");
               if (element) {
@@ -480,12 +497,13 @@ console.log("Ad data",adData)
                 : "initial"
             }
             imageUrl={adData?.data?.image_id}
+            pageAdData={adData?.data}
           />
           <button></button>
         </div>
         {/* Preview Content */}
         {adData?.data?.image_url && (
-          <div className="flex items-center gap-1 text-sm md:text-base leading-6 font-normal py-4 mx-auto">
+          <div className="flex items-center gap-1 text-sm md:text-base leading-6 font-normal md:py-4 mx-auto">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -548,20 +566,16 @@ console.log("Ad data",adData)
 
               {adData?.data?.image_url && (
                 <div className="w-full h-full">
-                  {/* text editor here */}
                   <ImageTextEditor
                     imageSrc={adData.data.image_url}
+                    imageId={adData.data.image_id || ""}
                     initialTexts={[
                       {
                         id: "1",
                         content:
                           adData.data.keywords &&
                           adData.data.keywords.length > 0
-                            ? adData.data.keywords[
-                                Math.floor(
-                                  Math.random() * adData.data.keywords.length
-                                )
-                              ]
+                            ? adData.data.keywords[0]
                             : "Edit this text",
                         x: 50,
                         y: 50,
@@ -580,5 +594,3 @@ console.log("Ad data",adData)
     </div>
   );
 }
-
-import html2canvas from "html2canvas";

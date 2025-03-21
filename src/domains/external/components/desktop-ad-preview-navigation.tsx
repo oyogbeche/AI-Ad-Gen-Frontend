@@ -21,7 +21,12 @@ interface DesktopAdPreviewNavigationProps {
   status?: string;
   generatedImageUrl?: string;
   downloadFunction?: () => void;
-  imageId?: string; // Added imageId property
+  imageId?: string;
+  hideSaveButton?: boolean;
+  hideSaveAndExit?: boolean;
+  isPublished?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  pageAdData?: any;
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
@@ -32,11 +37,15 @@ export const DesktopAdPreviewNavigation: React.FC<
   imageUrl,
   imageName = "ad",
   // handleCopy,
+  pageAdData,
   type,
   status,
   generatedImageUrl = "/preview.png",
   downloadFunction,
   imageId,
+  hideSaveButton = false,
+  hideSaveAndExit = false,
+  isPublished = false,
 }) => {
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
@@ -61,8 +70,15 @@ export const DesktopAdPreviewNavigation: React.FC<
     }
   };
 
+  const showSaveButton =
+    !hideSaveButton &&
+    type === "image-form" &&
+    status === "completed" &&
+    (!hideSaveAndExit || !isPublished);
+
   // get generated image id
-  const {adData} = useGenerateAdImage();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { adData } = useGenerateAdImage();
 
   const downloadImage = async (format: "png" | "jpg") => {
     if (!effectiveImageUrl || isDownloading) return;
@@ -219,39 +235,48 @@ export const DesktopAdPreviewNavigation: React.FC<
         </div>
       </div>
     ));
+    router.push("/dashboard");
   };
 
-  const handleSaveAndPublish = () => {
-    patchRequest(`/image/publish/${imageId}`, { status: "published" })
-      .then(() => {
-        setIsSaveDropdownOpen(false);
-      }
-      )
-    console.log(adData)
-    toast.custom(() => (
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-        <div className="flex items-center justify-between w-full">
-          <div className="flex items-center">
-            <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-              <Check className="h-4 w-4 text-white" />
-            </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-gray-900 mb-2">
-                Ad Published Successfully!
-              </p>
-              <p className="text-xs text-gray-500">
-                Your ad is now live and ready to reach your audience.
-              </p>
+  const handleSaveAndPublish = async () => {
+    try {
+      const newStatus = pageAdData.is_published ? "unpublished" : "published";
+      await patchRequest(`/image/publish/${imageId}`, { status: newStatus });
+
+      toast.custom(() => (
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+                <Check className="h-4 w-4 text-white" />
+              </div>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-900 mb-2">
+                  {pageAdData.is_published
+                    ? "Ad Unpublished Successfully!"
+                    : "Ad Published Successfully!"}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {pageAdData.is_published
+                    ? "Your ad is no longer live."
+                    : "Your ad is now live and ready to reach your audience."}
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    ));
+      ));
+
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Error updating publish status:", error);
+      toast.error("Failed to update publish status");
+    }
   };
 
   return (
     <div className={`w-full ${className}`}>
-      <div className="flex justify-between items-center w-full py-3">
+      <div className="flex justify-between items-center w-full pt-3">
         <button
           onClick={handleBack}
           className="flex items-center text-[#650065] hover:text-gray-800 cursor-pointer p-0"
@@ -265,7 +290,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 
         <div className="flex gap-4">
           {/* Save button - Show only when type is image-form and status is completed */}
-          {type === "image-form" && status === "completed" && (
+          {showSaveButton && (
             <div className="relative" ref={saveDropdownRef}>
               <button
                 onClick={() => setIsSaveDropdownOpen(!isSaveDropdownOpen)}
@@ -285,18 +310,24 @@ export const DesktopAdPreviewNavigation: React.FC<
                   className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10"
                 >
                   <div className="py-1">
-                    <button
-                      onClick={handleSaveAndExit}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                    >
-                      Save & Exit
-                    </button>
-                    <button
-                      onClick={handleSaveAndPublish}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                    >
-                      Save & Publish
-                    </button>
+                    {!hideSaveAndExit && (
+                      <button
+                        onClick={handleSaveAndExit}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                      >
+                        Save & Exit
+                      </button>
+                    )}
+                    {!isPublished && (
+                      <button
+                        onClick={handleSaveAndPublish}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                      >
+                        {pageAdData.is_published
+                          ? "Unpublish"
+                          : "Save & Publish"}
+                      </button>
+                    )}
                   </div>
                 </motion.div>
               )}
@@ -304,7 +335,7 @@ export const DesktopAdPreviewNavigation: React.FC<
           )}
 
           {/* Share button - Show only when type is image-form and status is completed */}
-          {/* {type === "image-form" && status === "completed" && ( */}
+          {type === "image-form" && status === "completed" && (
             <ShareModal
               adUrl={`https://genz.ad/stand-alone/${effectiveImageUrl}`}
               // Added image url for when we want to switch to sharing natively and not the link to the social
@@ -320,7 +351,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                 </span>
               </button>
             </ShareModal>
-          {/* {()} */}
+          )}
 
           {/* Export button - Show for demo type always, and for image-form only when status is completed */}
           {(type === "demo" ||
@@ -348,8 +379,8 @@ export const DesktopAdPreviewNavigation: React.FC<
                     <button
                       // onClick={() => downloadImage("png")}
                       onClick={() => {
-                        setIsExportDropdownOpen(!isExportDropdownOpen)
-                        downloadFunction?.()
+                        setIsExportDropdownOpen(!isExportDropdownOpen);
+                        downloadFunction?.();
                       }}
                       disabled={isDownloading || isLoading}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"

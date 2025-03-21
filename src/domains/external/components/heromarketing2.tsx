@@ -14,33 +14,26 @@ const Hero2 = () => {
         transition={{ duration: 0.8 }}
       >
         <motion.h1
-          className="text-3xl md:text-5xl font-bold text-gray-900"
+          className="text-3xl md:text-5xl max-w-[1031px] text-center font-bold text-gray-900"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
         >
-          <span className="md:block lg:whitespace-nowrap">
-            Create Professional Ads in Minutes:
+          <span className="md:block text-2xl md:text-[64px] leading-6 md:leading-[72px] font-medium ">
+            Boost Engagement with AI-Powered Ad Content!
           </span>
-          <span className="text-[#B800B8] block">No Design Skill Needed!</span>
+          {/* <span className="text-[#B800B8]">
+            Smarter, Faster, Results-Driven!
+          </span> */}
         </motion.h1>
         <motion.p
-          className="text-lg text-gray-600 mt-4"
+          className="text-lg text-[#5F5F5F] mt-2 md:mt-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.8 }}
         >
-          <span className="lg:whitespace-nowrap md:block">
-            Struggling to create high-quality ads? GenZ Ad is the AI-powered
-            tool
-          </span>
-
-          <span className="lg:whitespace-nowrap md:block">
-            that helps you design stunning, high-converting ads without hiring a
-          </span>
-
-          <span className="lg:whitespace-nowrap md:block">
-            designer or spending hours on complicated software.
+          <span className="max-w-[787px] md:block text-base md:text-2xl leading-4 md:leading-8 font-medium">
+            Save Time, Create Personalized Ads, and Drive Real Results
           </span>
         </motion.p>
       </motion.div>
@@ -53,9 +46,8 @@ const Hero2 = () => {
         transition={{ delay: 0.7, duration: 0.8 }}
       >
         <Image src="/Laptop1.png" alt="Laptop" width={1600} height={600} />
-        
       </motion.div>
-      <div className="relative w-full flex justify-center mt-[-75px]"> 
+      <div className="relative w-full flex justify-center mt-[-75px]">
         <Access />
       </div>
     </div>

@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+
 import { Check } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -27,6 +28,7 @@ const UpgradePlanModal: React.FC<UpgradePlanModalProps> = ({
 }) => {
 
   const router = useRouter()
+
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>

@@ -6,60 +6,89 @@ on:
       - dev
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   test-and-build:
     runs-on: aiadgen
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
+        
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20.x"
 
+      - name: Debug Branch Information
+        run: |
+          echo "Current branch: ${{ github.ref }}"
+          echo "Is main? ${{ github.ref == 'refs/heads/main' }}"
+          echo "Is dev? ${{ github.ref == 'refs/heads/dev' }}"
+
+          
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
         with:
           version: latest
-
-      - name: Create .env File
+          
+      - name: Create Environment-Specific .env File
         run: |
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "NEXT_PUBLIC_API_URL=${{ vars.PROD_API_URL }}" >> .env
+            echo "NEXT_PUBLIC_ENVIRONMENT=production" >> .env
+          elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
+            echo "NEXT_PUBLIC_API_URL=${{ vars.DEV_API_URL }}" >> .env
+            echo "NEXT_PUBLIC_ENVIRONMENT=test" >> .env
+          fi
+          
+      - name: Debug Environment File
+        run: |
+          echo "Contents of .env file:"
+          cat .env
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
-
+        
       - name: Build Frontend
         run: pnpm build
-
+        
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: next-build
+          name: next-build-${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
           path: |
-            .next/
+            .next/**
+            !.next/cache/**
             public/
             package.json
             pnpm-lock.yaml
+            .env
           if-no-files-found: error
           include-hidden-files: true
           compression-level: 6
-
+          
+      - name: Debug Available Files
+        run: |
+          pwd
+          ls -la
+          find . -name ".next" -type d || echo ".next directory not found"
+          
   deploy:
     runs-on: aiadgen
     needs: [test-and-build]
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
+        
       - name: Download Build Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: next-build
+          name: next-build-${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
           path: .
-
+          
       - name: Determine Deployment Environment
         id: set-env
         run: |
@@ -70,13 +99,13 @@ jobs:
             echo "DEPLOY_PORT=5005" >> $GITHUB_ENV
             echo "DEPLOY_NAME=ai-adgen-frontend-dev" >> $GITHUB_ENV
           fi
-
+          
       - name: Deploy to Server
         run: |
           echo "Deploying .next build to server..."
-          sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml \
+          sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml .env \
           "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend"
-
+          
       - name: Start Application on Server
         run: |
           sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no \
@@ -89,4 +118,3 @@ jobs:
           pm2 delete $DEPLOY_NAME || true
           PORT=$DEPLOY_PORT pm2 start pnpm --name $DEPLOY_NAME -- start
           EOF
-#          

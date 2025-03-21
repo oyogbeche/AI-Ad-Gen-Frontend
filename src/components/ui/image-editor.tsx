@@ -20,11 +20,13 @@ export interface TextElement {
 
 interface ImageTextEditorProps {
   imageSrc: string;
+  imageId: string;
   initialTexts?: TextElement[];
 }
 
 export function ImageTextEditor({
   imageSrc,
+  imageId,
   initialTexts = [],
 }: ImageTextEditorProps) {
   const [texts, setTexts] = useState<TextElement[]>(initialTexts);
@@ -88,7 +90,7 @@ export function ImageTextEditor({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mb-10">
+    <div className="flex flex-col items-center justify-center">
       {/* <div className="flex justify-between items-center">
         <Button
           onClick={addNewText}
@@ -100,11 +102,11 @@ export function ImageTextEditor({
         </Button>
       </div> */}
 
-      <div className="">
+      <div className="flex flex-col gap-4 md:bg-[#F2F2F2] flex-1 rounded-md items-center justify-center min-h-[50vh] mx-auto max-w-[699px] w-full max-md:px-4 md:p-8">
         {/* element I want to download */}
         <div
           ref={containerRef}
-          className="relative border overflow-hidden bg-[#F0F3F5] max-w-[650px] rounded-lg p-0"
+          className="relative w-full rounded-md p-0"
           id="outputImg"
         >
           {/* <Image
@@ -128,8 +130,9 @@ export function ImageTextEditor({
           /> */}
           <ImageSelectionTool
             imageSrc={imageSrc ?? "/preview.png"}
-            width={650}
-            height={500}
+            imageId={imageId}
+            // width={650}
+            // height={500}
             onSelectionComplete={(selection, prompt) => {
               console.log(
                 `Selection at (${selection.x},${selection.y}) with dimensions ${selection.width}x${selection.height}`
@@ -142,6 +145,7 @@ export function ImageTextEditor({
               }
             }}
           />
+
           {texts.map((text) => (
             <TextLayer
               key={text.id}
