@@ -128,6 +128,7 @@ const AddDetails = () => {
           <DesktopAdPreviewNavigation
             imageUrl={pageAdData.id}
             imageId={pageAdData.id}
+            pageAdData={pageAdData}
             handleCopy={handleCopy}
             status="completed"
             type="image-form"
