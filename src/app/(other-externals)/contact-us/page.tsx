@@ -1,91 +1,123 @@
+"use client";
+
 import React from "react";
+import Image from "next/image";
 import bgLine from "@/components/images/bg-line.png";
 import contactAmico from "@/components/images/Contact us-amico.png";
-// import location from "@/components/images/location.png";
-// import telephone from "@/components/images/bi_telephone.png";
-// import mail from "@/components/images/ic_outline-email.png";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
-import Image from "next/image";
+// Note: We're not using FormField components due to the dependency on react-hook-form
 
-const page = () => {
+const ContactPage = () => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Handle form submission logic here
+  };
+
   return (
-    <section className=" flex flex-col mt-5 md:mt-[66px] mb-[32px] md:mb-[60px]">
-      <div className="flex flex-col md:flex-row justify-between items-center bg-white mx-[29px] md:mx-25 px-5 md:px-25 pb-8 md:pb-[84px] pt-5 md:pt-30 rounded-[20px]">
+    <section className="container mx-auto py-8 md:py-16 relative">
+      {/* Background Line */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
         <Image
           src={bgLine}
           alt="Background line"
-          className="object-cover absolute md:-top-40 md:pl-[50px] h-[500.8956019378069px] md:h-[1247.170294491336px] w-full -z-40"
+          className="object-cover w-full h-auto md:h-full"
+          priority
         />
-        <div>
-          <div className="flex flex-col max-sm:items-center gap-[12px] md:gap-[10px] pb-[28px]">
-            <p className="font-[600] md:font-[700] text-[18px] md:text-[40px] ">
-              Contact Us
-            </p>
-            <p className="font-[400] text-[12px] md:text-[18px]">
-              We are here for you! How can we help?
-            </p>
-          </div>
-          <form className="max-sm:w-[342px] max-sm:px-5">
-            <div className="flex flex-col gap-[6px] pb-[20px] md:pb-[28px]">
-              <label htmlFor="name" className="font-[500] text-[14px]">
-                Name
-              </label>
-              <input
-                type="text"
-                placeholder="Enter your name"
-                className="border-2 md:w-[422px] border-[#E3E3E3] py-2 px-4 text-[16px] rounded-[6px]"
-              />
-            </div>
-            <div className="flex flex-col gap-[6px] pb-[20px] md:pb-[28px]">
-              <label htmlFor="email" className="font-[500] text-[14px]">
-                Email
-              </label>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="border-2 md:w-[422px] border-[#E3E3E3] py-2 px-4 text-[16px] rounded-[6px]"
-              />
-            </div>
-            <div className="flex flex-col gap-[6px]">
-              <label htmlFor="message" className="font-[500] text-[14px]">
-                Message
-              </label>
-              <textarea
-                placeholder="Enter your message"
-                className="h-[132px] md:w-[422px] border-2 border-[#E3E3E3] py-2 px-4 text-[16px] rounded-[6px]"
-                style={{ resize: "none" }}
-              />
-            </div>
-            <div>
-              <button
-                type="submit"
-                className="bg-light-purple py-3 px-6  w-full text-white text-[18px] mt-5 md:mt-[86px] rounded-[6px]"
-              >
-                Send Now
-              </button>
-            </div>
-          </form>
-        </div>
-        <div className="flex flex-col items-center">
-          <Image src={contactAmico} alt="contact-us" className="max-sm:mt-5" />
-          {/* <div className="flex flex-col justify-center gap-[20px] md:pl-20 mt-[28px]">
-            <div className="flex gap-[10px] items-center">
-              <Image src={location} alt="location" />
-              <p>545 Mavis Island, IL 99191</p>
-            </div>
-            <div className="flex gap-[10px] items-center">
-              <Image src={telephone} alt="telephone" />
-              <p>+2034 4040 3030</p>
-            </div>
-            <div className="flex gap-[10px] items-center">
-              <Image src={mail} alt="mail" />
-              <p>genzadshng12@gmail.com</p>
-            </div>
-          </div> */}
-        </div>
       </div>
+
+      <Card className="mx-4 md:mx-auto max-w-7xl rounded-2xl shadow-md overflow-hidden">
+        <CardContent className="p-6 md:p-12">
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="w-full md:w-1/2 text-center md:text-left">
+              <div className="mb-6 md:mb-8">
+                <h1 className="text-2xl md:text-4xl font-bold mb-2">
+                  Contact Us
+                </h1>
+                <p className="text-gray-600 text-sm md:text-base">
+                  We are here for you! How can we help?
+                </p>
+              </div>
+
+              <div className="max-w-md mx-auto md:mx-0">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="name" className="text-sm font-medium">
+                      Name
+                    </Label>
+                    <Input
+                      id="name"
+                      placeholder="Enter your name"
+                      className="w-full"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-sm font-medium">
+                      Email
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      className="w-full"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="message" className="text-sm font-medium">
+                      Message
+                    </Label>
+                    <Textarea
+                      id="message"
+                      placeholder="Enter your message"
+                      className="min-h-32 w-full"
+                    />
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full bg-[#B800B8] hover:bg-purple-600 mt-6 py-7 rounded-[6px] text-white font-semibold"
+                  >
+                    Send Now
+                  </Button>
+                </form>
+              </div>
+            </div>
+
+            <div className="w-full md:w-1/2 flex justify-center">
+              <Image
+                src={contactAmico}
+                alt="Contact us illustration"
+                className="max-w-full h-auto"
+              />
+
+              {/* Uncomment if you want to include the contact info section 
+              <div className="mt-6 space-y-4">
+                <div className="flex items-center gap-3">
+                  <MapPin className="h-5 w-5 text-gray-500" />
+                  <p className="text-gray-600">545 Mavis Island, IL 99191</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Phone className="h-5 w-5 text-gray-500" />
+                  <p className="text-gray-600">+2034 4040 3030</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Mail className="h-5 w-5 text-gray-500" />
+                  <p className="text-gray-600">genzadshng12@gmail.com</p>
+                </div>
+              </div>
+              */}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </section>
   );
 };
 
-export default page;
+export default ContactPage;
