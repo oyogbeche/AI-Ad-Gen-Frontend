@@ -497,6 +497,7 @@ export default function AdCustomizer() {
                 : "initial"
             }
             imageUrl={adData?.data?.image_id}
+            pageAdData={adData?.data}
           />
           <button></button>
         </div>
