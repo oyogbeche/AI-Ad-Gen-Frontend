@@ -21,7 +21,7 @@ interface DesktopAdPreviewNavigationProps {
   status?: string;
   generatedImageUrl?: string;
   downloadFunction?: () => void;
-  imageId?: string; // Added imageId property
+  imageId?: string; 
   hideSaveButton?: boolean;
   hideSaveAndExit?: boolean;
   isPublished?: boolean;
@@ -44,6 +44,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   hideSaveAndExit = false,
   isPublished = false,
 }) => {
+      console.log("IMAGEID", imageId);
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
   const [isSaveDropdownOpen, setIsSaveDropdownOpen] = useState(false);
