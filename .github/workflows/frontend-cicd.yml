@@ -6,6 +6,10 @@ on:
       - dev
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   test-and-build:
     runs-on: aiadgen
@@ -23,9 +27,15 @@ jobs:
         with:
           version: latest
 
-      - name: Create .env File
+      - name: Create Environment-Specific .env File
         run: |
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "NEXT_PUBLIC_API_URL=${{ vars.PROD_API_URL }}" >> .env
+            echo "NEXT_PUBLIC_ENVIRONMENT=production" >> .env
+          elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
+            echo "NEXT_PUBLIC_API_URL=${{ vars.DEV_API_URL }}" >> .env
+            echo "NEXT_PUBLIC_ENVIRONMENT=test" >> .env
+          fi
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -38,7 +48,7 @@ jobs:
         with:
           name: next-build
           path: |
-            .next/
+            .next/!(cache)
             public/
             package.json
             pnpm-lock.yaml
@@ -70,11 +80,16 @@ jobs:
             echo "DEPLOY_PORT=5005" >> $GITHUB_ENV
             echo "DEPLOY_NAME=ai-adgen-frontend-dev" >> $GITHUB_ENV
           fi
+      
+      - name: Install rsync
+        run: sudo apt-get update && sudo apt-get install -y rsync sshpass
+
 
       - name: Deploy to Server
         run: |
-          echo "Deploying .next build to server..."
-          sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml \
+          sshpass -p "${{ secrets.SERVER_PASSWORD }}" rsync -avz --delete \
+          --exclude='.git/' --exclude='node_modules/' \
+          .next public/ package.json pnpm-lock.yaml \
           "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend"
 
       - name: Start Application on Server
