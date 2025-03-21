@@ -8,15 +8,28 @@ import { ArrowRight, Menu, X } from "lucide-react";
 // import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation"; // Import usePathname
 
 const BlogHeader: React.FC = () => {
   // const { handleGoogleLogin, isLoading } = useGoogleAuth();
   const [isOpen, setIsOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
 
+  const pathname = usePathname(); // Get the current route
+  const activeLinkStyle = `text-purple-700`; // Define the active color
+  const baseLinkStyle = `text-gray-600 hover:text-purple-700`; // Base style for links
+
+  // Define nav links as an array for reusability
+  const navLinks = [
+    { href: "/features", label: "Features" },
+    { href: "/how-it-works", label: "How it works" },
+    { href: "/pricing", label: "Pricing" },
+    { href: "/contact-us", label: "Contact us" },
+  ];
+
   return (
     <header className="w-full border-b border-[#F8E6F8] bg-white sticky top-0 z-40">
-      <div className="max-w-[1440px] mx-auto  flex justify-between w-full px-6 py-4 lg:pl-20 lg:pr-9">
+      <div className="max-w-[1440px] mx-auto flex justify-between w-full px-6 py-4 lg:pl-20 lg:pr-9">
         <div className="w-fit">
           <Link href="/">
             <Logo className="w-32 md:w-auto" />
@@ -36,19 +49,18 @@ const BlogHeader: React.FC = () => {
           )}
         </Button> */}
 
-        <nav className="hidden md:flex items-center space-x-6 text-gray-600">
-          <Link href="/features" className="hover:text-purple-700">
-            Features
-          </Link>
-          <Link href="/how-it-works" className="hover:text-purple-700">
-            How it works
-          </Link>
-          <Link href="/pricing" className="hover:text-purple-700">
-            Pricing
-          </Link>
-          <Link href="/contact-us" className="hover:text-purple-700">
-            Contact us
-          </Link>
+        <nav className="hidden md:flex items-center space-x-6">
+          {navLinks.map((link, index) => (
+            <Link
+              key={index}
+              href={link.href}
+              className={`${baseLinkStyle} ${
+                pathname === link.href ? activeLinkStyle : ""
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
 
         {/* <div className="hidden md:flex space-x-4 pr-4">
@@ -84,24 +96,17 @@ const BlogHeader: React.FC = () => {
       {isOpen && (
         <div className="md:hidden bg-white shadow-md border-t absolute z-50 w-full left-0">
           <nav className="flex flex-col items-center py-4 space-y-4">
-            <Link
-              href="/features"
-              className="text-gray-600 hover:text-purple-700"
-            >
-              Features
-            </Link>
-            <Link
-              href="/how-it-works"
-              className="text-gray-600 hover:text-purple-700"
-            >
-              How it works
-            </Link>
-            <Link
-              href="/pricing"
-              className="text-gray-600 hover:text-purple-700"
-            >
-              Pricing
-            </Link>
+            {navLinks.map((link, index) => (
+              <Link
+                key={index}
+                href={link.href}
+                className={`${baseLinkStyle} ${
+                  pathname === link.href ? activeLinkStyle : ""
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
             <Link
               href={user ? "/dashboard" : "/signin"}
               className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors hidden md:flex justify-center items-center gap-2"
