@@ -1,13 +1,22 @@
-import { Logo } from "@/components/icons/icon";
-import { Facebook, Instagram, Twitter } from "lucide-react";
+"use client"; // Required for usePathname in Next.js App Router
+
+import { Logo, FooterFB, FooterX, FooterIG, FooterEmail } from "@/components/icons/icon";
 import Link from "next/link";
+import { usePathname } from "next/navigation"; // Import usePathname
 
 const BlogFooter = () => {
+  const pathname = usePathname(); // Get the current route
+
   const companyLinks = [
     { href: "/about-us", label: "About Us" },
     { href: "/how-it-works", label: "How It Works" },
     { href: "/faq", label: "FAQs" },
-    { href: "/pricing", label: "Pricing" },
+  ];
+
+  const audienceLinks = [
+    { href: "/create-ads", label: "AI Creative" },
+    { href: "/phase-two", label: "AI Marketing" },
+    { href: "/create-video-ads", label: "AI Video Ads" },
   ];
 
   const featuresLinks = [
@@ -23,40 +32,41 @@ const BlogFooter = () => {
   const socialLinks = [
     {
       href: "http://facebook.com/genz.ads",
-      icon: <Facebook color="#4A5568" />,
+      icon: <FooterFB className="hover:scale-125" />,
       label: "Facebook",
     },
     {
       href: "http://x.com/genz_ad",
-      icon: <Twitter color="#4A5568" />,
+      icon: <FooterX className="hover:scale-125" />,
       label: "Twitter",
     },
     {
       href: "http://instagram.com/genz.adgen",
-      icon: <Instagram color="#4A5568" />,
+      icon: <FooterIG className="hover:scale-125" />,
       label: "Instagram",
+    },
+    {
+      href: "http://instagram.com/genz.adgen",
+      icon: <FooterEmail className="hover:scale-125" />,
+      label: "Email",
     },
   ];
 
-  const headingStyle = `text-black text-2xl font-semibold leading-8`;
-  const linkStyle = `text-[#5F5F5F] text-[18px] font-bold leading-7`;
+  const headingStyle = `text-[#121316] text-nowrap text-[20px] font-semibold leading-8`;
+  const linkStyle = `text-[#5F5F5F] hover:text-purple-700 text-nowrap text-base font-medium leading-7`;
+  const activeLinkStyle = `text-purple-700`; // Define the active color
 
   return (
     <footer className="pb-8 md:p-2">
-      <div className="mx-auto pb-[90px] flex flex-col-reverse md:flex-col">
-        <p className="text-[#5F5F5F] text-[20px] font-normal mb-16">
-          genz.ad helps you generate image ads tailored for different platforms,
-          audiences and cultural contexts, without needing design or marketing
-          expertise.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[fit-content(100%)_auto_auto_auto] justify-between w-full lg:gap-6 gap-10 md:gap-12 xl:gap-24">
+      <div className="mx-auto pb-[90px] gap-10 flex flex-col md:flex-col">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[fit-content(100%)_auto_auto_auto_auto] justify-between w-full lg:gap-6 gap-10 md:gap-12 xl:gap-24">
           <div className="flex flex-col justify-between">
             <div className="flex flex-col gap-2.5 md:gap-5">
               <Link href="/" className="flex items-center">
                 <Logo className="w-41 h-12" />
               </Link>
-              <p className="text-[20px] md:text-[28px] font-semibold">
-                <span className="text-[#B800B8]">Smarter Ads, {""}</span>
+              <p className="text-[18px] text-nowrap md:text-[24px] font-semibold">
+                <span className="text-[#B800B8]">Smarter Ads, </span>
                 <span className="text-[#121316] ">Faster Results</span>
               </p>
             </div>
@@ -95,6 +105,24 @@ const BlogFooter = () => {
           </div>
 
           <div className="flex flex-col gap-6">
+            <h3 className={headingStyle}>Audience</h3>
+            <ul className="flex flex-col gap-6 lg:text-center xl:text-left">
+              {audienceLinks.map((link, index) => (
+                <li key={index}>
+                  <Link
+                    href={link.href}
+                    className={`${linkStyle} ${
+                      pathname === link.href ? activeLinkStyle : ""
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="flex flex-col gap-6">
             <h3 className={headingStyle}>Features</h3>
             <ul className="flex flex-col gap-6 lg:text-center xl:text-left">
               {featuresLinks.map((link, index) => (
@@ -120,6 +148,11 @@ const BlogFooter = () => {
             </ul>
           </div>
         </div>
+        <p className="text-[#5F5F5F] text-[20px] font-normal">
+          genz.ad helps you generate image ads tailored for different platforms,
+          audiences and cultural contexts, without needing design or marketing
+          expertise.
+        </p>
       </div>
     </footer>
   );
