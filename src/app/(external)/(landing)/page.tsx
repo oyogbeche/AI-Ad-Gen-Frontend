@@ -9,11 +9,8 @@ import { useEffect } from "react";
 
 export default function Home() {
   useEffect(() => {
-    // Check if we navigated back to the homepage
     if (sessionStorage.getItem("navigatingBack") === "true") {
-      // Clear the flag
       sessionStorage.removeItem("navigatingBack");
-      // Clear the image data
       localStorage.removeItem("imageAdData");
     }
   }, []);
