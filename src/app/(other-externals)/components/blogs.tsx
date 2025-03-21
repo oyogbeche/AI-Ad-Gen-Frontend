@@ -38,22 +38,28 @@ export const blogData: BlogCardProps[] = [
 
 export const Blogs = () => {
   return (
-    <div>
-      <h2 className="text-[#121316] text-[28px] leading-[36px] font-semibold line-clamp-2">
-        Featured Articles on Marketing and AI Trends
-      </h2>
-      <p>
-        Explore the latest marketing and AI trends, from data-driven advertising
-        to emerging strategies, and stay ahead in the digital landscape.
-      </p>
-      <div className="flex flex-col md:flex-row gap-x-[26px] gap-y-12 pb-8 md:pb-16 pt-6 md:pt-4">
+    <section className=" flex flex-col gap-4 md:gap-8">
+      <hgroup className="flex flex-col gap-4 items-center">
+        <h2 className="text-[#121316] text-[28px] md:text-[32px] font-semibold text-center">
+          Featured Articles on Marketing and AI Trends
+        </h2>
+        <p className="max-w-[805px] text-center text-[18px]">
+          Explore the latest marketing and AI trends, from data-driven
+          advertising to emerging strategies, and stay ahead in the digital
+          landscape.
+        </p>
+      </hgroup>
+      <div className="flex flex-col lg:grid lg:grid-cols-2 lg:grid-rows-3 gap-6 ">
         {blogData.map((blog, index) => (
-          <div key={index}>
+          <div
+            key={index}
+            className={`${index === 0 ? "lg:row-span-3 lg:col-span-1" : ""}`}
+          >
             <BlogCard {...blog} />
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 
