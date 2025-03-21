@@ -2,7 +2,6 @@
 import { Logo } from "@/components/icons/icon";
 import { UserAvatar } from "@/domains/ads-gen/components/avatar";
 import { useAuthStore } from "@/store/auth-store";
-import { StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,9 +9,11 @@ import { useState } from "react";
 import iconLogo from "../../../../public/icon-logo.svg";
 import logoPng from "../../../../public/logo.png";
 import UpgradePlanModal from "./upgrade-plan-modal";
+import { useSubscriptionStatus } from "@/hooks/use-subscription-status";
 
 const Header: React.FC = () => {
   const user = useAuthStore((state) => state.user);
+  const { data } = useSubscriptionStatus();
   const logout = useAuthStore((state) => state.logout);
   const name = `${user?.first_name || ""} ${user?.last_name || ""}`;
   const pathname = usePathname();
@@ -98,21 +99,17 @@ const Header: React.FC = () => {
                     onClick={() => setIsModalOpen(true)}
                   >
                     <div className="flex items-center">
-                      {user.email === "ewehvictor7@gmail.com" ||
-                      user.email === "mark@hotels.ng" ? (
-                        <StarIcon fill="orange" className="text-[#ffd500]" />
-                      ) : (
+                     
                         <Image
                           src="/star-fall2.svg"
                           height={24}
                           width={24}
                           alt="Star fall"
                         />
-                      )}
-                      {user.email === "ewehvictor7@gmail.com" ||
-                      user.email === "mark@hotels.ng" ? (
+                     
+                      {data?  (
                         <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
-                          500{" "}
+                          {data.data.credits}{" "}
                           <span className="hidden sm:inline-block">
                             credits
                           </span>
@@ -126,25 +123,19 @@ const Header: React.FC = () => {
                         </span>
                       )}
                     </div>
-                    <div className="hidden sm:flex items-center gap-4 ">
+                    <div className="flex sm:flex items-center gap-2 sm:gap-4 ">
                       <Image
                         src="/separate.svg"
                         height={16}
                         width={3}
                         alt="Separator"
                       />
-                      {user.email === "ewehvictor7@gmail.com" ||
-                      user.email === "mark@hotels.ng" ? (
-                        <span className="font-semibold text-[#121316]">
-                          P
-                          <span className="hidden sm:inline-block">remium</span>
+                    
+                        <span className="font-semibold text-[#121316] inline-block sm:hidden">
+                          {data?.data.plan_type[0].toUpperCase()}
                         </span>
-                      ) : (
-                        <span className="font-semibold text-[#121316]">
-                          U
-                          <span className="hidden sm:inline-block">pgrade</span>
-                        </span>
-                      )}
+                        <span className="hidden sm:inline-block"> {data?.data.plan_type}</span>
+              
                     </div>
                   </div>
                 )}

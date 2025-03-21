@@ -65,7 +65,7 @@ export function useGenerateAdImage() {
     },
     onError: (error: Error) => {
       console.error("Error generating ad image:", error);
-      setError("Failed to start image generation. Please try again.");
+      setError(error.message);
       setProgress(0);
       setIsLoading(false);
     },
