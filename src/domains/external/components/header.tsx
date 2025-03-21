@@ -29,8 +29,6 @@ const Header: React.FC = () => {
     logout();
   };
 
-
-  
   return (
     <header
       className={`w-full border-b border-[#F8E6F8] sticky top-0 z-40 ${
@@ -97,28 +95,33 @@ const Header: React.FC = () => {
                     onClick={() => setIsModalOpen(true)}
                   >
                     <div className="flex items-center">
-               { user.email ===  "ewehvictor7@gmail.com" || user.email === "mark@hotels.ng" ? 
-               <StarIcon fill="orange" className="text-[#ffd500]" />
-               :
-               <Image
-                        src="/star-fall2.svg"
-                        height={24}
-                        width={24}
-                        alt="Star fall"
-                     
-                      />}
-           {user.email ===  "ewehvictor7@gmail.com" || user.email === "mark@hotels.ng" ? 
-               <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
-               500{" "}
-               <span className="hidden sm:inline-block">credits</span>
-             </span>       
-                       :
-                       <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
-                       5{" "}
-                       <span className="hidden sm:inline-block">credits</span>
-                     </span>
-                   
-                      }
+                      {user.email === "ewehvictor7@gmail.com" ||
+                      user.email === "mark@hotels.ng" ? (
+                        <StarIcon fill="orange" className="text-[#ffd500]" />
+                      ) : (
+                        <Image
+                          src="/star-fall2.svg"
+                          height={24}
+                          width={24}
+                          alt="Star fall"
+                        />
+                      )}
+                      {user.email === "ewehvictor7@gmail.com" ||
+                      user.email === "mark@hotels.ng" ? (
+                        <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
+                          500{" "}
+                          <span className="hidden sm:inline-block">
+                            credits
+                          </span>
+                        </span>
+                      ) : (
+                        <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
+                          5{" "}
+                          <span className="hidden sm:inline-block">
+                            credits
+                          </span>
+                        </span>
+                      )}
                     </div>
                     <Image
                       src="/separate.svg"
@@ -126,13 +129,16 @@ const Header: React.FC = () => {
                       width={3}
                       alt="Separator"
                     />
-              { user.email ===  "ewehvictor7@gmail.com" || user.email === "mark@hotels.ng" ? 
-                <span className="font-semibold text-[#121316]">
-                P<span className="hidden sm:inline-block">remium</span>
-              </span>
-              :    <span className="font-semibold text-[#121316]">
-                      U<span className="hidden sm:inline-block">pgrade</span>
-                    </span>}
+                    {user.email === "ewehvictor7@gmail.com" ||
+                    user.email === "mark@hotels.ng" ? (
+                      <span className="font-semibold text-[#121316]">
+                        P<span className="hidden sm:inline-block">remium</span>
+                      </span>
+                    ) : (
+                      <span className="font-semibold text-[#121316]">
+                        U<span className="hidden sm:inline-block">pgrade</span>
+                      </span>
+                    )}
                   </div>
                 )}
                 <UserAvatar
@@ -144,16 +150,16 @@ const Header: React.FC = () => {
             ) : (
               <div className="flex gap-3">
                 <Link
-                  href={"/signin?type=signin"}
-                  className="bg-light-purple cursor-pointer text-white px-2 sm:px-6 py-1 sm:py-3 rounded-sm hover:bg-dark-purple transition-colors justify-center items-center gap-2"
-                >
-                  Sign in
-                </Link>
-                <Link
                   href={"/signin?type=signup"}
                   className="cursor-pointer px-2 sm:px-6 py-1 sm:py-3 rounded-sm text-[#520052] transition-colors justify-center items-center gap-2 border border-[#B800B8] hover:bg-[#cf54cf21] w-fit mx-auto flex"
                 >
                   Sign up
+                </Link>
+                <Link
+                  href={"/signin?type=signin"}
+                  className="bg-light-purple cursor-pointer text-white px-2 sm:px-6 py-1 sm:py-3 rounded-sm hover:bg-dark-purple transition-colors flex justify-center items-center gap-2"
+                >
+                  Sign in
                 </Link>
               </div>
             )}
