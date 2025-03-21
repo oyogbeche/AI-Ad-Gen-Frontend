@@ -3,11 +3,25 @@ import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import React from "react";
 
+interface section {
+  title: string;
+  content: string[];
+  sub1?: { title: string; content?: string; liste?: string[] };
+  sub2?: { title: string; content?: string; liste?: string[] };
+}
+
 export interface BlogCardProps {
   id: number;
   image: string | StaticImageData;
   title: string;
   description: string;
+  fullDescription: string[];
+  pOne?: section;
+  pTwo?: section;
+  pThree?: section;
+  pFour?: section;
+  pFive?: section;
+  pSix?: section;
 }
 
 const BlogCard: React.FC<BlogCardProps> = ({

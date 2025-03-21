@@ -46,6 +46,9 @@ const BlogHeader: React.FC = () => {
           <Link href="/pricing" className="hover:text-purple-700">
             Pricing
           </Link>
+          <Link href="/contact-us" className="hover:text-purple-700">
+            Contact us
+          </Link>
         </nav>
 
         {/* <div className="hidden md:flex space-x-4 pr-4">
