@@ -16,8 +16,8 @@ const BlogFooter = () => {
   ];
 
   const supportLinks = [
-    { href: "/blog", label: "Blogs" },
-    { href: "/contact", label: "Contact Us" },
+    { href: "/blogs", label: "Blogs" },
+    { href: "/contact-us", label: "Contact Us" },
   ];
 
   const socialLinks = [
