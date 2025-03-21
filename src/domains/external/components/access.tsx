@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useSubmitMarketingForm } from "@/domains/ads-gen/api/use-submit-marketing";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import * as z from "zod";
 import { useSubmitMarketingForm } from "@/domains/ads-gen/api/use-submit-marketing";
 
@@ -21,6 +22,7 @@ const Access = ({ heading, imageSrc }: AccessProps) => {
   const [phone, setPhone] = useState("");
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { mutate: submitForm } = useSubmitMarketingForm();
   const { mutate: submitForm } = useSubmitMarketingForm();
 
   const formSchema = z.object({
@@ -58,11 +60,11 @@ const Access = ({ heading, imageSrc }: AccessProps) => {
     >
       <div className="grid grid-cols-1 md:grid-cols-2">
         {/* Left Column: Image */}
-        <div className="flex items-center justify-center mt-8 sm:mt-12 md:mt-0">
+        <div className="flex items-center justify-center max-md:px-4 mt-8 sm:mt-12 md:mt-0">
           <Image
             src={imageSrc || "/early-access.svg"}
             alt="Early Access Visual"
-            width={450}
+            width={400}
             height={400}
             className="object-cover"
             priority
