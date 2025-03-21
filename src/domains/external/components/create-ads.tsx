@@ -8,23 +8,19 @@ import { useRef } from "react";
 
 const notes = [
   {
-    name: "Get Started",
-    description: "Click “Generate Ad” and sign in with your Google account.",
+    name: "AI-Powered Generation",
+    description:
+      "Create high-quality image ads instantly with AI—no design skills needed.",
   },
   {
-    name: "Customize Your Ad",
+    name: "Simple Campaign Input",
     description:
-      " Describe your product, choose your platform (Facebook, Instagram, etc.), select your audience, and add an image(Optional).",
+      "Enter product details, target audience, language, and ad goal to create your ad.",
   },
   {
-    name: "Generate & Preview",
+    name: "Instant Ad Preview",
     description:
-      "Click “Generate” to instantly create your ad. Preview and edit as needed.",
-  },
-  {
-    name: "Download & Share",
-    description:
-      "Save your ad and post it directly to your chosen platform and start attracting customers now!",
+      "See your AI-generated ad in real-time before taking the next step.",
   },
 ];
 
@@ -74,7 +70,7 @@ const CreateAds = () => {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          How to Create Ads in Seconds with Genz.ad
+          How to Make Ads Using <br className="hidden md:block" /> genz.ad
         </motion.p>
 
         <motion.div

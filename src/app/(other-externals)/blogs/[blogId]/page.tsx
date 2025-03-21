@@ -32,7 +32,7 @@ const BlogDetail = () => {
       <p className="text-lg mb-4">{blog.description}</p>
       <p>{blog.description}</p>
       <div>
-        <h1 className="text-2xl text-center md:text-[32px] font-semibold">
+        <h1 className="text-2xl md:text-[32px] font-semibold">
           Most Popular Articles
         </h1>
         <div className="flex flex-col md:flex-row gap-6 md:gap-8">
