@@ -1,10 +1,12 @@
-import send from "@/components/icons/send.svg";
+import { useInpaintImage } from "@/domains/ads-gen/api/use-image-paint";
+import { Send } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 
 // Define TypeScript interfaces for our props and state
 interface ImageSelectionToolProps {
   imageSrc: string;
+  imageId: string;
   width?: number;
   height?: number;
   onSelectionComplete?: (selection: SelectionArea, prompt: string) => void;
@@ -25,6 +27,7 @@ interface Point {
 
 const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
   imageSrc,
+  imageId,
   width = 500,
   height = 500,
   onSelectionComplete,
@@ -37,6 +40,12 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
   const [prompt, setPrompt] = useState<string>("");
   const [containerSize, setContainerSize] = useState({ width, height });
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [currentImageSrc, setCurrentImageSrc] = useState(imageSrc);
+  const { inpaintImage } = useInpaintImage();
+
+  useEffect(() => {
+    setCurrentImageSrc(imageSrc);
+  }, [imageSrc]);
 
   // Use proper TypeScript types for refs
   // const imageRef = useRef<HTMLImageElement>(null);
@@ -186,22 +195,6 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
     }
   };
 
-  // Handle prompt submission
-  const handlePromptSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (selection && prompt) {
-      // Call the callback if provided
-      if (onSelectionComplete) {
-        onSelectionComplete(selection, prompt);
-      }
-
-      // Reset for next selection
-      setPrompt("");
-      setShowPrompt(false); // Hide the prompt after submission
-    }
-  };
-
   // Add event listeners for mouse events outside the component
   useEffect(() => {
     const handleMouseUpOutside = () => {
@@ -250,6 +243,36 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
     ));
   };
 
+  const handlePromptSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (selection && prompt) {
+      if (onSelectionComplete) {
+        onSelectionComplete(selection, prompt);
+      }
+
+      if (imageId) {
+        try {
+          const response = await inpaintImage({
+            image_id: imageId,
+            prompt: prompt,
+          });
+
+          if (response?.success && response.image_url) {
+            // Update the image source with the new inpainted image
+            setCurrentImageSrc(response.image_url);
+            console.log("Inpainting successful:", response.image_url);
+          }
+        } catch (error) {
+          console.error("Error during inpainting:", error);
+        }
+      }
+
+      setPrompt("");
+      setShowPrompt(false);
+    }
+  };
+
   return (
     <>
       <div
@@ -269,7 +292,7 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
         onTouchEnd={handleTouchEnd}
       >
         <Image
-          src={imageSrc}
+          src={currentImageSrc}
           alt="Selectable image"
           width={containerSize.width}
           height={containerSize.height}
@@ -340,7 +363,8 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
                   isMobile ? "px-4 py-4" : "px-3 py-3"
                 } hover:bg-slate-200 cursor-pointer focus:outline-none rounded-md`}
               >
-                <Image src={send} alt="send" />
+                {/* <Image src={send} alt="send" /> */}
+                <Send size={20} color="#121316" />
               </button>
             </div>
           </form>

@@ -567,17 +567,14 @@ export default function AdCustomizer() {
                 <div className="w-full h-full">
                   <ImageTextEditor
                     imageSrc={adData.data.image_url}
+                    imageId={adData.data.image_id || ""}
                     initialTexts={[
                       {
                         id: "1",
                         content:
                           adData.data.keywords &&
                           adData.data.keywords.length > 0
-                            ? adData.data.keywords[
-                                Math.floor(
-                                  Math.random() * adData.data.keywords.length
-                                )
-                              ]
+                            ? adData.data.keywords[0]
                             : "Edit this text",
                         x: 50,
                         y: 50,

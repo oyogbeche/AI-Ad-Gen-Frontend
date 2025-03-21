@@ -91,7 +91,7 @@ const Header: React.FC = () => {
               <div className="flex sm:gap-10 gap-2">
                 {isSpecialPage && (
                   <div
-                    className="flex items-center gap-2 sm:gap-4 px-1 sm:px-4 sm:py-2 bg-white rounded-[8px] cursor-pointer"
+                    className="flex items-center gap-2 sm:gap-4 px-2 sm:px-4 py-1 sm:py-2 bg-white rounded-[8px] cursor-pointer max-sm:mr-2 max-sm:h-fit my-auto"
                     onClick={() => setIsModalOpen(true)}
                   >
                     <div className="flex items-center">
@@ -123,22 +123,26 @@ const Header: React.FC = () => {
                         </span>
                       )}
                     </div>
-                    <Image
-                      src="/separate.svg"
-                      height={16}
-                      width={3}
-                      alt="Separator"
-                    />
-                    {user.email === "ewehvictor7@gmail.com" ||
-                    user.email === "mark@hotels.ng" ? (
-                      <span className="font-semibold text-[#121316]">
-                        P<span className="hidden sm:inline-block">remium</span>
-                      </span>
-                    ) : (
-                      <span className="font-semibold text-[#121316]">
-                        U<span className="hidden sm:inline-block">pgrade</span>
-                      </span>
-                    )}
+                    <div className="hidden sm:flex items-center gap-4 ">
+                      <Image
+                        src="/separate.svg"
+                        height={16}
+                        width={3}
+                        alt="Separator"
+                      />
+                      {user.email === "ewehvictor7@gmail.com" ||
+                      user.email === "mark@hotels.ng" ? (
+                        <span className="font-semibold text-[#121316]">
+                          P
+                          <span className="hidden sm:inline-block">remium</span>
+                        </span>
+                      ) : (
+                        <span className="font-semibold text-[#121316]">
+                          U
+                          <span className="hidden sm:inline-block">pgrade</span>
+                        </span>
+                      )}
+                    </div>
                   </div>
                 )}
                 <UserAvatar

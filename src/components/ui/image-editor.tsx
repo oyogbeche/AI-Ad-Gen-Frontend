@@ -20,11 +20,13 @@ export interface TextElement {
 
 interface ImageTextEditorProps {
   imageSrc: string;
+  imageId: string;
   initialTexts?: TextElement[];
 }
 
 export function ImageTextEditor({
   imageSrc,
+  imageId,
   initialTexts = [],
 }: ImageTextEditorProps) {
   const [texts, setTexts] = useState<TextElement[]>(initialTexts);
@@ -88,7 +90,7 @@ export function ImageTextEditor({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mb-10">
+    <div className="flex flex-col items-center justify-center">
       {/* <div className="flex justify-between items-center">
         <Button
           onClick={addNewText}
@@ -128,6 +130,7 @@ export function ImageTextEditor({
           /> */}
           <ImageSelectionTool
             imageSrc={imageSrc ?? "/preview.png"}
+            imageId={imageId}
             // width={650}
             // height={500}
             onSelectionComplete={(selection, prompt) => {
