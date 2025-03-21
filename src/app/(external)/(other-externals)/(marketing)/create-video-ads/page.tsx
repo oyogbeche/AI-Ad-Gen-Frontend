@@ -99,7 +99,7 @@ const Hero = () => {
             <span className="md:block">
               With the GenZ AI Ad Maker, you can easily and quickly generate
             </span>
-            stunning video ads for yourself or your clients. Use an AI Ad
+            stunning video ads for yourself or your clients.Use an AI Ad
             Generator Free of hassle.
           </span>
         </motion.p>
@@ -121,4 +121,4 @@ const Hero = () => {
       </div>
     </div>
   );
-}
+};
