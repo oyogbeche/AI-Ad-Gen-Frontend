@@ -232,6 +232,18 @@ export default function AdCustomizer() {
     }
   };
 
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      sessionStorage.removeItem("adCustomizerData");
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   // Handle retry - restart the whole process
   const handleRetry = () => {
     reset(); // Reset the hook state
@@ -248,7 +260,7 @@ export default function AdCustomizer() {
       </div>
     );
   }
-  
+
   return (
     <div className="flex flex-col lg:flex-row p-4 lg:p-0">
       {/* Form Section */}
@@ -483,6 +495,7 @@ export default function AdCustomizer() {
           <DesktopAdPreviewNavigation
             type="image-form"
             imageId={adData?.data?.image_id || ""}
+            isPublished={true}
             downloadFunction={() => {
               const element = document.getElementById("outputImg");
               if (element) {
