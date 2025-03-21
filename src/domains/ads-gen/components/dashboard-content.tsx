@@ -35,6 +35,7 @@ const DashboardContent = () => {
     image_url: string;
     is_published: boolean;
     prompt: string;
+    product_name: string;
     target_audience: string;
     updated_at: string;
   }
@@ -196,7 +197,7 @@ const DashboardContent = () => {
                     />
                   </div>
                   <motion.div className="flex flex-col gap-[10px] mt-2.5 ml-4 mb-3">
-                    <span className="font-semibold">{"Title"}</span>
+                    <span className="font-semibold">{ad.product_name}</span>
                     {filter === "community" && (
                       <div className="flex gap-2.5 items-center">
                         <div className="w-5 h-5 rounded-full overflow-hidden relative">
