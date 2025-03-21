@@ -21,7 +21,10 @@ interface DesktopAdPreviewNavigationProps {
   status?: string;
   generatedImageUrl?: string;
   downloadFunction?: () => void;
-  imageId?: string; // Added imageId property
+  imageId?: string; 
+  hideSaveButton?: boolean;
+  hideSaveAndExit?: boolean;
+  isPublished?: boolean;
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
@@ -37,7 +40,11 @@ export const DesktopAdPreviewNavigation: React.FC<
   generatedImageUrl = "/preview.png",
   downloadFunction,
   imageId,
+  hideSaveButton = false,
+  hideSaveAndExit = false,
+  isPublished = false,
 }) => {
+      console.log("IMAGEID", imageId);
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
   const [isSaveDropdownOpen, setIsSaveDropdownOpen] = useState(false);
@@ -61,8 +68,15 @@ export const DesktopAdPreviewNavigation: React.FC<
     }
   };
 
+  const showSaveButton =
+    !hideSaveButton &&
+    type === "image-form" &&
+    status === "completed" &&
+    (!hideSaveAndExit || !isPublished);
+
   // get generated image id
-  const {adData} = useGenerateAdImage();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { adData } = useGenerateAdImage();
 
   const downloadImage = async (format: "png" | "jpg") => {
     if (!effectiveImageUrl || isDownloading) return;
@@ -219,15 +233,16 @@ export const DesktopAdPreviewNavigation: React.FC<
         </div>
       </div>
     ));
+    router.push("/dashboard");
   };
 
   const handleSaveAndPublish = () => {
-    patchRequest(`/image/publish/${imageId}`, { status: "published" })
-      .then(() => {
+    patchRequest(`/image/publish/${imageId}`, { status: "published" }).then(
+      () => {
         setIsSaveDropdownOpen(false);
       }
-      )
-    console.log(adData)
+    );
+    // console.log(adData);
     toast.custom(() => (
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
         <div className="flex items-center justify-between w-full">
@@ -247,6 +262,7 @@ export const DesktopAdPreviewNavigation: React.FC<
         </div>
       </div>
     ));
+    router.push("/dashboard");
   };
 
   return (
@@ -265,7 +281,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 
         <div className="flex gap-4">
           {/* Save button - Show only when type is image-form and status is completed */}
-          {type === "image-form" && status === "completed" && (
+          {showSaveButton && (
             <div className="relative" ref={saveDropdownRef}>
               <button
                 onClick={() => setIsSaveDropdownOpen(!isSaveDropdownOpen)}
@@ -285,18 +301,22 @@ export const DesktopAdPreviewNavigation: React.FC<
                   className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10"
                 >
                   <div className="py-1">
-                    <button
-                      onClick={handleSaveAndExit}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                    >
-                      Save & Exit
-                    </button>
-                    <button
-                      onClick={handleSaveAndPublish}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                    >
-                      Save & Publish
-                    </button>
+                    {!hideSaveAndExit && (
+                      <button
+                        onClick={handleSaveAndExit}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                      >
+                        Save & Exit
+                      </button>
+                    )}
+                    {!isPublished && (
+                      <button
+                        onClick={handleSaveAndPublish}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                      >
+                        Save & Publish
+                      </button>
+                    )}
                   </div>
                 </motion.div>
               )}
@@ -348,8 +368,8 @@ export const DesktopAdPreviewNavigation: React.FC<
                     <button
                       // onClick={() => downloadImage("png")}
                       onClick={() => {
-                        setIsExportDropdownOpen(!isExportDropdownOpen)
-                        downloadFunction?.()
+                        setIsExportDropdownOpen(!isExportDropdownOpen);
+                        downloadFunction?.();
                       }}
                       disabled={isDownloading || isLoading}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"

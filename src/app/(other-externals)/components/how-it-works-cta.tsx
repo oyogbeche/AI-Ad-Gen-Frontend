@@ -1,7 +1,7 @@
 "use client"; // 1) Mark this file as a Client Component
 
-import React from "react";
 import Image from "next/image";
+import React from "react";
 // 2) Import from next/navigation in Next.js 13 App Router
 import { useRouter } from "next/navigation";
 
@@ -20,6 +20,7 @@ const CtaHowItWorks: React.FC = () => {
         bg-[#B800B8]
         overflow-hidden
         text-white
+        rounded-[10px]
       "
     >
       <div
@@ -31,18 +32,18 @@ const CtaHowItWorks: React.FC = () => {
           grid-cols-1
           md:grid-cols-2
           items-center
-          gap-8
+          md:gap-8
           relative
         "
       >
         {/* Left Side: Headline, Description, and Button */}
-        <div className="pl-8 py-8">
-          <h3 className="text-3xl font-bold mb-4">
+        <div className="md:pl-8 py-8">
+          <h3 className="text-[20px] text-3xl font-semibold md:font-bold leading-7 md:leading-12 mb-4">
             Simple &amp; Quick Ad Creation.
           </h3>
-          <p className="mb-6 leading-relaxed">
-            With Genz.ad, you can turn ideas into powerful ads in minutes.
-            No complex tools. No expensive software. Just your vision!
+          <p className="text-base md:text-[28px] leading-6 md:leading-7 mb-6">
+            With Genz.ad, you can turn ideas into powerful ads in minutes. No
+            complex tools. No expensive software. Just your vision!
           </p>
 
           {/* CTA Button using onClick */}
@@ -58,6 +59,7 @@ const CtaHowItWorks: React.FC = () => {
               rounded-md
               hover:opacity-90
               transition
+              max-md:w-full
             "
           >
             Start Creating Your Ad

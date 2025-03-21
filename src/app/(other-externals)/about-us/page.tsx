@@ -259,7 +259,7 @@ const AboutUs = () => {
 
         {/* CTA Section */}
         <section className="max-w-[392px] lg:max-w-7xl mx-auto py-16 md:px-12 lg:px-24 bg-[#F8E6F8] rounded-[16px] text-center lg:text-left">
-          <div className="mx-auto grid lg:grid-cols-2 gap-12 items-center">
+          <div className="mx-auto grid lg:grid-cols-2 gap-12 items-center px-[20px]">
             {/* Left - CTA Text */}
             <div className="order-2 lg:order-1">
               <h2 className="text-[28px] lg:text-[40px] font-[600] lg:font-[700] leading-[36px] mb-6">

@@ -7,7 +7,7 @@ interface OnboardingStepProps {
   image: ReactNode;
   imagePosition: "left" | "right";
   numberColor?: string;
-  backgroundColor?: string; // Optional background color for the text side
+  backgroundColor?: string;
 }
 
 export default function OnboardingStep({
@@ -16,123 +16,91 @@ export default function OnboardingStep({
   content,
   image,
   imagePosition,
+  numberColor,
+  backgroundColor,
 }: OnboardingStepProps) {
+  const isLeftImage = imagePosition === "left";
+
+  // Default background colors based on image position
+  const bgColor =
+    backgroundColor ||
+    (isLeftImage ? "#F2F2F2" : isLeftImage ? "#F2F2F2" : "#FDF2FD");
+  const numColor = numberColor || (isLeftImage ? "#cfcfcf" : "#F6E1F6");
+
+  // Conditional classes based on image position
+  const sectionClasses = `
+    relative
+    rounded-[20px]
+    overflow-hidden
+    w-full
+  `;
+
+  const numberClasses = `
+    absolute
+    font-manrope font-semibold text-[64px] lg:text-[128px] leading-[28px]
+    top-10 lg:top-20
+    pointer-events-none
+    select-none
+    w-fit
+    ${
+      isLeftImage
+        ? "right-10 lg:right-20"
+        : "right-10 lg:left-[45%] lg:right-0 lg:-translate-x-1/2 lg:-translate-y-1/2"
+    }
+  `;
+
+  const containerClasses = `
+    container
+    mx-auto
+    grid
+    grid-cols-1
+    lg:grid-cols-2
+    items-center
+    gap-4 md:gap-8
+    relative
+    w-full
+  `;
+
+  const textContainerClasses = `
+    ${isLeftImage ? "order-1 lg:order-2 " : "pl-8"} 
+    mt-${isLeftImage ? "20" : "32"}
+  `;
+
+  const imageContainerClasses = `
+    flex 
+    ${
+      isLeftImage
+        ? "items-center justify-start order-2 lg:order-1"
+        : "items-end justify-end w-full"
+    }
+  `;
+
   return (
     <div className="w-full">
-      {imagePosition === "left" ? (
-        <section
-          className="
-        relative
-        py-16
-        bg-[#FFF4FF]
-        overflow-hidden
-        w-full
-      "
+      <section className={sectionClasses} style={{ backgroundColor: bgColor }}>
+        <div
+          className={numberClasses}
+          style={{ color: numColor }}
+          aria-hidden="true"
         >
-          <div
-            className="
-          absolute
-          text-[10rem]
-          font-extrabold
-          text-pink-100
-          top-20
-          left-1/2
-          -translate-x-1/2
-          -translate-y-1/2
-          pointer-events-none
-          select-none
-          hidden
-          lg:block
-        "
-            aria-hidden="true"
-          >
-            {number}
+          {number}
+        </div>
+
+        <div className={`max-md:mb-2 max-md:mt-[53px] ${containerClasses}`}>
+          {/* Text Side */}
+          <div className={`max-md:px-5 ${textContainerClasses}`}>
+            <h3 className="text-[#121316] font-nunito text-[18px] md:text-[40px] font-semibold md:font-bold leading-7 md:leading-[48px] mb-4">
+              {title}
+            </h3>
+            <ul className="list-disc list-inside space-y-1  text-[#121316] font-nunito text-base md:text-[18px] font-normal leading-6 md:leading-[28px]">
+              {content}
+            </ul>
           </div>
 
-          <div
-            className="
-          container
-          mx-auto
-          px-4
-          grid
-          grid-cols-1
-          md:grid-cols-2
-          items-center
-          gap-8
-          relative
-          w-full
-        "
-          >
-            {/* Text Side */}
-            <div className="pl-8">
-              <h3 className="text-2xl font-bold mb-4">{title}</h3>
-              <ul className="list-disc list-inside space-y-1 text-gray-700 leading-relaxed">
-                {content}
-              </ul>
-            </div>
-
-            {/* Image Side */}
-            <div className="flex items-end justify-end overflow-hidden">
-              {image}
-            </div>
-          </div>
-        </section>
-      ) : (
-        <section
-          className="
-        relative
-        py-16
-        rounded-[20px] bg-gray-200
-        overflow-hidden
-        w-full
-      "
-        >
-          <div
-            className="
-          absolute
-          text-[#cfcfcf] text-[128px] font-manrope font-bold leading-[28px]
-          top-20
-          right-20
-          pointer-events-none
-          select-none
-          hidden
-          lg:block
-        "
-            aria-hidden="true"
-          >
-            {number}
-          </div>
-
-          <div
-            className="
-          container
-          mx-auto
-          px-4
-          grid
-          grid-cols-1
-          md:grid-cols-2
-          items-center
-          justify-between
-          gap-8
-          relative
-          w-full
-        "
-          >
-            {/* Image Side */}
-            <div className="flex items-center justify-start  overflow-hidden  bg-amber-500">
-              {image}
-            </div>
-
-            {/* Text Side */}
-            <div className="pl-8">
-              <h3 className="text-2xl font-bold mb-4">{title}</h3>
-              <ul className="list-disc list-inside space-y-1 text-gray-700 leading-relaxed">
-                {content}
-              </ul>
-            </div>
-          </div>
-        </section>
-      )}
+          {/* Image Side */}
+          <div className={imageContainerClasses}>{image}</div>
+        </div>
+      </section>
     </div>
   );
 }

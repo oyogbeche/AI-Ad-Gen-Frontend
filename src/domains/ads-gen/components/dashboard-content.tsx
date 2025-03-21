@@ -24,6 +24,8 @@ const DashboardContent = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const { adData, setAdData } = useAdsContext();
+
+  console.log("DASHBOARD",adData)
   const router = useRouter();
 
   interface Ad {
