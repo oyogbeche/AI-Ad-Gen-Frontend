@@ -1,4 +1,4 @@
-import BlogFooter from "@/app/(other-externals)/components/blog-footer";
+import BlogFooter from "@/domains/other-externals/components/blog-footer";
 
 export default function RootLayout({
   children,

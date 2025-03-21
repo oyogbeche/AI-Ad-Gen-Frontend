@@ -1054,27 +1054,27 @@ const FooterIG = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
     fill="none"
     {...props}
   >
-    <g clip-path="url(#clip0_13001_433)">
+    <g clipPath="url(#clip0_13001_433)">
       <path
         d="M12.75 1.5H5.25C3.17893 1.5 1.5 3.17893 1.5 5.25V12.75C1.5 14.8211 3.17893 16.5 5.25 16.5H12.75C14.8211 16.5 16.5 14.8211 16.5 12.75V5.25C16.5 3.17893 14.8211 1.5 12.75 1.5Z"
         stroke="#7D7D7D"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M11.9998 8.52773C12.0923 9.15191 11.9857 9.78939 11.6951 10.3495C11.4045 10.9096 10.9446 11.3638 10.381 11.6475C9.81736 11.9312 9.17862 12.0299 8.55562 11.9297C7.93262 11.8294 7.3571 11.5353 6.91091 11.0891C6.46472 10.6429 6.17058 10.0674 6.07033 9.44439C5.97008 8.82139 6.06883 8.18265 6.35253 7.61901C6.63622 7.05537 7.09042 6.59553 7.65052 6.30491C8.21062 6.01428 8.8481 5.90767 9.47228 6.00023C10.109 6.09464 10.6984 6.39132 11.1536 6.84646C11.6087 7.30159 11.9054 7.89103 11.9998 8.52773Z"
         stroke="#7D7D7D"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M13.125 4.875H13.1325"
         stroke="#7D7D7D"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </g>
     <defs>
@@ -1085,7 +1085,11 @@ const FooterIG = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const FooterFB = ({ className, ...props }: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement> & { className?: string }) => (
+const FooterFB = ({
+  className,
+  ...props
+}: JSX.IntrinsicAttributes &
+  SVGProps<SVGSVGElement> & { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="18"
@@ -1098,9 +1102,9 @@ const FooterFB = ({ className, ...props }: JSX.IntrinsicAttributes & SVGProps<SV
     <path
       d="M13.5 1.5H11.25C10.2554 1.5 9.30161 1.89509 8.59835 2.59835C7.89509 3.30161 7.5 4.25544 7.5 5.25V7.5H5.25V10.5H7.5V16.5H10.5V10.5H12.75L13.5 7.5H10.5V5.25C10.5 5.05109 10.579 4.86032 10.7197 4.71967C10.8603 4.57902 11.0511 4.5 11.25 4.5H13.5V1.5Z"
       stroke="#7D7D7D"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -1135,16 +1139,16 @@ const FooterEmail = (
     <path
       d="M15 3H3C2.17157 3 1.5 3.67157 1.5 4.5V13.5C1.5 14.3284 2.17157 15 3 15H15C15.8284 15 16.5 14.3284 16.5 13.5V4.5C16.5 3.67157 15.8284 3 15 3Z"
       stroke="#7D7D7D"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M16.5 5.25L9.7725 9.525C9.54095 9.67007 9.27324 9.74701 9 9.74701C8.72676 9.74701 8.45905 9.67007 8.2275 9.525L1.5 5.25"
       stroke="#7D7D7D"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
