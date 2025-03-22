@@ -159,6 +159,36 @@ const BlogFooter = () => {
           audiences and cultural contexts, without needing design or marketing
           expertise.
         </p>
+        <div className="flex sm:hidden flex-col justify-between">
+          <div className="flex flex-col gap-2.5 md:gap-5">
+            <Link href="/" className="flex items-center">
+              <Logo className="w-41 h-12" />
+            </Link>
+            <p className="text-[18px] text-nowrap md:text-[24px] font-semibold">
+              <span className="text-[#B800B8]">Smarter Ads, </span>
+              <span className="text-[#121316] ">Faster Results</span>
+            </p>
+          </div>
+          <div className="flex flex-col gap-6">
+            <div className="flex w-full gap-[21px] items-center">
+              {socialLinks.map((social, index) => (
+                <Link
+                  key={index}
+                  href={social.href}
+                  className="text-gray-900 hover:text-gray-500 p-2.5"
+                  aria-label={social.label}
+                >
+                  <div className="h-[18px] w-[18px] hover:scale-110 transition-all">
+                    {social.icon}
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <p className="text-[#121316] font-nunito text-base font-medium leading-6">
+              Copyright. All rights reserved.
+            </p>
+          </div>
+        </div>
       </div>
     </footer>
   );
