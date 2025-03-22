@@ -27,7 +27,7 @@ import { useGenerateAdImage } from "@/domains/ads-gen/api/ad-image-generate";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { zodResolver } from "@hookform/resolvers/zod";
-import html2canvas from "html2canvas";
+// import html2canvas from "html2canvas";
 import { ArrowRight, ImageIcon, RefreshCw, Upload } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -88,16 +88,16 @@ export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [formLoaded, setFormLoaded] = useState(false);
 
-  const downloadFunction = async (elementRef: HTMLElement) => {
-    const canvas = await html2canvas(elementRef as HTMLElement, {
-      useCORS: true,
-    });
-    const dataURL = canvas.toDataURL();
-    const link = document.createElement("a");
-    link.href = dataURL;
-    link.download = "element.png";
-    link.click();
-  };
+  // const downloadFunction = async (elementRef: HTMLElement) => {
+  //   const canvas = await html2canvas(elementRef as HTMLElement, {
+  //     useCORS: true,
+  //   });
+  //   const dataURL = canvas.toDataURL();
+  //   const link = document.createElement("a");
+  //   link.href = dataURL;
+  //   link.download = "element.png";
+  //   link.click();
+  // };
 
   const lastFormData = useRef<FormData | null>(null);
 
@@ -232,6 +232,18 @@ export default function AdCustomizer() {
     }
   };
 
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      sessionStorage.removeItem("adCustomizerData");
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   // Handle retry - restart the whole process
   const handleRetry = () => {
     reset(); // Reset the hook state
@@ -248,7 +260,7 @@ export default function AdCustomizer() {
       </div>
     );
   }
-  
+
   return (
     <div className="flex flex-col lg:flex-row p-4 lg:p-0">
       {/* Form Section */}
@@ -483,12 +495,13 @@ export default function AdCustomizer() {
           <DesktopAdPreviewNavigation
             type="image-form"
             imageId={adData?.data?.image_id || ""}
-            downloadFunction={() => {
-              const element = document.getElementById("outputImg");
-              if (element) {
-                downloadFunction(element);
-              }
-            }}
+            isPublished={true}
+            // downloadFunction={() => {
+            //   const element = document.getElementById("outputImg");
+            //   if (element) {
+            //     downloadFunction(element);
+            //   }
+            // }}
             status={
               isFetchingAd
                 ? "generating"
@@ -496,7 +509,8 @@ export default function AdCustomizer() {
                 ? "completed"
                 : "initial"
             }
-            imageUrl={adData?.data?.image_id}
+            imageUrl={adData?.data?.image_url}
+            pageAdData={adData?.data}
           />
           <button></button>
         </div>

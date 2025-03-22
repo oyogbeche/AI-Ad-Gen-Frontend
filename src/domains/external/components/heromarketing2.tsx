@@ -14,26 +14,23 @@ const Hero2 = () => {
         transition={{ duration: 0.8 }}
       >
         <motion.h1
-          className="text-3xl md:text-5xl max-w-[1031px] text-center font-bold text-gray-900"
+          className="text-3xl md:text-5xl max-w-[1031px] text-center font-bold text-gray-900 md:w-[28ch]  mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
         >
-          <span className="md:block text-2xl md:text-[64px] leading-6 md:leading-[72px] font-medium ">
-            Boost Engagement with AI-Powered Ad Content!
-          </span>
-          {/* <span className="text-[#B800B8]">
-            Smarter, Faster, Results-Driven!
-          </span> */}
+          <span className="">Expand your audience with</span>
+          <span className="text-[#B800B8] ml-2">simple AI Marketing Tools</span>
         </motion.h1>
         <motion.p
-          className="text-lg text-[#5F5F5F] mt-2 md:mt-4"
+          className="text-lg text-gray-600 mt-4 "
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.8 }}
         >
-          <span className="max-w-[787px] md:block text-base md:text-2xl leading-4 md:leading-8 font-medium">
-            Save Time, Create Personalized Ads, and Drive Real Results
+          <span className="max-w-[587px] md:block font-bold  mx-auto">
+             GenZ Ad your all-in-one AI marketing solution designed to empower
+            you to navigate the busy world of marketing with confidence.
           </span>
         </motion.p>
       </motion.div>

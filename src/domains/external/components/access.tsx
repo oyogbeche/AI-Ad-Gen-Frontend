@@ -1,11 +1,19 @@
-import { useSubmitMarketingForm } from "@/domains/ads-gen/api/use-submit-marketing";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import * as z from "zod";
+import { useSubmitMarketingForm } from "@/domains/ads-gen/api/use-submit-marketing";
 
-const Access = () => {
+interface AccessProps {
+  heading?: string;
+  imageSrc?: string;
+  backgroundImage?: string;
+  buttonText?: string;
+  onSubmit?: (formData: { name: string; email: string; phone: string }) => void;
+}
+
+const Access = ({ heading, imageSrc }: AccessProps) => {
   const router = useRouter();
 
   const [name, setName] = useState("");
@@ -42,12 +50,17 @@ const Access = () => {
   };
 
   return (
-    <div className="w-full bg-[#520052] bg-cover bg-center">
+    <div
+      className="w-full bg-[#520052] bg-cover bg-center py-10"
+      style={{
+        backgroundImage: "url('/Map.png')",
+      }}
+    >
       <div className="grid grid-cols-1 md:grid-cols-2">
         {/* Left Column: Image */}
         <div className="flex items-center justify-center max-md:px-4 mt-8 sm:mt-12 md:mt-0">
           <Image
-            src="/social-media-marketing.svg"
+            src={imageSrc || "/early-access.svg"}
             alt="Early Access Visual"
             width={400}
             height={400}
@@ -63,13 +76,13 @@ const Access = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h3 className="text-md md:text-2xl font-semibold text-white text-left w-full">
-            <span className="whitespace-nowrap text-left">
-              Stop struggling with creating ads,
-            </span>{" "}
-            <br />
-            and get early to GenZ Ad.
-          </h3>
+          <h2 className="text-md md:text-2xl font-semibold text-white text-left w-full">
+            {heading || (
+              <span className="whitespace-nowrap text-left w-[40ch]">
+                Stop struggling with creating ads, and get early to GenZ Ad.
+              </span>
+            )}
+          </h2>
 
           {/* Form */}
           <form

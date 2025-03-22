@@ -8,7 +8,7 @@ import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 import ShareModal from "./share-modal";
 import { patchRequest } from "@/lib/axios-fetch";
-import { useGenerateAdImage } from "@/domains/ads-gen/api/ad-image-generate";
+//import { useGenerateAdImage } from "@/domains/ads-gen/api/ad-image-generate";
 
 interface DesktopAdPreviewNavigationProps {
   className?: string;
@@ -41,12 +41,12 @@ export const DesktopAdPreviewNavigation: React.FC<
   type,
   status,
   generatedImageUrl = "/preview.png",
-  downloadFunction,
   imageId,
   hideSaveButton = false,
   hideSaveAndExit = false,
   isPublished = false,
 }) => {
+  // console.log("DASHBOARD", pageAdData);
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
   const [isSaveDropdownOpen, setIsSaveDropdownOpen] = useState(false);
@@ -71,6 +71,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   };
 
   const showSaveButton =
+    !pageAdData?.author_info &&
     !hideSaveButton &&
     type === "image-form" &&
     status === "completed" &&
@@ -78,7 +79,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 
   // get generated image id
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { adData } = useGenerateAdImage();
+  //const { adData } = useGenerateAdImage();
 
   const downloadImage = async (format: "png" | "jpg") => {
     if (!effectiveImageUrl || isDownloading) return;
@@ -86,6 +87,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 
     try {
       const response = await fetch(imageUrl || fallbackImageUrl);
+
       const blob = await response.blob();
 
       const extension = format === "png" ? "png" : "jpg";
@@ -240,6 +242,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 
   const handleSaveAndPublish = async () => {
     try {
+      // console.log("IMAGEID",imageId)
       const newStatus = pageAdData.is_published ? "unpublished" : "published";
       await patchRequest(`/image/publish/${imageId}`, { status: newStatus });
 
@@ -267,11 +270,34 @@ export const DesktopAdPreviewNavigation: React.FC<
         </div>
       ));
 
-      router.push("/dashboard");
+      // router.push("/dashboard");
     } catch (error) {
       console.error("Error updating publish status:", error);
-      toast.error("Failed to update publish status");
+      toast.custom(() => (
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+                <Check className="h-4 w-4 text-white" />
+              </div>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-900 mb-2">
+                  {pageAdData.is_published
+                    ? "Ad Unpublished Successfully!"
+                    : "Ad Published Successfully!"}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {pageAdData.is_published
+                    ? "Your ad is no longer live."
+                    : "Your ad is now live and ready to reach your audience."}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ));
     }
+    router.push("/dashboard");
   };
 
   return (
@@ -337,7 +363,7 @@ export const DesktopAdPreviewNavigation: React.FC<
           {/* Share button - Show only when type is image-form and status is completed */}
           {type === "image-form" && status === "completed" && (
             <ShareModal
-              adUrl={`https://genz.ad/stand-alone/${effectiveImageUrl}`}
+              adUrl={`https://genz.ad/stand-alone/${imageId}`}
               // Added image url for when we want to switch to sharing natively and not the link to the social
               // media platforms using Web Share API
               imageUrl={generatedImageUrl}
@@ -378,10 +404,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                   <div className="py-1">
                     <button
                       // onClick={() => downloadImage("png")}
-                      onClick={() => {
-                        setIsExportDropdownOpen(!isExportDropdownOpen);
-                        downloadFunction?.();
-                      }}
+                      onClick={() => downloadImage("png")}
                       disabled={isDownloading || isLoading}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                     >

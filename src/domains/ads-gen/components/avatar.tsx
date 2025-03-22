@@ -5,10 +5,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  //  DropdownMenuSeparator,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, User } from "lucide-react";
+import { ChevronDown, User, LogOut } from "lucide-react";
 import { useState } from "react";
 
 interface UserAvatarProps {
@@ -23,9 +23,7 @@ export function UserAvatar({
   name,
   imageUrl,
   onSignOut = () => {},
-}: //onViewProfile = () => {},
-// onSettings = () => {},
-UserAvatarProps) {
+}: UserAvatarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const initials = name
@@ -48,7 +46,6 @@ UserAvatarProps) {
               {initials || <User className="h-5 w-5" />}
             </AvatarFallback>
           </Avatar>
-          {/* <span className="text-lg font-semibold text-[#121316]">{name}</span> */}
           <ChevronDown
             className={`h-5 w-5 text-white transition-transform ${
               isOpen ? "rotate-180" : ""
@@ -57,11 +54,22 @@ UserAvatarProps) {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        {/*   <DropdownMenuItem onClick={onViewProfile}>View Profile</DropdownMenuItem>
-        <DropdownMenuItem onClick={onSettings}>Settings</DropdownMenuItem>
-        <DropdownMenuSeparator /> */}
-        <DropdownMenuItem onClick={onSignOut} className="text-red-500">
-          Sign Out
+        <DropdownMenuItem
+          onClick={() => {
+            window.location.href = "/dashboard/profile";
+          }}
+          className="flex items-center  gap-2 py-2"
+        >
+          <User className="h-10 w-10 text-dark" />
+          <span>Profile</span>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={onSignOut}
+          className="flex items-center  gap-2 py-2 text-red-500"
+        >
+          <LogOut className="h-10 w-10 text-dark" />
+          <span>Sign Out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

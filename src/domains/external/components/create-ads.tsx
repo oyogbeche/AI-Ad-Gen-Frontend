@@ -68,14 +68,14 @@ const CreateAds = () => {
         >
           HOW TO USE
         </motion.p>
-        <motion.p
+        <motion.h2
           className="text-[28px] md:text-[36px] lg:text-[48px] font-medium leading-tight"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
           How to Create Ads in Seconds with Genz.ad
-        </motion.p>
+        </motion.h2>
 
         <motion.div
           className="mt-6 md:mt-10"
@@ -92,7 +92,7 @@ const CreateAds = () => {
               transition={{ duration: 0.6, delay: 0.7 + index * 0.2 }}
               whileHover={{ x: 5 }}
             >
-              <motion.span
+              <motion.h3
                 className="text-rich-black flex justify-center items-center relative w-8 h-8 md:w-10 md:h-10"
                 whileHover={{ rotate: 10 }}
               >
@@ -104,7 +104,7 @@ const CreateAds = () => {
                 <p className="relative text-sm md:text-base font-bold">
                   {index + 1}
                 </p>
-              </motion.span>
+              </motion.h3>
               <div className="flex flex-col items-start text-start">
                 <p className="text-rich-black font-bold text-[18px] md:text-[22px] lg:text-[24px]">
                   {note.name}

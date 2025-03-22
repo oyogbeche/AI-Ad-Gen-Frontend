@@ -126,7 +126,7 @@ const AddDetails = () => {
       <section className="w-full md:flex-[7] bg-[#F9FAFB] flex flex-col items-center">
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] w-full">
           <DesktopAdPreviewNavigation
-            imageUrl={pageAdData.id}
+            imageUrl={pageAdData.image_url}
             imageId={pageAdData.id}
             pageAdData={pageAdData}
             handleCopy={handleCopy}
