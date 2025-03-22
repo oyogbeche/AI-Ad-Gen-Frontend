@@ -22,7 +22,6 @@ interface PricingCardProps {
   period: string;
   features: Feature[];
   buttonText: string;
-  buttonLink: string;
   isDark?: boolean;
   index?: number;
   needsBorder?: boolean;
@@ -35,12 +34,12 @@ const DashboardPricingCard: React.FC<PricingCardProps> = ({
   period,
   features,
   buttonText,
-  buttonLink,
   isDark = false,
   index = 0,
   needsBorder = false,
 }) => {
   const cardRef = useRef(null);
+  const router = useRouter();
   const isInView = useInView(cardRef, { once: true, amount: 0.2 });
 
   const bgColor = isDark ? "bg-[#520052]" : "bg-[#FCFCFC]";
@@ -51,6 +50,14 @@ const DashboardPricingCard: React.FC<PricingCardProps> = ({
   const buttonText1 = isDark ? "text-[#520052]" : "text-white";
   const buttonHover = isDark ? "" : "hover:bg-dark-purple";
   const borderStyle = needsBorder ? "border-1 border-[#E3E3E3]" : "";
+
+  const handleButtonClick = () => {
+    if (index === 0) {
+      router.push("https://buy.stripe.com/7sIdUP1JCdCAgOQaFm");
+    } else {
+      router.push("https://buy.stripe.com/6oEbMH1JC0PO9mo6p7");
+    }
+  };
 
   const cardVariants = {
     hidden: {
@@ -178,12 +185,12 @@ const DashboardPricingCard: React.FC<PricingCardProps> = ({
               whileTap={{ scale: 0.95 }}
               className="w-full"
             >
-              <a
-                href={buttonLink}
-                className={`${buttonBg} block cursor-pointer ${buttonText1} px-6 py-[12px] rounded-sm ${buttonHover} transition-colors text-center`}
+              <button
+                onClick={handleButtonClick}
+                className={`${buttonBg} block w-full cursor-pointer ${buttonText1} px-6 py-[12px] rounded-sm ${buttonHover} transition-colors text-center`}
               >
                 {buttonText}
-              </a>
+              </button>
             </motion.div>
           </div>
 
@@ -269,7 +276,6 @@ const UpgradePlanModal: React.FC<UpgradePlanModalProps> = ({
       price: "$15",
       period: "/50 Points",
       buttonText: "Choose plan",
-      buttonLink: "/signin",
       features: [
         { text: "All Basic features" },
         { text: "Advanced AI-powered image and text editing (Inpainting)" },
@@ -286,7 +292,6 @@ const UpgradePlanModal: React.FC<UpgradePlanModalProps> = ({
       price: "$10",
       period: "/mo",
       buttonText: "Choose plan",
-      buttonLink: "/signin",
       features: [
         { text: "Access to predefined prompts" },
         { text: "50 ad credit" },
@@ -305,7 +310,6 @@ const UpgradePlanModal: React.FC<UpgradePlanModalProps> = ({
       price: "$21",
       period: "/mo",
       buttonText: "Choose plan",
-      buttonLink: "/signin",
       features: [
         { text: "All Basic features" },
         { text: "150 ad credits" },
@@ -363,7 +367,6 @@ const UpgradePlanModal: React.FC<UpgradePlanModalProps> = ({
                   price={option.price}
                   period={option.period}
                   buttonText={option.buttonText}
-                  buttonLink={option.buttonLink}
                   features={option.features}
                   isDark={option.isDark}
                   index={index}
