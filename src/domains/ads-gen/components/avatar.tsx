@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, User, LogOut } from "lucide-react";
+import { ChevronDown, User, LogOut, LayoutDashboard } from "lucide-react";
 import { useState } from "react";
 
 interface UserAvatarProps {
@@ -56,9 +56,19 @@ export function UserAvatar({
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuItem
           onClick={() => {
-            window.location.href = "/dashboard/profile";
+            window.location.href = "/dashboard";
           }}
           className="flex items-center  gap-2 py-2"
+        >
+          <LayoutDashboard />
+          <span>Dashboard</span>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() => {
+            window.location.href = "/dashboard/profile";
+          }}
+          className="flex items-center  gap-2 py-2 text-red-500"
         >
           <User className="h-10 w-10 text-dark" />
           <span>Profile</span>
