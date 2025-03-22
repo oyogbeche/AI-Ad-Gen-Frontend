@@ -8,7 +8,7 @@ export default function RootLayout({
   return (
     <>
       {children}
-      <div className="max-w-7xl w-full xl:mx-auto max-lg:px-4 pt-8">
+      <div className="max-w-7xl w-full xl:mx-auto pt-8">
         <BlogFooter />
       </div>
     </>

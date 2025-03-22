@@ -63,10 +63,10 @@ const BlogFooter = () => {
   const activeLinkStyle = `text-purple-700`; // Define the active color
 
   return (
-    <footer className="pb-8 md:p-2">
-      <div className="mx-auto pb-[90px] gap-10 flex flex-col md:flex-col">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[fit-content(100%)_auto_auto_auto_auto] justify-between w-full lg:gap-6 gap-10 md:gap-12 xl:gap-24">
-          <div className="flex flex-col justify-between">
+    <footer className="pb-8 px-7 sm:px-20">
+      <div className="mx-auto pb-[90px] gap-10 flex flex-col md:flex-col w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-20 lg:grid-cols-3 xl:grid-cols-[fit-content(100%)_auto_auto_auto_auto] justify-between w-full gap-10  lg:gap-24">
+          <div className="hidden md:flex flex-col justify-between">
             <div className="flex flex-col gap-2.5 md:gap-5">
               <Link href="/" className="flex items-center">
                 <Logo className="w-41 h-12" />
@@ -99,7 +99,7 @@ const BlogFooter = () => {
 
           <div className="flex flex-col gap-6">
             <h3 className={headingStyle}>Company Info</h3>
-            <ul className="flex flex-col gap-6 lg:text-center xl:text-left">
+            <ul className="flex flex-col gap-6 text-left">
               {companyLinks.map((link, index) => (
                 <li key={index}>
                   <Link href={link.href} className={linkStyle}>
@@ -112,7 +112,7 @@ const BlogFooter = () => {
 
           <div className="flex flex-col gap-6">
             <h3 className={headingStyle}>Audience</h3>
-            <ul className="flex flex-col gap-6 lg:text-center xl:text-left">
+            <ul className="flex flex-col gap-6 text-left">
               {audienceLinks.map((link, index) => (
                 <li key={index}>
                   <Link
@@ -130,7 +130,7 @@ const BlogFooter = () => {
 
           <div className="flex flex-col gap-6">
             <h3 className={headingStyle}>Features</h3>
-            <ul className="flex flex-col gap-6 lg:text-center xl:text-left">
+            <ul className="flex flex-col gap-6 text-left">
               {featuresLinks.map((link, index) => (
                 <li key={index}>
                   <Link href={link.href} className={linkStyle}>
@@ -143,7 +143,7 @@ const BlogFooter = () => {
 
           <div className="flex flex-col gap-6">
             <h3 className={headingStyle}>Support & Resources</h3>
-            <ul className="flex flex-col gap-6 lg:text-center xl:text-left">
+            <ul className="flex flex-col gap-6 text-left">
               {supportLinks.map((link, index) => (
                 <li key={index}>
                   <Link href={link.href} className={linkStyle}>
