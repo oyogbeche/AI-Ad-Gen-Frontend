@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, User, LogOut, LayoutDashboard } from "lucide-react";
+import { ChevronDown, LayoutDashboard, LogOut, User } from "lucide-react";
 import { useState } from "react";
 
 interface UserAvatarProps {
@@ -58,9 +58,9 @@ export function UserAvatar({
           onClick={() => {
             window.location.href = "/dashboard";
           }}
-          className="flex items-center  gap-2 py-2"
+          className="flex items-center  gap-2 py-2 group  hover:text-red-500 cursor-pointer"
         >
-          <LayoutDashboard />
+          <LayoutDashboard className="h-10 w-10 text-dark group-hover:text-red-500" />
           <span>Dashboard</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
@@ -68,17 +68,17 @@ export function UserAvatar({
           onClick={() => {
             window.location.href = "/dashboard/profile";
           }}
-          className="flex items-center  gap-2 py-2 text-red-500"
+          className="flex items-center  gap-2 py-2  hover:text-red-500 cursor-pointer"
         >
-          <User className="h-10 w-10 text-dark" />
+          <User className="h-10 w-10 text-dark group-hover:text-red-500" />
           <span>Profile</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={onSignOut}
-          className="flex items-center  gap-2 py-2 text-red-500"
+          className="flex items-center  gap-2 py-2  hover:text-red-500 cursor-pointer"
         >
-          <LogOut className="h-10 w-10 text-dark" />
+          <LogOut className="h-10 w-10 text-dark group-hover:text-red-500" />
           <span>Sign Out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
