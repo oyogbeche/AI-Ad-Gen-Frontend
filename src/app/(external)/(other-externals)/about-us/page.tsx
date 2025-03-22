@@ -151,16 +151,16 @@ const AboutUs = () => {
                     <path
                       d="M28.166 10H10.666C9.33993 10 8.06816 10.5268 7.13048 11.4645C6.1928 12.4021 5.66602 13.6739 5.66602 15V50C5.66602 51.3261 6.1928 52.5979 7.13048 53.5355C8.06816 54.4732 9.33993 55 10.666 55H45.666C46.9921 55 48.2639 54.4732 49.2015 53.5355C50.1392 52.5979 50.666 51.3261 50.666 50V32.5"
                       stroke="#B800B8"
-                      stroke-width="4"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                     <path
                       d="M46.916 6.24996C47.9106 5.25539 49.2595 4.69666 50.666 4.69666C52.0725 4.69666 53.4215 5.25539 54.416 6.24996C55.4106 7.24452 55.9693 8.59343 55.9693 9.99996C55.9693 11.4065 55.4106 12.7554 54.416 13.75L30.666 37.5L20.666 40L23.166 30L46.916 6.24996Z"
                       stroke="#B800B8"
-                      stroke-width="4"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </div>
@@ -249,9 +249,14 @@ const AboutUs = () => {
 
             {/* Right - Product Description */}
             <div>
-              <h2 className="text-[28px] lg:text-[40px] font-[600] lg:font-[700] mb-6">Turn Ideas into Stunning Visuals Instantly</h2>
+              <h2 className="text-[28px] lg:text-[40px] font-[600] lg:font-[700] mb-6">
+                Turn Ideas into Stunning Visuals Instantly
+              </h2>
               <p className="text-gray-700 font-[400] text-[20px] mb-6">
-                Our AI-powered platform helps you create visually compelling content in seconds—no design skills needed! Whether you&apos;re a creator, marketer, or entrepreneur, our intuitive tools let you bring your vision to life effortlessly.
+                Our AI-powered platform helps you create visually compelling
+                content in seconds—no design skills needed! Whether you&apos;re
+                a creator, marketer, or entrepreneur, our intuitive tools let
+                you bring your vision to life effortlessly.
               </p>
             </div>
           </div>
@@ -266,7 +271,10 @@ const AboutUs = () => {
                 We help small businesses grow faster & smarter
               </h2>
               <p className="text-gray-700 text-[20px] lg:text-[24px] font-[500] leading-[30px] mb-8">
-                We empower small businesses to grow faster and smarter with AI-driven ad creation. Our platform simplifies marketing, enhances engagement, and helps businesses reach the right audience effortlessly.
+                We empower small businesses to grow faster and smarter with
+                AI-driven ad creation. Our platform simplifies marketing,
+                enhances engagement, and helps businesses reach the right
+                audience effortlessly.
               </p>
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -279,7 +287,10 @@ const AboutUs = () => {
                   href={"/signup"}
                   className="cursor-pointer px-6 py-3 rounded-sm text-[#FFFFFF] transition-colors flex justify-center gap-2 border border-[#B800B8] bg-[#B800B8] hover:bg-[#B800B8] lg:w-fit"
                 >
-                  <p>Get Started <span className="hidden lg:inline">Now</span></p> <ArrowRight className="hidden lg:inline" />
+                  <p>
+                    Get Started <span className="hidden lg:inline">Now</span>
+                  </p>{" "}
+                  <ArrowRight className="hidden lg:inline" />
                 </Link>
               </motion.div>
             </div>

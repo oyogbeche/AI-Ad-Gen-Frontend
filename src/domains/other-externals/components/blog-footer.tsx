@@ -1,8 +1,14 @@
-"use client"; // Required for usePathname in Next.js App Router
+"use client";
 
-import { Logo, FooterFB, FooterX, FooterIG, FooterEmail } from "@/components/icons/icon";
+import {
+  Logo,
+  FooterFb,
+  FooterX,
+  FooterIg,
+  FooterEmail,
+} from "@/components/icons/icon";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // Import usePathname
+import { usePathname } from "next/navigation";
 
 const BlogFooter = () => {
   const pathname = usePathname(); // Get the current route
@@ -32,7 +38,7 @@ const BlogFooter = () => {
   const socialLinks = [
     {
       href: "http://facebook.com/genz.ads",
-      icon: <FooterFB className="hover:scale-125" />,
+      icon: <FooterFb className="hover:scale-125" />,
       label: "Facebook",
     },
     {
@@ -42,7 +48,7 @@ const BlogFooter = () => {
     },
     {
       href: "http://instagram.com/genz.adgen",
-      icon: <FooterIG className="hover:scale-125" />,
+      icon: <FooterIg className="hover:scale-125" />,
       label: "Instagram",
     },
     {
@@ -57,10 +63,10 @@ const BlogFooter = () => {
   const activeLinkStyle = `text-purple-700`; // Define the active color
 
   return (
-    <footer className="pb-8 md:p-2">
-      <div className="mx-auto pb-[90px] gap-10 flex flex-col md:flex-col">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[fit-content(100%)_auto_auto_auto_auto] justify-between w-full lg:gap-6 gap-10 md:gap-12 xl:gap-24">
-          <div className="flex flex-col justify-between">
+    <footer className="pb-8 pt-20">
+      <div className="mx-auto pb-[90px] gap-10 w-full flex flex-col md:flex-col w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-20 lg:grid-cols-3 xl:grid-cols-[fit-content(100%)_auto_auto_auto_auto] justify-between w-full gap-10  lg:gap-24">
+          <div className="hidden sm:flex flex-col justify-between">
             <div className="flex flex-col gap-2.5 md:gap-5">
               <Link href="/" className="flex items-center">
                 <Logo className="w-41 h-12" />
@@ -93,10 +99,15 @@ const BlogFooter = () => {
 
           <div className="flex flex-col gap-6">
             <h3 className={headingStyle}>Company Info</h3>
-            <ul className="flex flex-col gap-6 lg:text-center xl:text-left">
+            <ul className="flex flex-col gap-6 text-left">
               {companyLinks.map((link, index) => (
                 <li key={index}>
-                  <Link href={link.href} className={linkStyle}>
+                  <Link
+                    href={link.href}
+                    className={`${linkStyle} ${
+                      pathname === link.href ? activeLinkStyle : ""
+                    }`}
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -106,7 +117,7 @@ const BlogFooter = () => {
 
           <div className="flex flex-col gap-6">
             <h3 className={headingStyle}>Audience</h3>
-            <ul className="flex flex-col gap-6 lg:text-center xl:text-left">
+            <ul className="flex flex-col gap-6 text-left">
               {audienceLinks.map((link, index) => (
                 <li key={index}>
                   <Link
@@ -124,10 +135,15 @@ const BlogFooter = () => {
 
           <div className="flex flex-col gap-6">
             <h3 className={headingStyle}>Features</h3>
-            <ul className="flex flex-col gap-6 lg:text-center xl:text-left">
+            <ul className="flex flex-col gap-6 text-left">
               {featuresLinks.map((link, index) => (
                 <li key={index}>
-                  <Link href={link.href} className={linkStyle}>
+                  <Link
+                    href={link.href}
+                    className={`${linkStyle} ${
+                      pathname === link.href ? activeLinkStyle : ""
+                    }`}
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -137,10 +153,15 @@ const BlogFooter = () => {
 
           <div className="flex flex-col gap-6">
             <h3 className={headingStyle}>Support & Resources</h3>
-            <ul className="flex flex-col gap-6 lg:text-center xl:text-left">
+            <ul className="flex flex-col gap-6 text-left">
               {supportLinks.map((link, index) => (
                 <li key={index}>
-                  <Link href={link.href} className={linkStyle}>
+                  <Link
+                    href={link.href}
+                    className={`${linkStyle} ${
+                      pathname === link.href ? activeLinkStyle : ""
+                    }`}
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -153,6 +174,36 @@ const BlogFooter = () => {
           audiences and cultural contexts, without needing design or marketing
           expertise.
         </p>
+        <div className="flex sm:hidden flex-col justify-between">
+          <div className="flex flex-col gap-2.5 md:gap-5">
+            <Link href="/" className="flex items-center">
+              <Logo className="w-41 h-12" />
+            </Link>
+            <p className="text-[18px] text-nowrap md:text-[24px] font-semibold">
+              <span className="text-[#B800B8]">Smarter Ads, </span>
+              <span className="text-[#121316] ">Faster Results</span>
+            </p>
+          </div>
+          <div className="flex flex-col gap-6">
+            <div className="flex w-full gap-[21px] items-center">
+              {socialLinks.map((social, index) => (
+                <Link
+                  key={index}
+                  href={social.href}
+                  className="text-gray-900 hover:text-gray-500 p-2.5"
+                  aria-label={social.label}
+                >
+                  <div className="h-[18px] w-[18px] hover:scale-110 transition-all">
+                    {social.icon}
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <p className="text-[#121316] font-nunito text-base font-medium leading-6">
+              Copyright. All rights reserved.
+            </p>
+          </div>
+        </div>
       </div>
     </footer>
   );

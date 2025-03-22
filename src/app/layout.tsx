@@ -68,7 +68,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className="font-nunito bg-[#F9FAFB] overflow-x-hidden"
+        className="font-nunito bg-[#FFF] overflow-x-hidden"
         cz-shortcut-listen="true"
       >
         <SonnerToaster />
