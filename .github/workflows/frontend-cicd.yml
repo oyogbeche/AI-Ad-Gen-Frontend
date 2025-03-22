@@ -27,7 +27,6 @@ jobs:
           echo "Current branch: ${{ github.ref }}"
           echo "Is main? ${{ github.ref == 'refs/heads/main' }}"
           echo "Is dev? ${{ github.ref == 'refs/heads/dev' }}"
-
           
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
@@ -95,16 +94,30 @@ jobs:
           if [ "${{ github.ref }}" == "refs/heads/main" ]; then
             echo "DEPLOY_PORT=5000" >> $GITHUB_ENV
             echo "DEPLOY_NAME=ai-adgen-frontend-prod" >> $GITHUB_ENV
+            echo "DEPLOY_DIR=AI-Ad-Gen-Frontend-Prod" >> $GITHUB_ENV
           elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
             echo "DEPLOY_PORT=5005" >> $GITHUB_ENV
             echo "DEPLOY_NAME=ai-adgen-frontend-dev" >> $GITHUB_ENV
+            echo "DEPLOY_DIR=AI-Ad-Gen-Frontend-Dev" >> $GITHUB_ENV
           fi
+          
+      - name: Create Deployment Directory if Not Exists
+        run: |
+          sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no \
+          "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" << EOF
+          if [ ! -d "/home/${{ secrets.SERVER_USER }}/${{ env.DEPLOY_DIR }}" ]; then
+            echo "Creating directory /home/${{ secrets.SERVER_USER }}/${{ env.DEPLOY_DIR }}"
+            mkdir -p /home/${{ secrets.SERVER_USER }}/${{ env.DEPLOY_DIR }}
+          else
+            echo "Directory /home/${{ secrets.SERVER_USER }}/${{ env.DEPLOY_DIR }} already exists"
+          fi
+          EOF
           
       - name: Deploy to Server
         run: |
           echo "Deploying .next build to server..."
           sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml .env \
-          "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend"
+          "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/${{ env.DEPLOY_DIR }}"
           
       - name: Start Application on Server
         run: |
@@ -113,7 +126,8 @@ jobs:
           set -e # Stop script on error
           export DEPLOY_NAME="${{ env.DEPLOY_NAME }}"
           export DEPLOY_PORT="${{ env.DEPLOY_PORT }}"
-          cd /home/${{ secrets.SERVER_USER }}/AI-Ad-Gen-Frontend
+          export DEPLOY_DIR="${{ env.DEPLOY_DIR }}"
+          cd /home/${{ secrets.SERVER_USER }}/$DEPLOY_DIR
           pnpm install --frozen-lockfile
           pm2 delete $DEPLOY_NAME || true
           PORT=$DEPLOY_PORT pm2 start pnpm --name $DEPLOY_NAME -- start
