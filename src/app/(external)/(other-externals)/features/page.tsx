@@ -1,8 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useAuthStore } from "@/store/auth-store";
 
 const Features = () => {
+
+  const user = useAuthStore((state) => state.user);
+
   return (
     <div className="relative">
       {/* hero section */}
@@ -19,7 +25,7 @@ const Features = () => {
             and real-time optimization.
           </p>
           <Link
-            href="/signin"
+            href={user ? "/dashboard" : "/signin"}
             className="bg-[#b800b8] text-white text-[18px] tracking-[0%] px-6 py-3 rounded-[6px] hover:bg-dark-purple font-medium flex items-center justify-center mx-auto mt-6 w-fit"
           >
             Get Started Now <ArrowRight className="ml-2 w-6 h-6" />

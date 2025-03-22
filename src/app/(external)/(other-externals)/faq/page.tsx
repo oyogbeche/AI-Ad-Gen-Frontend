@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import { ChevronDown } from "lucide-react";
-import amico from "@/components/images/amico.png"; // Ensure this path is correct
+import Lottie from "lottie-react"; 
+import animationData from '@/lottie/faq.json';
+
 
 // Define the shape of FAQ items
 interface FAQItem {
@@ -116,23 +117,29 @@ const FAQPage: React.FC = () => {
   };
   return (
     <section className="flex flex-col">
+
       <div className="px-5 md:px-[147px] pt-[12px] md:pt-[112px]">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+ 
+
+          <div className="md:w-1/2">
             <h1 className="text-[18px] md:text-[40px] max-sm:text-center max-sm:pb-[12px]  font-[600] md:font-[700]">
               FAQ
             </h1>
-            <p className="w-[407px] md:w-[611px] max-sm:pb-[65px] max-sm:text-center text-[12px] md:text-[20px] text-gray font-[600] md:font-[500]">
+            <p className="  max-sm:pb-6 max-sm:text-center text-[12px] md:text-[20px] text-gray font-[600] md:font-[500]">
               Find answers to all your questions about our AI-powered ad
               creator. Learn how to design, customize, and launch impactful,
               localized ads effortlessly.
             </p>
           </div>
-          <Image
-            src={amico}
-            alt="amico"
-            className="max-sm:w-[276px] max-sm:h-[276px]"
-          />
+
+          <div className="md:w-1/2 md:flex justify-end">
+          <Lottie 
+animationData={animationData} 
+ className="w-[300px] h-[300px] max-sm:w-[200px] max-sm:h-[200px] "style={{width: '300px', height: '300px'}}
+ />
+ </div>
+  
         </div>
 
         {/* General Questions */}
