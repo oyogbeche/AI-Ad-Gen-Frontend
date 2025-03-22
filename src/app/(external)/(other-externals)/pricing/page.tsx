@@ -35,6 +35,7 @@ const DashboardPricingCard: React.FC<PricingCardProps> = ({
   const cardRef = useRef(null);
   const router = useRouter();
   const isInView = useInView(cardRef, { once: true, amount: 0.2 });
+  const token = useAuthStore((state) => state.token);
 
   const bgColor = isDark ? "bg-[#520052]" : "bg-[#FCFCFC]";
   const textColor = isDark ? "text-[#FFFFFF]" : "text-[#121316]";
@@ -46,7 +47,7 @@ const DashboardPricingCard: React.FC<PricingCardProps> = ({
   const borderStyle = needsBorder ? "border-1 border-[#E3E3E3]" : "";
 
   const handleButtonClick = () => {
-    router.push("/signin?type=signin");
+    router.push(token ? "/dashboard" : "/signin?type=signin");
   };
 
   const cardVariants = {
@@ -234,7 +235,6 @@ const DashboardPricingCard: React.FC<PricingCardProps> = ({
 };
 
 const Pricings = () => {
-  const token = useAuthStore((state) => state.token);
   const pricingOptions = [
     {
       title: "Pay-Per-Ad Model",
