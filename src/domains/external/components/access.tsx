@@ -76,13 +76,13 @@ const Access = ({ heading, imageSrc }: AccessProps) => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h3 className="text-md md:text-2xl font-semibold text-white text-left w-full">
+          <h2 className="text-md md:text-2xl font-semibold text-white text-left w-full">
             {heading || (
               <span className="whitespace-nowrap text-left w-[40ch]">
                 Stop struggling with creating ads, and get early to GenZ Ad.
               </span>
             )}
-          </h3>
+          </h2>
 
           {/* Form */}
           <form

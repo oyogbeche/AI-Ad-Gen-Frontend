@@ -151,7 +151,7 @@ const ContactPage = () => {
 
                     <Button
                       type="submit"
-                      className="w-full bg-[#B800B8] hover:bg-purple-600 mt-6 py-7 rounded-[6px] text-white font-semibold"
+                      className="w-full bg-[#B800B8] hover: hover:bg-[#cf54cf21]mt-6 py-7 rounded-[6px] text-white font-semibold  transition-colors"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? "Sending..." : "Send Now"}
