@@ -354,7 +354,7 @@ const UpgradePlanModal: React.FC<UpgradePlanModalProps> = ({
 
           <motion.div
             ref={containerRef}
-            className="flex flex-col md:flex-row items-stretch justify-center gap-4 sm:gap-6 mt-4"
+            className="flex flex-col lg:flex-row items-center lg:items-stretch justify-center gap-4 sm:gap-6 mt-4"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
