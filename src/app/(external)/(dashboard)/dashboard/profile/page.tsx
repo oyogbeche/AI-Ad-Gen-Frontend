@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -58,6 +58,8 @@ const Profile = () => {
       .padStart(2, "0")}/${date.getFullYear()}`;
   };
 
+  console.log(user);
+
   return (
     <div className="h-full p-0 md:p-12 flex flex-col overflow-hidden">
       <div className="p-2 md:p-4 flex flex-col">
@@ -77,10 +79,17 @@ const Profile = () => {
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4">
                   <Avatar className="h-16 w-16 bg-[#B800B8] text-white text-xl">
-                    <AvatarFallback className="bg-[#B800B8] text-white text-xl">
-                      {(user?.first_name?.[0] ?? "") +
-                        (user?.last_name?.[0] ?? "")}
-                    </AvatarFallback>
+                    {user?.avatar_url ? (
+                      <AvatarImage
+                        src={user.avatar_url}
+                        alt={`${user?.first_name} ${user?.last_name}`}
+                      />
+                    ) : (
+                      <AvatarFallback className="bg-[#B800B8] text-white text-xl">
+                        {(user?.first_name?.[0] ?? "") +
+                          (user?.last_name?.[0] ?? "")}
+                      </AvatarFallback>
+                    )}
                   </Avatar>
 
                   <div>
