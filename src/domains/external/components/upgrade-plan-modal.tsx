@@ -53,9 +53,11 @@ const DashboardPricingCard: React.FC<PricingCardProps> = ({
 
   const handleButtonClick = () => {
     if (index === 0) {
-      router.push("https://buy.stripe.com/7sIdUP1JCdCAgOQaFm");
-    } else {
-      router.push("https://buy.stripe.com/6oEbMH1JC0PO9mo6p7");
+      router.push("https://buy.stripe.com/cN28Av4VO5647eg5l8");
+    } else if (index === 1) {
+      router.push("https://buy.stripe.com/28o9Ez9c4dCAgOQdRD");
+    } else if (index === 2) {
+      router.push("https://buy.stripe.com/5kA183ewo2XW7egbJu");
     }
   };
 
