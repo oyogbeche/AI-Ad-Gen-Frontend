@@ -23,6 +23,7 @@ const BlogFooter = () => {
     { href: "/ai-creative", label: "AI Creative" },
     { href: "/ai-marketing", label: "AI Marketing" },
     { href: "/ai-video-ads", label: "AI Video Ads" },
+    { href: "/watch-video-ads", label: "Watch Video Ads" },
   ];
 
   // const featuresLinks = [
@@ -52,7 +53,7 @@ const BlogFooter = () => {
       label: "Instagram",
     },
     {
-      href: "https://mail.google.com/mail/?view=cm&fs=1&to=genzadshng12@gmail.com",
+      href: "mailto:genzadshng12@gmail.com?subject=Inquiry&body=Hello, I have a question about...",
       icon: <FooterEmail className="hover:scale-125" />,
       label: "Email",
     },
