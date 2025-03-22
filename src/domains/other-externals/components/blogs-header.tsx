@@ -54,7 +54,7 @@ const BlogHeader: React.FC = () => {
         </button>
 
         <Link
-          href={user ? "/dashboard" : "/signin"}
+          href={user ? "/dashboard" : "/signin?type=signin"}
           className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors hidden md:flex justify-center items-center gap-2"
         >
           Sign in
@@ -76,7 +76,7 @@ const BlogHeader: React.FC = () => {
               </Link>
             ))}
             <Link
-              href={user ? "/dashboard" : "/signin"}
+              href={user ? "/dashboard" : "/signin?type=signin"}
               className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex justify-center items-center gap-2"
             >
               <p>Generate Your Ad</p> <ArrowRight />

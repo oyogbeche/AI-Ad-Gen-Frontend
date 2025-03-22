@@ -90,7 +90,7 @@ const CreateAd = () => {
           whileTap={{ scale: 0.95 }}
         >
           <Link
-            href={"/signin"}
+            href={"/signin?type=signin"}
             className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 w-fit mt-10"
           >
             <p>Generate Your Ad</p> <ArrowRight />

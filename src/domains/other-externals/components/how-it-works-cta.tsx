@@ -9,7 +9,7 @@ const CtaHowItWorks: React.FC = () => {
   const router = useRouter();
 
   const handleSignIn = () => {
-    router.push("/signin");
+    router.push("/signin?type=signin");
   };
 
   return (
