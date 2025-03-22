@@ -148,11 +148,13 @@ animationData={animationData}
         </div>
 
         {/* General Questions */}
-        <div className="flex flex-col md:flex-row justify-between pt-9">
-          <p className="text-[24px] md:text-[40px] font-[700] max-sm:pb-[22px]">
+        <div className="flex flex-col lg:flex-row justify-between pt-9 gap-6">
+          <div className="lg:w-[266px]">
+          <p className="text-[24px] md:text-[40px] font-[700] max-sm:pb-[22px] lg:max-w-[266px] lg:w-[266px]">
             General Questions
           </p>
-          <div className="md:w-[799px]">
+          </div>
+          <div className="lg:max-w-[600px] lg:min-w-[400px]">
             {generalQuestions.map((genq, index) => (
               <div
                 key={index}
@@ -190,11 +192,11 @@ animationData={animationData}
         </div>
 
         {/* Features & Customization */}
-        <div className="flex flex-col md:flex-row  justify-between pt-9">
-          <p className="text-[24px] md:text-[40px] font-[700] md:w-[266px] max-sm:pb-[22px]">
+        <div className="flex flex-col lg:flex-row  justify-between pt-9 gap-6">
+          <p className="text-[24px] md:text-[40px] font-[700]  max-sm:pb-[22px] lg:w-[266px]">
             Features & Customization
           </p>
-          <div className="md:w-[799px]">
+          <div className="md:max-w-[600px]">
             {features.map((feature, index) => (
               <div
                 key={index}
@@ -232,11 +234,13 @@ animationData={animationData}
         </div>
 
         {/* Pricing & Subscription */}
-        <div className="flex flex-col md:flex-row  justify-between pt-9">
-          <p className="text-[24px] md:text-[40px] font-[700] md:w-[233px] max-sm:pb-[22px]">
+        <div className="flex flex-col lg:flex-row  justify-between pt-9 gap-6">
+        <div className="lg:w-[266px]">
+          <p className="text-[24px] md:text-[40px] font-[700] lg:w-[266px] max-sm:pb-[22px]">
             Pricing & Subscription
           </p>
-          <div className="md:w-[799px]">
+          </div>
+          <div className="md:max-w-[600px]">
             {pricing.map((price, index) => (
               <div
                 key={index}
@@ -274,11 +278,13 @@ animationData={animationData}
         </div>
 
         {/* Technical & Support */}
-        <div className="flex flex-col md:flex-row  justify-between pt-9">
-          <p className="text-[24px] md:text-[40px] font-[700] md:w-[224px] max-sm:pb-[22px]">
+        <div className="flex flex-col lg:flex-row  justify-between pt-9 gap-6">
+        <div className="lg:w-[266px]">
+          <p className="text-[24px] md:text-[40px] font-[700] lg:w-[266px] max-sm:pb-[22px]">
             Technical & Support
           </p>
-          <div className="md:w-[799px]">
+          </div>
+          <div className="md:max-w-[600px]">
             {technical.map((tech, index) => (
               <div
                 key={index}
@@ -314,7 +320,7 @@ animationData={animationData}
             ))}
           </div>
         </div>
-        <div className="pt-[23px] ">
+        <div className="pt-[40px] ">
           <p className="text-[24px] md:text-[40px] font-[600] text-center">More Question?</p>
           <form className="pt-[42px]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-[19px]">
