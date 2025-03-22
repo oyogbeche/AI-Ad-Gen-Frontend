@@ -19,8 +19,8 @@ const BlogDetail = () => {
       case 1:
         return (
           <section className="max-w-[1264px] text-[#121316] mx-auto p-4">
-            <div className="relative h-[880px] w-full overflow-hidden rounded-2xl mt-6">
-              <picture className="h-[880px] w-full">
+            <div className="relative h-[400px] md:h-[880px] w-full overflow-hidden rounded-2xl mt-6">
+              <picture className="h-[400px] md:h-[880px] w-full">
                 <Image
                   src={blog.image}
                   alt={blog.title}
@@ -104,7 +104,7 @@ const BlogDetail = () => {
       case 2:
         return (
           <section className="max-w-[1264px] text-[#121316] mx-auto p-4">
-            <div className="relative h-[880px] w-full overflow-hidden rounded-2xl mt-6">
+            <div className="relative h-[400px] md:h-[880px] w-full overflow-hidden rounded-2xl mt-6">
               <picture className="h-[880px] w-full">
                 <Image
                   src={blog.image}
@@ -189,7 +189,7 @@ const BlogDetail = () => {
       case 3:
         return (
           <section className="max-w-[1264px] text-[#121316] mx-auto p-4">
-            <div className="relative h-[880px] w-full overflow-hidden rounded-2xl mt-6">
+            <div className="relative  h-[400px] md:h-[880px] w-full overflow-hidden rounded-2xl mt-6">
               <picture className="h-[880px] w-full">
                 <Image
                   src={blog.image}
@@ -274,7 +274,7 @@ const BlogDetail = () => {
       default:
         return (
           <section className="max-w-[1264px] text-[#121316] mx-auto p-4">
-            <div className="relative h-[880px] w-full overflow-hidden rounded-2xl mt-6">
+            <div className="relative  h-[300px] sm:h-[600px] md:h-[880px] w-full overflow-hidden rounded-2xl mt-6">
               <picture className="h-[880px] w-full">
                 <Image
                   src={blog.image}
