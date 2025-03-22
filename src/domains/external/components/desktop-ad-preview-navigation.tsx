@@ -8,7 +8,7 @@ import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 import ShareModal from "./share-modal";
 import { patchRequest } from "@/lib/axios-fetch";
-import { useGenerateAdImage } from "@/domains/ads-gen/api/ad-image-generate";
+//import { useGenerateAdImage } from "@/domains/ads-gen/api/ad-image-generate";
 
 interface DesktopAdPreviewNavigationProps {
   className?: string;
@@ -79,7 +79,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 
   // get generated image id
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { adData } = useGenerateAdImage();
+  //const { adData } = useGenerateAdImage();
 
   const downloadImage = async (format: "png" | "jpg") => {
     if (!effectiveImageUrl || isDownloading) return;
@@ -363,7 +363,7 @@ export const DesktopAdPreviewNavigation: React.FC<
           {/* Share button - Show only when type is image-form and status is completed */}
           {type === "image-form" && status === "completed" && (
             <ShareModal
-              adUrl={`https://genz.ad/stand-alone/${effectiveImageUrl}`}
+              adUrl={`https://genz.ad/stand-alone/${imageId}`}
               // Added image url for when we want to switch to sharing natively and not the link to the social
               // media platforms using Web Share API
               imageUrl={generatedImageUrl}
