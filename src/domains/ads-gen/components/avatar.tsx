@@ -58,28 +58,28 @@ export function UserAvatar({
           onClick={() => {
             window.location.href = "/dashboard";
           }}
-          className="flex items-center  gap-2 py-2 group  hover:text-red-500 cursor-pointer"
+          className="flex items-center group gap-2 py-2 cursor-pointer"
         >
           <LayoutDashboard className="h-10 w-10 text-dark group-hover:text-red-500" />
-          <span>Dashboard</span>
+          <span className="group-hover:text-red-500 ">Dashboard</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
             window.location.href = "/dashboard/profile";
           }}
-          className="flex items-center  gap-2 py-2  hover:text-red-500 cursor-pointer"
+          className="flex items-center  gap-2 py-2 group cursor-pointer"
         >
           <User className="h-10 w-10 text-dark group-hover:text-red-500" />
-          <span>Profile</span>
+          <span className="group-hover:text-red-500 ">Profile</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={onSignOut}
-          className="flex items-center  gap-2 py-2  hover:text-red-500 cursor-pointer"
+          className="flex items-center  gap-2 py-2 group cursor-pointer"
         >
           <LogOut className="h-10 w-10 text-dark group-hover:text-red-500" />
-          <span>Sign Out</span>
+          <span className="group-hover:text-red-500 ">Sign Out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
