@@ -31,7 +31,7 @@ const BlogFooter = () => {
   // ];
 
   const supportLinks = [
-    { href: "/blogs", label: "Blogs" },
+   
     { href: "/contact-us", label: "Contact Us" },
     { href: "/privacy-policy", label: "Privacy Policy" },
   ];
