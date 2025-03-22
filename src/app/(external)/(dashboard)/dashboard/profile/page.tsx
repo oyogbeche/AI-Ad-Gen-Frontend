@@ -28,7 +28,7 @@ const Profile = () => {
       try {
         const [userResponse, publishedResponse] = await Promise.all([
           getRequest("/image/"),
-          getRequest("/image/all/published"),
+          getRequest("image/user/published-count"),
         ]);
 
         if (
@@ -37,7 +37,7 @@ const Profile = () => {
         ) {
           setUserCount({
             ads: userResponse.data.total_count,
-            publishedAds: publishedResponse.data.total_count,
+            publishedAds: publishedResponse.data.published_count,
           });
         }
       } catch (error) {
@@ -64,7 +64,7 @@ const Profile = () => {
         <BackButton
           label="Back to Dashboard"
           fallbackUrl="/dashboard"
-          className="my-5 md:my-0"
+          className="my-5"
         />
         <Card className="w-full flex-1 shadow-sm border-gray-200">
           <CardHeader className="mb-4 md:mb-8">
