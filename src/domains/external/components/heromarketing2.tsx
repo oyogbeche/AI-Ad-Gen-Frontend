@@ -19,13 +19,13 @@ const Hero2 = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
         >
-          <h1 className="md:block text-2xl md:text-[64px] leading-6 md:leading-[72px] font-medium ">
+          <span className="md:block text-2xl md:text-[64px] leading-6 md:leading-[72px] font-medium ">
             Boost Engagement with{" "}
             <span className="text-[#B800B8] ml-2 font-semibold">
               {" "}
               AI-Powered Ad Content!
             </span>
-          </h1>
+          </span>
           {/* <span className="text-[#B800B8]">
             Smarter, Faster, Results-Driven!
           </span> */}
