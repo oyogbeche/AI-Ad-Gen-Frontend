@@ -7,6 +7,9 @@ interface User {
   first_name: string;
   last_name: string;
   avatar_url: string;
+  ads_created: number;
+  is_subscribed: boolean;
+  created_at: string;
 }
 
 interface SubscriptionFeatures {
@@ -16,7 +19,6 @@ interface SubscriptionFeatures {
   high_resolution: boolean;
   inpainting_cost: number;
   ad_generation_cost: number;
-
 }
 export interface SubScriptionData {
   message: string;
@@ -27,8 +29,7 @@ export interface SubScriptionData {
     credits: number;
     expiry_date: string;
     features: SubscriptionFeatures;
-  }
-  
+  };
 }
 
 interface AuthStore {
@@ -50,11 +51,11 @@ export const useAuthStore = create<AuthStore>()(
       setUser: (user) => set({ user }),
       setSubsciptionData: (subscriptionData) => set({ subscriptionData }),
       setToken: (token) => set({ token }),
-      logout:() => set({ user: null, token: null })
+      logout: () => set({ user: null, token: null }),
     }),
     {
-      name: "auth-storage", 
-      storage: createJSONStorage(() => localStorage), 
+      name: "auth-storage",
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );

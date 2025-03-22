@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import aboutUs from "@/lottie/about-us.json";
 import aiCreative from "@/lottie/ai-power-creative.json";
+import localizedInclusive from "@/lottie/localized-inclusive.json";
 import dynamic from "next/dynamic";
 // import LottieAnimation from "@/domains/external/components/lottie-animation";
 
@@ -204,28 +205,10 @@ const AboutUs = () => {
               {/* Feature 3 */}
               <div className="bg-white p-8 rounded-lg shadow-sm text-center">
                 <div className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <svg
-                    width="61"
-                    height="60"
-                    viewBox="0 0 61 60"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M28.166 10H10.666C9.33993 10 8.06816 10.5268 7.13048 11.4645C6.1928 12.4021 5.66602 13.6739 5.66602 15V50C5.66602 51.3261 6.1928 52.5979 7.13048 53.5355C8.06816 54.4732 9.33993 55 10.666 55H45.666C46.9921 55 48.2639 54.4732 49.2015 53.5355C50.1392 52.5979 50.666 51.3261 50.666 50V32.5"
-                      stroke="#B800B8"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M46.916 6.24996C47.9106 5.25539 49.2595 4.69666 50.666 4.69666C52.0725 4.69666 53.4215 5.25539 54.416 6.24996C55.4106 7.24452 55.9693 8.59343 55.9693 9.99996C55.9693 11.4065 55.4106 12.7554 54.416 13.75L30.666 37.5L20.666 40L23.166 30L46.916 6.24996Z"
-                      stroke="#B800B8"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  <LottieComponent
+                    animationData={localizedInclusive}
+                    style={{ width: 40, height: 40 }}
+                  />
                 </div>
                 <h3 className="text-[24px] font-[600] leading-[32px] mb-4">
                   Localized & Inclusive Ads
