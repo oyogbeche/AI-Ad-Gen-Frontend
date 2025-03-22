@@ -2,8 +2,13 @@
 
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import Lottie from "lottie-react"; 
+//import Lottie from "lottie-react"; 
 import animationData from '@/lottie/faq.json';
+import dynamic from "next/dynamic";
+
+
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
+
 
 
 // Define the shape of FAQ items
