@@ -9,9 +9,9 @@ import { usePathname } from "next/navigation";
 const BlogHeader: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
-  const pathname = usePathname(); 
+  const pathname = usePathname();
 
-  const activeLinkStyle = `text-purple-700`; 
+  const activeLinkStyle = `!text-purple-700`;
   const baseLinkStyle = `text-gray-600 hover:text-purple-700`; // Base style for links
 
   // Define nav links as an array for reusability
