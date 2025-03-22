@@ -31,7 +31,6 @@ const BlogFooter = () => {
   // ];
 
   const supportLinks = [
-    { href: "/blogs", label: "Blogs" },
     { href: "/contact-us", label: "Contact Us" },
     { href: "/privacy-policy", label: "Privacy Policy" },
   ];
@@ -53,7 +52,7 @@ const BlogFooter = () => {
       label: "Instagram",
     },
     {
-      href: "http://instagram.com/genz.adgen",
+      href: "https://mail.google.com/mail/?view=cm&fs=1&to=genzadshng12@gmail.com",
       icon: <FooterEmail className="hover:scale-125" />,
       label: "Email",
     },
