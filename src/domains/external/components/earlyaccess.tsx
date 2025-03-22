@@ -38,7 +38,7 @@ const EarlyAccess = () => {
 
     submitForm(formData);
     setErrors({});
-    router.push("/signup");
+    router.push("/signin?type=signup");
   };
 
   return (
