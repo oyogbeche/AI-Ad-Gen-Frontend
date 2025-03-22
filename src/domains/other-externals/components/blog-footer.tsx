@@ -33,6 +33,7 @@ const BlogFooter = () => {
   const supportLinks = [
     { href: "/blogs", label: "Blogs" },
     { href: "/contact-us", label: "Contact Us" },
+    { href: "/privacy-policy", label: "Privacy Policy" },
   ];
 
   const socialLinks = [
@@ -64,7 +65,7 @@ const BlogFooter = () => {
 
   return (
     <footer className="pb-8 pt-20">
-      <div className="mx-auto pb-[90px] gap-10 w-full flex flex-col md:flex-col w-full">
+      <div className="mx-auto pb-[90px] gap-10 w-full flex flex-col md:flex-col">
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-20 lg:grid-cols-3 xl:grid-cols-[fit-content(100%)_auto_auto_auto_auto] justify-between w-full gap-10  lg:gap-24">
           <div className="hidden sm:flex flex-col justify-between">
             <div className="flex flex-col gap-2.5 md:gap-5">
