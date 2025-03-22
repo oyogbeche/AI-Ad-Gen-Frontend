@@ -1045,7 +1045,7 @@ const Close = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const FooterIG = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+const FooterIg = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="18"
@@ -1085,7 +1085,7 @@ const FooterIG = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const FooterFB = ({
+const FooterFb = ({
   className,
   ...props
 }: JSX.IntrinsicAttributes &
@@ -1156,8 +1156,8 @@ const FooterEmail = (
 export {
   FooterEmail,
   FooterX,
-  FooterFB,
-  FooterIG,
+  FooterFb,
+  FooterIg,
   Tiktok,
   Whatsapp,
   X,
