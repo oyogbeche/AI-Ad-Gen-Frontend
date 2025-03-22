@@ -44,7 +44,7 @@ const FeatureCard = () => {
         >
           <CardHeader className="p-0">
             <CardTitle className="text-[#121316] p-0 text-[24px] font-bold leading-normal">
-              {feature.title}
+              <h3> {feature.title}</h3>
             </CardTitle>
           </CardHeader>
           <CardContent className="p-0">

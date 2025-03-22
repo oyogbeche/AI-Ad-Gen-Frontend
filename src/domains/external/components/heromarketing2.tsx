@@ -20,7 +20,11 @@ const Hero2 = () => {
           transition={{ delay: 0.3, duration: 0.8 }}
         >
           <span className="md:block text-2xl md:text-[64px] leading-6 md:leading-[72px] font-medium ">
-            Boost Engagement with AI-Powered Ad Content!
+            Boost Engagement with{" "}
+            <span className="text-[#B800B8] ml-2 font-semibold">
+              {" "}
+              AI-Powered Ad Content!
+            </span>
           </span>
           {/* <span className="text-[#B800B8]">
             Smarter, Faster, Results-Driven!
@@ -32,9 +36,9 @@ const Hero2 = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.8 }}
         >
-          <span className="max-w-[787px] md:block text-base md:text-2xl leading-4 md:leading-8 font-medium">
+          <h2 className="max-w-[787px] md:block text-base md:text-2xl leading-4 md:leading-8 font-medium">
             Save Time, Create Personalized Ads, and Drive Real Results
-          </span>
+          </h2>
         </motion.p>
       </motion.div>
 

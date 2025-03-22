@@ -66,9 +66,9 @@ const EarlyAccess = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h3 className="text-xl md:text-2xl font-bold text-white text-center md:text-left">
+          <h2 className="text-xl md:text-2xl font-bold text-white text-center md:text-left">
             Upgrade your freelancing business with effortless ad creation!
-          </h3>
+          </h2>
           <p className="text-center md:text-left text-gray-200 mt-2">
             Sign up for early access.
           </p>
