@@ -75,7 +75,7 @@ const HeroSection = () => {
           />
 
           <AnimatedButton
-            href={token ? "dashboard" : "/signin"}
+            href={token ? "dashboard" : "/signin?type=signin"}
             text="Generate Your Ad"
             variant="primary"
           />

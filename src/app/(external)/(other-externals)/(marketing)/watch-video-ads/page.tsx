@@ -20,7 +20,7 @@ const VideoAdPage = () => {
       />
 
       <AnimatedButton
-        href={token ? "dashboard" : "/signin"}
+        href={token ? "dashboard" : "/signin?type=signin"}
         text={buttonText}
         variant="primary"
       />

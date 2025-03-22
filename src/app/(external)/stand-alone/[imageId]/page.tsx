@@ -1,9 +1,7 @@
 "use client";
 
 import Loader from "@/components/ui/loader";
-import {
-  useCampaignImage
-} from "@/domains/ads-gen/api/use-campaign-image";
+import { useCampaignImage } from "@/domains/ads-gen/api/use-campaign-image";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -42,7 +40,7 @@ const StandalonePage = () => {
         whileTap={{ scale: 0.95 }}
       >
         <Link
-          href={"/signin"}
+          href={"/signin?type=signin"}
           className="bg-light-purple cursor-pointer text-white px-6 py-3 mb-6 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 w-fit mx-auto"
         >
           Sign up to create Ad

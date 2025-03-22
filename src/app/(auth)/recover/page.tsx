@@ -101,7 +101,7 @@ const Page = () => {
       <p>
         Already have an account?{" "}
         <span className="font-bold text-[#458DE1]">
-          <Link href="/signin">Sign In</Link>
+          <Link href="/signin?type=signin">Sign In</Link>
         </span>
       </p>
     </main>
