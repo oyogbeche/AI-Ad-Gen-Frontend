@@ -78,7 +78,6 @@ export const DesktopAdPreviewNavigation: React.FC<
     (!hideSaveAndExit || !isPublished);
 
   // get generated image id
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   //const { adData } = useGenerateAdImage();
 
   const downloadImage = async (format: "png" | "jpg") => {

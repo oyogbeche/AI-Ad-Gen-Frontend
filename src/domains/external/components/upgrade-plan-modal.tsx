@@ -256,9 +256,7 @@ const UpgradePlanModal: React.FC<UpgradePlanModalProps> = ({
   isComplete,
   onComplete,
 }) => {
-  const router = useRouter();
   const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true, amount: 0.2 });
 
   const containerVariants = {
     hidden: { opacity: 0 },
