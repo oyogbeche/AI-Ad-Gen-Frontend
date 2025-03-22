@@ -6,6 +6,8 @@ import Link from "next/link";
 
 import aboutUs from "@/lottie/about-us.json";
 import aiCreative from "@/lottie/ai-power-creative.json";
+import localizedInclusive from "@/lottie/localized-inclusive.json";
+import userFriendlyTools from "@/lottie/user-friendly-tools.json";
 import dynamic from "next/dynamic";
 // import LottieAnimation from "@/domains/external/components/lottie-animation";
 
@@ -145,7 +147,7 @@ const AboutUs = () => {
             <div className="grid lg:grid-cols-3 gap-8">
               {/* Feature 1 */}
               <div className="bg-white p-8 rounded-lg shadow-sm text-center">
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4">
                   {/* <svg
                     width="61"
                     height="60"
@@ -178,8 +180,8 @@ const AboutUs = () => {
 
               {/* Feature 2 */}
               <div className="bg-white p-8 rounded-lg shadow-sm text-center">
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <svg
+                <div className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  {/* <svg
                     width="60"
                     height="60"
                     viewBox="0 0 60 60"
@@ -190,7 +192,11 @@ const AboutUs = () => {
                       d="M13.2694 51.25C12.0065 51.25 10.9375 50.8125 10.0625 49.9375C9.1875 49.0625 8.75 47.9935 8.75 46.7306V13.2694C8.75 12.0065 9.1875 10.9375 10.0625 10.0625C10.9375 9.1875 12.0065 8.75 13.2694 8.75H46.7306C47.9935 8.75 49.0625 9.1875 49.9375 10.0625C50.8125 10.9375 51.25 12.0065 51.25 13.2694V46.7306C51.25 47.9935 50.8125 49.0625 49.9375 49.9375C49.0625 50.8125 47.9935 51.25 46.7306 51.25H13.2694ZM13.2694 47.5H28.125V12.5H13.2694C13.0769 12.5 12.9006 12.5802 12.7406 12.7406C12.5802 12.9006 12.5 13.0769 12.5 13.2694V46.7306C12.5 46.9231 12.5802 47.0994 12.7406 47.2594C12.9006 47.4198 13.0769 47.5 13.2694 47.5ZM31.875 47.5H46.7306C46.9231 47.5 47.0994 47.4198 47.2594 47.2594C47.4198 47.0994 47.5 46.9231 47.5 46.7306V30H31.875V47.5ZM31.875 26.25H47.5V13.2694C47.5 13.0769 47.4198 12.9006 47.2594 12.7406C47.0994 12.5802 46.9231 12.5 46.7306 12.5H31.875V26.25Z"
                       fill="#B800B8"
                     />
-                  </svg>
+                  </svg> */}
+                  <LottieComponent
+                    animationData={userFriendlyTools}
+                    style={{ width: 100, height: 100 }}
+                  />
                 </div>
                 <h3 className="text-[24px] font-[600] leading-[32px] mb-4">
                   User Friendly Tools
@@ -203,29 +209,11 @@ const AboutUs = () => {
 
               {/* Feature 3 */}
               <div className="bg-white p-8 rounded-lg shadow-sm text-center">
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <svg
-                    width="61"
-                    height="60"
-                    viewBox="0 0 61 60"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M28.166 10H10.666C9.33993 10 8.06816 10.5268 7.13048 11.4645C6.1928 12.4021 5.66602 13.6739 5.66602 15V50C5.66602 51.3261 6.1928 52.5979 7.13048 53.5355C8.06816 54.4732 9.33993 55 10.666 55H45.666C46.9921 55 48.2639 54.4732 49.2015 53.5355C50.1392 52.5979 50.666 51.3261 50.666 50V32.5"
-                      stroke="#B800B8"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M46.916 6.24996C47.9106 5.25539 49.2595 4.69666 50.666 4.69666C52.0725 4.69666 53.4215 5.25539 54.416 6.24996C55.4106 7.24452 55.9693 8.59343 55.9693 9.99996C55.9693 11.4065 55.4106 12.7554 54.416 13.75L30.666 37.5L20.666 40L23.166 30L46.916 6.24996Z"
-                      stroke="#B800B8"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                <div className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <LottieComponent
+                    animationData={localizedInclusive}
+                    style={{ width: 40, height: 40 }}
+                  />
                 </div>
                 <h3 className="text-[24px] font-[600] leading-[32px] mb-4">
                   Localized & Inclusive Ads
