@@ -10,7 +10,7 @@ export const useSubmitMarketingForm = () => {
     onSuccess: (data) => {
       if (data.status_code === 201) {
         toast.success(
-          "Form submitted successfully!, Please check your Mail for early access"
+          "Form submitted successfully! You will be redirected to sign up "
         );
       } else {
         toast.error("Something went wrong. Please try again.");

@@ -74,16 +74,36 @@ const Header: React.FC = () => {
         </div>
         {!isSpecialPage && (
           <nav className="hidden md:flex items-center space-x-6 text-gray-600">
-            <Link href="/features" className="hover:text-purple-700">
+            <Link
+              href="/features"
+              className={`hover:text-purple-700 ${
+                pathname == "/features" && "text-purple-700"
+              }`}
+            >
               Features
             </Link>
-            <Link href="/how-it-works" className="hover:text-purple-700">
+            <Link
+              href="/how-it-works"
+              className={`hover:text-purple-700 ${
+                pathname == "/how-it-works" && "text-purple-700"
+              }`}
+            >
               How it works
             </Link>
-            <Link href="/pricing" className="hover:text-purple-700">
+            <Link
+              href="/pricing"
+              className={`hover:text-purple-700 ${
+                pathname == "/pricing" && "text-purple-700"
+              }`}
+            >
               Pricing
             </Link>
-            <Link href="/contact-us" className="hover:text-purple-700">
+            <Link
+              href="/contact-us"
+              className={`hover:text-purple-700 ${
+                pathname == "/contact=us" && "text-purple-700"
+              }`}
+            >
               Contact us
             </Link>
           </nav>
@@ -99,15 +119,14 @@ const Header: React.FC = () => {
                     onClick={() => setIsModalOpen(true)}
                   >
                     <div className="flex items-center">
-                     
-                        <Image
-                          src="/star-fall2.svg"
-                          height={24}
-                          width={24}
-                          alt="Star fall"
-                        />
-                     
-                      {data?  (
+                      <Image
+                        src="/star-fall2.svg"
+                        height={24}
+                        width={24}
+                        alt="Star fall"
+                      />
+
+                      {data ? (
                         <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
                           {data.data.credits}{" "}
                           <span className="hidden sm:inline-block">
@@ -130,12 +149,14 @@ const Header: React.FC = () => {
                         width={3}
                         alt="Separator"
                       />
-                    
-                        <span className="font-semibold text-[#121316] inline-block sm:hidden">
-                          {data?.data.plan_type[0].toUpperCase()}
-                        </span>
-                        <span className="hidden sm:inline-block"> {data?.data.plan_type}</span>
-              
+
+                      <span className="font-semibold text-[#121316] inline-block sm:hidden">
+                        {data?.data.plan_type[0].toUpperCase()}
+                      </span>
+                      <span className="hidden sm:inline-block">
+                        {" "}
+                        {data?.data.plan_type}
+                      </span>
                     </div>
                   </div>
                 )}
