@@ -3,10 +3,18 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import Lottie from "lottie-react";
+
 import aboutUs from "@/lottie/about-us.json";
 import aiCreative from "@/lottie/ai-power-creative.json";
+import dynamic from "next/dynamic";
+// import LottieAnimation from "@/domains/external/components/lottie-animation";
 
+const LottieComponent = dynamic(
+  () => import("@/domains/external/components/lottie-animation"),
+  {
+    ssr: false,
+  }
+);
 const AboutUs = () => {
   return (
     <div className="w-full xl:mx-auto bg-[#F8E6F8] max-lg:px-4 flex flex-col items-center ">
@@ -42,7 +50,12 @@ const AboutUs = () => {
         </motion.p>
 
         <div className="flex justify-center mb-10">
-          <Lottie animationData={aboutUs} className="max-w-[700px] h-auto" />
+          {/* <Lottie animationData={aboutUs} className="max-w-[700px] h-auto" /> */}
+
+          <LottieComponent
+            animationData={aboutUs}
+            className="max-w-[700px] h-auto"
+          />
           {/* <Image
             src="/images/team-together.png"
             alt="Team working together"
@@ -145,7 +158,11 @@ const AboutUs = () => {
                       fill="#B800B8"
                     />
                   </svg> */}
-                  <Lottie
+                  {/* <Lottie
+                    animationData={aiCreative}
+                    style={{ width: 30, height: 30 }}
+                  /> */}
+                  <LottieComponent
                     animationData={aiCreative}
                     style={{ width: 30, height: 30 }}
                   />
