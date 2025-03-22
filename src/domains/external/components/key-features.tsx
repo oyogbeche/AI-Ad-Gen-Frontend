@@ -25,7 +25,6 @@ const tagData = [
 export default function FeaturesSection() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
- 
 
   return (
     <section
@@ -48,14 +47,14 @@ export default function FeaturesSection() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <AnimatedTags isInView={isInView} />
-          <motion.h1
+          <motion.h2
             className="text-[#121316] text-2xl lg:text-[40px] max-w-[504px] text-center font-medium p-[24px]"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             Who can benefit from genz.ad
-          </motion.h1>
+          </motion.h2>
         </motion.div>
       </motion.div>
       <motion.div
@@ -65,7 +64,6 @@ export default function FeaturesSection() {
       >
         <FeatureCard />
       </motion.div>
-   
     </section>
   );
 }

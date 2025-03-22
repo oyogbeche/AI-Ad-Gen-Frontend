@@ -20,15 +20,15 @@ const BlogFooter = () => {
   ];
 
   const audienceLinks = [
-    { href: "/create-ads", label: "AI Creative" },
-    { href: "/phase-two", label: "AI Marketing" },
-    { href: "/create-video-ads", label: "AI Video Ads" },
+    { href: "/ai-creative", label: "AI Creative" },
+    { href: "/ai-marketing", label: "AI Marketing" },
+    { href: "/ai-video-ads", label: "AI Video Ads" },
   ];
 
-  const featuresLinks = [
-    { href: "/image-ads", label: "Image Ads" },
-    { href: "/community", label: "Community" },
-  ];
+  // const featuresLinks = [
+  //   { href: "/image-ads", label: "Image Ads" },
+  //   { href: "/community", label: "Community" },
+  // ];
 
   const supportLinks = [
     { href: "/blogs", label: "Blogs" },
@@ -47,7 +47,7 @@ const BlogFooter = () => {
       label: "Twitter",
     },
     {
-      href: "http://instagram.com/genz.adgen",
+      href: "https://www.instagram.com/genz.ad_?igsh=dzd4OXh1bTRzcGNq&utm_source=qr",
       icon: <FooterIg className="hover:scale-125" />,
       label: "Instagram",
     },
@@ -84,6 +84,7 @@ const BlogFooter = () => {
                     href={social.href}
                     className="text-gray-900 hover:text-gray-500 p-2.5"
                     aria-label={social.label}
+                    target="_blank"
                   >
                     <div className="h-[18px] w-[18px] hover:scale-110 transition-all">
                       {social.icon}
@@ -133,7 +134,7 @@ const BlogFooter = () => {
             </ul>
           </div>
 
-          <div className="flex flex-col gap-6">
+          {/* <div className="flex flex-col gap-6">
             <h3 className={headingStyle}>Features</h3>
             <ul className="flex flex-col gap-6 text-left">
               {featuresLinks.map((link, index) => (
@@ -149,7 +150,7 @@ const BlogFooter = () => {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
 
           <div className="flex flex-col gap-6">
             <h3 className={headingStyle}>Support & Resources</h3>
