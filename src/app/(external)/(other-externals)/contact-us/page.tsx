@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { toast } from "sonner";
+import { postRequest } from "@/lib/axios-fetch";
 
 // Define form schema with Zod
 const formSchema = z.object({
@@ -50,12 +51,11 @@ const ContactPage = () => {
       console.log("Sending email to amandawork2022@gmail.com");
       console.log("Form data:", data);
 
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await postRequest("/contact/submit", data);
 
       toast.success("Message sent!", {
         description: "Thank you for contacting us. We'll get back to you soon.",
       });
-
       // Reset the form
       form.reset();
     } catch (error) {
