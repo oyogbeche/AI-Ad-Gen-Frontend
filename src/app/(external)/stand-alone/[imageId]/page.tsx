@@ -36,7 +36,6 @@ export async function generateMetadata({
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function Page({ params }: { params: { imageId: string } }) {
+export default function Page() {
   return <StandalonePage />;
 }
