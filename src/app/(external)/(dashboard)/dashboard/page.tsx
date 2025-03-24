@@ -9,7 +9,7 @@ export default function Dashboard() {
         <ImageAdCard
           title="Generate Image Ad"
           description="Create high-quality, AI-powered image ads in seconds. Upload, customize, and generate visuals tailored for your audience"
-          buttonText="Try it now"
+          buttonText="Generate Ad"
           buttonHref="/dashboard/ad-form"
         />
       </div>
