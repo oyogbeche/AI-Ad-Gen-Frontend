@@ -10,8 +10,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAdsContext } from "../context/AdsContext";
-import { getRequest } from "@/lib/axios-fetch";
 import Loader from "@/components/ui/loader";
+import { useAdsData } from "../api/use-ads-data";
 
 const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
   const [filter, setFilter] = useState<"user" | "community">(
@@ -19,11 +19,8 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
   );
   const [sortOption, setSortOption] = useState("Most Popular");
 
-  const [publishedImages, setPublishedImages] = useState<Ad[]>([]);
-  const [userImages, setUserImages] = useState<Ad[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
   const { adData, setAdData } = useAdsContext();
+  const { publishedImages, userImages, isLoading } = useAdsData();
 
   // console.log("DASHBOARD", adData);
   const router = useRouter();
@@ -49,33 +46,8 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
         community: publishedImages,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [userImages, publishedImages]
+    [userImages, publishedImages, setAdData]
   );
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const [publishedResponse, userResponse] = await Promise.all([
-          getRequest("/image/all/published"),
-          getRequest("/image/"),
-        ]);
-
-        if (publishedResponse.status === "success") {
-          setPublishedImages(publishedResponse.data.images);
-        }
-
-        if (userResponse.status === "success") {
-          setUserImages(userResponse.data.images);
-        }
-      } catch (error) {
-        console.error("Error fetching images:", error);
-      } finally {
-        setIsLoaded(true);
-      }
-    };
-
-    fetchImages();
-  }, []);
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -98,8 +70,8 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
     },
   };
 
-  return !isLoaded ? (
-    <Loader />
+  return isLoading ? (
+    <Loader fullscreen={false} />
   ) : (
     <>
       {adData.user.length == 0 && adData.community.length == 0 ? (
@@ -114,7 +86,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
       ) : (
         <section
           className={`bg-white rounded-[20px] px-4 py-6 md:p-6 flex flex-col gap-10 mt-10 transition-all duration-500 ${
-            isLoaded ? "opacity-100" : "opacity-0"
+            !isLoading ? "opacity-100" : "opacity-0"
           }`}
         >
           <div className="flex justify-between flex-col sm:flex-row gap-4">
