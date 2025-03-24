@@ -186,7 +186,7 @@ export const DesktopAdPreviewNavigation: React.FC<
             .then((data) => {
               if (data.secure_url) {
                 console.log("Uploaded Image URL:", data.secure_url);
-                let uploadedUrl = data.secure_url;
+                const uploadedUrl = data.secure_url;
                 patchRequest(`/image/save/${imageId}`, {
                   "edited_image_url": uploadedUrl,
                   "is_published": publish
