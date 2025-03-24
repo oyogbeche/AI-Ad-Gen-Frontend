@@ -28,7 +28,7 @@ const Hero2 = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.8 }}
         >
-          <span className="max-w-[587px] md:block font-bold  mx-auto">
+          <span className="max-w-[587px] md:block font-normal mx-auto">
              GenZ Ad your all-in-one AI marketing solution designed to empower
             you to navigate the busy world of marketing with confidence.
           </span>
