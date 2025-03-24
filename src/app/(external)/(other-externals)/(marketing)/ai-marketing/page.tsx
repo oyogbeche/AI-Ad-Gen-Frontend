@@ -13,11 +13,11 @@ export default function MarketingPage() {
     <div>
       <Hero2 />
       <FeaturesSection />
+      <CreateAds />
+      <CreateAd />
       <div className="px-4">
         <VideoPlayer videoLink={videoLink} />
       </div>
-      <CreateAds />
-      <CreateAd />
       <FAQ />
       <Cta />
     </div>
