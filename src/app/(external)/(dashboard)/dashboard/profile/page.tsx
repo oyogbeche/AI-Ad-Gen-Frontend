@@ -195,7 +195,7 @@ const Profile = () => {
                                 "can_download",
                               ].includes(key)
                             )
-                            .map(([key, value]) => {
+                            .map(([key]) => {
                               const Icon =
                                 FeatureIcon[key as keyof typeof FeatureIcon];
                               return (
