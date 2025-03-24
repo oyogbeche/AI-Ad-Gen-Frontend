@@ -13,8 +13,10 @@ import { useAdsContext } from "../context/AdsContext";
 import { getRequest } from "@/lib/axios-fetch";
 import Loader from "@/components/ui/loader";
 
-const DashboardContent = () => {
-  const [filter, setFilter] = useState<"user" | "community">("user");
+const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
+  const [filter, setFilter] = useState<"user" | "community">(
+    filt ? filt : "user"
+  );
   const [sortOption, setSortOption] = useState("Most Popular");
 
   const [publishedImages, setPublishedImages] = useState<Ad[]>([]);

@@ -53,7 +53,7 @@ const HeroSection = () => {
           className="text-3xl md:text-[64px] font-medium text-[#121316] tracking-tight mb-4 lg:max-w-5xl text-center lg:mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          transition={{ delay: 0.15, duration: 0.5 }}
         >
           Generate High-converting, <br className="hidden xl:block" /> Smarter
           Adverts in minutes
@@ -63,7 +63,7 @@ const HeroSection = () => {
           className="text-lg text-gray-600 mb-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
         >
           AI generated ads that maximise engagement and revenue
         </motion.p>
