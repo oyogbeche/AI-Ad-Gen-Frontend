@@ -25,27 +25,12 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
   // console.log("DASHBOARD", adData);
   const router = useRouter();
 
-  interface Ad {
-    ad_description: string;
-    author_info: { name: string; avatar: string };
-    created_at: string;
-    final_url: string;
-    id: string;
-    image_url: string;
-    is_published: boolean;
-    prompt: string;
-    product_name: string;
-    target_audience: string;
-    updated_at: string;
-  }
-
   useEffect(
     () =>
       setAdData({
         user: userImages,
         community: publishedImages,
       }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [userImages, publishedImages, setAdData]
   );
 
