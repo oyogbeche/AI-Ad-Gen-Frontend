@@ -168,6 +168,46 @@ export const DesktopAdPreviewNavigation: React.FC<
     };
   }, [isSaveDropdownOpen, isExportDropdownOpen]);
 
+  function saveImage(message: React.JSX.Element, publish: boolean, newStatus?: string, element?: HTMLElement | null) {
+    if (element) {
+      html2canvas(element, {useCORS: true, allowTaint: true}).then((canvas) => {
+        canvas.toBlob((blob) => {
+          const formData = new FormData();
+          if (blob) {
+            formData.append("file", blob);
+          } else {
+            console.error("Blob is null, cannot append to FormData.");
+          }
+          formData.append("upload_preset", "ml_default"); // Replace with your upload preset
+    
+          fetch("https://api.cloudinary.com/v1_1/dgetbfevu/image/upload", {
+            method: "POST",
+            body: formData, // Sending as FormData, NOT JSON
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.secure_url) {
+                console.log("Uploaded Image URL:", data.secure_url);
+                const uploadedUrl = data.secure_url;
+                patchRequest(`/image/save/${imageId}`, {
+                  "edited_image_url": uploadedUrl,
+                  "is_published": publish
+                });
+                patchRequest(`/image/publish/${imageId}`, { status: newStatus });
+          
+                toast.custom(() => (message));
+              } else {
+                console.error("Upload Error:", data);
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        }, "image/png"); // Ensure it's in a valid image format
+      });
+    }
+  }
+
   // const handleShareClick = async () => {
   //   if (handleCopy) {
   //     try {
@@ -222,55 +262,53 @@ export const DesktopAdPreviewNavigation: React.FC<
 
   const handleSaveAndExit = () => {
     setIsSaveDropdownOpen(false);
-    toast.custom(() => (
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-        <div className="flex items-center justify-between w-full">
-          <div className="flex items-center">
-            <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-              <Check className="h-4 w-4 text-white" />
-            </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-gray-900 mb-2">
-                Saved Successfully!
-              </p>
-            </div>
-          </div>
+    const message = <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+    <div className="flex items-center justify-between w-full">
+      <div className="flex items-center">
+        <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+          <Check className="h-4 w-4 text-white" />
+        </div>
+        <div className="ml-3">
+          <p className="text-sm font-medium text-gray-900 mb-2">
+            Saved Successfully!
+          </p>
         </div>
       </div>
-    ));
-    router.push("/dashboard");
+    </div>
+  </div>
+  const publish = false
+  saveImage(message, publish);
+    // router.push("/dashboard");
   };
 
   const handleSaveAndPublish = async () => {
     try {
       // console.log("IMAGEID",imageId)
       const newStatus = pageAdData.is_published ? "unpublished" : "published";
-      await patchRequest(`/image/publish/${imageId}`, { status: newStatus });
-
-      toast.custom(() => (
-        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-                <Check className="h-4 w-4 text-white" />
-              </div>
-              <div className="ml-3">
-                <p className="text-sm font-medium text-gray-900 mb-2">
-                  {pageAdData.is_published
-                    ? "Ad Unpublished Successfully!"
-                    : "Ad Published Successfully!"}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {pageAdData.is_published
-                    ? "Your ad is no longer live."
-                    : "Your ad is now live and ready to reach your audience."}
-                </p>
-              </div>
-            </div>
+      const element = document.getElementById('containerRef');
+      const message = <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+      <div className="flex items-center justify-between w-full">
+        <div className="flex items-center">
+          <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+            <Check className="h-4 w-4 text-white" />
+          </div>
+          <div className="ml-3">
+            <p className="text-sm font-medium text-gray-900 mb-2">
+              {pageAdData.is_published
+                ? "Ad Unpublished Successfully!"
+                : "Ad Published Successfully!"}
+            </p>
+            <p className="text-xs text-gray-500">
+              {pageAdData.is_published
+                ? "Your ad is no longer live."
+                : "Your ad is now live and ready to reach your audience."}
+            </p>
           </div>
         </div>
-      ));
-
+      </div>
+    </div>
+    const publish = true
+    saveImage(message, publish, newStatus, element);
       // router.push("/dashboard");
     } catch (error) {
       console.error("Error updating publish status:", error);
@@ -298,7 +336,7 @@ export const DesktopAdPreviewNavigation: React.FC<
         </div>
       ));
     }
-    router.push("/dashboard");
+    // router.push("/dashboard");
   };
 
   return (
@@ -345,7 +383,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                         Save & Exit
                       </button>
                     )}
-                    {!isPublished && (
+                    {(
                       <button
                         onClick={handleSaveAndPublish}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
@@ -428,3 +466,5 @@ export const DesktopAdPreviewNavigation: React.FC<
     </div>
   );
 };
+  import html2canvas from "html2canvas";
+

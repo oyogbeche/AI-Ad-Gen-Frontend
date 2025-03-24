@@ -107,7 +107,7 @@ export function ImageTextEditor({
         <div
           ref={containerRef}
           className="relative w-full rounded-md p-0"
-          id="outputImg"
+          id="containerRef"
         >
           {/* <Image
             src={imageSrc ?? "/preview.png"}

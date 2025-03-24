@@ -23,9 +23,9 @@ export default function Home() {
     <main className="max-w-[1440px] m-auto">
       <HeroSection />
       <FeaturesSection />
-      <VideoPlayer videoLink={videoLink} />
       <CreateAds />
       <CreateAd />
+      <VideoPlayer videoLink={videoLink} />
       <FAQ />
       <Cta />
     </main>
