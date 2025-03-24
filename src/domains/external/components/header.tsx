@@ -5,7 +5,7 @@ import { useAuthStore } from "@/store/auth-store";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import iconLogo from "../../../../public/icon-logo.svg";
 import logoPng from "../../../../public/logo.png";
 import UpgradePlanModal from "./upgrade-plan-modal";
@@ -13,6 +13,7 @@ import { useSubscriptionStatus } from "@/hooks/use-subscription-status";
 
 const Header: React.FC = () => {
   const user = useAuthStore((state) => state.user);
+  const [isLoading, setIsLoading] = useState(true);
   const { data } = useSubscriptionStatus();
   const logout = useAuthStore((state) => state.logout);
   const name = `${user?.first_name || ""} ${user?.last_name || ""}`;
@@ -24,11 +25,35 @@ const Header: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalComplete, setIsModalComplete] = useState(false);
 
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
   const handleLogout = () => {
     setIsModalOpen(false);
     setIsModalComplete(false);
     logout();
   };
+
+  if (isLoading) {
+    return (
+      <header className="w-full border-b border-[#F8E6F8] sticky top-0 z-40 bg-white">
+        <div className="max-w-[1440px] m-auto flex justify-between w-full px-6 py-4 lg:pl-20 lg:pr-9">
+          <div className="w-fit">
+            <Link href="/">
+              <Image
+                src={iconLogo}
+                alt="Logo"
+                width={35}
+                height={40}
+                className="inline-block sm:hidden"
+              />
+            </Link>
+          </div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header
