@@ -36,8 +36,8 @@ export default function ShareModal({
   onOpenChange,
   defaultOpen = false,
   children,
-  // imageUrl,
-}: ShareModalProps) {
+}: // imageUrl,
+ShareModalProps) {
   const [open, setOpen] = useState(defaultOpen);
 
   const handleOpenChange = (open: boolean) => {
@@ -76,10 +76,11 @@ export default function ShareModal({
     let shareUrl = "";
     const text = encodeURIComponent("Check out this ad!");
     const url = encodeURIComponent(adUrl);
+    const image = encodeURIComponent(adUrl);
 
     switch (platform) {
       case "facebook":
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}&picture=${image}`;
         break;
       case "twitter":
         shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
