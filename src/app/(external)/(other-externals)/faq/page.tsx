@@ -2,14 +2,11 @@
 
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
-//import Lottie from "lottie-react"; 
-import animationData from '@/lottie/faq.json';
+//import Lottie from "lottie-react";
+import animationData from "@/lottie/faq.json";
 import dynamic from "next/dynamic";
 
-
-const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
-
-
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 // Define the shape of FAQ items
 interface FAQItem {
@@ -89,7 +86,7 @@ const technical: FAQItem[] = [
   {
     question: "What if I need help or encounter an issue?",
     answer:
-      "You can visit our Help Center or contact our support team at <span style='color: #2587D0;'>support@@youraia******.com</span>.",
+      'You can visit our Help Center or contact our support team at <a href="mailto:support@genzadshng12@gmail.com" style="color: #2587D0; cursor: pointer;">support@genzadshng12@gmail.com</a>.',
   },
 ];
 
@@ -122,11 +119,8 @@ const FAQPage: React.FC = () => {
   };
   return (
     <section className="flex flex-col">
-
       <div className="px-5 md:px-[147px] pt-[12px] md:pt-[112px]">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
- 
-
           <div className="md:w-1/2">
             <h1 className="text-[18px] md:text-[40px] max-sm:text-center max-sm:pb-[12px]  font-[600] md:font-[700]">
               FAQ
@@ -139,20 +133,20 @@ const FAQPage: React.FC = () => {
           </div>
 
           <div className="md:w-1/2 md:flex justify-end">
-          <Lottie 
-animationData={animationData} 
- className="w-[300px] h-[300px] max-sm:w-[200px] max-sm:h-[200px] "style={{width: '300px', height: '300px'}}
- />
- </div>
-  
+            <Lottie
+              animationData={animationData}
+              className="w-[300px] h-[300px] max-sm:w-[200px] max-sm:h-[200px] "
+              style={{ width: "300px", height: "300px" }}
+            />
+          </div>
         </div>
 
         {/* General Questions */}
         <div className="flex flex-col lg:flex-row justify-between pt-9 gap-6">
           <div className="lg:w-[266px]">
-          <p className="text-[24px] md:text-[40px] font-[700] max-sm:pb-[22px] lg:max-w-[266px] lg:w-[266px]">
-            General Questions
-          </p>
+            <p className="text-[24px] md:text-[40px] font-[700] max-sm:pb-[22px] lg:max-w-[266px] lg:w-[266px]">
+              General Questions
+            </p>
           </div>
           <div className="lg:max-w-[600px] lg:min-w-[400px]">
             {generalQuestions.map((genq, index) => (
@@ -235,10 +229,10 @@ animationData={animationData}
 
         {/* Pricing & Subscription */}
         <div className="flex flex-col lg:flex-row  justify-between pt-9 gap-6">
-        <div className="lg:w-[266px]">
-          <p className="text-[24px] md:text-[40px] font-[700] lg:w-[266px] max-sm:pb-[22px]">
-            Pricing & Subscription
-          </p>
+          <div className="lg:w-[266px]">
+            <p className="text-[24px] md:text-[40px] font-[700] lg:w-[266px] max-sm:pb-[22px]">
+              Pricing & Subscription
+            </p>
           </div>
           <div className="md:max-w-[600px]">
             {pricing.map((price, index) => (
@@ -279,10 +273,10 @@ animationData={animationData}
 
         {/* Technical & Support */}
         <div className="flex flex-col lg:flex-row  justify-between pt-9 gap-6">
-        <div className="lg:w-[266px]">
-          <p className="text-[24px] md:text-[40px] font-[700] lg:w-[266px] max-sm:pb-[22px]">
-            Technical & Support
-          </p>
+          <div className="lg:w-[266px]">
+            <p className="text-[24px] md:text-[40px] font-[700] lg:w-[266px] max-sm:pb-[22px]">
+              Technical & Support
+            </p>
           </div>
           <div className="md:max-w-[600px]">
             {technical.map((tech, index) => (
@@ -321,11 +315,16 @@ animationData={animationData}
           </div>
         </div>
         <div className="pt-[40px] ">
-          <p className="text-[24px] md:text-[40px] font-[600] text-center">More Question?</p>
+          <p className="text-[24px] md:text-[40px] font-[600] text-center">
+            More Question?
+          </p>
           <form className="pt-[42px]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-[19px]">
               <div className="flex flex-col">
-                <label htmlFor="Your Name" className="text-[20px] font-[600] pb-2">
+                <label
+                  htmlFor="Your Name"
+                  className="text-[20px] font-[600] pb-2"
+                >
                   Your Name
                 </label>
                 <input
@@ -335,7 +334,10 @@ animationData={animationData}
                 />
               </div>
               <div className="flex flex-col">
-                <label htmlFor="Your Email" className="text-[20px] font-[600] pb-2">
+                <label
+                  htmlFor="Your Email"
+                  className="text-[20px] font-[600] pb-2"
+                >
                   Your Email
                 </label>
                 <input
