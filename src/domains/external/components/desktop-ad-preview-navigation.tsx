@@ -27,6 +27,7 @@ interface DesktopAdPreviewNavigationProps {
   isPublished?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   pageAdData?: any;
+  filter?: string;
 }
 
 export const DesktopAdPreviewNavigation: React.FC<
@@ -45,6 +46,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   hideSaveButton = false,
   hideSaveAndExit = false,
   isPublished = false,
+  filter,
 }) => {
   // console.log("DASHBOARD", pageAdData);
   const router = useRouter();
@@ -66,7 +68,7 @@ export const DesktopAdPreviewNavigation: React.FC<
       router.push("/generate-ad");
     } else {
       localStorage.removeItem("adCustomizerData");
-      router.push("/dashboard");
+      router.push(`/dashboard?type=${filter}`);
     }
   };
 
