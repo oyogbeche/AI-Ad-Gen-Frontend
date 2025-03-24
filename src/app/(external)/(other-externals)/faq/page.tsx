@@ -86,7 +86,7 @@ const technical: FAQItem[] = [
   {
     question: "What if I need help or encounter an issue?",
     answer:
-      "You can visit our Help Center or contact our support team at <span style='color: #2587D0;'>support@@youraia******.com</span>.",
+      'You can visit our Help Center or contact our support team at <a href="mailto:genzadshng12@gmail.com?subject=Inquiry&body=Hello, I have a question about..." style="color: #2587D0; cursor: pointer;">genzadshng12@gmail.com</a>',
   },
 ];
 

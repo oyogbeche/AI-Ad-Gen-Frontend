@@ -22,7 +22,7 @@ const BlogFooter = () => {
   const audienceLinks = [
     { href: "/ai-creative", label: "AI Creative" },
     { href: "/ai-marketing", label: "AI Marketing" },
-    { href: "/ai-video-ads", label: "AI Video Ads" },
+    // { href: "/ai-video-ads", label: "AI Video Ads" },
     { href: "/watch-video-ads", label: "Watch Video Ads" },
   ];
 
