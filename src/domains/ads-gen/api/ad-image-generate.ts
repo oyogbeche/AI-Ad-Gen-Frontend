@@ -42,6 +42,9 @@ export function useGenerateAdImage() {
   const [progress, setProgress] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [completedData, setCompletedData] = useState<TaskStatusResponse | null>(
+    null
+  );
 
   const generateAd = useMutation({
     mutationFn: async (data: GenerateAdParams) => {
@@ -62,6 +65,7 @@ export function useGenerateAdImage() {
       setTaskId(response?.data?.task_id);
       setProgress(10);
       setError(null);
+      setCompletedData(null);
     },
     onError: (error: Error) => {
       console.error("Error generating ad image:", error);
@@ -78,18 +82,22 @@ export function useGenerateAdImage() {
       if (!taskId) throw new Error("No task ID");
       const response = await getRequest(`/image/task/${taskId}`);
 
-      if (response.data.status === "pending") {
+      if (response.status_code === 200 && response.data.status === "pending") {
         setProgress((prev) => Math.min(prev + 30, 90));
-      } else if (response.data.status === "completed") {
+      } else if (response.status_code === 201) {
+        setCompletedData(response);
         setProgress(100);
       }
-
+      console.log("RESPONSE", response);
       return response;
     },
-    enabled: !!taskId,
+    enabled: !!taskId && !completedData,
     refetchInterval: (query: Query<TaskStatusResponse, Error>) => {
       const data = query.state.data;
-      if (!data || data.data.status === "pending") {
+      if (
+        !data ||
+        (data.status_code === 200 && data.data.status === "pending")
+      ) {
         return 3000;
       }
       return false;
@@ -123,7 +131,7 @@ export function useGenerateAdImage() {
   return {
     generateAd: generateAd.mutate,
     isGenerating: generateAd.isPending || (!!taskId && progress < 100),
-    adData: adDataQuery.data,
+    adData: completedData,
     isFetchingAd: isLoading,
     progress,
     error,
@@ -131,6 +139,7 @@ export function useGenerateAdImage() {
       setTaskId(null);
       setProgress(0);
       setError(null);
+      setCompletedData(null);
     },
   };
 }

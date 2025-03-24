@@ -116,6 +116,8 @@ export default function AdCustomizer() {
     },
     mode: "onChange",
   });
+  console.log("GENERATAD",generateAd)
+  console.log("ADDATA",adData)
 
   const { formState } = form;
   const isValid = formState.isValid;
