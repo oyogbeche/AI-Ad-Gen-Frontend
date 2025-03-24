@@ -3,8 +3,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select";
 import { motion } from "framer-motion";
 
@@ -147,14 +145,9 @@ const DashboardContent = () => {
                   Sort by:{" "}
                 </p>
                 <Select value={sortOption} onValueChange={setSortOption}>
-                  <SelectTrigger className="w-[140px] cursor-pointer">
-                    <SelectValue placeholder="Most Popular" />
-                  </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="Most Popular">Most Popular</SelectItem>
                       <SelectItem value="Most Recent">Most Recent</SelectItem>
-                      <SelectItem value="Most Viewed">Date Created</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
