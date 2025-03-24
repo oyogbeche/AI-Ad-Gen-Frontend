@@ -38,20 +38,20 @@ export default function FeaturesSection() {
         className="w-full lg:max-w-7xl relative"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.5 }}
       >
         <motion.div
           className="flex flex-col items-center justify-center gap-3 max-w-4xl mx-auto"
           initial={{ y: 50 }}
           animate={isInView ? { y: 0 } : { y: 50 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
         >
           <AnimatedTags isInView={isInView} />
           <motion.h2
             className="text-[#121316] text-2xl lg:text-[40px] max-w-[504px] text-center font-medium p-[24px]"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
             Who can benefit from genz.ad
           </motion.h2>
