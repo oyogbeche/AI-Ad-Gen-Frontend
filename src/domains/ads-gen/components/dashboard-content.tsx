@@ -139,7 +139,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
           </div>
 
           { adData[filter].length === 0 ? (
-        <div className="flex flex-col items-center gap-4 my-32">
+        <div className="flex flex-col items-center gap-4 my-12">
           <Image
             src="/get-started.png"
             width={401}
