@@ -24,6 +24,8 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
   const { adData, setAdData } = useAdsContext();
   const { publishedImages, userImages, isLoading } = useAdsData();
 
+ 
+
   // console.log("DASHBOARD", adData);
   const router = useRouter();
   useEffect(() => {
@@ -90,16 +92,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
     <Loader fullscreen={false} />
   ) : (
     <>
-      {adData.user.length == 0 && adData.community.length == 0 ? (
-        <div className="flex flex-col items-center gap-4 my-32">
-          <Image
-            src="/get-started.png"
-            width={401}
-            height={333}
-            alt="Let's get started."
-          />
-        </div>
-      ) : (
+    
         <section
           className={`bg-white rounded-[20px] px-4 py-6 md:p-6 flex flex-col gap-10 mt-10 transition-all duration-500 ${
             !isLoading ? "opacity-100" : "opacity-0"
@@ -144,6 +137,17 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
               </motion.div>
             )}
           </div>
+
+          { adData[filter].length === 0 ? (
+        <div className="flex flex-col items-center gap-4 my-32">
+          <Image
+            src="/get-started.png"
+            width={401}
+            height={333}
+            alt="Let's get started."
+          />
+        </div>
+      ) :
 
           <motion.div
             className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5"
@@ -205,8 +209,9 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
                 </motion.div>
               ))}
           </motion.div>
+}
         </section>
-      )}
+      
     </>
   );
 };
