@@ -34,29 +34,46 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
 
     // Check if there's a recently published ad in the URL
     const urlParams = new URLSearchParams(window.location.search);
-    console.log(urlParams);
-    const justPublished = urlParams.get("justPublished");
+    const publishStatus = urlParams.get("publishStatus");
 
-    if (justPublished === "true") {
-      toast.custom(() => (
-        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-                <Check className="h-4 w-4 text-white" />
-              </div>
-              <div className="ml-3">
-                <p className="text-sm font-medium text-gray-900 mb-2">
-                  Ad Published Successfully!
-                </p>
-                <p className="text-xs text-gray-500">
-                  Your ad is now live and ready to reach your audience.
-                </p>
+    if (publishStatus) {
+      const toastMessage =
+        publishStatus === "published"
+          ? {
+              title: "Ad Published Successfully!",
+              description:
+                "Your ad is now live and ready to reach your audience.",
+            }
+          : {
+              title: "Ad Unpublished Successfully!",
+              description: "Your ad is no longer live.",
+            };
+
+      // Show toast only once
+      toast.custom(
+        () => (
+          <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center">
+                <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+                  <Check className="h-4 w-4 text-white" />
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-gray-900 mb-2">
+                    {toastMessage.title}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {toastMessage.description}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ));
+        ),
+        {
+          id: "publish-status-toast",
+        }
+      );
 
       setTimeout(() => {
         const newUrl = window.location.pathname;
