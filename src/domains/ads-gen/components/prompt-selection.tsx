@@ -8,16 +8,15 @@ import { motion } from "framer-motion";
 
 const prompts = [
   {
-    text: "Promote ChicThreads' spring collection with quality materials and unique designs. Offer 25% discount for first orders.",
+    text: "Generate a sleek and modern fashion ad featuring a stylish model wearing our latest clothing item. The background should be a minimalist urban setting, emphasizing elegance and sophistication.",
     images: [
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664920/image_fx__11_ghfqum.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664920/image_fx__12_bumsgr.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664890/image_fx__9_tg7coe.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664922/image_fx__8_hkymqf.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664922/image_fx__9_s3vrer.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742901657/DALL_E_2025-03-25_11.46.15_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_smartphone_has_a_sleek_6_vrei3m.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742901639/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_14_clapht.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742901614/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_16_gqw50x.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742901530/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_18_x8yptp.png",
     ],
     details: {
-      text: "Promote ChicThreads' spring collection with quality materials and unique designs. Offer 25% discount for first orders.",
+      text: "Generate a sleek and modern fashion ad featuring a stylish model wearing our latest clothing item. The background should be a minimalist urban setting, emphasizing elegance and sophistication.",
       productName: "ChicThreads",
       aspectRatio: "9:16",
       language: "English",
@@ -27,16 +26,16 @@ const prompts = [
     },
   },
   {
-    text: "Advertise DreamHome Realty's luxury properties with modern amenities. Offer a free home-buying guide to interested clients.",
+    text: "Generate an eye-catching image ad for a season sale. The design should be dynamic and urgent, using high-contrast colours to grab attention",
     images: [
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664914/image_fx__5_ht4xeq.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664918/image_fx__2_tpfxid.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664917/image_fx__3_ncm44a.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664914/image_fx__6_cw0jpo.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664919/image_fx__1_ej3rqq.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742903156/DALL_E_2025-03-25_11.46.15_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_smartphone_has_a_sleek_5_nh9qsf.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742903150/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_13_ewofon.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742903157/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_19_k1y2xt.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742903159/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_17_menenh.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742903314/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_23_aclnmi.png",
     ],
     details: {
-      text: "Advertise DreamHome Realty's luxury properties with modern amenities. Offer a free home-buying guide to interested clients.",
+      text: "Generate an eye-catching image ad for a season sale. The design should be dynamic and urgent, using high-contrast colours to grab attention",
       productName: "DreamHome Realty",
       aspectRatio: "9:16",
       language: "English",
@@ -46,16 +45,15 @@ const prompts = [
     },
   },
   {
-    text: "Announce 40% discount on ModernLiving furniture with premium materials. Contact us for limited-time offers.",
+    text: "Generate a high-end luxury product ad featuring a premium watch. The design should  be sleek and minimalistic with a black and gold colour scheme",
     images: [
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664913/image_fx__4_cvwd4a.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664912/image_fx__8_vc2vlr.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664913/image_fx__x7z9dp.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664912/image_fx__7_xg4b7k.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664911/image_fx__9_tdzssw.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742902036/DALL_E_2025-03-25_11.46.15_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_smartphone_has_a_sleek_3_dobqd8.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742902035/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_8_beyfn4.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742902033/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_7_p7bdgu.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742902016/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_9_qavfez.png",
     ],
     details: {
-      text: "Announce 40% discount on ModernLiving furniture with premium materials. Contact us for limited-time offers.",
+      text: "Generate a high-end luxury product ad featuring a premium watch. The design should  be sleek and minimalistic with a black and gold colour scheme",
       productName: "ModernLiving",
       aspectRatio: "9:16",
       language: "English",
@@ -65,16 +63,15 @@ const prompts = [
     },
   },
   {
-    text: "Promote Fanta's refreshing fruit-flavored drinks with 100% natural flavors. Experience the fruity taste today!",
+    text: "Create an appetizing food ad featuring a close up shot of a gourmet dish with steam rising, plated beautifully on a rustic wooden table",
     images: [
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664904/image_fx__6_mvqrcw.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664904/image_fx__5_xjvtgy.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664905/image_fx__2_ulytwn.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664905/image_fx__3_cbxtf4.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664907/image_fx__1_sllfay.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742902315/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_10_zhupjl.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742902314/DALL_E_2025-03-25_11.46.15_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_smartphone_has_a_sleek_4_yio5g8.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742902314/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_11_wvue17.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742902314/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_12_y2dpwc.png",
     ],
     details: {
-      text: "Promote Fanta's refreshing fruit-flavored drinks with 100% natural flavors. Experience the fruity taste today!",
+      text: "Create an appetizing food ad featuring a close up shot of a gourmet dish with steam rising, plated beautifully on a rustic wooden table",
       productName: "Fanta",
       aspectRatio: "9:16",
       language: "English",
@@ -84,16 +81,15 @@ const prompts = [
     },
   },
   {
-    text: "Create urgency for fashion brand's 48-hour flash sale with exclusive discounts. Strong call to action for trending outfits.",
+    text: "Generate a futuristic product ad featuring the latest smartphone floating in mid-air, surrounded by glowing UI elements. The ad should have a sleek high tech vibe with a dar gradient",
     images: [
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664903/image_fx__gdcyvm.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664892/image_fx__7_mpw4zp.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664891/image_fx__8_oz9pag.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664890/image_fx__9_tg7coe.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664902/image_fx__4_flftmv.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742902521/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_3_bft9mm.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742902520/DALL_E_2025-03-25_11.46.15_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_smartphone_has_a_sleek_1_gljckb.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742902520/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_2_imym3k.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742902520/DALL_E_2025-03-25_11.46.39_-_A_futuristic_product_advertisement_featuring_the_latest_smartphone_floating_in_mid-air_surrounded_by_glowing_UI_elements._The_ad_has_a_sleek_high-te_1_uhbkts.png",
     ],
     details: {
-      text: "Create urgency for fashion brand's 48-hour flash sale with exclusive discounts. Strong call to action for trending outfits.",
+      text: "Generate a futuristic product ad featuring the latest smartphone floating in mid-air, surrounded by glowing UI elements. The ad should have a sleek high tech vibe with a dar gradient",
       productName: "Fashion Flash Sale",
       aspectRatio: "9:16",
       language: "English",
@@ -103,16 +99,15 @@ const prompts = [
     },
   },
   {
-    text: "Promote gourmet burger restaurant's grand opening with social media teasers. Exclusive opening-day discounts available.",
+    text: "Generate a peaceful and calming ad for a meditation retreat, featuring a scenic sunrise view with a person in a meditative pose. The text should read” ‘Recharge Your Mind & Body - Book Your Escape",
     images: [
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664878/image_fx__7_psbfxm.png",
       "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664879/image_fx__2_wkjz6u.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664878/image_fx__4_c10fhy.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664879/image_fx__3_b1st5t.png",
-      "https://res.cloudinary.com/ds0sysk6d/image/upload/v1741664880/image_fx__kysgz8.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742902771/DALL_E_2025-03-25_11.51.40_-_A_peaceful_and_calming_advertisement_for_a_meditation_retreat._The_scene_features_a_scenic_sunrise_over_a_tranquil_mountain_landscape_with_a_person_s_1_i4trp1.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742902770/DALL_E_2025-03-25_11.49.58_-_A_peaceful_and_calming_advertisement_for_a_meditation_retreat._The_image_features_a_scenic_sunrise_over_a_tranquil_landscape_with_a_person_sitting_in_1_1_bkurpx.png",
+      "https://res.cloudinary.com/digm76oyr/image/upload/v1742902771/DALL_E_2025-03-25_11.47.43_-_A_peaceful_and_calming_advertisement_for_a_meditation_retreat._The_image_features_a_scenic_sunrise_view_over_a_tranquil_landscape_with_a_person_sitti_1_s7pde4.png",
     ],
     details: {
-      text: "Promote gourmet burger restaurant's grand opening with social media teasers. Exclusive opening-day discounts available.",
+      text: "Generate a peaceful and calming ad for a meditation retreat, featuring a scenic sunrise view with a person in a meditative pose. The text should read” ‘Recharge Your Mind & Body - Book Your Escape",
       productName: "Gourmet Burger Restaurant",
       aspectRatio: "9:16",
       language: "English",
@@ -148,18 +143,18 @@ const PromptSelection: React.FC<PromptSelectionProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-10 rounded-[20px] p-6 md:p-8 mx-auto bg-[#fff]">
       <BackButton fallbackUrl="/" className="max-md:mb-0" />
       <CardHeader className="text-center px-0 md:mt-[15px]">
-        <CardTitle className="text-[28px] leading-[36px] text-[#121316] font-semibold">
-          Generate Your Image Ad for Free
+        <CardTitle className="text-[22px] md:text-[28px] leading-[36px] text-[#121316] font-semibold">
+          Generate Your Image Ad Using Predefined Prompts For Free
         </CardTitle>
         <p className="text-[#667185] text-sm md:text-[18px] font-normal mt-1">
           Choose from Predefined AI Prompts
         </p>
       </CardHeader>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-3 gap-y-6 w-[90%] mx-auto">
         {prompts.map((prompt, index) => {
           const isSelected = selectedPromptIndex === index;
 
@@ -167,26 +162,33 @@ const PromptSelection: React.FC<PromptSelectionProps> = ({
             <motion.div
               onClick={() => handleSelectPrompt(index)}
               key={index}
-              className={`flex gap-1 items-center border py-3 px-5 rounded-[20px] text-sm md:text-base font-medium leading-6 text-[#5F5F5F] cursor-pointer text-balance ${
-                isSelected ? "border-[#1671D9]" : "border-[#E3E3E3]"
+              className={`flex flex-col items-start gap-5 border py-3 px-5 rounded-[20px] text-sm md:text-base font-medium leading-7 text-[#5F5F5F] cursor-pointer ${
+                isSelected
+                  ? "border-[#63A0E6] bg-[#ECECEC] text-[#5F5F5F]"
+                  : "border-[#E3E3E3] text-[#5F5F5F]"
               }`}
               whileHover={{
                 scale: 1.02,
+                backgroundColor: "#ECECEC",
                 transition: { duration: 0.2 },
               }}
               layout
               animate={{
-                borderColor: isSelected ? "#1671D9" : "#E3E3E3",
+                borderColor: isSelected ? "#63A0E6" : "#E3E3E3",
+                backgroundColor: isSelected ? "#ECECEC" : "#FFFFFF",
                 boxShadow: isSelected
-                  ? "0 0 8px rgba(22, 113, 217, 0.3)"
+                  ? "0 0 2px rgba(99, 160, 230, 0.3)"
                   : "none",
               }}
               transition={{
                 borderColor: { duration: 0.3 },
+                backgroundColor: { duration: 0.3 },
                 boxShadow: { duration: 0.3 },
               }}
             >
-              {prompt.text}
+              {prompt.text.length > 110
+                ? `${prompt.text.substring(0, 110)}...`
+                : prompt.text}
               <motion.div
                 className="w-fit"
                 animate={{
@@ -231,7 +233,7 @@ const PromptSelection: React.FC<PromptSelectionProps> = ({
         })}
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-center">
         <motion.div
           className="w-full md:w-fit"
           whileHover={
