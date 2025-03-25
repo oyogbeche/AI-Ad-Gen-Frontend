@@ -1,85 +1,142 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft } from "lucide-react";
+import React from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Form } from "@/components/ui/form";
 import { useGoogleAuth } from "@/domains/auth/api/useGoggleAuth";
 import { LoadingButton } from "@/domains/auth/components/loading-button";
 import Image from "next/image";
 import googlelogo from "../../../../public/google.svg";
+import TermsModal from "./terms-modal";
+import { termsData } from "../terms/data";
 
-const formSchema = z.object({
-  email: z.string().email({ message: "Invalid email" }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
-  rememberMe: z.boolean().default(false),
-});
-
-type FormValues = z.infer<typeof formSchema>;
-interface SignInFormProps {
+interface AuthFormProps {
   type: "signin" | "signup";
 }
 
-export function SignInForm({ type }: SignInFormProps) {
+const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
   const { handleGoogleLogin, isLoading: isGoogleLoading } = useGoogleAuth();
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    mode: "onChange",
-    defaultValues: {
-      email: "",
-      password: "",
-      rememberMe: false,
-    },
-  });
+  const handleTermsClick = (e: React.MouseEvent) => {
+    if (window.innerWidth >= 768) {
+      e.preventDefault();
+      setIsModalOpen(true);
+    }
+  };
 
   return (
-    <Card className="min-w-[320px] max-w-[550px] w-full mx-auto border rounded-lg">
-      <CardContent className="pt-6 pb-8 px-5 sm:px-8">
-        <div className="mb-8">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="p-0 h-auto text-foreground hover:bg-transparent font-medium text-base leading-"
-            asChild
-          >
-            <Link href="/">
-              <ArrowLeft className="size-5 mr-2" />
-              Back
-            </Link>
-          </Button>
-        </div>
+    <div className="relative h-screen w-screen overflow-hidden bg-gradient-to-br from-[#A71CA7E5] to-[#D60CD673]">
+      <motion.div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage:
+            'url("https://res.cloudinary.com/digm76oyr/image/upload/v1742918183/signinbg_axo3vm.png")',
+          // backgroundImage: 'url("/signinbg.png")',
+          opacity: 0.09,
+        }}
+        animate={{
+          backgroundPosition: ["0% 0%", "0% 100%"],
+        }}
+        transition={{
+          duration: 60,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+      />
 
-        <div className="space-y-2 mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">
-            {type == "signin" ? "Welcome Back" : "Sign Up"}
-          </h1>
-          <p className="text-muted-foreground">Continue with google</p>
-        </div>
+      {isModalOpen && (
+        <TermsModal
+          onClose={() => setIsModalOpen(false)}
+          termsData={termsData}
+        />
+      )}
 
-        <Form {...form}>
-          <form onSubmit={() => {}} className="space-y-6">
-            <div className="w-full flex flex-col items-center justify-center space-y-4">
-              <LoadingButton
-                type="button"
-                className="w-full sm:w-[400px] border-[1px] border-[#E9E9E9] bg-white hover:bg-gray-100 text-black my-2 py-6 mx-auto"
-                isLoading={isGoogleLoading}
-                onClick={handleGoogleLogin}
+      <div className="relative z-10 flex items-center justify-center h-full">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white/90 backdrop-blur-md rounded-xl shadow-2xl p-8 w-full max-w-md text-center"
+        >
+          <div className="mb-6 mt-6">
+            <Image
+              src="/genzz.svg"
+              alt="Genz.ad logo"
+              width={50}
+              height={50}
+              className="mx-auto"
+            />
+          </div>
+
+          <h2 className="text-2xl font-bold mb-2 text-gray-800 mt-6">
+            {type === "signup" ? "Welcome to Genz.ad" : "Welcome Back"}
+          </h2>
+
+          <div className="my-6">
+            <LoadingButton
+              type="button"
+              className="w-full border border-gray-300 bg-black hover:bg-black/90 text-white py-6 px-4 rounded-md flex items-center justify-center"
+              isLoading={isGoogleLoading}
+              onClick={handleGoogleLogin}
+            >
+              <Image
+                src={googlelogo}
+                alt="Google"
+                width={20}
+                height={20}
+                className="mr-2"
+              />
+              <span>
+                {type === "signup"
+                  ? "Sign up with Google"
+                  : "Continue with Google"}
+              </span>
+            </LoadingButton>
+          </div>
+
+          {type === "signup" && (
+            <p className="text-sm text-gray-600 mb-6 max-w-[33ch] mx-auto mt-6">
+              By signing up, you agree to our{" "}
+              <Link
+                href="/terms"
+                onClick={handleTermsClick}
+                className="text-[#520052] font-bold hover:underline"
               >
-                <Image src={googlelogo} alt="Google" width={20} height={20} />{" "}
-                <p>Continue With Google</p>
-              </LoadingButton>
-            </div>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link
+                href=""
+                className="text-[#520052] font-bold hover:underline"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </p>
+          )}
+
+          <p className="text-sm text-gray-600 mt-4">
+            {type === "signup" ? (
+              <>
+                Already have an account?{" "}
+                <Link href="/signin" className="text-[#B800B8] hover:underline">
+                  Log in
+                </Link>
+              </>
+            ) : (
+              <>
+                Don&apos;t have an account?{" "}
+                <Link href="/signup" className="text-[#B800B8] hover:underline">
+                  Sign up
+                </Link>
+              </>
+            )}
+          </p>
+        </motion.div>
+      </div>
+    </div>
   );
-}
+};
+
+export default AuthForm;
