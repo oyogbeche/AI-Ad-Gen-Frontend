@@ -8,7 +8,8 @@ import { LoadingButton } from "@/domains/auth/components/loading-button";
 import Image from "next/image";
 import googlelogo from "../../../../public/google.svg";
 import TermsModal from "./terms-modal";
-import { termsData } from "../terms/data";
+import { termsData } from "../(terms-policu)/terms/data";
+import { privacyData } from "../(terms-policu)/privacy/data";
 
 interface AuthFormProps {
   type: "signin" | "signup";
@@ -16,39 +17,52 @@ interface AuthFormProps {
 
 const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
   const { handleGoogleLogin, isLoading: isGoogleLoading } = useGoogleAuth();
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [openModal, setOpenModal] = React.useState<"terms" | "privacy" | null>(
+    null
+  );
 
-  const handleTermsClick = (e: React.MouseEvent) => {
+  const handleLinkClick = (
+    e: React.MouseEvent,
+    modalType: "terms" | "privacy"
+  ) => {
     if (window.innerWidth >= 768) {
       e.preventDefault();
-      setIsModalOpen(true);
+      setOpenModal(modalType);
     }
   };
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden bg-gradient-to-br from-[#A71CA7E5] to-[#D60CD673]">
+    <div className="relative h-screen w-screen overflow-hidden bg-gradient-to-br from-[#A71CA7E5] to-[#D60CD673] p-6">
       <motion.div
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 bg-cover bg-repeat"
         style={{
           backgroundImage:
-            'url("https://res.cloudinary.com/digm76oyr/image/upload/v1742918183/signinbg_axo3vm.png")',
-          // backgroundImage: 'url("/signinbg.png")',
+            'url("https://res.cloudinary.com/digm76oyr/image/upload/v1742922481/Carousel_for_Export_1_afax3w.jpg")',
           opacity: 0.09,
         }}
         animate={{
-          backgroundPosition: ["0% 0%", "0% 100%"],
+          backgroundPosition: ["0% 0%", "100% 100%"],
         }}
         transition={{
-          duration: 60,
+          duration: 100,
           repeat: Infinity,
           ease: "linear",
         }}
       />
 
-      {isModalOpen && (
+      {openModal === "terms" && (
         <TermsModal
-          onClose={() => setIsModalOpen(false)}
-          termsData={termsData}
+          onClose={() => setOpenModal(null)}
+          contentData={termsData}
+          type="terms"
+        />
+      )}
+
+      {openModal === "privacy" && (
+        <TermsModal
+          onClose={() => setOpenModal(null)}
+          contentData={privacyData}
+          type="privacy"
         />
       )}
 
@@ -96,18 +110,19 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
           </div>
 
           {type === "signup" && (
-            <p className="text-sm text-gray-600 mb-6 max-w-[33ch] mx-auto mt-6">
+            <p className="text-sm text-gray-600 mb-6 max-w-[28ch] mx-auto mt-6">
               By signing up, you agree to our{" "}
               <Link
                 href="/terms"
-                onClick={handleTermsClick}
+                onClick={(e) => handleLinkClick(e, "terms")}
                 className="text-[#520052] font-bold hover:underline"
               >
                 Terms of Service
               </Link>{" "}
               and{" "}
               <Link
-                href=""
+                href="/privacy"
+                onClick={(e) => handleLinkClick(e, "privacy")}
                 className="text-[#520052] font-bold hover:underline"
               >
                 Privacy Policy
@@ -121,7 +136,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
               <>
                 Already have an account?{" "}
                 <Link href="/signin" className="text-[#B800B8] hover:underline">
-                  Log in
+                  Sign in
                 </Link>
               </>
             ) : (
