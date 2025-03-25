@@ -6,7 +6,7 @@ import BackButton from "@/domains/ads-gen/components/back-button";
 import { useImageContext } from "@/domains/ads-gen/context/ImageContext";
 import { motion } from "framer-motion";
 
-const prompts = [
+export const prompts = [
   {
     text: "Generate a sleek and modern fashion ad featuring a stylish model wearing our latest clothing item. The background should be a minimalist urban setting, emphasizing elegance and sophistication.",
     images: [
@@ -143,9 +143,9 @@ const PromptSelection: React.FC<PromptSelectionProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-10 rounded-[20px] p-4 md:p-8 mx-auto bg-[#fff]">
+    <div className="flex flex-col gap-10 rounded-[20px] p-2 md:p-8 mx-auto bg-[#fff]">
       <BackButton fallbackUrl="/" className="max-md:mb-0" />
-      <CardHeader className="text-center px-0 md:mt-[15px]">
+      <CardHeader className="text-center px-0 mt-1 md:mt-[15px]">
         <CardTitle className="text-[22px] md:text-[28px] leading-[36px] text-[#121316] font-semibold">
           Generate Your Image Ad Using Predefined Prompts For Free
         </CardTitle>
@@ -162,7 +162,7 @@ const PromptSelection: React.FC<PromptSelectionProps> = ({
             <motion.div
               onClick={() => handleSelectPrompt(index)}
               key={index}
-              className={`flex flex-col items-start gap-5 border py-3 px-5 rounded-[20px] text-sm md:text-base font-medium leading-7 text-[#5F5F5F] cursor-pointer ${
+              className={`flex flex-col items-start gap-5 border py-3 px-3 md:px-5 rounded-[20px] text-sm md:text-base font-medium leading-7 text-[#5F5F5F] cursor-pointer ${
                 isSelected
                   ? "border-[#63A0E6] bg-[#ECECEC] text-[#5F5F5F]"
                   : "border-[#E3E3E3] text-[#5F5F5F]"

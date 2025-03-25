@@ -37,7 +37,7 @@ const AdGenerationProgress: React.FC = () => {
     <div className="max-w-[1280px] w-full py-2">
       <div className="w-full flex max-lg:flex-col-reverse gap-10 justify-between">
         <div className="max-w-[540px] w-full ">
-          <h2 className="text-[28px] md:text-[32px] text-[#121316] leading-8 md:leading-10 font-semibold text-left">
+          <h2 className="text-[28px] md:text-[32px] text-[#121316] leading-10 md:leading-12 font-semibold text-left">
             Generating Your Image Ad... {progress}%
           </h2>
           <p className="text-[#5F5F5F] font-medium text-sm md:text-[18px] font-medium leading-7 pt-4 pb-6 text-left">
