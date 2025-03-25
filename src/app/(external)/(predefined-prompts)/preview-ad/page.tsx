@@ -39,7 +39,7 @@ const Page = () => {
                 <p>Ad Prompt</p>
               </div>
 
-              <div className="bg-[#FCFCFC] border border-[#E4E7EC] p-4 text-[18px] font-medium leading-7  text-[#7D7D7D] rounded-[9px]">
+              <div className="bg-[#FCFCFC] border border-[#E4E7EC] p-4 text-base md:text-[18px] font-normal leading-7  text-[#7D7D7D] rounded-[9px]">
                 <p className="max-w-[362px]">{details.text}</p>
               </div>
 
@@ -90,9 +90,9 @@ const Page = () => {
                 </button>
               </div> */}
               <div className="max-md:bg-white max-md:px-4 flex items-center justify-center">
-                <div className="bg-[#F0F3F5] p-4 md:p-6 sm:p-[32px] lg:min-w-[598px] max-w-[598px] max-h-[350px] md:max-h-[598px] self-center overflow-hidden">
+                <div className="bg-[#F0F3F5]  rounded-lg p-4 md:p-6 sm:p-[32px] min-h-[274px] lg:min-w-[598px] max-w-[598px] w-full max-h-[350px] md:max-h-[598px] self-center overflow-hidden">
                   <Image
-                    className="rounded-[8px] w-full h-auto object-cover"
+                    className="rounded-[4px] w-full h-auto object-cover"
                     src={imageUrl || "/progressImage.png"}
                     height={598}
                     width={395}

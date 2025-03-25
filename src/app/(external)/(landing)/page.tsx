@@ -25,7 +25,9 @@ export default function Home() {
       <FeaturesSection />
       <CreateAds />
       <CreateAd />
-      <VideoPlayer videoLink={videoLink} />
+      <div className="bg-[#F8E6F8] w-full px-6 py-10 lg:px-22 lg:py-20">
+        <VideoPlayer videoLink={videoLink} />
+      </div>
       <FAQ />
       <Cta />
     </main>
