@@ -168,125 +168,85 @@ export const DesktopAdPreviewNavigation: React.FC<
     };
   }, [isSaveDropdownOpen, isExportDropdownOpen]);
 
-  function saveImage(message: React.JSX.Element, publish: boolean, newStatus?: string, element?: HTMLElement | null) {
+  function saveImage(
+    message: React.JSX.Element,
+    publish: boolean,
+    newStatus?: string,
+    element?: HTMLElement | null
+  ) {
     if (element) {
-      html2canvas(element, {useCORS: true, allowTaint: true}).then((canvas) => {
-        canvas.toBlob((blob) => {
-          const formData = new FormData();
-          if (blob) {
-            formData.append("file", blob);
-          } else {
-            console.error("Blob is null, cannot append to FormData.");
-          }
-          formData.append("upload_preset", "ml_default"); // Replace with your upload preset
-    
-          fetch("https://api.cloudinary.com/v1_1/dgetbfevu/image/upload", {
-            method: "POST",
-            body: formData, // Sending as FormData, NOT JSON
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              if (data.secure_url) {
-                console.log("Uploaded Image URL:", data.secure_url);
-                const uploadedUrl = data.secure_url;
-                patchRequest(`/image/save/${imageId}`, {
-                  "edited_image_url": uploadedUrl,
-                  "is_published": publish
-                });
-                patchRequest(`/image/publish/${imageId}`, { status: newStatus });
-          
-                toast.custom(() => (message));
-              } else {
-                console.error("Upload Error:", data);
-              }
+      html2canvas(element, { useCORS: true, allowTaint: true }).then(
+        (canvas) => {
+          canvas.toBlob((blob) => {
+            const formData = new FormData();
+            if (blob) {
+              formData.append("file", blob);
+            } else {
+              console.error("Blob is null, cannot append to FormData.");
+            }
+            formData.append("upload_preset", "ml_default"); // Replace with your upload preset
+
+            fetch("https://api.cloudinary.com/v1_1/dgetbfevu/image/upload", {
+              method: "POST",
+              body: formData, // Sending as FormData, NOT JSON
             })
-            .catch((error) => {
-              console.error("Error:", error);
-            });
-        }, "image/png"); // Ensure it's in a valid image format
-      });
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.secure_url) {
+                  console.log("Uploaded Image URL:", data.secure_url);
+                  const uploadedUrl = data.secure_url;
+                  patchRequest(`/image/save/${imageId}`, {
+                    edited_image_url: uploadedUrl,
+                    is_published: publish,
+                  });
+                  patchRequest(`/image/publish/${imageId}`, {
+                    status: newStatus,
+                  });
+
+                  toast.custom(() => message);
+                } else {
+                  console.error("Upload Error:", data);
+                }
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+              });
+          }, "image/png"); // Ensure it's in a valid image format
+        }
+      );
     }
   }
 
-  // const handleShareClick = async () => {
-  //   if (handleCopy) {
-  //     try {
-  //       await handleCopy();
-  //     } catch (error) {
-  //       console.error("Error in custom copy handler:", error);
-  //     }
-  //   }
-
-  //   // Implement direct copy functionality as a fallback
-  //   try {
-  //     setIsCopying(true);
-  //     const shareUrl = `https://genz.ad/stand-alone/${effectiveImageUrl}`;
-
-  //     if (navigator.clipboard) {
-  //       await navigator.clipboard.writeText(shareUrl);
-  //     } else {
-  //       // Fallback for browsers that don't support clipboard API
-  //       if (urlInputRef.current) {
-  //         urlInputRef.current.select();
-  //         document.execCommand("copy");
-  //       }
-  //     }
-
-  //     // Visual feedback animation
-  //     toast.custom(() => (
-  //       <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-  //         <div className="flex items-center justify-between w-full">
-  //           <div className="flex items-center">
-  //             <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-  //               <Check className="h-4 w-4 text-white" />
-  //             </div>
-  //             <div className="ml-3">
-  //               <p className="text-sm font-medium text-gray-900 mb-2">
-  //                 Copied to clipboard!
-  //               </p>
-  //               <p className="text-xs text-gray-500">
-  //                 Your link will allow users to view your image.
-  //               </p>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     ));
-  //   } catch (error) {
-  //     console.error("Error copying to clipboard:", error);
-  //     toast.error("Failed to copy link");
-  //   } finally {
-  //     setIsCopying(false);
-  //   }
-  // };
-
   const handleSaveAndExit = () => {
     setIsSaveDropdownOpen(false);
-    const message = <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-    <div className="flex items-center justify-between w-full">
-      <div className="flex items-center">
-        <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-          <Check className="h-4 w-4 text-white" />
-        </div>
-        <div className="ml-3">
-          <p className="text-sm font-medium text-gray-900 mb-2">
-            Saved Successfully!
-          </p>
+    const message = (
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center">
+            <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+              <Check className="h-4 w-4 text-white" />
+            </div>
+            <div className="ml-3">
+              <p className="text-sm font-medium text-gray-900 mb-2">
+                Saved Successfully!
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  const publish = false
-  saveImage(message, publish);
-    // router.push("/dashboard");
+    );
+    const publish = false;
+    saveImage(message, publish);
+    router.push("/dashboard");
   };
 
   const handleSaveAndPublish = async () => {
     try {
       // console.log("IMAGEID",imageId)
       const newStatus = pageAdData.is_published ? "unpublished" : "published";
-      const element = document.getElementById('containerRef');
-      const message = <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+      await patchRequest(`/image/publish/${imageId}`, { status: newStatus });
+      // const element = document.getElementById('containerRef');
+      // const message = <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center">
           <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
@@ -305,10 +265,10 @@ export const DesktopAdPreviewNavigation: React.FC<
             </p>
           </div>
         </div>
-      </div>
-    </div>
-    const publish = true
-    saveImage(message, publish, newStatus, element);
+      </div>;
+      // </div>
+      // const publish = true
+      // saveImage(message, publish, newStatus, element);
       // router.push("/dashboard");
     } catch (error) {
       console.error("Error updating publish status:", error);
@@ -336,8 +296,44 @@ export const DesktopAdPreviewNavigation: React.FC<
         </div>
       ));
     }
-    // router.push("/dashboard");
+    router.push("/dashboard");
   };
+
+  // const handleSaveAndPublish = async () => {
+  //   try {
+  //     const newStatus = pageAdData.is_published ? "unpublished" : "published";
+  //     await patchRequest(`/image/publish/${imageId}`, { status: newStatus });
+
+  //     toast.custom(() => (
+  //       <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+  //         <div className="flex items-center justify-between w-full">
+  //           <div className="flex items-center">
+  //             <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+  //               <Check className="h-4 w-4 text-white" />
+  //             </div>
+  //             <div className="ml-3">
+  //               <p className="text-sm font-medium text-gray-900 mb-2">
+  //                 {pageAdData.is_published
+  //                   ? "Ad Unpublished Successfully!"
+  //                   : "Ad Published Successfully!"}
+  //               </p>
+  //               <p className="text-xs text-gray-500">
+  //                 {pageAdData.is_published
+  //                   ? "Your ad is no longer live."
+  //                   : "Your ad is now live and ready to reach your audience."}
+  //               </p>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     ));
+
+  //     router.push("/dashboard");
+  //   } catch (error) {
+  //     console.error("Error updating publish status:", error);
+  //     toast.error("Failed to update publish status");
+  //   }
+  // };
 
   return (
     <div className={`w-full ${className}`}>
@@ -383,7 +379,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                         Save & Exit
                       </button>
                     )}
-                    {(
+                    {
                       <button
                         onClick={handleSaveAndPublish}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
@@ -392,7 +388,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                           ? "Unpublish"
                           : "Save & Publish"}
                       </button>
-                    )}
+                    }
                   </div>
                 </motion.div>
               )}
@@ -466,5 +462,4 @@ export const DesktopAdPreviewNavigation: React.FC<
     </div>
   );
 };
-  import html2canvas from "html2canvas";
-
+import html2canvas from "html2canvas";

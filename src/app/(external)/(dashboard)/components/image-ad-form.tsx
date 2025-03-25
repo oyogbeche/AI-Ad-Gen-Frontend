@@ -116,8 +116,8 @@ export default function AdCustomizer() {
     },
     mode: "onChange",
   });
-  console.log("GENERATAD",generateAd)
-  console.log("ADDATA",adData)
+  // console.log("GENERATAD",generateAd)
+  // console.log("ADDATA",adData)
 
   const { formState } = form;
   const isValid = formState.isValid;
@@ -293,7 +293,7 @@ export default function AdCustomizer() {
                     <FormControl>
                       <Input
                         placeholder="Enter your Ad title"
-                        className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-11 md:h-[56px] text-base leading-6 text-[#121316]"
+                        className="w-full border-gray-800 focus:ring-[#B800B8] focus:border-[#B800B8] h-11 md:h-[56px] text-base leading-6 text-[#121316]"
                         {...field}
                       />
                     </FormControl>
@@ -313,7 +313,7 @@ export default function AdCustomizer() {
                     <FormControl>
                       <Textarea
                         placeholder="Type in your Ad description"
-                        className="w-full min-h-[100px] border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#121316]"
+                        className="w-full min-h-[100px] border-gray-800 focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#121316]"
                         {...field}
                       />
                     </FormControl>
@@ -344,7 +344,7 @@ export default function AdCustomizer() {
                           onValueChange={field.onChange}
                           value={field.value}
                         >
-                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] h-11 md:h-[56px]">
+                          <SelectTrigger className="w-full border-gray-800 focus:ring-[#B800B8] focus:border-[#B800B8] h-11 md:h-[56px]">
                             <SelectValue placeholder="Select Platform">
                               {getOptionLabel(adPlacementOptions, field.value)}
                             </SelectValue>
@@ -390,7 +390,7 @@ export default function AdCustomizer() {
                           onValueChange={field.onChange}
                           value={field.value}
                         >
-                          <SelectTrigger className="w-full border-gray-300 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center h-11 md:h-[56px]">
+                          <SelectTrigger className="w-full border-gray-800 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center h-11 md:h-[56px]">
                             <SelectValue placeholder="Select audience">
                               {getOptionLabel(
                                 targetAudienceOptions,
@@ -427,7 +427,7 @@ export default function AdCustomizer() {
                     </FormLabel>
                     <FormControl>
                       <div
-                        className={`border-2 border-gray-200 rounded-lg text-center cursor-pointer hover:border-gray-300 transition-colors ${
+                        className={`border-2 border-gray-200 rounded-lg text-center cursor-pointer hover:border-gray-800 transition-colors ${
                           field.value ? "py-0" : "py-14 border-dashed "
                         } bg-[#FCFCFC]`}
                         onClick={() =>
@@ -562,7 +562,7 @@ export default function AdCustomizer() {
                 <div className="max-w-[609px] w-full mx-auto flex items-center justify-center max-h-[648px] rounded-sm">
                   <div className="flex flex-col gap-6 items-center justify-center rounded-md">
                     <div className="relative w-12 h-12">
-                      <div className="absolute inset-0 border-6 border-gray-300 rounded-full"></div>
+                      <div className="absolute inset-0 border-6 border-gray-800 rounded-full"></div>
                       <div className="absolute inset-0 border-6 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                     </div>
                     <h2 className="text-lg md:text-2xl text-[#121316] text-center leading-8 font-semibold max-md:max-w-[338px]">
