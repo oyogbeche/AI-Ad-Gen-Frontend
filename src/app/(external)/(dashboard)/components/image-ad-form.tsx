@@ -186,7 +186,7 @@ export default function AdCustomizer() {
         productImage: data.productImage ? "Image provided" : null,
       };
 
-      sessionStorage.setItem("adCustomizerData", JSON.stringify(storageData));
+      // sessionStorage.setItem("adCustomizerData", JSON.stringify(storageData));
     } catch (error) {
       console.warn("Failed to save form data to sessionStorage:", error);
       // Continue with form submission even if storage fails
