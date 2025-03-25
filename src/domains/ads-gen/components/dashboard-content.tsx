@@ -3,6 +3,8 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { motion } from "framer-motion";
 
@@ -17,7 +19,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
   const [filter, setFilter] = useState<"user" | "community">(
     filt ? filt : "user"
   );
-  const [sortOption, setSortOption] = useState("Most Popular");
+  const [sortOption, setSortOption] = useState("most-recent");
 
   const { adData, setAdData } = useAdsContext();
   const { publishedImages, userImages, isLoading } = useAdsData();
@@ -104,9 +106,12 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
                   Sort by:{" "}
                 </p>
                 <Select value={sortOption} onValueChange={setSortOption}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Most recent" />
+                  </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="Most Recent">Most Recent</SelectItem>
+                      <SelectItem value="most-recent">Most recent</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
