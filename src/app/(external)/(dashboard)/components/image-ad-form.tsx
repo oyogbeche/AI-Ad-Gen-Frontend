@@ -273,13 +273,13 @@ export default function AdCustomizer() {
                 name="productName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-6 font-normal text-[#121316]">
+                    <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
                       Ad Title
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Enter your Ad title"
-                        className="w-full border-gray-800 focus:ring-[#B800B8] focus:border-[#B800B8] h-11 md:h-[56px] text-base leading-6 text-[#121316]"
+                        className="w-full border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] h-11 md:h-[56px] text-base leading-6 text-[#121316] placeholder:text-gray-[#7D7D7D]"
                         {...field}
                       />
                     </FormControl>
@@ -293,13 +293,13 @@ export default function AdCustomizer() {
                 name="adDescription"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-6 font-normal text-[#121316]">
+                    <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
                       Ad description
                     </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Type in your Ad description"
-                        className="w-full min-h-[100px] border-gray-800 focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#121316]"
+                        className="w-full min-h-[100px] border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#121316] placeholder:text-gray-[#7D7D7D]"
                         {...field}
                       />
                     </FormControl>
@@ -313,7 +313,7 @@ export default function AdCustomizer() {
                 name="adSize"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-6 font-normal text-[#121316]">
+                    <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
                       Where will this ad appear?
                     </FormLabel>
                     <FormControl>
@@ -330,7 +330,7 @@ export default function AdCustomizer() {
                           onValueChange={field.onChange}
                           value={field.value}
                         >
-                          <SelectTrigger className="w-full border-gray-800 focus:ring-[#B800B8] focus:border-[#B800B8] h-11 md:h-[56px]">
+                          <SelectTrigger className="w-full border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] h-11 md:h-[56px]">
                             <SelectValue placeholder="Select Platform">
                               {getOptionLabel(adPlacementOptions, field.value)}
                             </SelectValue>
@@ -359,7 +359,7 @@ export default function AdCustomizer() {
                 name="targetAudience"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-6 font-normal text-[#121316]">
+                    <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
                       Target Audience
                     </FormLabel>
                     <FormControl>
@@ -376,7 +376,7 @@ export default function AdCustomizer() {
                           onValueChange={field.onChange}
                           value={field.value}
                         >
-                          <SelectTrigger className="w-full border-gray-800 focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center h-11 md:h-[56px]">
+                          <SelectTrigger className="w-full border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center h-11 md:h-[56px]">
                             <SelectValue placeholder="Select audience">
                               {getOptionLabel(
                                 targetAudienceOptions,
@@ -408,7 +408,7 @@ export default function AdCustomizer() {
                 name="productImage"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-6 font-normal text-[#121316]">
+                    <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
                       Product content (optional)
                     </FormLabel>
                     <FormControl>
