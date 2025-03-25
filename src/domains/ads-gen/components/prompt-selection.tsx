@@ -154,7 +154,7 @@ const PromptSelection: React.FC<PromptSelectionProps> = ({
         </p>
       </CardHeader>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-3 gap-y-6 w-[90%] mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-3 gap-y-6 mx-auto">
         {prompts.map((prompt, index) => {
           const isSelected = selectedPromptIndex === index;
 
