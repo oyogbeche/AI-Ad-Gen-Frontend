@@ -178,20 +178,6 @@ export default function AdCustomizer() {
     // Store the form data for retry functionality
     lastFormData.current = data;
 
-    // Save form data using sessionStorage
-    try {
-      // Create a copy of the data without the large image if present
-      const storageData = {
-        ...data,
-        productImage: data.productImage ? "Image provided" : null,
-      };
-
-      sessionStorage.setItem("adCustomizerData", JSON.stringify(storageData));
-    } catch (error) {
-      console.warn("Failed to save form data to sessionStorage:", error);
-      // Continue with form submission even if storage fails
-    }
-
     // Additional validation check before submission
     if (!data.adDescription || data.adDescription.trim().length === 0) {
       form.setError("adDescription", {

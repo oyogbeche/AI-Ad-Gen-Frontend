@@ -1,13 +1,14 @@
 "use client";
 
 import { ImageAdFormData } from "@/domains/ads-gen/types";
+import { patchRequest } from "@/lib/axios-fetch";
 import { motion } from "framer-motion";
+import html2canvas from "html2canvas";
 import { ArrowLeft, Check, ChevronDown, Download, Share2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 import ShareModal from "./share-modal";
-import { patchRequest } from "@/lib/axios-fetch";
 //import { useGenerateAdImage } from "@/domains/ads-gen/api/ad-image-generate";
 
 interface DesktopAdPreviewNavigationProps {
@@ -296,7 +297,7 @@ export const DesktopAdPreviewNavigation: React.FC<
         </div>
       ));
     }
-    router.push("/dashboard");
+    router.push(`/dashboard?justPublished=true`);
   };
 
   // const handleSaveAndPublish = async () => {
@@ -462,4 +463,4 @@ export const DesktopAdPreviewNavigation: React.FC<
     </div>
   );
 };
-import html2canvas from "html2canvas";
+

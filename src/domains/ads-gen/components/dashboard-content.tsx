@@ -6,12 +6,14 @@ import {
 } from "@/components/ui/select";
 import { motion } from "framer-motion";
 
+import Loader from "@/components/ui/loader";
+import { Check } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useAdsContext } from "../context/AdsContext";
-import Loader from "@/components/ui/loader";
+import { toast } from "sonner";
 import { useAdsData } from "../api/use-ads-data";
+import { useAdsContext } from "../context/AdsContext";
 
 const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
   const [filter, setFilter] = useState<"user" | "community">(
@@ -24,15 +26,44 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
 
   // console.log("DASHBOARD", adData);
   const router = useRouter();
+  useEffect(() => {
+    setAdData({
+      user: userImages,
+      community: publishedImages,
+    });
 
-  useEffect(
-    () =>
-      setAdData({
-        user: userImages,
-        community: publishedImages,
-      }),
-    [userImages, publishedImages, setAdData]
-  );
+    // Check if there's a recently published ad in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log(urlParams);
+    const justPublished = urlParams.get("justPublished");
+
+    if (justPublished === "true") {
+      toast.custom(() => (
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+                <Check className="h-4 w-4 text-white" />
+              </div>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-900 mb-2">
+                  Ad Published Successfully!
+                </p>
+                <p className="text-xs text-gray-500">
+                  Your ad is now live and ready to reach your audience.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ));
+
+      setTimeout(() => {
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, "", newUrl);
+      }, 5000);
+    }
+  }, [userImages, publishedImages, setAdData]);
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
