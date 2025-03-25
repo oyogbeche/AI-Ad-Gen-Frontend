@@ -45,7 +45,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <motion.h2
-            className="text-[#121316] text-2xl lg:text-[40px] text-center font-medium p-[10px]"
+            className="text-[#121316] text-2xl lg:text-[40px] text-center font-medium px-10 max-w-lg"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -67,6 +67,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
       <div
         className={`relative aspect-video w-full max-w-full sm:max-w-[400px] md:max-w-[995px] mx-auto overflow-hidden rounded-lg shadow-lg ${className}`}
       >
+        <div className="absolute inset-0  bg-[rgba(82,0,82,0.24)] z-10 pointer-events-none" />
         <iframe
           src={url}
           title="Video"
