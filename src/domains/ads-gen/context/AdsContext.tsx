@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useState, useContext, ReactNode } from "react";
 
-interface Ad {
+export interface Ad {
   ad_description: string;
   author_info: { name: string; avatar: string };
   created_at: string;
