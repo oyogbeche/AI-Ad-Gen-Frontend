@@ -7,17 +7,35 @@ export interface TermSection {
 
 interface TermsModalProps {
   onClose: () => void;
-  termsData: TermSection[];
+  contentData: TermSection[];
   title?: string;
   description?: string;
+  type?: "terms" | "privacy";
 }
 
 const TermsModal: React.FC<TermsModalProps> = ({
   onClose,
-  termsData,
-  title = "Terms of Service",
-  description = "Welcome to Genz.ad! These Terms of Use govern your access to and use of our ad generator platform. By using Genz.ad, you agree to follow these terms.",
+  contentData,
+  title,
+  description,
+  type = "terms",
 }) => {
+  const defaultContent = {
+    terms: {
+      title: "Terms of Service",
+      description:
+        "Welcome to Genz.ad! These Terms of Use govern your access to and use of our ad generator platform. By using Genz.ad, you agree to follow these terms.",
+    },
+    privacy: {
+      title: "Privacy Policy",
+      description:
+        "This Privacy Policy describes how Genz.ad collects, uses, and shares your personal information when you use our platform.",
+    },
+  };
+
+  const modalTitle = title || defaultContent[type].title;
+  const modalDescription = description || defaultContent[type].description;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
       <div className="bg-white/95 rounded-xl w-[100%] max-w-2xl mx-auto relative overflow-hidden shadow-2xl">
@@ -54,13 +72,15 @@ const TermsModal: React.FC<TermsModalProps> = ({
             }}
           >
             <h1 className="text-3xl font-bold mb-4 text-gray-800 mt-6">
-              {title}
+              {modalTitle}
             </h1>
 
-            <p className="text-gray-600 mb-6 font-semibold">{description}</p>
+            <p className="text-gray-600 mb-6 font-semibold">
+              {modalDescription}
+            </p>
 
             <div className="space-y-6 text-gray-700">
-              {termsData.map((section, index) => (
+              {contentData.map((section, index) => (
                 <div key={index}>
                   <h2 className="text-xl font-semibold mb-4">
                     {index + 1}. {section.title}
