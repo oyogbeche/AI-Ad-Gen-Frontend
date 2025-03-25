@@ -115,7 +115,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
           </div>
 
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
+            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5"
             initial="hidden"
             animate="show"
             key={filter}
@@ -131,7 +131,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
                     router.push(`/dashboard/details?type=${filter}&id=${i}`)
                   }
                 >
-                  <div className="relative group h-[294px] overflow-hidden">
+                  <div className="relative group h-[140px] sm:h-[294px] overflow-hidden">
                     <motion.div
                       className="absolute inset-0"
                       whileHover={{
