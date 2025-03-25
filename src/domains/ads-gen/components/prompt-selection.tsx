@@ -143,7 +143,7 @@ const PromptSelection: React.FC<PromptSelectionProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-10 rounded-[20px] p-6 md:p-8 mx-auto bg-[#fff]">
+    <div className="flex flex-col gap-10 rounded-[20px] p-4 md:p-8 mx-auto bg-[#fff]">
       <BackButton fallbackUrl="/" className="max-md:mb-0" />
       <CardHeader className="text-center px-0 md:mt-[15px]">
         <CardTitle className="text-[22px] md:text-[28px] leading-[36px] text-[#121316] font-semibold">
@@ -154,7 +154,7 @@ const PromptSelection: React.FC<PromptSelectionProps> = ({
         </p>
       </CardHeader>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-3 gap-y-6 w-[90%] mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-3 gap-y-6 mx-auto">
         {prompts.map((prompt, index) => {
           const isSelected = selectedPromptIndex === index;
 
