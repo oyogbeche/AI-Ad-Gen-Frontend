@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import createadImg from "@/components/images/createadsImg.svg";
 import circle from "@/components/icons/circle.svg";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";

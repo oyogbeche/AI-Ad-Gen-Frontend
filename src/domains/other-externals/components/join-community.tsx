@@ -9,7 +9,7 @@ export default function CommunityHero() {
   return (
     <section className="w-full items-center justify-center  flex">
       <motion.div
-        className="relative z-10 max-w-[1037px] w-full px-4 mt-16 md:mt-[120px] text-center"
+        className="relative z-10 max-w-[1037px] w-full px-4 mt-16 md:mt-[80px] xl:mb-10 text-center"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -21,7 +21,7 @@ export default function CommunityHero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.15, duration: 0.5 }}
         >
-          Join the Genz.ad <br />
+          Explore Genz.ad <br />
           <span className="text-[#B800B8] ml-2 font-semibold">community</span>
         </motion.h1>
         <motion.p
