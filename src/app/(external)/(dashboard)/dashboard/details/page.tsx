@@ -138,7 +138,7 @@ const AddDetails = () => {
         </div>
         <div className="md:my-10 py-3 bg-[#F0F3F5] rounded-lg md:p-10  max-w-[699px] w-full max-md:w-[90%] flex items-center justify-center">
           <Image
-            src={pageAdData.image_url}
+            src={pageAdData.final_url? pageAdData.final_url : pageAdData.image_url} 
             height={310}
             width={335}
             alt={"ad Image"}

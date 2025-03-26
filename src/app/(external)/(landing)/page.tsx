@@ -1,12 +1,13 @@
 "use client";
-import FeaturesSection from "@/domains/external/components/key-features";
-import HeroSection from "@/domains/external/components/hero";
+import CreateAd from "@/domains/external/components/create-ad";
 import CreateAds from "@/domains/external/components/create-ads";
 import { FAQ } from "@/domains/external/components/faq";
-import CreateAd from "@/domains/external/components/create-ad";
-import Cta from "../../../domains/external/components/cta";
-import { useEffect } from "react";
+import Gallery from "@/domains/external/components/gallery";
+import HeroSection from "@/domains/external/components/hero";
+import FeaturesSection from "@/domains/external/components/key-features";
 import VideoPlayer from "@/domains/external/components/video-player";
+import { useEffect } from "react";
+import Cta from "../../../domains/external/components/cta";
 
 export default function Home() {
   const videoLink = "https://www.youtube.com/embed/3ucnHvmNYpQ";
@@ -28,6 +29,7 @@ export default function Home() {
       <div className="bg-[#F8E6F8] w-full px-6 py-10 lg:px-22 lg:py-20">
         <VideoPlayer videoLink={videoLink} />
       </div>
+      <Gallery />
       <FAQ />
       <Cta />
     </main>
