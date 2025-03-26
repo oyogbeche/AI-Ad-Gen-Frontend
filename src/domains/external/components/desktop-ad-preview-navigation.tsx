@@ -36,7 +36,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 > = ({
   className = "",
   isLoading,
-  imageUrl,
+  // imageUrl,
   imageName = "ad",
   // handleCopy,
   pageAdData,
@@ -60,8 +60,8 @@ export const DesktopAdPreviewNavigation: React.FC<
   // const urlInputRef = useRef<HTMLInputElement>(null);
 
   // Use a fallback image URL when imageUrl is undefined or null
-  const fallbackImageUrl = "d889a-153e-7e1f-8000-4dad23d69053";
-  const effectiveImageUrl = imageUrl || fallbackImageUrl;
+  // const fallbackImageUrl = "d889a-153e-7e1f-8000-4dad23d69053";
+  // const effectiveImageUrl = imageUrl || fallbackImageUrl;
 
   // Fixed back button handler for all types
   const handleBack = () => {
@@ -84,54 +84,68 @@ export const DesktopAdPreviewNavigation: React.FC<
   //const { adData } = useGenerateAdImage();
 
   const downloadImage = async (format: "png" | "jpg") => {
-    if (!effectiveImageUrl || isDownloading) return;
-    setIsDownloading(true);
+    // if (!effectiveImageUrl || isDownloading) return;
+    // setIsDownloading(true);
 
     try {
-      const response = await fetch(imageUrl || fallbackImageUrl);
+      // const response = await fetch(imageUrl || fallbackImageUrl);
 
-      const blob = await response.blob();
+      // const blob = await response.blob();
 
-      const extension = format === "png" ? "png" : "jpg";
-      const mimeType = `image/${extension === "png" ? "png" : "jpeg"}`;
+      // const extension = format === "png" ? "png" : "jpg";
+      // const mimeType = `image/${extension === "png" ? "png" : "jpeg"}`;
 
-      let imageBlob = blob;
-      if (format === "png" && blob.type !== "image/png") {
-        imageBlob = new Blob([blob], { type: mimeType });
-      } else if (format === "jpg" && blob.type !== "image/jpeg") {
-        imageBlob = new Blob([blob], { type: mimeType });
+      // let imageBlob = blob;
+      // if (format === "png" && blob.type !== "image/png") {
+      //   imageBlob = new Blob([blob], { type: mimeType });
+      // } else if (format === "jpg" && blob.type !== "image/jpeg") {
+      //   imageBlob = new Blob([blob], { type: mimeType });
+      // }
+
+      // const blobUrl = URL.createObjectURL(imageBlob);
+
+      // const link = document.createElement("a");
+      // link.href = blobUrl;
+      // link.setAttribute("download", `${imageName}.${extension}`);
+      // link.click();
+
+      // setTimeout(() => {
+      //   URL.revokeObjectURL(blobUrl);
+      // }, 100);
+
+      // toast.custom(() => (
+      //   <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+      //     <div className="flex items-center justify-between w-full">
+      //       <div className="flex items-center">
+      //         <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+      //           <Check className="h-4 w-4 text-white" />
+      //         </div>
+      //         <div className="ml-3">
+      //           <p className="text-sm font-medium text-gray-900 mb-2">
+      //             Download Success!
+      //           </p>
+      //           <p className="text-xs text-gray-500">
+      //             Your Image Ad has been downloaded as {extension.toUpperCase()}
+      //           </p>
+      //         </div>
+      //       </div>
+      //     </div>
+      //   </div>
+      // ));
+      const element = document.getElementById('containerRef')
+      if(element){
+        html2canvas(element, { useCORS: true, allowTaint: true })
+          .then((canvas) => {
+            const link = document.createElement("a");
+            link.download = `${imageName}.${format}`;
+            link.href = canvas.toDataURL(`image/${format}`);
+            link.click();
+          })
+          .catch((error) => {
+            console.error("Error generating canvas:", error);
+            toast.error("Failed to generate image for download");
+          });
       }
-
-      const blobUrl = URL.createObjectURL(imageBlob);
-
-      const link = document.createElement("a");
-      link.href = blobUrl;
-      link.setAttribute("download", `${imageName}.${extension}`);
-      link.click();
-
-      setTimeout(() => {
-        URL.revokeObjectURL(blobUrl);
-      }, 100);
-
-      toast.custom(() => (
-        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-                <Check className="h-4 w-4 text-white" />
-              </div>
-              <div className="ml-3">
-                <p className="text-sm font-medium text-gray-900 mb-2">
-                  Download Success!
-                </p>
-                <p className="text-xs text-gray-500">
-                  Your Image Ad has been downloaded as {extension.toUpperCase()}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      ));
     } catch (error) {
       console.error("Error downloading image:", error);
       toast.error("Failed to download image");
@@ -185,16 +199,17 @@ export const DesktopAdPreviewNavigation: React.FC<
             } else {
               console.error("Blob is null, cannot append to FormData.");
             }
-            formData.append("upload_preset", "ml_default"); // Replace with your upload preset
+            formData.append("upload_preset", "ml_default");
 
             fetch("https://api.cloudinary.com/v1_1/dgetbfevu/image/upload", {
               method: "POST",
-              body: formData, // Sending as FormData, NOT JSON
+              body: formData,
             })
               .then((response) => response.json())
               .then((data) => {
                 if (data.secure_url) {
                   console.log("Uploaded Image URL:", data.secure_url);
+                  console.log(imageId)
                   const uploadedUrl = data.secure_url;
                   patchRequest(`/image/save/${imageId}`, {
                     edited_image_url: uploadedUrl,
@@ -212,7 +227,7 @@ export const DesktopAdPreviewNavigation: React.FC<
               .catch((error) => {
                 console.error("Error:", error);
               });
-          }, "image/png"); // Ensure it's in a valid image format
+          }, "image/png");
         }
       );
     }
@@ -247,34 +262,33 @@ export const DesktopAdPreviewNavigation: React.FC<
       const newStatus = pageAdData.is_published ? "unpublished" : "published";
       await patchRequest(`/image/publish/${imageId}`, { status: newStatus });
 
-      router.push(`/dashboard?publishStatus=${newStatus}`);
-
-      // const element = document.getElementById('containerRef');
-      // const message = <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-      // <div className="flex items-center justify-between w-full">
-      //   <div className="flex items-center">
-      //     <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-      //       <Check className="h-4 w-4 text-white" />
-      //     </div>
-      //     <div className="ml-3">
-      //       <p className="text-sm font-medium text-gray-900 mb-2">
-      //         {pageAdData.is_published
-      //           ? "Ad Unpublished Successfully!"
-      //           : "Ad Published Successfully!"}
-      //       </p>
-      //       <p className="text-xs text-gray-500">
-      //         {pageAdData.is_published
-      //           ? "Your ad is no longer live."
-      //           : "Your ad is now live and ready to reach your audience."}
-      //       </p>
-      //     </div>
-      //   </div>
-      // </div>;
-
-      // </div>
-      // const publish = true
-      // saveImage(message, publish, newStatus, element);
-      // router.push("/dashboard");
+      const element = document.getElementById("containerRef");
+      const message = (
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+                <Check className="h-4 w-4 text-white" />
+              </div>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-900 mb-2">
+                  {pageAdData.is_published
+                    ? "Ad Unpublished Successfully!"
+                    : "Ad Published Successfully!"}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {pageAdData.is_published
+                    ? "Your ad is no longer live."
+                    : "Your ad is now live and ready to reach your audience."}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+      const publish = true;
+      saveImage(message, publish, newStatus, element);
+      // router.push(`/dashboard?publishStatus=${newStatus}`);
     } catch (error) {
       console.error("Error updating publish status:", error);
       toast.error("Failed to update publish status");

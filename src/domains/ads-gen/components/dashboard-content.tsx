@@ -192,7 +192,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
                       }}
                     >
                       <Image
-                        src={ad.image_url}
+                        src={ad.final_url || ad.image_url}
                         fill
                         alt={`${ad.prompt}`}
                         priority={i < 3}
