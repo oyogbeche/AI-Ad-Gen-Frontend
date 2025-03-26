@@ -67,20 +67,42 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
       )}
 
       <div className="relative z-10 flex items-center justify-center h-full">
+       
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
           className="bg-white/90 backdrop-blur-md rounded-xl shadow-2xl p-8 w-full max-w-md text-center"
+        > <Link
+          href="/"
+          className="absolute top-4 left-4 text-gray-600 hover:text-black border border-black rounded-full p-1 cursor-pointer "
+          aria-label="Go back to home"
         >
-          <div className="mb-6 mt-6">
-            <Image
-              src="/genzz.svg"
-              alt="Genz.ad logo"
-              width={50}
-              height={50}
-              className="mx-auto"
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
             />
+          </svg>
+        </Link>
+          <div className="mb-6 mt-6 flex items-center justify-center">
+            <Link href="/">
+              <Image
+                src="/genzz.svg"
+                alt="Genz.ad logo"
+                width={50}
+                height={50}
+                className="mx-auto cursor-pointer hover:opacity-80 transition-opacity"
+              />
+            </Link>
           </div>
 
           <h2 className="text-2xl font-bold mb-2 text-gray-800 mt-6">
