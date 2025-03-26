@@ -1,123 +1,107 @@
 "use client";
-import { CheckCircle } from "@/components/icons/icon";
-import createAdSVG from "@/components/images/newcreate.svg";
-import { motion, useInView } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
 import { useRef } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
+const notes = [
+  {
+    title: "AI-Powered Ad Creation",
+    description:
+      "Effortless ad copy & visuals, perfectly tailored to your brand and audience.",
+    img: "/feature-card1.svg",
+  },
+  {
+    title: "Share Your Ad",
+    description:
+      " Post your ad, reach your audience, and get results instantly.",
+    img: "/feature-card2.svg",
+  },
+  {
+    title: "Community Inspiration",
+    description:
+      "See how businesses are transforming ads with AI—get inspired by their success!",
+    img: "/feature-card3.svg",
+  },
+];
 
 const CreateAd = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
-  const listItems = [
-    "Create high quality ads in seconds, not hours.",
-    "No experience needed. Our AI handles the visuals.",
-    "Launch your ad campaign  with zero costs.",
-    "Optimize your Ads for sales and engagements.",
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0 },
-  };
-
   return (
     <section
       ref={sectionRef}
-      className="flex  bg-white flex-col lg:flex-row justify-between items-center gap-10 lg:gap-[80px] py-20 px-[40px] md:px-[60px] lg:px-[80px]"
+      className=" flex flex-col justify-between gap-10 lg:gap-[80px] px-[40px] md:px-[60px] lg:px-[80px] py-10 md:py-20"
     >
       <motion.div
-        className="w-full lg:max-w-[600px]"
-        initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-        transition={{ duration: 0.8 }}
+        className="flex flex-col text-left"
+        initial={{ opacity: 0, x: 50 }}
+        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
+        transition={{ duration: 0.5 }}
+        exit={{ opacity: 0, x: 50 }}
       >
         <motion.p
-          className="text-[#EC802E] text-sm md:text-base text-left uppercase"
+          className="text-[#10509A] text-center text-sm md:text-base font-semibold"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
         >
-          WHY USE GENZ.AD?
+          KEY FEATURES
         </motion.p>
         <motion.h2
-          className="text-[27px] md:text-4xl text-left font-medium lg:text-5xl mt-2 md:leading-14"
+          className="text-[28px] md:text-[36px] lg:text-[48px] font-medium leading-tight max-w-[767px] m-auto text-center"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
         >
-          Why Genz.ad is the best tool for easy high quality Ad creation
+          Effortless AI-Powered Ad Creation for Maximum Impact
         </motion.h2>
-
-        <motion.ul
-          className="mt-6 space-y-4"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          {listItems.map((item, index) => (
-            <motion.li
-              key={index}
-              className="flex items-center gap-2 text-[#667185]"
-              variants={itemVariants}
-              whileHover={{ x: 5 }}
-            >
-              <motion.div whileHover={{ scale: 1.2, rotate: 5 }}>
-                <CheckCircle />
-              </motion.div>
-              {item}
-            </motion.li>
-          ))}
-        </motion.ul>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.9, duration: 0.5 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Link
-            href={"/signin?type=signin"}
-            className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 w-fit mt-10"
-          >
-            <p>Generate Your Ad</p> <ArrowRight />
-          </Link>
-        </motion.div>
       </motion.div>
 
       <motion.div
-        className="flex-shrink-0 w-full lg:w-[40%] bg-[#FFF0E5] px-10 pt-[72px] rounded-md flex justify-center align-end overflow-hidden"
-        initial={{ opacity: 0, x: 50 }}
-        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        whileHover={{ scale: 1.03 }}
+        className="flex flex-col md:flex-row font-${nunito.variable}  gap-11 bg-white w-full"
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.6, delay: 0.7 }}
       >
-        <motion.div
-          initial={{ y: 20 }}
-          animate={isInView ? { y: 0 } : { y: 20 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-        >
-          <Image
-            src={createAdSVG}
-            alt="Create AI-Generated Ads"
-            width={500}
-            height={300}
-            className="w-full h-auto mx-auto"
-          />
-        </motion.div>
+        {notes.map((note, index) => (
+          <Card
+            key={index}
+            className="rounded-[6px] flex flex-col gap-2 w-full flex-[1] border-none bg-[#FBFBFB] border border-[#ECECEC]"
+          >
+            <picture className="w-full h-fit">
+              <Image
+                src={note.img}
+                height={306}
+                width={373}
+                alt="card picture"
+                className="w-full h-auto"
+              />
+            </picture>
+            <div className="p-4 pb-9">
+              <CardHeader className="p-0">
+                <CardTitle className="text-[#121316] p-0 text-[24px] font-bold leading-normal">
+                  <h3>{note.title}</h3>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                <CardDescription
+                  className={`text-[#787878] p-0 text-[16px] font-normal leading-[24px]`}
+                >
+                  {note.description}
+                </CardDescription>
+              </CardContent>
+            </div>
+          </Card>
+        ))}
       </motion.div>
     </section>
   );
