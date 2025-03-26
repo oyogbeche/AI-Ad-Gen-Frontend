@@ -24,6 +24,8 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
   const { adData, setAdData } = useAdsContext();
   const { publishedImages, userImages, isLoading } = useAdsData();
 
+ 
+
   // console.log("DASHBOARD", adData);
   const router = useRouter();
   useEffect(() => {
@@ -34,29 +36,46 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
 
     // Check if there's a recently published ad in the URL
     const urlParams = new URLSearchParams(window.location.search);
-    console.log(urlParams);
-    const justPublished = urlParams.get("justPublished");
+    const publishStatus = urlParams.get("publishStatus");
 
-    if (justPublished === "true") {
-      toast.custom(() => (
-        <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-                <Check className="h-4 w-4 text-white" />
-              </div>
-              <div className="ml-3">
-                <p className="text-sm font-medium text-gray-900 mb-2">
-                  Ad Published Successfully!
-                </p>
-                <p className="text-xs text-gray-500">
-                  Your ad is now live and ready to reach your audience.
-                </p>
+    if (publishStatus) {
+      const toastMessage =
+        publishStatus === "published"
+          ? {
+              title: "Ad Published Successfully!",
+              description:
+                "Your ad is now live and ready to reach your audience.",
+            }
+          : {
+              title: "Ad Unpublished Successfully!",
+              description: "Your ad is no longer live.",
+            };
+
+      // Show toast only once
+      toast.custom(
+        () => (
+          <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center">
+                <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
+                  <Check className="h-4 w-4 text-white" />
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-gray-900 mb-2">
+                    {toastMessage.title}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {toastMessage.description}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ));
+        ),
+        {
+          id: "publish-status-toast",
+        }
+      );
 
       setTimeout(() => {
         const newUrl = window.location.pathname;
@@ -90,16 +109,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
     <Loader fullscreen={false} />
   ) : (
     <>
-      {adData.user.length == 0 && adData.community.length == 0 ? (
-        <div className="flex flex-col items-center gap-4 my-32">
-          <Image
-            src="/get-started.png"
-            width={401}
-            height={333}
-            alt="Let's get started."
-          />
-        </div>
-      ) : (
+    
         <section
           className={`bg-white rounded-[20px] px-4 py-6 md:p-6 flex flex-col gap-10 mt-10 transition-all duration-500 ${
             !isLoading ? "opacity-100" : "opacity-0"
@@ -145,6 +155,17 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
             )}
           </div>
 
+          { adData[filter].length === 0 ? (
+        <div className="flex flex-col items-center gap-4 my-12">
+          <Image
+            src="/get-started.png"
+            width={401}
+            height={333}
+            alt="Let's get started."
+          />
+        </div>
+      ) :
+
           <motion.div
             className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5"
             initial="hidden"
@@ -171,7 +192,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
                       }}
                     >
                       <Image
-                        src={ad.image_url}
+                        src={ad.final_url || ad.image_url}
                         fill
                         alt={`${ad.prompt}`}
                         priority={i < 3}
@@ -205,8 +226,9 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
                 </motion.div>
               ))}
           </motion.div>
+}
         </section>
-      )}
+      
     </>
   );
 };

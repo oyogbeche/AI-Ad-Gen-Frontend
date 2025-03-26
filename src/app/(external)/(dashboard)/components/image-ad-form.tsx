@@ -24,9 +24,11 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useGenerateAdImage } from "@/domains/ads-gen/api/ad-image-generate";
+import { useInpaintImage } from "@/domains/ads-gen/api/use-image-paint";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { zodResolver } from "@hookform/resolvers/zod";
+import html2canvas from "html2canvas";
 // import html2canvas from "html2canvas";
 import { ArrowRight, ImageIcon, RefreshCw, Upload } from "lucide-react";
 import dynamic from "next/dynamic";
@@ -88,22 +90,24 @@ export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [formLoaded, setFormLoaded] = useState(false);
 
-  // const downloadFunction = async (elementRef: HTMLElement) => {
-  //   const canvas = await html2canvas(elementRef as HTMLElement, {
-  //     useCORS: true,
-  //   });
-  //   const dataURL = canvas.toDataURL();
-  //   const link = document.createElement("a");
-  //   link.href = dataURL;
-  //   link.download = "element.png";
-  //   link.click();
-  // };
+  const downloadFunction = async (elementRef: HTMLElement) => {
+    const canvas = await html2canvas(elementRef as HTMLElement, {
+      useCORS: true,
+    });
+    const dataURL = canvas.toDataURL();
+    const link = document.createElement("a");
+    link.href = dataURL;
+    link.download = "element.png";
+    link.click();
+  };
 
   const lastFormData = useRef<FormData | null>(null);
 
   // Use the generate image hook
   const { generateAd, adData, isFetchingAd, progress, error, reset } =
     useGenerateAdImage();
+    const { isFetchingStatus, inpaintData } = useInpaintImage();
+
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -249,6 +253,9 @@ export default function AdCustomizer() {
     );
   }
 
+
+  console.log("InpaintData", inpaintData)
+  console.log("isFetchingStatus", isFetchingStatus)
   return (
     <div className="flex flex-col lg:flex-row p-4 lg:p-0">
       {/* Form Section */}
@@ -484,12 +491,12 @@ export default function AdCustomizer() {
             type="image-form"
             imageId={adData?.data?.image_id || ""}
             isPublished={true}
-            // downloadFunction={() => {
-            //   const element = document.getElementById("outputImg");
-            //   if (element) {
-            //     downloadFunction(element);
-            //   }
-            // }}
+            downloadFunction={() => {
+              const element = document.getElementById("outputImg");
+              if (element) {
+                downloadFunction(element);
+              }
+            }}
             status={
               isFetchingAd
                 ? "generating"
