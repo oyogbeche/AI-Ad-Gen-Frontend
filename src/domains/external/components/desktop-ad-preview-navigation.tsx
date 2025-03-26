@@ -36,7 +36,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 > = ({
   className = "",
   isLoading,
-  imageUrl,
+  // imageUrl,
   imageName = "ad",
   // handleCopy,
   pageAdData,
