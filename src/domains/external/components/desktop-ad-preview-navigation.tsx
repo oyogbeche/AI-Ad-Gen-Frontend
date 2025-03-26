@@ -60,7 +60,7 @@ export const DesktopAdPreviewNavigation: React.FC<
   // const urlInputRef = useRef<HTMLInputElement>(null);
 
   // Use a fallback image URL when imageUrl is undefined or null
-  const fallbackImageUrl = "d889a-153e-7e1f-8000-4dad23d69053";
+  // const fallbackImageUrl = "d889a-153e-7e1f-8000-4dad23d69053";
   // const effectiveImageUrl = imageUrl || fallbackImageUrl;
 
   // Fixed back button handler for all types
