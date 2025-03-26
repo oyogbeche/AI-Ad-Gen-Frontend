@@ -41,7 +41,7 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
   const [containerSize, setContainerSize] = useState({ width, height });
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [currentImageSrc, setCurrentImageSrc] = useState(imageSrc);
-  const { inpaintImage } = useInpaintImage();
+  const { inpaintImage, inpaintData } = useInpaintImage();
 
   useEffect(() => {
     setCurrentImageSrc(imageSrc);
@@ -253,16 +253,18 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
 
       if (imageId) {
         try {
-          const response = await inpaintImage({
+         inpaintImage({
             image_id: imageId,
             prompt: prompt,
           });
 
-          if (response?.success && response.image_url) {
+console.log("Inpainting data:", inpaintData);
+
+ /*          if (inpaintData && response.image_url) {
             // Update the image source with the new inpainted image
             setCurrentImageSrc(response.image_url);
             console.log("Inpainting successful:", response.image_url);
-          }
+          } */
         } catch (error) {
           console.error("Error during inpainting:", error);
         }
