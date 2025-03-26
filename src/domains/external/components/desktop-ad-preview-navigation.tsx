@@ -51,6 +51,8 @@ export const DesktopAdPreviewNavigation: React.FC<
 }) => {
   // console.log("DASHBOARD", pageAdData);
   const router = useRouter();
+  const searchParams = new URLSearchParams(window.location.search);
+  const queryType = searchParams.get("type");
   const [isDownloading, setIsDownloading] = useState(false);
   const [isSaveDropdownOpen, setIsSaveDropdownOpen] = useState(false);
   const [isExportDropdownOpen, setIsExportDropdownOpen] = useState(false);
@@ -74,11 +76,11 @@ export const DesktopAdPreviewNavigation: React.FC<
   };
 
   const showSaveButton =
-    !pageAdData?.author_info &&
-    !hideSaveButton &&
-    type === "image-form" &&
-    status === "completed" &&
-    (!hideSaveAndExit || !isPublished);
+    (!pageAdData?.author_info &&
+      !hideSaveButton &&
+      ((type === "image-form" && status === "completed") ||
+        (type === "community" && !isPublished))) ||
+    (type === "community" && !isPublished);
 
   // get generated image id
   //const { adData } = useGenerateAdImage();
@@ -132,8 +134,8 @@ export const DesktopAdPreviewNavigation: React.FC<
       //     </div>
       //   </div>
       // ));
-      const element = document.getElementById('containerRef')
-      if(element){
+      const element = document.getElementById("containerRef");
+      if (element) {
         html2canvas(element, { useCORS: true, allowTaint: true })
           .then((canvas) => {
             const link = document.createElement("a");
@@ -209,7 +211,7 @@ export const DesktopAdPreviewNavigation: React.FC<
               .then((data) => {
                 if (data.secure_url) {
                   console.log("Uploaded Image URL:", data.secure_url);
-                  console.log(imageId)
+                  console.log(imageId);
                   const uploadedUrl = data.secure_url;
                   patchRequest(`/image/save/${imageId}`, {
                     edited_image_url: uploadedUrl,
@@ -347,7 +349,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 
         <div className="flex gap-4">
           {/* Save button - Show only when type is image-form and status is completed */}
-          {showSaveButton && (
+          {(showSaveButton || queryType == "community") && (
             <div className="relative" ref={saveDropdownRef}>
               <button
                 onClick={() => setIsSaveDropdownOpen(!isSaveDropdownOpen)}
@@ -367,7 +369,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                   className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10"
                 >
                   <div className="py-1">
-                    {!hideSaveAndExit && (
+                    {(!hideSaveAndExit || queryType == "community") && (
                       <button
                         onClick={handleSaveAndExit}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
@@ -375,7 +377,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                         Save & Exit
                       </button>
                     )}
-                    {
+                    {pageAdData.is_published == "unpublished" && (
                       <button
                         onClick={handleSaveAndPublish}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
@@ -384,7 +386,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                           ? "Unpublish"
                           : "Save & Publish"}
                       </button>
-                    }
+                    )}
                   </div>
                 </motion.div>
               )}
