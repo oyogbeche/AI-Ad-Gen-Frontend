@@ -21,7 +21,7 @@ const StandalonePage = () => {
     );
   }
 
-  const imageUrl = imageData?.image?.image_url || "";
+  const imageUrl = imageData?.image?.final_url || imageData?.image?.final_url || "";
 
   return (
     <main className="flex flex-col items-center py-12">
