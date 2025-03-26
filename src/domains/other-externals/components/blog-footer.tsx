@@ -64,7 +64,7 @@ const BlogFooter = () => {
   const activeLinkStyle = `text-purple-700`; // Define the active color
 
   return (
-    <footer className="pb-8 pt-20">
+    <footer className="pb-8 pt-20 px-4">
       <div className="mx-auto pb-[90px] gap-10 w-full flex flex-col md:flex-col">
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-20 lg:grid-cols-3 xl:grid-cols-[fit-content(100%)_auto_auto_auto_auto] justify-between w-full gap-10  lg:gap-24">
           <div className="hidden sm:flex flex-col justify-between">

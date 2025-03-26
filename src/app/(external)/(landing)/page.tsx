@@ -1,20 +1,18 @@
 "use client";
-import FeaturesSection from "@/domains/external/components/key-features";
-import HeroSection from "@/domains/external/components/hero";
+import CreateAd from "@/domains/external/components/create-ad";
 import CreateAds from "@/domains/external/components/create-ads";
 import { FAQ } from "@/domains/external/components/faq";
-import CreateAd from "@/domains/external/components/create-ad";
-import Cta from "../../../domains/external/components/cta";
-import { useEffect } from "react";
+import Gallery from "@/domains/external/components/gallery";
+import HeroSection from "@/domains/external/components/hero";
+import FeaturesSection from "@/domains/external/components/key-features";
 import Testimonials from "@/domains/external/components/testimonials";
+import { useEffect } from "react";
+import Cta from "../../../domains/external/components/cta";
 
 export default function Home() {
   https: useEffect(() => {
-    // Check if we navigated back to the homepage
     if (sessionStorage.getItem("navigatingBack") === "true") {
-      // Clear the flag
       sessionStorage.removeItem("navigatingBack");
-      // Clear the image data
       localStorage.removeItem("imageAdData");
     }
   }, []);
@@ -25,6 +23,7 @@ export default function Home() {
       <CreateAds />
       <CreateAd />
       <Testimonials />
+      <Gallery />
       <FAQ />
       <Cta />
     </main>

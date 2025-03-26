@@ -84,7 +84,7 @@ const Testimonials = () => {
           <h3 className="text-[14px] text-white relative z-1">CASE STUDY</h3>
           <div className="max-w-[440px] relative z-1">
             <p className="text-[32px] text-white">
-              "GenZ.AI cut our ad creation time in half!"
+              &quot;GenZ.AI cut our ad creation time in half!&quot;
             </p>
             <span className="text-[16px] text-white">
               With AI-driven ad generation, we launched high-performing

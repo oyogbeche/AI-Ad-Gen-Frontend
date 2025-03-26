@@ -21,7 +21,7 @@ interface Feature {
 }
 
 interface FeatureCardProps {
-  featuresData: Feature[];
+  featuresData?: Feature[];
 }
 
 const FeatureCard: React.FC<FeatureCardProps> = ({ featuresData }) => {
@@ -29,7 +29,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ featuresData }) => {
     <div
       className={`flex flex-col md:flex-row font-${nunito.variable}  gap-4 bg-white w-full lg:max-w-[1168px]`}
     >
-      {featuresData.map((feature, index) => (
+      {featuresData?.map((feature, index) => (
         <Card
           key={index}
           className="rounded-2xl border border-[#F8E6F8] bg-[#FEFBFE] hover:border-b-[6px] duration-500 flex flex-col gap-2 w-full flex-[1]"
