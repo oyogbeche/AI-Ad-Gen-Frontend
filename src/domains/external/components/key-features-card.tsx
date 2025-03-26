@@ -7,32 +7,24 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Nunito } from "next/font/google";
+import Image from "next/image";
 
-interface Feature {
-  title: string;
-  description: string;
-}
 const nunito = Nunito({
   variable: "--font-nunito",
   subsets: ["latin"],
 });
 
-const featuresData: Feature[] = [
-  {
-    title: "Small Businesses",
-    description: "Easily create professional ads without any deisign skills.",
-  },
-  {
-    title: "Marketers & Advertisers",
-    description: "Launch campaigns faster with AI- generated ad creatives.",
-  },
-  {
-    title: "Creators & Influencers",
-    description: "Promote products and brands with instant ad generation.",
-  },
-];
+interface Feature {
+  title: string;
+  description: string;
+  img: string;
+}
 
-const FeatureCard = () => {
+interface FeatureCardProps {
+  featuresData: Feature[];
+}
+
+const FeatureCard: React.FC<FeatureCardProps> = ({ featuresData }) => {
   return (
     <div
       className={`flex flex-col md:flex-row font-${nunito.variable}  gap-4 bg-white w-full lg:max-w-[1168px]`}
@@ -40,20 +32,31 @@ const FeatureCard = () => {
       {featuresData.map((feature, index) => (
         <Card
           key={index}
-          className="px-10 py-8 rounded-2xl border border-[#EBECED] bg-[#F8FAFB] flex flex-col gap-2 p-[32px_40px] w-full flex-[1]"
+          className="rounded-2xl border border-[#F8E6F8] bg-[#FEFBFE] hover:border-b-[6px] duration-500 flex flex-col gap-2 w-full flex-[1]"
         >
-          <CardHeader className="p-0">
-            <CardTitle className="text-[#121316] p-0 text-[24px] font-bold leading-normal">
-              <h3> {feature.title}</h3>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
-            <CardDescription
-              className={`${nunito.variable} text-[#787878] p-0 text-[16px] font-normal leading-[24px]`}
-            >
-              {feature.description}
-            </CardDescription>
-          </CardContent>
+          <picture className="w-full h-fit">
+            <Image
+              src={feature.img}
+              height={306}
+              width={373}
+              alt="card picture"
+              className="w-full h-auto"
+            />
+          </picture>
+          <div className="p-4 pb-9">
+            <CardHeader className="p-0">
+              <CardTitle className="text-[#121316] p-0 text-[24px] font-bold leading-normal">
+                <h3> {feature.title}</h3>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+              <CardDescription
+                className={`${nunito.variable} text-[#787878] p-0 text-[16px] font-normal leading-[24px]`}
+              >
+                {feature.description}
+              </CardDescription>
+            </CardContent>
+          </div>
         </Card>
       ))}
     </div>

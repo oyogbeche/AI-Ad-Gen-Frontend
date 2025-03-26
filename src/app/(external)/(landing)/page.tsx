@@ -6,10 +6,9 @@ import { FAQ } from "@/domains/external/components/faq";
 import CreateAd from "@/domains/external/components/create-ad";
 import Cta from "../../../domains/external/components/cta";
 import { useEffect } from "react";
-import VideoPlayer from "@/domains/external/components/video-player";
+import Testimonials from "@/domains/external/components/testimonials";
 
 export default function Home() {
-  const videoLink = "https://www.youtube.com/embed/3ucnHvmNYpQ";
   https: useEffect(() => {
     // Check if we navigated back to the homepage
     if (sessionStorage.getItem("navigatingBack") === "true") {
@@ -25,9 +24,7 @@ export default function Home() {
       <FeaturesSection />
       <CreateAds />
       <CreateAd />
-      <div className="bg-[#F8E6F8] w-full px-6 py-10 lg:px-22 lg:py-20">
-        <VideoPlayer videoLink={videoLink} />
-      </div>
+      <Testimonials />
       <FAQ />
       <Cta />
     </main>
