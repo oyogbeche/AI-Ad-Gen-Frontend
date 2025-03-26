@@ -13,6 +13,29 @@ const nunito = Nunito({
   variable: "--font-nunito",
   subsets: ["latin"],
 });
+interface Feature {
+  title: string;
+  description: string;
+  img: string;
+}
+
+const featuresData: Feature[] = [
+  {
+    title: "Small Businesses",
+    description: "Easily create professional ads without any deisign skills.",
+    img: "/card1.png",
+  },
+  {
+    title: "Marketers & Advertisers",
+    description: "Launch campaigns faster with AI- generated ad creatives.",
+    img: "/card2.png",
+  },
+  {
+    title: "Creators & Influencers",
+    description: "Promote products and brands with instant ad generation.",
+    img: "/card3.png",
+  },
+];
 
 const tagData = [
   {
@@ -62,7 +85,7 @@ export default function FeaturesSection() {
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.8, delay: 0.6 }}
       >
-        <FeatureCard />
+        <FeatureCard featuresData={featuresData} />
       </motion.div>
     </section>
   );
