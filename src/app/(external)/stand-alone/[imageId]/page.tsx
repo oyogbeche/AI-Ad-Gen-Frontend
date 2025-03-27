@@ -1,18 +1,58 @@
 "use client";
 
 import Loader from "@/components/ui/loader";
-import { useCampaignImage } from "@/domains/ads-gen/api/use-campaign-image";
+import { getRequest } from "@/lib/api";
+
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+
+interface Image {
+  id: string;
+  prompt: string;
+  image_url: string;
+  final_url: string;
+  product_name: string;
+}
+interface ImageData {
+ image: Image;
+}
+
+interface ApiResponse {
+  data: ImageData;
+  message: string;
+  status: string;
+}
 
 const StandalonePage = () => {
-  const { imageId } = useParams();
-  const { data: imageData, isLoading } = useCampaignImage(imageId as string);
+  const { imageId } = useParams<{ imageId: string }>();
 
+  const [imageData, setImageData] = useState<ImageData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  console.log("imageData", imageData);
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const imageResponse: ApiResponse = await getRequest(`/image/${imageId}`);
+
+        if (imageResponse.status === "success") {
+          setImageData(imageResponse.data);
+        
+        }
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (imageId) {
+      fetchImage();
+    }
+  }, [imageId]);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -21,13 +61,16 @@ const StandalonePage = () => {
     );
   }
 
-  const imageUrl = imageData?.image?.final_url || imageData?.image?.final_url || "";
+  console.log("imageData", imageData?.image.image_url);
+
+ 
+   const imageUrl = imageData?.image.final_url || imageData?.image?.image_url || "/preview.png"; 
 
   return (
     <main className="flex flex-col items-center py-12">
       <picture className="p-8 mb-8 bg-white">
         <Image
-          src={imageUrl || "/preview.png"}
+          src={imageUrl}
           height={536}
           width={598}
           alt="Image preview"
