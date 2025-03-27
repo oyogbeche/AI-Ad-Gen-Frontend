@@ -19,6 +19,7 @@ interface SubscriptionFeatures {
   high_resolution: boolean;
   inpainting_cost: number;
   ad_generation_cost: number;
+  can_download: boolean;
 }
 export interface SubScriptionData {
   message: string;

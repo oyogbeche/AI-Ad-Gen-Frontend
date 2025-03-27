@@ -3,7 +3,7 @@ import { getRequest } from "@/lib/axios-fetch";
 import { SubScriptionData, useAuthStore } from "@/store/auth-store";
 
 const fetchSubscriptionStatus = async () => {
-  const response = await getRequest("/payment/subscription/status");
+  const response = await getRequest("/subscriptions/me");
   return response as SubScriptionData;
 };
 
