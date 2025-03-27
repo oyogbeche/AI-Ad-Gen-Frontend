@@ -19,7 +19,6 @@ const getHeaders = (headers?: Record<string, string>) => {
   };
 };
 
-// Function to refresh the access token
 const refreshAccessToken = async () => {
   try {
     const response = await axiosInstance.post("/auth/refresh-access-token");
@@ -45,7 +44,8 @@ const requestWithRetry = async (
     const response = await axiosInstance({
       method,
       url,
-      data,
+      ...(method === "get" ? { params: data } : { data: data }),
+
       headers: getHeaders(headers),
     });
 
@@ -60,7 +60,8 @@ const requestWithRetry = async (
         const retryResponse = await axiosInstance({
           method,
           url,
-          data,
+          ...(method === "get" ? { params: data } : { data: data }),
+
           headers: getHeaders({ Authorization: `Bearer ${newToken}` }),
         });
 
@@ -81,8 +82,11 @@ const requestWithRetry = async (
 };
 
 // Exporting functions
-export const getRequest = (url: string, headers?: Record<string, string>) =>
-  requestWithRetry("get", url, undefined, headers);
+export const getRequest = (
+  url: string,
+  params?: Record<string, any>,
+  headers?: Record<string, string>
+) => requestWithRetry("get", url, params, headers);
 
 export const postRequest = (
   endpoint: string,

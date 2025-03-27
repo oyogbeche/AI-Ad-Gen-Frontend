@@ -6,6 +6,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
 import { motion } from "framer-motion";
 
 import Loader from "@/components/ui/loader";
@@ -21,18 +30,21 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
   const [filter, setFilter] = useState<"user" | "community">(
     filt ? filt : "user"
   );
+
+  const { userPage, communityPage, isLoading, adData, setAdData } =
+    useAdsContext();
+
+  const { nextUserPage, prevUserPage, nextCommunityPage, prevCommunityPage } =
+    useAdsData();
+
   const [sortOption, setSortOption] = useState("most-recent");
 
-  const { adData, setAdData } = useAdsContext();
-  const { publishedImages, userImages, isLoading } = useAdsData();
+  const { publishedImages, userImages } = useAdsData();
 
-  // console.log("DASHBOARD", adData);
   const router = useRouter();
   useEffect(() => {
-    setAdData({
-      user: userImages,
-      community: publishedImages,
-    });
+    setAdData({ user: userImages, community: publishedImages });
+    console.log(adData);
 
     // Check if there's a recently published ad in the URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -82,7 +94,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
         window.history.replaceState({}, "", newUrl);
       }, 5000);
     }
-  }, [userImages, publishedImages, setAdData]);
+  }, [userImages, publishedImages]);
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -104,6 +116,8 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
       },
     },
   };
+
+  const currentPage = filter === "user" ? userPage : communityPage;
 
   return isLoading ? (
     <Loader fullscreen={false} />
@@ -228,6 +242,27 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
               ))}
           </motion.div>
         )}
+        <div className="flex justify-center mt-6">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={filter === "user" ? prevUserPage : prevCommunityPage}
+                />
+              </PaginationItem>
+              <PaginationItem>
+                <span className="px-3 py-1 bg-gray-100 rounded">
+                  {currentPage}
+                </span>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext
+                  onClick={filter === "user" ? nextUserPage : nextCommunityPage}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
       </section>
     </>
   );

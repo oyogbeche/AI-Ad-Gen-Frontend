@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getRequest } from "@/lib/axios-fetch";
+import { useAdsContext } from "../context/AdsContext";
 
 interface Ad {
   ad_description: string;
@@ -16,32 +17,26 @@ interface Ad {
 }
 
 export const useAdsData = () => {
-  const fetchPublishedImages = async () => {
-    const response = await getRequest("/image/all/published");
-    return response.data.images as Ad[];
-  };
+  const { userPage, communityPage, setUserPage, setCommunityPage } =
+    useAdsContext();
 
-  const fetchUserImages = async () => {
-    const response = await getRequest("/image/");
+  const PAGE_SIZE = 10;
+
+  const fetchAds = async (url: string, page: number) => {
+    const response = await getRequest(url, { page, page_size: PAGE_SIZE });
     return response.data.images as Ad[];
   };
 
   const publishedQuery = useQuery({
-    queryKey: ["published-ads"],
-    queryFn: fetchPublishedImages,
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
+    queryKey: ["published-ads", communityPage],
+    queryFn: () => fetchAds("/image/all/published", communityPage),
+    placeholderData: (prevData) => prevData ?? [],
   });
 
   const userQuery = useQuery({
-    queryKey: ["user-ads"],
-    queryFn: fetchUserImages,
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
+    queryKey: ["user-ads", userPage],
+    queryFn: () => fetchAds("/image/", userPage),
+    placeholderData: (prevData) => prevData ?? [],
   });
 
   return {
@@ -49,9 +44,13 @@ export const useAdsData = () => {
     userImages: userQuery.data || [],
     isLoading: publishedQuery.isLoading || userQuery.isLoading,
     isError: publishedQuery.isError || userQuery.isError,
-    refetch: () => {
-      publishedQuery.refetch();
-      userQuery.refetch();
-    },
+    // refetch: () => {
+    //   publishedQuery.refetch();
+    //   userQuery.refetch();
+    // },
+    nextUserPage: () => setUserPage((prev) => prev + 1),
+    prevUserPage: () => setUserPage((prev) => Math.max(1, prev - 1)),
+    nextCommunityPage: () => setCommunityPage((prev) => prev + 1),
+    prevCommunityPage: () => setCommunityPage((prev) => Math.max(1, prev - 1)),
   };
 };

@@ -22,15 +22,33 @@ interface Ads {
 interface AdsContextType {
   adData: Ads;
   setAdData: (ad: Ads) => void;
+  userPage: number;
+  setUserPage: React.Dispatch<React.SetStateAction<number>>;
+  communityPage: number;
+  setCommunityPage: React.Dispatch<React.SetStateAction<number>>;
+  isLoading: boolean;
 }
 
 const AdsContext = createContext<AdsContextType | undefined>(undefined);
 
 export const AdsProvider = ({ children }: { children: ReactNode }) => {
   const [adData, setAdData] = useState<Ads>({ user: [], community: [] });
+  const [userPage, setUserPage] = useState<number>(1);
+  const [communityPage, setCommunityPage] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (
-    <AdsContext.Provider value={{ adData, setAdData }}>
+    <AdsContext.Provider
+      value={{
+        adData,
+        setAdData,
+        userPage,
+        setUserPage,
+        communityPage,
+        setCommunityPage,
+        isLoading,
+      }}
+    >
       {children}
     </AdsContext.Provider>
   );
