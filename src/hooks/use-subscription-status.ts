@@ -10,6 +10,7 @@ const fetchSubscriptionStatus = async () => {
 export const useSubscriptionStatus = () => {
   const setSubscriptionData = useAuthStore((state) => state.setSubsciptionData);
 
+
   return useQuery({
     queryKey: ["subscriptionStatus"],
     queryFn: async () => {
