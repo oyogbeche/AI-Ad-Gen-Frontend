@@ -36,9 +36,7 @@ export function useInpaintImage() {
   const [progress, setProgress] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [completedData, setCompletedData] = useState<TaskStatusResponse | null>(
-    null
-  );
+  const [completedData, setCompletedData] = useState<TaskStatusResponse | null>(null);
 
   const inpaintMutation = useMutation({
     mutationFn: async (data: InpaintParams) => {
@@ -72,16 +70,13 @@ export function useInpaintImage() {
         setCompletedData(response);
         setProgress(100);
       }
-      // console.log("INpainting RESPONSE", response);
+      console.log("INpainting RESPONSE", response);
       return response;
     },
     enabled: !!taskId && !completedData,
     refetchInterval: (query: Query<TaskStatusResponse, Error>) => {
       const data = query.state.data;
-      if (
-        !data ||
-        (data.status_code === 200 && data.data.status === "pending")
-      ) {
+      if (!data || (data.status_code === 200 && data.data.status === "pending")) {
         return 3000; // Poll every 3 seconds while pending
       }
       return false; // Stop polling when complete
@@ -110,12 +105,6 @@ export function useInpaintImage() {
       setIsLoading(false);
     }
   }, [inpaintStatusQuery.data]);
-
-  console.log("InpaintData", completedData);
-  console.log("isFetchingStatus", isLoading);
-  console.log("isInpainting", inpaintMutation.isPending);
-  console.log("inpaintingProgress", progress);
-  console.log("inpaintImage", inpaintMutation.mutate);
 
   return {
     inpaintImage: inpaintMutation.mutate,
