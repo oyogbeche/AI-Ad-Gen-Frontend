@@ -106,18 +106,8 @@ export default function AdCustomizer() {
   // Use the generate image hook
   const { generateAd, adData, isFetchingAd, progress, error, reset } =
     useGenerateAdImage();
+    const { isFetchingStatus, inpaintData } = useInpaintImage();
 
-  const {
-    isFetchingStatus,
-    inpaintData,
-    isInpainting,
-    progress: inpaintingProgress,
-  } = useInpaintImage();
-
-  console.log("InpaintData", inpaintData);
-  console.log("isFetchingStatus", isFetchingStatus);
-  console.log("isInpainting", isInpainting);
-  console.log("inpaintingProgress", inpaintingProgress);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -263,8 +253,9 @@ export default function AdCustomizer() {
     );
   }
 
-  console.log("InpaintData", inpaintData);
-  console.log("isFetchingStatus", isFetchingStatus);
+
+  console.log("InpaintData", inpaintData)
+  console.log("isFetchingStatus", isFetchingStatus)
   return (
     <div className="flex flex-col lg:flex-row p-4 lg:p-0">
       {/* Form Section */}
@@ -572,18 +563,6 @@ export default function AdCustomizer() {
                     </h2>
                   </div>
                 </div>
-              ) : isInpainting ? (
-                <div className="max-w-[609px] w-full mx-auto flex items-center justify-center max-h-[648px] rounded-sm">
-                  <div className="flex flex-col gap-6 items-center justify-center rounded-md">
-                    <div className="relative w-12 h-12">
-                      <div className="absolute inset-0 border-6 border-gray-800 rounded-full"></div>
-                      <div className="absolute inset-0 border-6 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
-                    </div>
-                    <h2 className="text-lg md:text-2xl text-[#121316] text-center leading-8 font-semibold max-md:max-w-[338px]">
-                      Editing Your Image... {inpaintingProgress}%
-                    </h2>
-                  </div>
-                </div>
               ) : !adData?.data?.image_url ? (
                 <div className="flex flex-col">
                   <ImageIcon className="size-10 mb-4 text-[#A1A1A1] mx-auto" />
@@ -596,9 +575,7 @@ export default function AdCustomizer() {
               {adData?.data?.image_url && (
                 <div className="w-full h-full">
                   <ImageTextEditor
-                    imageSrc={
-                      inpaintData?.data.image_url || adData.data.image_url
-                    }
+                    imageSrc={adData.data.image_url}
                     imageId={adData.data.image_id || ""}
                     initialTexts={[
                       {
