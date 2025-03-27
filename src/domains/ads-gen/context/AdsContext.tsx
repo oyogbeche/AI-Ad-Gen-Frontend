@@ -35,6 +35,7 @@ export const AdsProvider = ({ children }: { children: ReactNode }) => {
   const [adData, setAdData] = useState<Ads>({ user: [], community: [] });
   const [userPage, setUserPage] = useState<number>(1);
   const [communityPage, setCommunityPage] = useState<number>(1);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (

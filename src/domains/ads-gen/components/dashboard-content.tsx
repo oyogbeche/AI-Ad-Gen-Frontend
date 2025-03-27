@@ -94,6 +94,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
         window.history.replaceState({}, "", newUrl);
       }, 5000);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userImages, publishedImages]);
 
   const itemVariants = {
