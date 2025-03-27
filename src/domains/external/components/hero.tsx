@@ -10,27 +10,27 @@ import AnimatedButton from "@/domains/other-externals/components/animated-button
 
 const heroImages = [
   {
-    src: "/fanta-ad.png",
+    src: "/fantaAd.png",
     alt: "Fanta Orange Flavor Ad",
   },
   {
-    src: "/sprite-ad.png",
+    src: "/spriteAd.png",
     alt: "Sprite Fresh Ad",
   },
   {
-    src: "/tech-ad.png",
+    src: "/techAd.png",
     alt: "Technology Concept Ad",
   },
   {
-    src: "/cosmetic-ad.png",
+    src: "/cosmeticAd.png",
     alt: "Cosmetic Product Ad",
   },
   {
-    src: "/landscape-ad.png",
+    src: "/landscapeAd.png",
     alt: "Landscape Concept Ad",
   },
   {
-    src: "/cokead.png",
+    src: "/cokeAd.png",
     alt: "Food Product Ad",
   },
 ];

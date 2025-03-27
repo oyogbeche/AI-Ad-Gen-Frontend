@@ -26,8 +26,6 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
   const { adData, setAdData } = useAdsContext();
   const { publishedImages, userImages, isLoading } = useAdsData();
 
- 
-
   // console.log("DASHBOARD", adData);
   const router = useRouter();
   useEffect(() => {
@@ -111,66 +109,64 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
     <Loader fullscreen={false} />
   ) : (
     <>
-    
-        <section
-          className={`bg-white rounded-[20px] px-4 py-6 md:p-6 flex flex-col gap-10 mt-10 transition-all duration-500 ${
-            !isLoading ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <div className="flex justify-between flex-col sm:flex-row gap-4">
-            <div className="flex gap-3 md:gap-5">
-              {(["user", "community"] as const).map((category) => (
-                <motion.button
-                  key={category}
-                  className={`rounded-[8px] p-2 text-[14px] font-semibold cursor-pointer ${
-                    filter === category
-                      ? "text-[#7D7D7D] bg-[#ECECEC] border border-[#ECECEC]"
-                      : "text-[#7D7D7D]"
-                  }`}
-                  onClick={() => setFilter(category)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  {category === "user" ? "Recent Ads" : "Community"}
-                </motion.button>
-              ))}
-            </div>
-            {filter === "community" && (
-              <motion.div
-                className="flex gap-2.5 items-center"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3 }}
+      <section
+        className={`bg-white rounded-[20px] px-4 py-6 md:p-6 flex flex-col gap-10 mt-10 transition-all duration-500 ${
+          !isLoading ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <div className="flex justify-between flex-col sm:flex-row gap-4">
+          <div className="flex gap-3 md:gap-5">
+            {(["user", "community"] as const).map((category) => (
+              <motion.button
+                key={category}
+                className={`rounded-[8px] p-2 text-[14px] font-semibold cursor-pointer ${
+                  filter === category
+                    ? "text-[#7D7D7D] bg-[#ECECEC] border border-[#ECECEC]"
+                    : "text-[#7D7D7D]"
+                }`}
+                onClick={() => setFilter(category)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
-                <p className="text-[#121316] text-[14px] font-semibold">
-                  Sort by:{" "}
-                </p>
-                <Select value={sortOption} onValueChange={setSortOption}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Most recent" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="most-recent">Most recent</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </motion.div>
-            )}
+                {category === "user" ? "Recent Ads" : "Community"}
+              </motion.button>
+            ))}
           </div>
-
-          { adData[filter].length === 0 ? (
-        <div className="flex flex-col items-center gap-4 my-12">
-          <Image
-            src="/get-started.png"
-            width={401}
-            height={333}
-            alt="Let's get started."
-          />
+          {filter === "community" && (
+            <motion.div
+              className="flex gap-2.5 items-center"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <p className="text-[#121316] text-[14px] font-semibold">
+                Sort by:{" "}
+              </p>
+              <Select value={sortOption} onValueChange={setSortOption}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Most recent" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="most-recent">Most recent</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </motion.div>
+          )}
         </div>
-      ) :
 
+        {adData[filter].length === 0 ? (
+          <div className="flex flex-col items-center gap-4 my-12">
+            <Image
+              src="/get-started.png"
+              width={401}
+              height={333}
+              alt="Let's get started."
+            />
+          </div>
+        ) : (
           <motion.div
             className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5"
             initial="hidden"
@@ -197,7 +193,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
                       }}
                     >
                       <Image
-                        src={ad.final_url? ad.final_url : ad.image_url}
+                        src={ad.final_url ? ad.final_url : ad.image_url}
                         fill
                         alt={`${ad.prompt}`}
                         priority={i < 3}
@@ -231,9 +227,8 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
                 </motion.div>
               ))}
           </motion.div>
-}
-        </section>
-      
+        )}
+      </section>
     </>
   );
 };
