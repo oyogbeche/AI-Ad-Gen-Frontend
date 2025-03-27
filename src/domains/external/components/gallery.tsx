@@ -8,7 +8,7 @@ const Gallery = () => {
         className="absolute inset-0 bg-cover bg-repeat"
         style={{
           backgroundImage:
-            'url("https://res.cloudinary.com/digm76oyr/image/upload/v1742922481/Carousel_for_Export_1_afax3w.jpg")',
+            'url("https://res.cloudinary.com/ds6nd4lbj/image/upload/v1743058615/Frame_2147225687_jrvctg.png")',
           opacity: 0.5,
         }}
         animate={{
