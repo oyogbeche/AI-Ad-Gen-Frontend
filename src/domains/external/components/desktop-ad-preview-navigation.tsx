@@ -290,7 +290,7 @@ export const DesktopAdPreviewNavigation: React.FC<
       );
       const publish = true;
       saveImage(message, publish, newStatus, element);
-      // router.push(`/dashboard?publishStatus=${newStatus}`);
+      router.push(`/dashboard?publishStatus=${newStatus}`);
     } catch (error) {
       console.error("Error updating publish status:", error);
       toast.error("Failed to update publish status");

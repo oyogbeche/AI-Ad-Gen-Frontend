@@ -30,7 +30,7 @@ const heroImages = [
     alt: "Landscape Concept Ad",
   },
   {
-    src: "/cokeAd.png",
+    src: "/heroCokeAd.png",
     alt: "Food Product Ad",
   },
 ];
@@ -101,7 +101,7 @@ const HeroSection = () => {
               <Image
                 src={image.src}
                 alt={image.alt}
-                className="max-w-full max-h-full object-contain absolute bottom-[-50px] sm:bottom-[-75px] md:bottom-[-100px]"
+                className="max-w-full max-h-full object-contain absolute bottom-[-10px] sm:bottom-[-75px] md:bottom-[-100px]"
                 quality={100}
                 width={1000}
                 height={500}

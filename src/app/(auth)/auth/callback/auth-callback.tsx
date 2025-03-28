@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "@/store/auth-store";
 import { getRequest } from "@/lib/api";
+import Loader from "@/components/ui/loader";
 
 export default function AuthCallback() {
   const router = useRouter();
@@ -18,7 +19,6 @@ export default function AuthCallback() {
 
   useEffect(() => {
     if (token) {
-     
       setToken(token);
       setTokenSet(true); // Ensure token is set before fetching user
     } else {
@@ -26,7 +26,11 @@ export default function AuthCallback() {
     }
   }, [token, router, setToken]);
 
-  const { data: user, error, isSuccess } = useQuery({
+  const {
+    data: user,
+    error,
+    isSuccess,
+  } = useQuery({
     queryKey: ["user"],
     queryFn: () => getRequest("/users/me"),
     enabled: tokenSet, // Fetch user only after token is set
@@ -35,9 +39,8 @@ export default function AuthCallback() {
 
   useEffect(() => {
     if (isSuccess && user) {
-
       setUser(user.data);
-      router.push("/dashboard"); 
+      router.push("/dashboard");
     }
   }, [user, isSuccess, setUser, router]);
 
@@ -46,5 +49,6 @@ export default function AuthCallback() {
     return <p>Error authenticating. Redirecting...</p>;
   }
 
-  return <p>Authenticating...</p>;
+  return;
+  <Loader />;
 }
