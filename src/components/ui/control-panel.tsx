@@ -54,16 +54,12 @@ export function ControlPanel({
             <SelectValue placeholder="Select font" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="Helvetica Neue">Helvetica Neue</SelectItem>
             <SelectItem value="Arial">Arial</SelectItem>
-            <SelectItem value="Roboto">Roboto</SelectItem>
-            <SelectItem value="Open Sans">Open Sans</SelectItem>
-            <SelectItem value="Lato">Lato</SelectItem>
+            <SelectItem value="Helvetica Neue">Helvetica Neue</SelectItem>
             <SelectItem value="Georgia">Georgia</SelectItem>
             <SelectItem value="Times New Roman">Times New Roman</SelectItem>
-            <SelectItem value="Fira Sans">Fira Sans</SelectItem>
-            <SelectItem value="Montserrat">Montserrat</SelectItem>
-            <SelectItem value="Poppins">Poppins</SelectItem>
+            <SelectItem value="Verdana">Verdana</SelectItem>
+            <SelectItem value="Courier New">Courier New</SelectItem>
           </SelectContent>
         </Select>
       </div>

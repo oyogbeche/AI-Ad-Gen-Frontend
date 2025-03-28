@@ -38,10 +38,10 @@ const CtaHowItWorks: React.FC = () => {
       >
         {/* Left Side: Headline, Description, and Button */}
         <div className="md:pl-8 py-8">
-          <h3 className="text-[20px] lg:text-[56px] font-semibold md:font-bold leading-7 md:leading-12 mb-4">
+          <h3 className="text-[20px] lg:text-[56px] font-semibold md:font-bold leading-7 md:leading-12 mb-4  text-center md:text-left">
             Simple &amp; Quick Ad Creation.
           </h3>
-          <p className="text-base md:text-[18px] leading-6 md:leading-7 mb-6">
+          <p className="text-base md:text-[18px] leading-6 md:leading-7 mb-6 font-normal text-center md:text-left">
             With Genz.ad, you can turn ideas into powerful ads in minutes. No
             complex tools. No expensive software. Just your vision!
           </p>
@@ -60,6 +60,7 @@ const CtaHowItWorks: React.FC = () => {
               hover:opacity-90
               transition
               max-md:w-full
+              cursor-pointer
             "
           >
             Start Creating Your Ad

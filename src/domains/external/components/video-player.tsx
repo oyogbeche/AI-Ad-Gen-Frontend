@@ -7,6 +7,7 @@ import { useRef } from "react";
 interface VideoPlayerProps {
   videoLink: string;
   className?: string;
+  heading?: string;
   loop?: boolean; // Optional prop to enable looping
   disableRelatedVideos?: boolean; // Optional prop to disable related videos
 }
@@ -14,6 +15,7 @@ interface VideoPlayerProps {
 const VideoPlayer: React.FC<VideoPlayerProps> = ({
   videoLink,
   className,
+  heading,
   loop = false,
   disableRelatedVideos = false,
 }) => {
@@ -50,7 +52,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Create engaging ads with AI in 3mins
+            {heading ? heading : "Create engaging ads with AI in 3mins"}
           </motion.h2>
 
           <motion.h4

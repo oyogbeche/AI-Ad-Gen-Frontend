@@ -1,8 +1,4 @@
 "use client";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
 import {
   Card,
   CardContent,
@@ -10,25 +6,45 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { motion, useInView } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { useRef } from "react";
 
 const notes = [
   {
     title: "AI-Powered Ad Creation",
     description:
       "Effortless ad copy & visuals, perfectly tailored to your brand and audience.",
+<<<<<<< HEAD
     img: "/feature-card1.spng",
+=======
+    img: "/feature-card1.svg",
+    href: "/ad-generation",
+>>>>>>> adc25c39a6883547276bbbc69103f8228bf34c04
   },
   {
     title: "Share Your Ad",
     description:
+<<<<<<< HEAD
       " Post your ad, reach your audience, and get results instantly.",
     img: "/feature-card2.png",
+=======
+      "Post your ad, reach your audience, and get results instantly.",
+    img: "/feature-card2.svg",
+    href: "/share-ads",
+>>>>>>> adc25c39a6883547276bbbc69103f8228bf34c04
   },
   {
     title: "Community Inspiration",
     description:
       "See how businesses are transforming ads with AI—get inspired by their success!",
+<<<<<<< HEAD
     img: "/feature-card3.png",
+=======
+    img: "/feature-card3.svg",
+    href: "/community",
+>>>>>>> adc25c39a6883547276bbbc69103f8228bf34c04
   },
 ];
 
@@ -77,14 +93,16 @@ const CreateAd = () => {
             key={index}
             className="rounded-[6px] flex flex-col gap-2 w-full flex-[1] border-none bg-[#FBFBFB] border border-[#ECECEC]"
           >
-            <picture className="w-full h-fit">
-              <Image
-                src={note.img}
-                height={306}
-                width={373}
-                alt="card picture"
-                className="w-full h-auto"
-              />
+            <picture className="w-full h-fit cursor-pointer">
+              <Link href={note.href}>
+                <Image
+                  src={note.img}
+                  height={306}
+                  width={373}
+                  alt="card picture"
+                  className="w-full h-auto"
+                />
+              </Link>
             </picture>
             <div className="p-4 pb-9">
               <CardHeader className="p-0">

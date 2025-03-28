@@ -2,6 +2,7 @@
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
 @custom-variant dark (&:is(.dark *));
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&family=Montserrat&family=Poppins&display=swap");
 
 /* Hide scrollbar for all browsers */
 .scrollbar-hide {
@@ -149,7 +150,7 @@
   --color-blue: #10509a;
   --color-ash: #f9fafb;
   --color-rich-black: #121316;
-  --color-gray: #5F5F5F;
+  --color-gray: #5f5f5f;
 }
 
 .font-nunito {
