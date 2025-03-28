@@ -55,18 +55,16 @@ const Profile = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const [userResponse, publishedResponse] = await Promise.all([
-          getRequest("/image/"),
-          getRequest("image/user/published-count"),
+        const [userResponse] = await Promise.all([
+          getRequest(`/users/${user?.id}`)
         ]);
 
         if (
-          userResponse.status === "success" &&
-          publishedResponse.status === "success"
+          userResponse.status === "success" 
         ) {
           setUserCount({
-            ads: userResponse.data.total_count,
-            publishedAds: publishedResponse.data.published_count,
+            ads: userResponse.data.number_of_generated_ads,
+            publishedAds: userResponse.data.number_of_published_ads,
           });
         }
       } catch (error) {
@@ -74,7 +72,7 @@ const Profile = () => {
       }
     };
     fetchImages();
-  }, []);
+  }, [user?.id]);
 
   const formatJoinDate = (dateString: string | undefined) => {
     if (!dateString) return "";
