@@ -9,13 +9,13 @@ const Gallery = () => {
         style={{
           backgroundImage:
             'url("https://res.cloudinary.com/ds6nd4lbj/image/upload/v1743058615/Frame_2147225687_jrvctg.png")',
-          opacity: 0.5,
+          opacity: 0.64,
         }}
         animate={{
           backgroundPosition: ["0% 0%", "100% 100%"],
         }}
         transition={{
-          duration: 100,
+          duration: 50,
           repeat: Infinity,
           ease: "linear",
         }}
