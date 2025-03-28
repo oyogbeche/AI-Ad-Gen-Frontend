@@ -106,7 +106,7 @@ const AdGeneration = () => {
                 <h3 className="text-[24px] leading-8 md:leading-6 font-semibold mb-[18px] text-center xl:text-left w-full">
                   {ad.title}
                 </h3>
-                <p className="hiddedn xl:block text-[18px] font-normal leading-7 text-center xl:text-left w-full">
+                <p className="hidden xl:block text-[18px] font-normal leading-7 text-center xl:text-left w-full">
                   {ad.description}
                 </p>
                 <p className="block xl:hidden text-[18px] font-normal leading-7 text-center xl:text-left w-full">
