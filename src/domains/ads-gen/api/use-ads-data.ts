@@ -2,20 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getRequest } from "@/lib/axios-fetch";
 import { useAdsContext } from "../context/AdsContext";
 
-interface Ad {
-  ad_description: string;
-  author_info: { name: string; avatar: string };
-  created_at: string;
-  final_url: string;
-  id: string;
-  image_url: string;
-  is_published: boolean;
-  prompt: string;
-  product_name: string;
-  target_audience: string;
-  updated_at: string;
-}
-
 export const useAdsData = () => {
   const { userPage, communityPage, setUserPage, setCommunityPage } =
     useAdsContext();
