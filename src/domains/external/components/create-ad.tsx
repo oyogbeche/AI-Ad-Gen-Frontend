@@ -16,19 +16,19 @@ const notes = [
     title: "AI-Powered Ad Creation",
     description:
       "Effortless ad copy & visuals, perfectly tailored to your brand and audience.",
-    img: "/feature-card1.svg",
+    img: "/feature-card1.spng",
   },
   {
     title: "Share Your Ad",
     description:
       " Post your ad, reach your audience, and get results instantly.",
-    img: "/feature-card2.svg",
+    img: "/feature-card2.png",
   },
   {
     title: "Community Inspiration",
     description:
       "See how businesses are transforming ads with AI—get inspired by their success!",
-    img: "/feature-card3.svg",
+    img: "/feature-card3.png",
   },
 ];
 
