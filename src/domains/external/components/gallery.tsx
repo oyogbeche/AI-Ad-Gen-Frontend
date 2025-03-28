@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Gallery = () => {
   return (
-    <div className="relative h-screen w-screen items-center justify-center flex overflow-hidden p-6">
+    <div className="relative h-screen max-w-[1440px] items-center justify-center flex overflow-hidden p-6">
       <motion.div
         className="absolute inset-0 bg-cover bg-repeat"
         style={{
