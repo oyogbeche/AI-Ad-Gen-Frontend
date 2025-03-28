@@ -1,34 +1,31 @@
 "use client";
-import Image from "next/image";
 import circle from "@/components/icons/circle.svg";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import Image from "next/image";
 import { useRef } from "react";
 
-const notes = [
-  {
-    name: "Publish to Community",
-    description:
-      "Publish your generated ad to Genz.ad community by simply clicking save and publish.",
-  },
-  {
-    name: "Explore Community",
-    description:
-      "Dive into the Genz.ad community to discover, engage with, and be inspired by ads created by others.",
-  },
-];
+interface CreateAdsProps {
+  rowReverse?: boolean;
+  heading: React.ReactNode;
+  notes: Array<{
+    name: string;
+    description: string;
+  }>;
+}
 
-const CreateAds = () => {
+const CreateAds = ({ rowReverse, heading, notes }: CreateAdsProps) => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   return (
     <section
       ref={sectionRef}
-      className="flex flex-col w-full lg:flex-row justify-between gap-10 lg:gap-[80px] md:px-[30px]  py-10 lg:py-28 bg-[#FCFCFC]"
+      className={`flex flex-col w-full ${
+        rowReverse ? "lg:flex-row-reverse" : "lg:flex-row"
+      } justify-between gap-10 lg:gap-[80px] md:px-[30px]  py-10 lg:py-28 bg-[#FCFCFC]`}
     >
       <motion.div
-        className="w-full h-auto lg:max-w-[596px] mx-auto items-center justify-center flex bg-[#E5EEFF] xl:p-12 xl:py-12 px-8 py-25"
+        className="h-auto lg:max-w-[659px] w-full mx-auto items-center justify-center flex bg-[#E5EEFF] xl:p-11 px-8 py-25"
         initial={{ opacity: 0, x: -50 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
         transition={{ duration: 0.5 }}
@@ -38,7 +35,7 @@ const CreateAds = () => {
       </motion.div>
 
       <motion.div
-        className="flex flex-col text-left px-[10px]"
+        className="flex flex-col text-left px-[10px] max-w-[556px]"
         initial={{ opacity: 0, x: 50 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
         transition={{ duration: 0.5 }}
@@ -53,12 +50,12 @@ const CreateAds = () => {
           HOW IT WORKS
         </motion.p>
         <motion.h2
-          className="text-[28px] md:text-[36px] lg:text-[48px] font-medium leading-tight text-nowrap"
+          className="text-[28px] md:text-[36px] lg:text-[48px] font-medium leading-tight"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.4, delay: 0.3 }}
         >
-          How to use Genz.ad <br /> community
+          {heading}
         </motion.h2>
 
         <motion.div
@@ -90,10 +87,10 @@ const CreateAds = () => {
                 </p>
               </motion.h3>
               <div className="flex flex-col items-start text-start">
-                <p className="text-rich-black font-bold text-[18px] md:text-[22px] lg:text-[24px]">
+                <p className="text-rich-black font-semibold text-[18px] md:text-[22px] lg:text-[24px]">
                   {note.name}
                 </p>
-                <p className="text-gray-500 w-full lg:max-w-md font-medium text-[14px] md:text-[16px] lg:text-[18px] text-start md:text-left">
+                <p className="text-gray-500 w-full lg:max-w-md font-normal text-[14px] md:text-[16px] lg:text-[18px] text-start md:text-left">
                   {note.description}
                 </p>
               </div>
