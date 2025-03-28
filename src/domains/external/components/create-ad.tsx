@@ -16,35 +16,22 @@ const notes = [
     title: "AI-Powered Ad Creation",
     description:
       "Effortless ad copy & visuals, perfectly tailored to your brand and audience.",
-<<<<<<< HEAD
-    img: "/feature-card1.spng",
-=======
-    img: "/feature-card1.svg",
+    img: "/feature-card1.png",
     href: "/ad-generation",
->>>>>>> adc25c39a6883547276bbbc69103f8228bf34c04
   },
   {
     title: "Share Your Ad",
     description:
-<<<<<<< HEAD
-      " Post your ad, reach your audience, and get results instantly.",
-    img: "/feature-card2.png",
-=======
       "Post your ad, reach your audience, and get results instantly.",
-    img: "/feature-card2.svg",
+    img: "/feature-card2.png",
     href: "/share-ads",
->>>>>>> adc25c39a6883547276bbbc69103f8228bf34c04
   },
   {
     title: "Community Inspiration",
     description:
       "See how businesses are transforming ads with AI—get inspired by their success!",
-<<<<<<< HEAD
     img: "/feature-card3.png",
-=======
-    img: "/feature-card3.svg",
     href: "/community",
->>>>>>> adc25c39a6883547276bbbc69103f8228bf34c04
   },
 ];
 
