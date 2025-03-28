@@ -10,6 +10,7 @@ import {
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationNext,
   PaginationPrevious,
@@ -31,8 +32,15 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
     filt ? filt : "user"
   );
 
-  const { userPage, communityPage, isLoading, adData, setAdData } =
-    useAdsContext();
+  const {
+    userPage,
+    communityPage,
+    isLoading,
+    adData,
+    setAdData,
+    setUserPage,
+    setCommunityPage,
+  } = useAdsContext();
 
   const { nextUserPage, prevUserPage, nextCommunityPage, prevCommunityPage } =
     useAdsData();
@@ -43,7 +51,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
 
   const router = useRouter();
   useEffect(() => {
-    setAdData({ user: userImages, community: publishedImages });
+    setAdData({ user: userImages.images, community: publishedImages.images });
     console.log(adData);
 
     // Check if there's a recently published ad in the URL
@@ -95,7 +103,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
       }, 5000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userImages, publishedImages]);
+  }, [userImages.images, publishedImages.images]);
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -119,6 +127,10 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
   };
 
   const currentPage = filter === "user" ? userPage : communityPage;
+  const maxPage =
+    filter === "user"
+      ? Math.ceil(userImages.total_count / 10)
+      : Math.ceil(publishedImages.total_count / 10);
 
   return isLoading ? (
     <Loader fullscreen={false} />
@@ -172,7 +184,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
           )}
         </div>
 
-        {adData[filter].length === 0 ? (
+        {adData[filter]?.length === 0 ? (
           <div className="flex flex-col items-center gap-4 my-12">
             <Image
               src="/get-started.png"
@@ -189,7 +201,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
             key={filter}
           >
             {adData &&
-              adData[filter].map((ad, i) => (
+              adData[filter]?.map((ad, i) => (
                 <motion.div
                   key={i}
                   className="border-[#ECECEC] border bg-[#FCFCFC] rounded-[8px] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
@@ -243,22 +255,79 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
               ))}
           </motion.div>
         )}
-        <div className="flex justify-center mt-6">
+        <div
+          className={`${
+            (adData[filter] || []).length || "hidden"
+          } flex justify-center mt-6 bg-[#f8f7f759] rounded-2xl m-auto w-fit p-2.5`}
+        >
           <Pagination>
-            <PaginationContent>
+            <PaginationContent className="flex gap-4">
               <PaginationItem>
                 <PaginationPrevious
                   onClick={filter === "user" ? prevUserPage : prevCommunityPage}
+                  className={
+                    currentPage == 1 ? "pointer-events-none opacity-50" : ""
+                  }
                 />
               </PaginationItem>
+              {currentPage > 1 && (
+                <PaginationItem
+                  onClick={() =>
+                    filter == "user" ? setUserPage(1) : setCommunityPage(1)
+                  }
+                >
+                  <span className="px-3 py-1 hover:bg-white hover:outline hover:outline-[#B800B8] rounded">
+                    1
+                  </span>
+                </PaginationItem>
+              )}
+              {currentPage >= 3 && (
+                <PaginationItem
+                  onClick={() =>
+                    filter == "user" ? setUserPage(2) : setCommunityPage(2)
+                  }
+                >
+                  <span className="px-3 py-1 hover:bg-white hover:outline hover:outline-[#B800B8] rounded">
+                    2
+                  </span>
+                </PaginationItem>
+              )}
+              {currentPage >= 4 && (
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+              )}
               <PaginationItem>
-                <span className="px-3 py-1 bg-gray-100 rounded">
+                <span className="px-3 py-1 bg-[#B800B8] hover:opacity-90 text-white rounded">
                   {currentPage}
                 </span>
               </PaginationItem>
+              {maxPage > currentPage + 1 && (
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+              )}
+              {currentPage !== maxPage && (
+                <PaginationItem
+                  onClick={() =>
+                    filter == "user"
+                      ? setUserPage(maxPage)
+                      : setCommunityPage(maxPage)
+                  }
+                >
+                  <span className="px-3 py-1 hover:bg-white hover:outline hover:outline-[#B800B8] rounded">
+                    {maxPage.toString()}
+                  </span>
+                </PaginationItem>
+              )}
               <PaginationItem>
                 <PaginationNext
                   onClick={filter === "user" ? nextUserPage : nextCommunityPage}
+                  className={
+                    currentPage == maxPage
+                      ? "pointer-events-none opacity-50"
+                      : ""
+                  }
                 />
               </PaginationItem>
             </PaginationContent>

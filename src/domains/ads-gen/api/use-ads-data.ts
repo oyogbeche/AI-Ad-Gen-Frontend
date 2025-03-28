@@ -24,7 +24,7 @@ export const useAdsData = () => {
 
   const fetchAds = async (url: string, page: number) => {
     const response = await getRequest(url, { page, page_size: PAGE_SIZE });
-    return response.data.images as Ad[];
+    return response.data;
   };
 
   const publishedQuery = useQuery({
@@ -44,13 +44,14 @@ export const useAdsData = () => {
     userImages: userQuery.data || [],
     isLoading: publishedQuery.isLoading || userQuery.isLoading,
     isError: publishedQuery.isError || userQuery.isError,
-    // refetch: () => {
-    //   publishedQuery.refetch();
-    //   userQuery.refetch();
-    // },
-    nextUserPage: () => setUserPage((prev) => prev + 1),
+
+    nextUserPage: () =>
+      setUserPage((prev) => Math.min(userQuery.data.total_count, prev + 1)),
     prevUserPage: () => setUserPage((prev) => Math.max(1, prev - 1)),
-    nextCommunityPage: () => setCommunityPage((prev) => prev + 1),
+    nextCommunityPage: () =>
+      setCommunityPage((prev) =>
+        Math.min(publishedQuery.data.total_count, prev + 1)
+      ),
     prevCommunityPage: () => setCommunityPage((prev) => Math.max(1, prev - 1)),
   };
 };
