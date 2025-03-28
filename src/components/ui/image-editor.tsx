@@ -19,7 +19,7 @@ export interface TextElement {
 }
 
 interface ImageTextEditorProps {
-  imageSrc: string;
+  imageSrc: string | null;
   imageId: string;
   initialTexts?: TextElement[];
 }
@@ -56,6 +56,9 @@ export function ImageTextEditor({
     window.addEventListener("resize", updateSize);
     return () => window.removeEventListener("resize", updateSize);
   }, []);
+
+
+
 
   const updateText = (updatedText: TextElement) => {
     setTexts(

@@ -24,9 +24,9 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useGenerateAdImage } from "@/domains/ads-gen/api/ad-image-generate";
-import { useInpaintImage } from "@/domains/ads-gen/api/use-image-paint";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useInpaintStore } from "@/store/inpaint-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import html2canvas from "html2canvas";
 // import html2canvas from "html2canvas";
@@ -90,6 +90,7 @@ export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [formLoaded, setFormLoaded] = useState(false);
 
+
   const downloadFunction = async (elementRef: HTMLElement) => {
     const canvas = await html2canvas(elementRef as HTMLElement, {
       useCORS: true,
@@ -106,7 +107,26 @@ export default function AdCustomizer() {
   // Use the generate image hook
   const { generateAd, adData, isFetchingAd, progress, error, reset } =
     useGenerateAdImage();
-    const { isFetchingStatus, inpaintData } = useInpaintImage();
+    const { 
+      inpaintData, 
+      isInpainting: isFetchingStatus, 
+      progress: inpaintProgress,
+      error: inpaintError,
+      reset: resetInpainting
+    } = useInpaintStore();
+
+
+    const [finalImageUrl, setFinalImageUrl] = useState<string | null>(null);
+
+    useEffect(() => {
+      if (inpaintData?.data?.image_url) {
+        setFinalImageUrl(inpaintData.data.image_url);
+      } else if (adData?.data?.image_url) {
+        setFinalImageUrl(adData.data.image_url);
+      } else {
+        setFinalImageUrl(null);
+      }
+    }, [adData, inpaintData]);
 
 
   const form = useForm<FormData>({
@@ -120,8 +140,7 @@ export default function AdCustomizer() {
     },
     mode: "onChange",
   });
-  // console.log("GENERATAD",generateAd)
-  // console.log("ADDATA",adData)
+
 
   const { formState } = form;
   const isValid = formState.isValid;
@@ -239,7 +258,7 @@ export default function AdCustomizer() {
   // Handle retry - restart the whole process
   const handleRetry = () => {
     reset(); // Reset the hook state
-
+    resetInpainting();
     if (lastFormData.current) {
       onSubmit(lastFormData.current);
     }
@@ -253,9 +272,6 @@ export default function AdCustomizer() {
     );
   }
 
-
-  console.log("InpaintData", inpaintData)
-  console.log("isFetchingStatus", isFetchingStatus)
   return (
     <div className="flex flex-col lg:flex-row p-4 lg:p-0">
       {/* Form Section */}
@@ -476,7 +492,7 @@ export default function AdCustomizer() {
                   : "bg-[#EAC8F0] cursor-not-allowed"
               }`}
             >
-              {isFetchingAd ? "Generating" : "Generate Ad"}
+              {isFetchingAd || isFetchingStatus ? "Generating" : "Generate Ad"}
               <ArrowRight size={20} className="text-white" />
             </Button>
           </form>
@@ -498,19 +514,19 @@ export default function AdCustomizer() {
               }
             }}
             status={
-              isFetchingAd
+              isFetchingAd || isFetchingStatus
                 ? "generating"
-                : adData?.data?.image_url
+                : finalImageUrl
                 ? "completed"
                 : "initial"
             }
-            imageUrl={adData?.data?.image_url}
+            imageUrl={finalImageUrl}
             pageAdData={adData?.data}
           />
           <button></button>
         </div>
         {/* Preview Content */}
-        {adData?.data?.image_url && (
+        {finalImageUrl && !isFetchingStatus && (
           <div className="flex items-center gap-1 text-sm md:text-base leading-6 font-normal md:py-4 mx-auto">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -529,14 +545,14 @@ export default function AdCustomizer() {
         )}
         <div
           className={`${
-            adData?.data?.image_url
+            finalImageUrl && !isFetchingStatus
               ? ""
               : "bg-[#F2F2F2] md:bg-[#F2F2F2] max-md:mt-4 flex-1 rounded-md flex items-center justify-center min-h-[50vh] mx-auto max-h-[648px] max-w-[699px] w-full max-md:w-[90%] md:my-10 max-md:py-10"
           }`}
         >
-          <div className={`${adData?.data?.image_url ? "" : "bg-[#F2F2F2]"}`}>
+          <div className={`${finalImageUrl ? "" : "bg-[#F2F2F2]"}`}>
             <div className="w-full mx-auto flex items-center justify-center rounded-sm">
-              {error ? (
+              {error || inpaintError ? (
                 <div className="max-w-[609px] w-full mx-auto flex items-center justify-center max-h-[648px] rounded-sm">
                   <div className="flex flex-col gap-4 md:gap-6 items-center justify-center text-center">
                     <h2 className="text-lg md:text-2xl text-[#121316] text-center leading-8 font-semibold max-md:max-w-[338px]">
@@ -551,7 +567,7 @@ export default function AdCustomizer() {
                     </Button>
                   </div>
                 </div>
-              ) : isFetchingAd ? (
+              ) : isFetchingAd || isFetchingStatus ? (
                 <div className="max-w-[609px] w-full mx-auto flex items-center justify-center max-h-[648px] rounded-sm">
                   <div className="flex flex-col gap-6 items-center justify-center rounded-md">
                     <div className="relative w-12 h-12">
@@ -559,11 +575,12 @@ export default function AdCustomizer() {
                       <div className="absolute inset-0 border-6 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                     </div>
                     <h2 className="text-lg md:text-2xl text-[#121316] text-center leading-8 font-semibold max-md:max-w-[338px]">
-                      Generating Your Image Ad... {progress}%
+                    {isFetchingStatus ? "Inpainting" : "Generating"} Your Image Ad...{" "}
+                    {isFetchingStatus ? inpaintProgress : progress}%
                     </h2>
                   </div>
                 </div>
-              ) : !adData?.data?.image_url ? (
+              ) : !finalImageUrl ? (
                 <div className="flex flex-col">
                   <ImageIcon className="size-10 mb-4 text-[#A1A1A1] mx-auto" />
                   <p className="text-lg md:text-2xl leading-8 font-light text-[#A1A1A1] text-center">
@@ -572,18 +589,18 @@ export default function AdCustomizer() {
                 </div>
               ) : null}
 
-              {adData?.data?.image_url && (
+              {finalImageUrl && !isFetchingStatus && (
                 <div className="w-full h-full">
                   <ImageTextEditor
-                    imageSrc={adData.data.image_url}
-                    imageId={adData.data.image_id || ""}
+                    imageSrc={finalImageUrl}
+                    imageId={adData?.data.image_id || ""}
                     initialTexts={[
                       {
                         id: "1",
                         content:
-                          adData.data.keywords &&
-                          adData.data.keywords.length > 0
-                            ? adData.data.keywords[0]
+                          adData?.data.keywords &&
+                          adData?.data.keywords.length > 0
+                            ? adData?.data.keywords[0]
                             : "Edit this text",
                         x: 50,
                         y: 50,

@@ -88,7 +88,7 @@ export function useGenerateAdImage() {
         setCompletedData(response);
         setProgress(100);
       }
-      console.log("RESPONSE", response);
+  
       return response;
     },
     enabled: !!taskId && !completedData,

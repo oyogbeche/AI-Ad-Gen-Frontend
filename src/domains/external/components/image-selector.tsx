@@ -1,4 +1,5 @@
-import { useInpaintImage } from "@/domains/ads-gen/api/use-image-paint";
+
+import { useInpaintStore } from "@/store/inpaint-store";
 import { Send } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
@@ -41,7 +42,8 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
   const [containerSize, setContainerSize] = useState({ width, height });
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [currentImageSrc, setCurrentImageSrc] = useState(imageSrc);
-  const { inpaintImage, inpaintData } = useInpaintImage();
+ 
+  const { startInpainting } = useInpaintStore();
 
   useEffect(() => {
     setCurrentImageSrc(imageSrc);
@@ -253,12 +255,13 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
 
       if (imageId) {
         try {
-         inpaintImage({
+          await startInpainting({
             image_id: imageId,
-            prompt: prompt,
+            prompt: prompt
           });
 
-console.log("Inpainting data:", inpaintData);
+
+
 
  /*          if (inpaintData && response.image_url) {
             // Update the image source with the new inpainted image
