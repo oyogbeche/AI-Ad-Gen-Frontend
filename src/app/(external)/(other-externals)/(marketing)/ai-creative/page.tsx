@@ -6,7 +6,7 @@ import HeroMarketing from "@/domains/external/components/heromarketing";
 import VideoPlayer from "@/domains/external/components/video-player";
 
 export default function MarketingPage() {
-  const videoLink = "https://www.youtube.com/embed/cbyukXO_XTk";
+  const videoLink = "https://youtu.be/cbyukXO_XTk";
   return (
     <div>
       <HeroMarketing />
