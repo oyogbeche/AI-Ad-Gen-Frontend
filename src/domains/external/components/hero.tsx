@@ -30,7 +30,7 @@ const heroImages = [
     alt: "Landscape Concept Ad",
   },
   {
-    src: "/cokeAd.png",
+    src: "/heroCokeAd.png",
     alt: "Food Product Ad",
   },
 ];
