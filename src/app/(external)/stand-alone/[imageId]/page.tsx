@@ -61,10 +61,10 @@ const StandalonePage = () => {
     );
   }
 
-  console.log("imageData", imageData?.image.image_url);
 
  
    const imageUrl = imageData?.image.final_url || imageData?.image?.image_url || "/preview.png"; 
+   console.log("new imageUrl", imageUrl);
 
   return (
     <main className="flex flex-col items-center py-12">
