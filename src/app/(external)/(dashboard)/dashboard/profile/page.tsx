@@ -56,12 +56,10 @@ const Profile = () => {
     const fetchImages = async () => {
       try {
         const [userResponse] = await Promise.all([
-          getRequest(`/users/${user?.id}`)
+          getRequest(`/users/${user?.id}`),
         ]);
 
-        if (
-          userResponse.status === "success" 
-        ) {
+        if (userResponse.status === "success") {
           setUserCount({
             ads: userResponse.data.number_of_generated_ads,
             publishedAds: userResponse.data.number_of_published_ads,
@@ -93,7 +91,7 @@ const Profile = () => {
           className="my-5"
         />
         <Card className="w-full flex-1 shadow-sm border-gray-200">
-          <CardHeader className="mb-4 md:mb-8">
+          <CardHeader className="mb-4 md:mb-8 p-4 md:p-6">
             <h1 className="text-3xl font-bold">Account</h1>
             <p className="text-gray-500">View your profile info</p>
           </CardHeader>

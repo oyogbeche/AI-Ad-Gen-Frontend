@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import * as z from "zod";
 import { useSubmitMarketingForm } from "@/domains/ads-gen/api/use-submit-marketing";
-import { toast } from "sonner";
 
 const EarlyAccess = () => {
   const router = useRouter();
