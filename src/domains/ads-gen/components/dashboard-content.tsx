@@ -52,7 +52,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
   const router = useRouter();
   useEffect(() => {
     setAdData({ user: userImages.images, community: publishedImages.images });
-    console.log(adData);
+   
 
     // Check if there's a recently published ad in the URL
     const urlParams = new URLSearchParams(window.location.search);
