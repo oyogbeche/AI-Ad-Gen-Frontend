@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 
 const faqs = [
   {
@@ -12,12 +12,12 @@ const faqs = [
   {
     question: "Can I customize AI-generated ads?",
     answer:
-      "Yes! Our tool allows full customization of AI-generated ads. You can modify text, images, colors, fonts, and even tailor ads to different regional and cultural preferences to ensure they align with your brand’s vision.",
+      "Yes! Our tool allows full customization of AI-generated ads. You can modify text, images, colors, fonts, and even tailor ads according to your target audience to ensure they align with your brand’s vision.",
   },
   {
     question: "What platforms are the ads optimized for?",
     answer:
-      "Our AI-powered tool optimizes ads for various platforms, including Instagram, Facebook, LinkedIn, Twitter, YouTube, and TikTok. You can easily select the platform you’re targeting, and the tool will adjust dimensions and formats accordingly.",
+      "Our AI-powered tool optimizes ads for various platforms, including Facebook, LinkedIn, WhatsApp and Twitter. You can easily select the platform you’re targeting, and the tool allows you to select your formats accordingly.",
   },
   {
     question: "Is this tool suitable for small businesses and entrepreneurs?",

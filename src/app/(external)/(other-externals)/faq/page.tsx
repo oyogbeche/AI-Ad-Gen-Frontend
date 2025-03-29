@@ -42,7 +42,7 @@ const features: FAQItem[] = [
   {
     question: "How does AI help in ad creation?",
     answer:
-      "AI suggests engaging headlines, captions, layouts, and even adapts designs for different regions and audiences.",
+      "AI suggests engaging headlines, layouts, and even adapts designs according to your preference.",
   },
   {
     question: "Can I create both video and image ads?",
