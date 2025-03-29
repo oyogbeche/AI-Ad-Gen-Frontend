@@ -80,14 +80,14 @@ const CreateAd = () => {
             key={index}
             className="rounded-[6px] flex flex-col gap-2 w-full flex-[1] border-none bg-[#FBFBFB] border border-[#ECECEC]"
           >
-            <picture className="w-full h-fit cursor-pointer">
+            <picture className="w-full h-fit cursor-pointer overflow-hidden">
               <Link href={note.href}>
                 <Image
                   src={note.img}
                   height={306}
                   width={373}
                   alt="card picture"
-                  className="w-full h-auto"
+                  className="w-full h-auto transform hover:scale-104 transition-all duration-300"
                 />
               </Link>
             </picture>

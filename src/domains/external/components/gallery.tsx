@@ -3,19 +3,19 @@ import Image from "next/image";
 
 const Gallery = () => {
   return (
-    <div className="relative h-screen w-screen items-center justify-center flex overflow-hidden p-6">
+    <div className="relative h-screen max-w-[1440px] items-center justify-center flex overflow-hidden p-6">
       <motion.div
         className="absolute inset-0 bg-cover bg-repeat"
         style={{
           backgroundImage:
             'url("https://res.cloudinary.com/ds6nd4lbj/image/upload/v1743058615/Frame_2147225687_jrvctg.png")',
-          opacity: 0.5,
+          opacity: 0.64,
         }}
         animate={{
           backgroundPosition: ["0% 0%", "100% 100%"],
         }}
         transition={{
-          duration: 100,
+          duration: 50,
           repeat: Infinity,
           ease: "linear",
         }}
