@@ -25,11 +25,13 @@ export interface SubScriptionData {
   message: string;
   status: string;
   data: {
-    has_subscription: boolean;
-    plan_type: string;
-    credits: number;
-    expiry_date: string;
-    features: SubscriptionFeatures;
+    subscription: {
+      has_subscription: boolean;
+      plan_type: string;
+      credits: number;
+      expiry_date: string;
+      feature: SubscriptionFeatures;
+    };
   };
 }
 

@@ -50,7 +50,8 @@ const Profile = () => {
 
   const { data: userSubscription } = useSubscriptionStatus();
 
-  const userSub = userSubscription?.data;
+  const userSub = userSubscription?.data?.subscription;
+  // console.log("SUBSCRIPTION", userSub);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -148,7 +149,7 @@ const Profile = () => {
                       <div className="bg-[#F5F7FB] rounded-md border border-gray-200 px-3 py-2 text-[#A1A1A1] text-sm cursor-not-allowed">
                         Unsubscribed - Free Plan
                       </div>
-                    ) : userSub?.has_subscription ? (
+                    ) : userSub?.credits ? (
                       <div className="bg-[#F5F7FB] rounded-md border border-gray-200 px-3 py-2 text-[#A1A1A1] text-sm">
                         <div className="flex items-center gap-2">
                           <CheckCircle2 className="h-4 w-4 text-green-500" />
@@ -162,7 +163,7 @@ const Profile = () => {
                     )}
                   </div>
 
-                  {userSub?.has_subscription && (
+                  {userSub?.feature && (
                     <>
                       <div className="space-y-1">
                         <Label
@@ -181,7 +182,7 @@ const Profile = () => {
                           Plan Features
                         </Label>
                         <div className="grid grid-cols-2 gap-2">
-                          {Object.entries(userSub.features)
+                          {Object.entries(userSub?.feature)
                             .filter(([key]) =>
                               [
                                 "predefined_prompts",
@@ -221,13 +222,13 @@ const Profile = () => {
                           <div className="flex justify-between text-sm max-w-[50%]">
                             <span>Ad Generation Cost</span>
                             <span className="font-medium">
-                              {userSub.features.ad_generation_cost} credits
+                              {userSub.feature.ad_generation_cost} credits
                             </span>
                           </div>
                           <div className="flex justify-between text-sm max-w-[50%]">
                             <span>Inpainting Cost</span>
                             <span className="font-medium">
-                              {userSub.features.inpainting_cost} credits
+                              {userSub.feature.inpainting_cost} credits
                             </span>
                           </div>
                         </div>
