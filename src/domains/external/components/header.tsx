@@ -176,7 +176,7 @@ const Header: React.FC = () => {
                       />
 
                       <span className="font-semibold text-[#121316] inline-block sm:hidden">
-                        {data?.data.plan_type[0].toUpperCase()}
+                        {data?.data?.plan_type?.[0]?.toUpperCase()}
                       </span>
                       <span className="hidden sm:inline-block">
                         {" "}
