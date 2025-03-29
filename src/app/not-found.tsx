@@ -29,7 +29,7 @@ export default function NotFound() {
           whileTap={{ scale: 0.95 }}
         >
           <Link
-            href={"/dashboard"}
+            href={"/"}
             className="bg-light-purple cursor-pointer text-white px-6 py-3 rounded-sm hover:bg-dark-purple transition-colors inline-block "
           >
             Go to home{" "}

@@ -300,6 +300,8 @@ const Pricings = () => {
     },
   };
 
+  const token = useAuthStore((state) => state.token);
+
   return (
     <section className="bg-[#F8E6F8]">
       <div className="bg-[#F8E6F8] m-auto max-w-[95vw] md:max-w-[1271px] p-6 md:p-10 flex flex-col gap-2.5 md:gap-6">
@@ -344,7 +346,10 @@ const Pricings = () => {
         <div className="my-7">
           <p className="font-semibold text-center">
             Just getting started?{" "}
-            <Link href={"/dashboard"} className="text-[#B800B8]">
+            <Link
+              href={token ? "/dashboard" : "/signin?type=signin"}
+              className="text-[#B800B8]"
+            >
               Try our free plan
             </Link>
           </p>
