@@ -6,25 +6,26 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import * as z from "zod";
 import { useSubmitMarketingForm } from "@/domains/ads-gen/api/use-submit-marketing";
+import { toast } from "sonner";
 
 const EarlyAccess = () => {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const { mutate: submitForm } = useSubmitMarketingForm();
 
   const formSchema = z.object({
     name: z.string().min(1, "Name is required"),
     email: z.string().email("Invalid email address"),
-    phone: z.string().optional(),
+    message: z.string().optional(),
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const formData = { name, email, phone };
+    const formData = { name, email, message };
     const result = formSchema.safeParse(formData);
 
     if (!result.success) {
@@ -36,9 +37,11 @@ const EarlyAccess = () => {
       return;
     }
 
-    submitForm(formData);
-    setErrors({});
-    router.push("/signin?type=signup");
+    submitForm(formData, {
+      onSuccess: () => {
+        router.push("/signin?type=signup");
+      },
+    });
   };
 
   return (
@@ -108,16 +111,17 @@ const EarlyAccess = () => {
                 type="tel"
                 placeholder="Enter your phone number (optional)"
                 className="p-3 rounded-md text-[#5F5F5F] w-full font-semibold text-sm outline-none bg-white"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
               />
-              {errors.phone && (
-                <div className="text-red-500 text-sm mt-1">{errors.phone}</div>
+              {errors.message && (
+                <div className="text-red-500 text-sm mt-1">
+                  {errors.message}
+                </div>
               )}
             </div>
             <button
               type="submit"
-              onClick={handleSubmit}
               className="bg-[#CF54CF] text-white font-semibold px-4 py-2 cursor-pointer text-sm rounded-md hover:bg-[#A63EA6] transition self-start"
             >
               Get Early Access
