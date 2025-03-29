@@ -153,7 +153,7 @@ const Header: React.FC = () => {
 
                       {data ? (
                         <span className="pl-[2px] sm:pl-1.5 text-base font-semibold text-[#5F5F5F]">
-                          {data.data.credits}{" "}
+                          {data.data.subscription?.credits}{" "}
                           <span className="hidden sm:inline-block">
                             credits
                           </span>
@@ -176,11 +176,11 @@ const Header: React.FC = () => {
                       />
 
                       <span className="font-semibold text-[#121316] inline-block sm:hidden">
-                        {data?.data?.plan_type?.[0]?.toUpperCase()}
+                        {data?.data.subscription?.plan_type?.[0]?.toUpperCase()}
                       </span>
                       <span className="hidden sm:inline-block">
                         {" "}
-                        {data?.data.plan_type}
+                        {data?.data.subscription?.plan_type}
                       </span>
                     </div>
                   </div>
