@@ -1,20 +1,28 @@
-'use client';
+"use client";
 
-import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { AxiosError } from 'axios';
-import Cookies from 'js-cookie';
+import {
+  MutationCache,
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { AxiosError } from "axios";
+import Cookies from "js-cookie";
 
 function makeQueryClient() {
   return new QueryClient({
     queryCache: new QueryCache({
-      onError: error => {
-        const errorData = (error as AxiosError)?.response?.data as { error: string; data: Record<string, string[]> };
-        console.log('error', errorData);
+      onError: (error) => {
+        const errorData = (error as AxiosError)?.response?.data as {
+          error: string;
+          data: Record<string, string[]>;
+        };
+        console.log("error", errorData);
 
-        if (errorData.error?.includes('Unauthenticated')) {
-          Cookies.remove('accessToken');
-          window.location.href = '/login';
+        if (errorData.error?.includes("Unauthenticated")) {
+          Cookies.remove("accessToken");
+          window.location.href = "/login";
         }
       },
     }),
@@ -37,7 +45,7 @@ function makeQueryClient() {
 let browserQueryClient: QueryClient | undefined = undefined;
 
 function getQueryClient() {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     // Server: always make a new query client
     return makeQueryClient();
   } else {
@@ -50,7 +58,11 @@ function getQueryClient() {
   }
 }
 
-export default function QueryProvider({ children }: { children: React.ReactNode }) {
+export default function QueryProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   // NOTE: Avoid useState when initializing the query client if you don't
   //       have a suspense boundary between this and the code that may
   //       suspend because React will throw away the client on the initial
