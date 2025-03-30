@@ -57,8 +57,22 @@ export function ImageTextEditor({
     return () => window.removeEventListener("resize", updateSize);
   }, []);
 
+  const duplicateSelectedText = () => {
+    if (selectedTextId) {
+      const textToDuplicate = texts.find((text) => text.id === selectedTextId);
+      if (textToDuplicate) {
+        const newText = {
+          ...textToDuplicate,
+          id: `${textToDuplicate.id}-copy-${Date.now()}`,
+          x: textToDuplicate.x + 20, 
+          y: textToDuplicate.y + 20, 
+        };
 
-
+        setTexts([...texts, newText]);
+        setSelectedTextId(newText.id);
+      }
+    }
+  };
 
   const updateText = (updatedText: TextElement) => {
     setTexts(
@@ -116,6 +130,7 @@ export function ImageTextEditor({
           text={selectedText}
           onChange={updateText}
           onDelete={() => deleteText(selectedText.id)}
+          onDuplicate={duplicateSelectedText}
           containerSize={containerSize}
         />
       )}
