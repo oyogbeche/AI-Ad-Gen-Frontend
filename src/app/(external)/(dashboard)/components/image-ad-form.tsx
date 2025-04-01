@@ -66,7 +66,9 @@ const formSchema = z.object({
   adDescription: z
     .string()
     .min(10, "Description must be at least 10 characters")
+    .max(200, "Description cannot exceed 200 characters")
     .nonempty("Ad description is required"),
+
   adSize: z
     .string()
     .min(1, "Please select a platform")
@@ -76,10 +78,13 @@ const formSchema = z.object({
         message: "Please select a valid platform",
       }
     ),
+
   productName: z
     .string()
     .min(2, "Product name must be at least 2 characters")
+    .max(60, "Title cannot exceed 60 characters")
     .nonempty("Product name is required"),
+
   targetAudience: z.string().min(1, "Please select a target audience"),
   productImage: z.instanceof(File).optional(),
 });
@@ -89,7 +94,6 @@ type FormData = z.infer<typeof formSchema>;
 export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [formLoaded, setFormLoaded] = useState(false);
-
 
   const downloadFunction = async (elementRef: HTMLElement) => {
     const canvas = await html2canvas(elementRef as HTMLElement, {
@@ -107,27 +111,25 @@ export default function AdCustomizer() {
   // Use the generate image hook
   const { generateAd, adData, isFetchingAd, progress, error, reset } =
     useGenerateAdImage();
-    const { 
-      inpaintData, 
-      isInpainting: isFetchingStatus, 
-      progress: inpaintProgress,
-      error: inpaintError,
-      reset: resetInpainting
-    } = useInpaintStore();
+  const {
+    inpaintData,
+    isInpainting: isFetchingStatus,
+    progress: inpaintProgress,
+    error: inpaintError,
+    reset: resetInpainting,
+  } = useInpaintStore();
 
+  const [finalImageUrl, setFinalImageUrl] = useState<string | null>(null);
 
-    const [finalImageUrl, setFinalImageUrl] = useState<string | null>(null);
-
-    useEffect(() => {
-      if (inpaintData?.data?.image_url) {
-        setFinalImageUrl(inpaintData.data.image_url);
-      } else if (adData?.data?.image_url) {
-        setFinalImageUrl(adData.data.image_url);
-      } else {
-        setFinalImageUrl(null);
-      }
-    }, [adData, inpaintData]);
-
+  useEffect(() => {
+    if (inpaintData?.data?.image_url) {
+      setFinalImageUrl(inpaintData.data.image_url);
+    } else if (adData?.data?.image_url) {
+      setFinalImageUrl(adData.data.image_url);
+    } else {
+      setFinalImageUrl(null);
+    }
+  }, [adData, inpaintData]);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -140,7 +142,6 @@ export default function AdCustomizer() {
     },
     mode: "onChange",
   });
-
 
   const { formState } = form;
   const isValid = formState.isValid;
@@ -322,7 +323,7 @@ export default function AdCustomizer() {
                     <FormControl>
                       <Textarea
                         placeholder="Type in your Ad description"
-                        className="w-full min-h-[100px] border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#1B1B1B] placeholder:text-gray-[#7D7D7D] bg-[#FCFCFC]"
+                        className="w-full min-h-[100px] max-h-[200px]  border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#1B1B1B] placeholder:text-gray-[#7D7D7D] bg-[#FCFCFC]"
                         {...field}
                       />
                     </FormControl>
@@ -575,8 +576,9 @@ export default function AdCustomizer() {
                       <div className="absolute inset-0 border-6 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                     </div>
                     <h2 className="text-lg md:text-2xl text-[#121316] text-center leading-8 font-semibold max-md:max-w-[338px]">
-                    {isFetchingStatus ? "Inpainting" : "Generating"} Your Image Ad...{" "}
-                    {isFetchingStatus ? inpaintProgress : progress}%
+                      {isFetchingStatus ? "Inpainting" : "Generating"} Your
+                      Image Ad...{" "}
+                      {isFetchingStatus ? inpaintProgress : progress}%
                     </h2>
                   </div>
                 </div>
