@@ -28,7 +28,7 @@ interface ControlPanelProps {
 export function ControlPanel({
   text,
   onChange,
-  onDelete,
+  // onDelete,
   onDuplicate,
   containerSize,
 }: ControlPanelProps) {
