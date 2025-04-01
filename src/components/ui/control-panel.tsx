@@ -1,8 +1,15 @@
 "use client";
 
-import type { TextElement } from "./image-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useState } from "react";
+import type { TextElement } from "./image-editor";
 import {
   Select,
   SelectContent,
@@ -10,28 +17,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./select";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 interface ControlPanelProps {
   text: TextElement;
   onChange: (text: TextElement) => void;
   onDelete: () => void;
-  onDuplicate: () => void; 
+  onDuplicate: () => void;
   containerSize: { width: number; height: number };
 }
 
 export function ControlPanel({
   text,
   onChange,
-  // onDelete,
+  onDelete,
   onDuplicate,
   containerSize,
 }: ControlPanelProps) {
+  const [showBackgroundPicker, setShowBackgroundPicker] = useState(false);
+
   const toggleStyle = (style: keyof TextElement) => {
     onChange({ ...text, [style]: !text[style] });
   };
@@ -54,8 +57,18 @@ export function ControlPanel({
     onChange({ ...text, fontFamily: font });
   };
 
+  const handleBackgroundChange = (color: string) => {
+    onChange({ ...text, backgroundColor: color });
+  };
+
+  const handleBackgroundInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    onChange({ ...text, backgroundColor: e.target.value });
+  };
+
   return (
-    <div className="border rounded-lg flex flex-wrap items-center justify-between gap-2 bg-white box-border p-2">
+    <div className="max-w-[609px] mb-4 md:mb-8 border rounded-lg flex flex-wrap items-center justify-between gap-2 bg-white box-border p-2">
       <TooltipProvider>
         <div className="flex-[1] h-full gap-2 border rounded-[8px] p-2">
           <Tooltip>
@@ -67,9 +80,13 @@ export function ControlPanel({
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="Arial">Arial</SelectItem>
-                    <SelectItem value="Helvetica Neue">Helvetica Neue</SelectItem>
+                    <SelectItem value="Helvetica Neue">
+                      Helvetica Neue
+                    </SelectItem>
                     <SelectItem value="Georgia">Georgia</SelectItem>
-                    <SelectItem value="Times New Roman">Times New Roman</SelectItem>
+                    <SelectItem value="Times New Roman">
+                      Times New Roman
+                    </SelectItem>
                     <SelectItem value="Verdana">Verdana</SelectItem>
                     <SelectItem value="Courier New">Courier New</SelectItem>
                   </SelectContent>
@@ -111,7 +128,7 @@ export function ControlPanel({
                 <p>Toggle bold text</p>
               </TooltipContent>
             </Tooltip>
-            
+
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -157,7 +174,7 @@ export function ControlPanel({
                 <p>Toggle italic text</p>
               </TooltipContent>
             </Tooltip>
-            
+
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -204,7 +221,9 @@ export function ControlPanel({
             <TooltipTrigger asChild>
               <Button
                 onClick={() => positionText("vertical")}
-                className={"bg-blue-500 hover:bg-blue-500 border-none shadow-none"}
+                className={
+                  "bg-blue-500 hover:bg-blue-500 border-none shadow-none"
+                }
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -236,12 +255,14 @@ export function ControlPanel({
               <p>Center text vertically</p>
             </TooltipContent>
           </Tooltip>
-          
+
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 onClick={() => positionText("center")}
-                className={"bg-blue-500 hover:bg-blue-500 border-none shadow-none"}
+                className={
+                  "bg-blue-500 hover:bg-blue-500 border-none shadow-none"
+                }
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -273,12 +294,14 @@ export function ControlPanel({
               <p>Center text horizontally and vertically</p>
             </TooltipContent>
           </Tooltip>
-          
+
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 onClick={() => positionText("horizontal")}
-                className={"bg-blue-500 hover:bg-blue-500 border-none shadow-none"}
+                className={
+                  "bg-blue-500 hover:bg-blue-500 border-none shadow-none"
+                }
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -312,6 +335,7 @@ export function ControlPanel({
           </Tooltip>
         </div>
 
+        {/* Text Color Picker */}
         <div className="flex flex-[1] items-center justify-center gap-1 p-2 rounded-[8px] border">
           <Tooltip>
             <TooltipTrigger asChild>
@@ -335,7 +359,70 @@ export function ControlPanel({
             </TooltipContent>
           </Tooltip>
         </div>
-        
+
+        {/* Background Color Picker */}
+        <div className="flex flex-[1] items-center justify-center gap-1 p-2 rounded-[8px] border">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex w-full gap-1 flex-col">
+                <div className="flex items-center mb-1">
+                  <span className="text-sm mr-2">Background:</span>
+                  <Select
+                    onValueChange={(value) => {
+                      if (value === "custom") {
+                        setShowBackgroundPicker(true);
+                        // Set a default color if none is selected yet
+                        if (
+                          !text.backgroundColor ||
+                          text.backgroundColor === "none"
+                        ) {
+                          handleBackgroundChange("#ffffff");
+                        }
+                      } else {
+                        setShowBackgroundPicker(false);
+                        handleBackgroundChange(value);
+                      }
+                    }}
+                    value={
+                      text.backgroundColor && text.backgroundColor !== "none"
+                        ? "custom"
+                        : "none"
+                    }
+                  >
+                    <SelectTrigger className="h-8 flex-1">
+                      <SelectValue placeholder="None" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="none">None</SelectItem>
+                      <SelectItem value="custom">Custom</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {showBackgroundPicker && (
+                  <div className="flex w-full gap-1">
+                    <Input
+                      id="bg-color"
+                      type="color"
+                      value={text.backgroundColor || "#ffffff"}
+                      onChange={(e) => handleBackgroundChange(e.target.value)}
+                      className="w-2/5 border-none shadow-none m-0 p-0 aspect-square"
+                    />
+                    <Input
+                      value={text.backgroundColor || "#ffffff"}
+                      onChange={handleBackgroundInputChange}
+                      className="border-none shadow-none m-0 p-0"
+                    />
+                  </div>
+                )}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Change text background color</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+
         <Tooltip>
           <TooltipTrigger asChild>
             <button
@@ -347,6 +434,20 @@ export function ControlPanel({
           </TooltipTrigger>
           <TooltipContent>
             <p>Create a copy of this text element</p>
+          </TooltipContent>
+        </Tooltip>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded"
+              onClick={() => onDelete()}
+            >
+              Delete Text
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Delete this text element</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

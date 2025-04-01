@@ -107,25 +107,31 @@ export function TextLayer({ text, isSelected, onSelect, onChange, onClick, conta
     setIsEditing(false)
   }
 
+  // Determine background color style
+  const backgroundStyle = text.backgroundColor && text.backgroundColor !== "none" 
+    ? { backgroundColor: text.backgroundColor, padding: "4px 8px" } 
+    : { backgroundColor: "transparent", padding: "4px" };
+
   return (
     <div
       ref={textRef}
       style={{
-      position: "absolute",
-      cursor: "move",
-      userSelect: "none",
-      outline: isSelected ? "2px solid blue" : "none",
-      left: `${text.x}px`,
-      top: `${text.y}px`,
-      color: text.color,
-      fontFamily: text.fontFamily,
-      fontSize: `${text.fontSize}px`,
-      fontWeight: text.isBold ? "bold" : "normal",
-      fontStyle: text.isItalic ? "italic" : "normal",
-      textDecoration: text.isUnderline ? "underline" : "none",
-      lineHeight: 1.2,
-      padding: "4px",
-      zIndex: isSelected ? 10 : 1,
+        position: "absolute",
+        cursor: "move",
+        userSelect: "none",
+        outline: isSelected ? "2px solid blue" : "none",
+        left: `${text.x}px`,
+        top: `${text.y}px`,
+        color: text.color,
+        fontFamily: text.fontFamily,
+        fontSize: `${text.fontSize}px`,
+        fontWeight: text.isBold ? "bold" : "normal",
+        fontStyle: text.isItalic ? "italic" : "normal",
+        textDecoration: text.isUnderline ? "underline" : "none",
+        lineHeight: 1.2,
+        ...backgroundStyle,
+        zIndex: isSelected ? 10 : 1,
+        borderRadius: "4px",
       }}
       onMouseDown={handleMouseDown}
       onDoubleClick={handleDoubleClick}
@@ -137,19 +143,19 @@ export function TextLayer({ text, isSelected, onSelect, onChange, onClick, conta
         onChange={handleTextChange}
         onBlur={handleBlur}
         style={{
-        backgroundColor: "transparent",
-        border: "1px solid blue",
-        outline: "none",
-        resize: "none",
-        width: "100%",
-        minWidth: "100px",
-        color: text.color,
-        fontFamily: text.fontFamily,
-        fontSize: `${text.fontSize}px`,
-        fontWeight: text.isBold ? "bold" : "normal",
-        fontStyle: text.isItalic ? "italic" : "normal",
-        textDecoration: text.isUnderline ? "underline" : "none",
-        lineHeight: 1.2,
+          backgroundColor: "transparent",
+          border: "1px solid blue",
+          outline: "none",
+          resize: "none",
+          width: "100%",
+          minWidth: "100px",
+          color: text.color,
+          fontFamily: text.fontFamily,
+          fontSize: `${text.fontSize}px`,
+          fontWeight: text.isBold ? "bold" : "normal",
+          fontStyle: text.isItalic ? "italic" : "normal",
+          textDecoration: text.isUnderline ? "underline" : "none",
+          lineHeight: 1.2,
         }}
         onClick={onClick}
       />
@@ -159,13 +165,13 @@ export function TextLayer({ text, isSelected, onSelect, onChange, onClick, conta
         {isSelected && (
         <div
           style={{
-          position: "absolute",
-          bottom: 0,
-          right: 0,
-          width: "16px",
-          height: "16px",
-          backgroundColor: "blue",
-          cursor: "se-resize",
+            position: "absolute",
+            bottom: 0,
+            right: 0,
+            width: "16px",
+            height: "16px",
+            backgroundColor: "blue",
+            cursor: "se-resize",
           }}
           onMouseDown={handleResizeStart}
         />

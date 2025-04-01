@@ -609,6 +609,7 @@ export default function AdCustomizer() {
                         fontSize: 24,
                         color: "#ffffff",
                         fontFamily: "Arial",
+                        backgroundColor: "none",
                       },
                     ]}
                   />
