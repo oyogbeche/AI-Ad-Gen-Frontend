@@ -322,7 +322,7 @@ export default function AdCustomizer() {
                     <FormControl>
                       <Textarea
                         placeholder="Type in your Ad description"
-                        className="w-full min-h-[100px] border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#1B1B1B] placeholder:text-gray-[#7D7D7D] bg-[#FCFCFC]"
+                        className="w-full min-h-[100px] max-h-[200px]  border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#1B1B1B] placeholder:text-gray-[#7D7D7D] bg-[#FCFCFC]"
                         {...field}
                       />
                     </FormControl>
@@ -575,8 +575,9 @@ export default function AdCustomizer() {
                       <div className="absolute inset-0 border-6 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                     </div>
                     <h2 className="text-lg md:text-2xl text-[#121316] text-center leading-8 font-semibold max-md:max-w-[338px]">
-                    {isFetchingStatus ? "Inpainting" : "Generating"} Your Image Ad...{" "}
-                    {isFetchingStatus ? inpaintProgress : progress}%
+                      {isFetchingStatus ? "Inpainting" : "Generating"} Your
+                      Image Ad...{" "}
+                      {isFetchingStatus ? inpaintProgress : progress}%
                     </h2>
                   </div>
                 </div>
