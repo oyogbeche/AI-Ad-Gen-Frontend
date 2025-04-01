@@ -15,13 +15,14 @@ interface ControlPanelProps {
   text: TextElement;
   onChange: (text: TextElement) => void;
   onDelete: () => void;
+  onDuplicate: () => void; 
   containerSize: { width: number; height: number };
 }
 
 export function ControlPanel({
   text,
   onChange,
-
+  onDuplicate,
   containerSize,
 }: ControlPanelProps) {
   const toggleStyle = (style: keyof TextElement) => {
@@ -262,6 +263,12 @@ export function ControlPanel({
           className="border-none shadow-none m-0 p-0"
         />
       </div>
+      <button
+        className="bg-blue-500 text-white px-4 py-2 rounded"
+        onClick={() => onDuplicate()}
+      >
+        Duplicate Text
+      </button>
     </div>
   );
 }
