@@ -66,7 +66,9 @@ const formSchema = z.object({
   adDescription: z
     .string()
     .min(10, "Description must be at least 10 characters")
+    .max(200, "Description cannot exceed 200 characters")
     .nonempty("Ad description is required"),
+
   adSize: z
     .string()
     .min(1, "Please select a platform")
@@ -76,10 +78,13 @@ const formSchema = z.object({
         message: "Please select a valid platform",
       }
     ),
+
   productName: z
     .string()
     .min(2, "Product name must be at least 2 characters")
+    .max(60, "Title cannot exceed 60 characters")
     .nonempty("Product name is required"),
+
   targetAudience: z.string().min(1, "Please select a target audience"),
   productImage: z.instanceof(File).optional(),
 });
@@ -89,7 +94,6 @@ type FormData = z.infer<typeof formSchema>;
 export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [formLoaded, setFormLoaded] = useState(false);
-
 
   const downloadFunction = async (elementRef: HTMLElement) => {
     const canvas = await html2canvas(elementRef as HTMLElement, {
@@ -107,27 +111,25 @@ export default function AdCustomizer() {
   // Use the generate image hook
   const { generateAd, adData, isFetchingAd, progress, error, reset } =
     useGenerateAdImage();
-    const { 
-      inpaintData, 
-      isInpainting: isFetchingStatus, 
-      progress: inpaintProgress,
-      error: inpaintError,
-      reset: resetInpainting
-    } = useInpaintStore();
+  const {
+    inpaintData,
+    isInpainting: isFetchingStatus,
+    progress: inpaintProgress,
+    error: inpaintError,
+    reset: resetInpainting,
+  } = useInpaintStore();
 
+  const [finalImageUrl, setFinalImageUrl] = useState<string | null>(null);
 
-    const [finalImageUrl, setFinalImageUrl] = useState<string | null>(null);
-
-    useEffect(() => {
-      if (inpaintData?.data?.image_url) {
-        setFinalImageUrl(inpaintData.data.image_url);
-      } else if (adData?.data?.image_url) {
-        setFinalImageUrl(adData.data.image_url);
-      } else {
-        setFinalImageUrl(null);
-      }
-    }, [adData, inpaintData]);
-
+  useEffect(() => {
+    if (inpaintData?.data?.image_url) {
+      setFinalImageUrl(inpaintData.data.image_url);
+    } else if (adData?.data?.image_url) {
+      setFinalImageUrl(adData.data.image_url);
+    } else {
+      setFinalImageUrl(null);
+    }
+  }, [adData, inpaintData]);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -140,7 +142,6 @@ export default function AdCustomizer() {
     },
     mode: "onChange",
   });
-
 
   const { formState } = form;
   const isValid = formState.isValid;
