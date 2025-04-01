@@ -323,7 +323,7 @@ export default function AdCustomizer() {
                     <FormControl>
                       <Textarea
                         placeholder="Type in your Ad description"
-                        className="w-full max-h-[300px] overflow-y-scroll min-h-[100px] border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#1B1B1B] placeholder:text-gray-[#7D7D7D] bg-[#FCFCFC]"
+                        className="w-full  min-h-[100px] border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#1B1B1B] placeholder:text-gray-[#7D7D7D] bg-[#FCFCFC]"
                         {...field}
                       />
                     </FormControl>
