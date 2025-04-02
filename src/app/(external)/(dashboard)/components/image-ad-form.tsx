@@ -29,7 +29,6 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { useInpaintStore } from "@/store/inpaint-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import html2canvas from "html2canvas";
-// import html2canvas from "html2canvas";
 import { ArrowRight, ImageIcon, RefreshCw, Upload } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -52,14 +51,6 @@ const adPlacementOptions = [
   // { label: "Company Page", value: "Company Page Banner (1.91:1)" },
   // { label: "Google Ads Leaderboard", value: "Google Ads Leaderboard (8:1)" },
   // { label: "Google Ads Skyscraper", value: "Google Ads Skyscraper (1:3.75)" },
-];
-
-const targetAudienceOptions = [
-  { label: "Gen Z", value: "Gen Z" },
-  { label: "Millennials", value: "Millennials" },
-  { label: "Gen X", value: "Gen X" },
-  { label: "Baby Boomers", value: "Baby Boomers" },
-  { label: "All Ages", value: "All Ages" },
 ];
 
 const formSchema = z.object({
@@ -85,8 +76,14 @@ const formSchema = z.object({
     .max(60, "Title cannot exceed 60 characters")
     .nonempty("Product name is required"),
 
-  targetAudience: z.string().min(1, "Please select a target audience"),
+  targetAudience: z
+    .string()
+    .min(10, "Target audience must be at least 10 characters")
+    .max(200, "Target audience cannot exceed 200 characters")
+    .nonempty("Target audience is required"),
+
   productImage: z.instanceof(File).optional(),
+  brandLogo: z.instanceof(File).optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -94,6 +91,7 @@ type FormData = z.infer<typeof formSchema>;
 export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [formLoaded, setFormLoaded] = useState(false);
+  const [formStep, setFormStep] = useState(1); // Track form step (1 or 2)
 
   const downloadFunction = async (elementRef: HTMLElement) => {
     const canvas = await html2canvas(elementRef as HTMLElement, {
@@ -137,14 +135,21 @@ export default function AdCustomizer() {
       adDescription: "",
       adSize: "",
       productName: "",
-      targetAudience: "Gen Z",
+      targetAudience: "",
       productImage: undefined,
+      brandLogo: undefined,
     },
     mode: "onChange",
   });
 
-  const { formState } = form;
-  const isValid = formState.isValid;
+  const { formState, watch } = form;
+  const { isValid } = formState;
+
+  // Watch first step fields to validate the "Next" button
+  const adDescription = watch("adDescription");
+  const adSize = watch("adSize");
+  const productName = watch("productName");
+  const isFirstStepValid = adDescription && adSize && productName;
 
   // Handle errors
   useEffect(() => {
@@ -166,8 +171,9 @@ export default function AdCustomizer() {
             adDescription: parsedData.adDescription || "",
             adSize: parsedData.adSize || "",
             productName: parsedData.productName || "",
-            targetAudience: parsedData.targetAudience || "Gen Z",
+            targetAudience: parsedData.targetAudience || "",
             productImage: parsedData.productImage || undefined,
+            brandLogo: parsedData.brandLogo || undefined,
           });
 
           // Trigger validation after setting values
@@ -196,6 +202,16 @@ export default function AdCustomizer() {
     if (!value) return "";
     const option = options.find((opt) => opt.value === value);
     return option ? option.label : "";
+  };
+
+  // Handle next step
+  const handleNextStep = () => {
+    if (isFirstStepValid) {
+      setFormStep(2);
+    } else {
+      // Show validation errors
+      form.trigger(["adDescription", "adSize", "productName"]);
+    }
   };
 
   const onSubmit = async (data: FormData) => {
@@ -235,8 +251,9 @@ export default function AdCustomizer() {
         ad_goal: data.adDescription.trim(),
         ad_size: data.adSize.trim(),
         product_name: data.productName.trim(),
-        target_audience: data.targetAudience,
+        target_audience: data.targetAudience.trim(),
         productImage: data.productImage || undefined,
+        // Note: brandLogo is not sent to the API as requested
       });
     } catch (error) {
       console.error("Error generating image:", error);
@@ -291,211 +308,276 @@ export default function AdCustomizer() {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="space-y-6">
-              <FormField
-                control={form.control}
-                name="productName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
-                      Ad Title
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter your Ad title"
-                        className="w-full border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] h-11 md:h-[56px] text-base leading-6 text-[#121316] placeholder:text-gray-[#7D7D7D]"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-500 text-xs mt-1" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="adDescription"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
-                      Ad description
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Type in your Ad description"
-                        className="w-full min-h-[100px] max-h-[200px]  border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#1B1B1B] placeholder:text-gray-[#7D7D7D] bg-[#FCFCFC]"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-500 text-xs mt-1" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="adSize"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
-                      Where will this ad appear?
-                    </FormLabel>
-                    <FormControl>
-                      {isMobile ? (
-                        <MobileSelectBottomSheet
-                          options={adPlacementOptions}
-                          selected={field.value}
-                          onChange={field.onChange}
-                          placeholder="Select Platform"
-                          title="Ad Placement"
+            {formStep === 1 ? (
+              <div className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
+                        Ad Title
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter your Ad title"
+                          className="w-full border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] h-11 md:h-[56px] text-base leading-6 text-[#121316] placeholder:text-gray-[#7D7D7D]"
+                          {...field}
                         />
-                      ) : (
-                        <Select
-                          onValueChange={field.onChange}
-                          value={field.value}
-                        >
-                          <SelectTrigger className="w-full border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] h-11 md:h-[56px]">
-                            <SelectValue placeholder="Select Platform">
-                              {getOptionLabel(adPlacementOptions, field.value)}
-                            </SelectValue>
-                          </SelectTrigger>
-                          <SelectContent>
-                            {adPlacementOptions.map((option) => (
-                              <SelectItem
-                                key={option.value}
-                                value={option.value}
-                                className="py-3 hover:bg-[#F6F6F6] text-[#121316]"
-                              >
-                                {option.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      )}
-                    </FormControl>
-                    <FormMessage className="text-red-500 text-xs mt-1" />
-                  </FormItem>
-                )}
-              />
+                      </FormControl>
+                      <FormMessage className="text-red-500 text-xs mt-1" />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="targetAudience"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
-                      Target Audience
-                    </FormLabel>
-                    <FormControl>
-                      {isMobile ? (
-                        <MobileSelectBottomSheet
-                          options={targetAudienceOptions}
-                          selected={field.value}
-                          onChange={field.onChange}
-                          placeholder="Select audience"
-                          title="Target Audience"
+                <FormField
+                  control={form.control}
+                  name="adDescription"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
+                        Ad description
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Type in your Ad description"
+                          className="w-full min-h-[100px] max-h-[200px] border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#1B1B1B] placeholder:text-gray-[#7D7D7D] bg-[#FCFCFC]"
+                          {...field}
                         />
-                      ) : (
-                        <Select
-                          onValueChange={field.onChange}
-                          value={field.value}
-                        >
-                          <SelectTrigger className="w-full border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] flex justify-between items-center h-11 md:h-[56px]">
-                            <SelectValue placeholder="Select audience">
-                              {getOptionLabel(
-                                targetAudienceOptions,
-                                field.value
-                              )}
-                            </SelectValue>
-                          </SelectTrigger>
-                          <SelectContent>
-                            {targetAudienceOptions.map((option) => (
-                              <SelectItem
-                                key={option.value}
-                                value={option.value}
-                                className="py-2 hover:bg-[#F6F6F6] leading-6"
-                              >
-                                {option.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      )}
-                    </FormControl>
-                    <FormMessage className="text-red-500 text-xs mt-1" />
-                  </FormItem>
-                )}
-              />
+                      </FormControl>
+                      <FormMessage className="text-red-500 text-xs mt-1" />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="productImage"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
-                      Product content (optional)
-                    </FormLabel>
-                    <FormControl>
-                      <div
-                        className={`border-2 border-gray-200 rounded-lg text-center cursor-pointer hover:border-gray-800 transition-colors ${
-                          field.value ? "py-0" : "py-14 border-dashed "
-                        } bg-[#FCFCFC]`}
-                        onClick={() =>
-                          document.getElementById("product-image")?.click()
-                        }
-                      >
-                        {field.value ? (
-                          <div className="relative w-full h-[170px]">
-                            <Image
-                              src={
-                                URL.createObjectURL(field.value as File) ||
-                                "/placeholder.svg"
-                              }
-                              alt="Product"
-                              fill
-                              className="object-cover rounded-lg"
-                            />
-                          </div>
+                <FormField
+                  control={form.control}
+                  name="adSize"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
+                        Where will this ad appear?
+                      </FormLabel>
+                      <FormControl>
+                        {isMobile ? (
+                          <MobileSelectBottomSheet
+                            options={adPlacementOptions}
+                            selected={field.value}
+                            onChange={field.onChange}
+                            placeholder="Select Platform"
+                            title="Ad Placement"
+                          />
                         ) : (
-                          <>
-                            <Upload className="mx-auto mb-3" />
-                            <p className="text-base leading-6 font-light text-[#5F5F5F]">
-                              Upload product image
-                            </p>
-                          </>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
+                            <SelectTrigger className="w-full border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] h-11 md:h-[56px]">
+                              <SelectValue placeholder="Select Platform">
+                                {getOptionLabel(
+                                  adPlacementOptions,
+                                  field.value
+                                )}
+                              </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                              {adPlacementOptions.map((option) => (
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                  className="py-3 hover:bg-[#F6F6F6] text-[#121316]"
+                                >
+                                  {option.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                         )}
-                        <input
-                          type="file"
-                          id="product-image"
-                          className="hidden"
-                          accept="image/*"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) {
-                              field.onChange(file);
-                            }
-                          }}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage className="text-red-500 text-xs mt-1" />
-                  </FormItem>
-                )}
-              />
-            </div>
+                      </FormControl>
+                      <FormMessage className="text-red-500 text-xs mt-1" />
+                    </FormItem>
+                  )}
+                />
 
-            <Button
-              type="submit"
-              disabled={!isValid || isFetchingAd}
-              className={`w-full text-white px-6 py-5 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 text-base leading-6 font-normal ${
-                isValid && !isFetchingAd
-                  ? "bg-[#B800B8] hover:bg-[#960096] cursor-pointer"
-                  : "bg-[#EAC8F0] cursor-not-allowed"
-              }`}
-            >
-              {isFetchingAd || isFetchingStatus ? "Generating" : "Generate Ad"}
-              <ArrowRight size={20} className="text-white" />
-            </Button>
+                <Button
+                  type="button"
+                  disabled={!isFirstStepValid}
+                  onClick={handleNextStep}
+                  className={`w-full text-white px-6 py-5 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 text-base leading-6 font-normal ${
+                    isFirstStepValid
+                      ? "bg-[#B800B8] hover:bg-[#960096] cursor-pointer"
+                      : "bg-[#EAC8F0] cursor-not-allowed"
+                  }`}
+                >
+                  Next
+                  <ArrowRight size={20} className="text-white" />
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="targetAudience"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
+                        Target Audience
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Select Target Audience"
+                          className="w-full min-h-[100px] max-h-[200px] border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#1B1B1B] placeholder:text-gray-[#7D7D7D] bg-[#FCFCFC]"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-red-500 text-xs mt-1" />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="space-y-2">
+                  <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
+                    Product content (optional)
+                  </FormLabel>
+                  <div className="flex gap-2">
+                    <FormField
+                      control={form.control}
+                      name="brandLogo"
+                      render={({ field }) => (
+                        <FormItem className="w-1/2">
+                          <FormControl>
+                            <div
+                              className={`border-2 border-gray-200 rounded-lg text-center cursor-pointer hover:border-gray-800 transition-colors ${
+                                field.value ? "py-0" : "py-14 border-dashed "
+                              } bg-[#FCFCFC]`}
+                              onClick={() =>
+                                document.getElementById("brand-logo")?.click()
+                              }
+                            >
+                              {field.value ? (
+                                <div className="relative w-full h-[170px]">
+                                  <Image
+                                    src={
+                                      URL.createObjectURL(
+                                        field.value as File
+                                      ) || "/placeholder.svg"
+                                    }
+                                    alt="Brand Logo"
+                                    fill
+                                    className="object-cover rounded-lg"
+                                  />
+                                </div>
+                              ) : (
+                                <>
+                                  <Upload className="mx-auto mb-3 text-[#7D7D7D]" />
+                                  <p className="text-base leading-6 font-light text-[#5F5F5F]">
+                                    Upload brand logo
+                                  </p>
+                                </>
+                              )}
+                              <input
+                                type="file"
+                                id="brand-logo"
+                                className="hidden"
+                                accept="image/*"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    field.onChange(file);
+                                  }
+                                }}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage className="text-red-500 text-xs mt-1" />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="productImage"
+                      render={({ field }) => (
+                        <FormItem className="w-1/2">
+                          <FormControl>
+                            <div
+                              className={`border-2 border-gray-200 rounded-lg text-center cursor-pointer hover:border-gray-800 transition-colors ${
+                                field.value ? "py-0" : "py-14 border-dashed "
+                              } bg-[#FCFCFC]`}
+                              onClick={() =>
+                                document
+                                  .getElementById("product-image")
+                                  ?.click()
+                              }
+                            >
+                              {field.value ? (
+                                <div className="relative w-full h-[170px]">
+                                  <Image
+                                    src={
+                                      URL.createObjectURL(
+                                        field.value as File
+                                      ) || "/placeholder.svg"
+                                    }
+                                    alt="Product"
+                                    fill
+                                    className="object-cover rounded-lg"
+                                  />
+                                </div>
+                              ) : (
+                                <>
+                                  <Upload className="mx-auto mb-3 text-[#7D7D7D]" />
+                                  <p className="text-base leading-6 font-light text-[#5F5F5F]">
+                                    Upload product image
+                                  </p>
+                                </>
+                              )}
+                              <input
+                                type="file"
+                                id="product-image"
+                                className="hidden"
+                                accept="image/*"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    field.onChange(file);
+                                  }
+                                }}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage className="text-red-500 text-xs mt-1" />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-4 mt-6">
+                  <Button
+                    type="button"
+                    onClick={() => setFormStep(1)}
+                    className="w-full px-6 py-5 rounded-sm bg-gray-200 hover:bg-gray-300 transition-colors text-gray-800 flex items-center justify-center gap-2 text-base leading-6 font-normal"
+                  >
+                    Back
+                  </Button>
+
+                  <Button
+                    type="submit"
+                    disabled={!isValid || isFetchingAd}
+                    className={`w-full text-white px-6 py-5 rounded-sm hover:bg-dark-purple transition-colors flex items-center justify-center gap-2 text-base leading-6 font-normal ${
+                      isValid && !isFetchingAd
+                        ? "bg-[#B800B8] hover:bg-[#960096] cursor-pointer"
+                        : "bg-[#EAC8F0] cursor-not-allowed"
+                    }`}
+                  >
+                    {isFetchingAd || isFetchingStatus
+                      ? "Generating"
+                      : "Generate Ad"}
+                    <ArrowRight size={20} className="text-white" />
+                  </Button>
+                </div>
+              </div>
+            )}
           </form>
         </Form>
       </div>
@@ -548,7 +630,7 @@ export default function AdCustomizer() {
           className={`${
             finalImageUrl && !isFetchingStatus
               ? ""
-              : "bg-[#F2F2F2] md:bg-[#F2F2F2] max-md:mt-4 flex-1 rounded-md flex items-center justify-center min-h-[50vh] mx-auto max-h-[648px] max-w-[699px] w-full max-md:w-[90%] md:my-10 max-md:py-10"
+              : "bg-[#F2F2F2] md:bg-[#F2F2F2] max-md:mt-4 flex-1 rounded-md flex items-center justify-center min-h-[50vh] md:min-h-[100vh] mx-auto max-h-[648px] max-w-[699px] w-full max-md:w-[90%] md:my-10 max-md:py-10"
           }`}
         >
           <div className={`${finalImageUrl ? "" : "bg-[#F2F2F2]"}`}>
