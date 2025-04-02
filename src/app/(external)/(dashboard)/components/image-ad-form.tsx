@@ -82,7 +82,13 @@ const formSchema = z.object({
     .max(200, "Target audience cannot exceed 200 characters")
     .nonempty("Target audience is required"),
 
-  productImage: z.instanceof(File).optional(),
+  productImage: z
+    .instanceof(File)
+    .refine((file) => file.type.startsWith("image/"), {
+      message: "Only image files are allowed",
+    })
+    .optional(),
+
   brandLogo: z.instanceof(File).optional(),
 });
 
@@ -538,8 +544,14 @@ export default function AdCustomizer() {
                                 accept="image/*"
                                 onChange={(e) => {
                                   const file = e.target.files?.[0];
-                                  if (file) {
+                                  if (file && file.type.startsWith("image/")) {
                                     field.onChange(file);
+                                  } else {
+                                    form.setError("productImage", {
+                                      type: "manual",
+                                      message: "Only image files are allowed",
+                                    });
+                                    toast.error("Only image files are allowed");
                                   }
                                 }}
                               />
