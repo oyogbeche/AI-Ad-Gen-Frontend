@@ -16,6 +16,7 @@ export interface TextElement {
   isBold?: boolean;
   isItalic?: boolean;
   isUnderline?: boolean;
+  backgroundColor?: string | "none";
 }
 
 interface ImageTextEditorProps {
@@ -64,8 +65,8 @@ export function ImageTextEditor({
         const newText = {
           ...textToDuplicate,
           id: `${textToDuplicate.id}-copy-${Date.now()}`,
-          x: textToDuplicate.x + 20, 
-          y: textToDuplicate.y + 20, 
+          x: textToDuplicate.x + 20,
+          y: textToDuplicate.y + 20,
         };
 
         setTexts([...texts, newText]);
