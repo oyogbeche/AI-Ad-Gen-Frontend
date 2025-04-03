@@ -1,7 +1,6 @@
 import React, { Suspense } from "react";
 import Loader from "@/components/ui/loader";
 import ImageAdForm from "../../components/image-ad-form";
-// import { AdForm } from "@/domains/ads-gen/components/ad-form";
 
 const Page = () => {
   return (
