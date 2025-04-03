@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/store/auth-store";
 
-//const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL as string;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://staging.api.genz.ad/api/v1";
 
 export const postRequest = async (
   endpoint: string,
@@ -10,7 +10,7 @@ export const postRequest = async (
 ) => {
   const token = useAuthStore.getState().token;
   const response = await fetch(
-    `https://staging.api.genz.ad/api/v1${endpoint}`,
+    `${API_BASE_URL}${endpoint}`,
     {
       method: "POST",
       headers: {
@@ -73,7 +73,7 @@ export const getRequest = async (
   if (url.startsWith("http://") || url.startsWith("https://")) {
     fullUrl = url;
   } else {
-    fullUrl = `https://staging.api.genz.ad/api/v1${url}`;
+    fullUrl = `${API_BASE_URL}${url}`;
   }
 
   console.log("Fetching URL:", fullUrl);
