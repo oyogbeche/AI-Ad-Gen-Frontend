@@ -2,7 +2,7 @@
 import axios, { AxiosError } from "axios";
 import { useAuthStore } from "@/store/auth-store";
 
-const API_BASE_URL = "https://staging.api.genz.ad/api/v1";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://staging.api.genz.ad/api/v1";
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
