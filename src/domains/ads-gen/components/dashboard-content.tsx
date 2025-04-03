@@ -170,13 +170,17 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
               <p className="text-[#121316] text-[14px] font-semibold">
                 Sort by:{" "}
               </p>
-              <Select value={sortOption} onValueChange={setSortOption}>
+              <Select value={sortOption} onValueChange={(value) => {
+                setSortOption(value)
+                console.log(value)
+                }}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Most recent" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     <SelectItem value="most-recent">Most recent</SelectItem>
+                    <SelectItem value="name">Name</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -201,58 +205,69 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
             key={filter}
           >
             {adData &&
-              adData[filter]?.map((ad, i) => (
-                <motion.div
-                  key={i}
-                  className="border-[#ECECEC] border bg-[#FCFCFC] rounded-[8px] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
-                  variants={itemVariants}
-                  whileHover="hover"
-                  onClick={() =>
-                    router.push(`/dashboard/details?type=${filter}&id=${i}`)
+              adData[filter]
+                ?.sort((a, b) => {
+                  if (sortOption === "most-recent") {
+                    // Assuming `created_at` is a timestamp or date field for sorting by most recent
+                    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+                  } else if (sortOption === "name") {
+                    // Sort alphabetically by product_name
+                    return a.product_name.localeCompare(b.product_name);
                   }
-                >
-                  <div className="relative group h-[140px] sm:h-[294px] overflow-hidden">
-                    <motion.div
-                      className="absolute inset-0"
-                      whileHover={{
-                        scale: 1.05,
-                        transition: { duration: 0.4, ease: "easeOut" },
-                      }}
-                    >
-                      <Image
-                        src={ad.final_url ? ad.final_url : ad.image_url}
-                        fill
-                        alt={`${ad.prompt}`}
-                        priority={i < 3}
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover cursor-pointer"
-                        style={{ height: "100%" }}
-                        unoptimized
-                      />
+                  return 0; // Default case (no sorting)
+                })
+                .map((ad, i) => (
+                  <motion.div
+                    key={i}
+                    className="border-[#ECECEC] border bg-[#FCFCFC] rounded-[8px] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
+                    variants={itemVariants}
+                    whileHover="hover"
+                    onClick={() =>
+                      router.push(`/dashboard/details?type=${filter}&id=${i}`)
+                    }
+                  >
+                    <div className="relative group h-[140px] sm:h-[294px] overflow-hidden">
                       <motion.div
-                        className="absolute inset-0 bg-black opacity-0"
-                        whileHover={{ opacity: 0.5 }}
-                        transition={{ duration: 0.3 }}
-                      />
-                    </motion.div>
-                  </div>
-                  <motion.div className="flex flex-col gap-[10px] mt-2.5 ml-4 mb-3">
-                    <span className="font-semibold">{ad.product_name}</span>
-                    {filter === "community" && (
-                      <div className="flex gap-2.5 items-center">
-                        <div className="w-5 h-5 rounded-full overflow-hidden relative flex items-center justify-center">
-                          <div className="bg-[#2C2C2C] flex items-center justify-center size-[20px] rounded-full text-[#F5F5F5] font-semibold text-xs">
-                            {ad.author_info.name[0].toUpperCase()}
+                        className="absolute inset-0"
+                        whileHover={{
+                          scale: 1.05,
+                          transition: { duration: 0.4, ease: "easeOut" },
+                        }}
+                      >
+                        <Image
+                          src={ad.final_url ? ad.final_url : ad.image_url}
+                          fill
+                          alt={`${ad.prompt}`}
+                          priority={i < 3}
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="object-cover cursor-pointer"
+                          style={{ height: "100%" }}
+                          unoptimized
+                        />
+                        <motion.div
+                          className="absolute inset-0 bg-black opacity-0"
+                          whileHover={{ opacity: 0.5 }}
+                          transition={{ duration: 0.3 }}
+                        />
+                      </motion.div>
+                    </div>
+                    <motion.div className="flex flex-col gap-[10px] mt-2.5 ml-4 mb-3">
+                      <span className="font-semibold">{ad.product_name}</span>
+                      {filter === "community" && (
+                        <div className="flex gap-2.5 items-center">
+                          <div className="w-5 h-5 rounded-full overflow-hidden relative flex items-center justify-center">
+                            <div className="bg-[#2C2C2C] flex items-center justify-center size-[20px] rounded-full text-[#F5F5F5] font-semibold text-xs">
+                              {ad.author_info.name[0].toUpperCase()}
+                            </div>
                           </div>
+                          <span className="text-[#7D7D7D] text-sm">
+                            {ad.author_info.name}
+                          </span>
                         </div>
-                        <span className="text-[#7D7D7D] text-sm">
-                          {ad.author_info.name}
-                        </span>
-                      </div>
-                    )}
+                      )}
+                    </motion.div>
                   </motion.div>
-                </motion.div>
-              ))}
+                ))}
           </motion.div>
         )}
         <div
