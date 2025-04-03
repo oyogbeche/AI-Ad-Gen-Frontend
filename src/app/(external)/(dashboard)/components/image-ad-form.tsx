@@ -37,7 +37,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
-// Dynamically import mobile components
 const MobileSelectBottomSheet = dynamic(
   () => import("@/components/ui/mobile-select"),
   { ssr: false }
@@ -97,7 +96,7 @@ type FormData = z.infer<typeof formSchema>;
 export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [formLoaded, setFormLoaded] = useState(false);
-  const [formStep, setFormStep] = useState(1); // Track form step (1 or 2)
+  const [formStep, setFormStep] = useState(1);
 
   const downloadFunction = async (elementRef: HTMLElement) => {
     const canvas = await html2canvas(elementRef as HTMLElement, {
@@ -112,7 +111,6 @@ export default function AdCustomizer() {
 
   const lastFormData = useRef<FormData | null>(null);
 
-  // Use the generate image hook
   const { generateAd, adData, isFetchingAd, progress, error, reset } =
     useGenerateAdImage();
   const {
@@ -157,14 +155,12 @@ export default function AdCustomizer() {
   const productName = watch("productName");
   const isFirstStepValid = adDescription && adSize && productName;
 
-  // Handle errors
   useEffect(() => {
     if (error) {
       toast.error(error);
     }
   }, [error]);
 
-  // Load saved form data on component mount using sessionStorage
   useEffect(() => {
     try {
       const savedData = sessionStorage.getItem("adCustomizerData");
@@ -172,7 +168,6 @@ export default function AdCustomizer() {
         try {
           const parsedData = JSON.parse(savedData);
 
-          // Set form values and ensure they're properly updated
           form.reset({
             adDescription: parsedData.adDescription || "",
             adSize: parsedData.adSize || "",
@@ -182,7 +177,6 @@ export default function AdCustomizer() {
             brandLogo: parsedData.brandLogo || undefined,
           });
 
-          // Trigger validation after setting values
           form.trigger();
         } catch (error) {
           console.error("Error parsing saved data:", error);
@@ -192,7 +186,6 @@ export default function AdCustomizer() {
       console.error("Error accessing sessionStorage:", error);
     }
 
-    // Mark form as loaded to prevent default value overrides
     setFormLoaded(true);
   }, [form]);
 
@@ -221,10 +214,8 @@ export default function AdCustomizer() {
   };
 
   const onSubmit = async (data: FormData) => {
-    // Store the form data for retry functionality
     lastFormData.current = data;
 
-    // Additional validation check before submission
     if (!data.adDescription || data.adDescription.trim().length === 0) {
       form.setError("adDescription", {
         type: "manual",
@@ -281,7 +272,7 @@ export default function AdCustomizer() {
 
   // Handle retry - restart the whole process
   const handleRetry = () => {
-    reset(); // Reset the hook state
+    reset(); 
     resetInpainting();
     if (lastFormData.current) {
       onSubmit(lastFormData.current);
@@ -298,9 +289,7 @@ export default function AdCustomizer() {
 
   return (
     <div className="flex flex-col lg:flex-row p-4 lg:p-0">
-      {/* Form Section */}
-      <div className="w-full lg:w-[440px] lg:min-w-[440px] scrollbar-hide p-4 md:py-6 md:px-10 flex flex-col gap-10 lg:max-w-[440px] bg-white order-2 lg:order-1 z-20 lg:border-r md:border-[#ECF1F5]">
-        {/* Form Header */}
+      <div className="w-fuDll lg:w-[440px] lg:min-w-[440px] scrollbar-hide p-4 md:py-6 md:px-10 flex flex-col gap-10 lg:max-w-[440px] bg-white order-2 lg:order-1 z-20 lg:border-r md:border-[#ECF1F5]">
         <div className="lg:flex items-center justify-between hidden">
           <h1 className="text-2xl font-medium leading-8 text-[#2A2A2A]">
             Customize your Ad
@@ -594,9 +583,7 @@ export default function AdCustomizer() {
         </Form>
       </div>
 
-      {/* Preview Section */}
       <div className="lg:flex-1 flex flex-col order-1 lg:order-2 md:pb-4 lg:p-0 gap-2 max-md:bg-white ">
-        {/* Preview Header */}
         <div className="py-3 px-2 md:px-10 bg-white border-b border-[#ECF1F5] ">
           <DesktopAdPreviewNavigation
             type="image-form"
@@ -620,7 +607,7 @@ export default function AdCustomizer() {
           />
           <button></button>
         </div>
-        {/* Preview Content */}
+
         {finalImageUrl && !isFetchingStatus && (
           <div className="flex items-center gap-1 text-sm md:text-base leading-6 font-normal md:py-4 mx-auto">
             <svg
