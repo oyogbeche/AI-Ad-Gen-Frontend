@@ -9,7 +9,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useState } from "react";
-import type { TextElement } from "./image-editor";
 import {
   Select,
   SelectContent,
@@ -18,11 +17,14 @@ import {
   SelectValue,
 } from "./select";
 
+import type { TextElement } from "./fabric-image-editor";
+
 interface ControlPanelProps {
   text: TextElement;
   onChange: (text: TextElement) => void;
   onDelete: () => void;
   onDuplicate: () => void;
+  onPosition: (position: "vertical" | "horizontal" | "center") => void;
   containerSize: { width: number; height: number };
 }
 
@@ -31,6 +33,7 @@ export function ControlPanel({
   onChange,
   onDelete,
   onDuplicate,
+  onPosition,
   containerSize,
 }: ControlPanelProps) {
   const [showBackgroundPicker, setShowBackgroundPicker] = useState(false);
@@ -39,7 +42,7 @@ export function ControlPanel({
     onChange({ ...text, [style]: !text[style] });
   };
 
-  const positionText = (position: "vertical" | "horizontal" | "center") => {
+/*   const positionText = (position: "vertical" | "horizontal" | "center") => {
     let newX = text.x;
     let newY = text.y;
 
@@ -52,7 +55,7 @@ export function ControlPanel({
 
     onChange({ ...text, x: newX, y: newY });
   };
-
+ */
   const handleFontChange = (font: string) => {
     onChange({ ...text, fontFamily: font });
   };
@@ -220,7 +223,7 @@ export function ControlPanel({
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                onClick={() => positionText("vertical")}
+                onClick={() => onPosition("vertical")}
                 className={
                   "bg-blue-500 hover:bg-blue-500 border-none shadow-none"
                 }
@@ -259,7 +262,7 @@ export function ControlPanel({
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                onClick={() => positionText("center")}
+                onClick={() => onPosition("center")}
                 className={
                   "bg-blue-500 hover:bg-blue-500 border-none shadow-none"
                 }
@@ -298,7 +301,7 @@ export function ControlPanel({
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                onClick={() => positionText("horizontal")}
+                onClick={() => onPosition("horizontal")}
                 className={
                   "bg-blue-500 hover:bg-blue-500 border-none shadow-none"
                 }

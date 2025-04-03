@@ -36,6 +36,9 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
+import { Canvas, IText, Rect, Circle, Image as FabricImage } from 'fabric';
+import { FabricImageEditor } from "@/components/ui/fabric-image-editor";
+
 
 // Dynamically import mobile components
 const MobileSelectBottomSheet = dynamic(
@@ -88,22 +91,45 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
+
 export default function AdCustomizer() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [formLoaded, setFormLoaded] = useState(false);
   const [formStep, setFormStep] = useState(1); // Track form step (1 or 2)
-
-  const downloadFunction = async (elementRef: HTMLElement) => {
-    const canvas = await html2canvas(elementRef as HTMLElement, {
-      useCORS: true,
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [fabricCanvas, setFabricCanvas] = useState<Canvas | null>(null);
+  
+  
+  useEffect(() => {
+    if (typeof window !== 'undefined' && canvasRef.current) {
+      const canvas = new Canvas(canvasRef.current, {
+        backgroundColor: '#f2f2f2',
+        preserveObjectStacking: true,
+      });
+      setFabricCanvas(canvas);
+      
+      return () => {
+        canvas.dispose();
+      };
+    }
+  }, []);
+  const downloadFunction = async () => {
+    if (!fabricCanvas) return;
+    
+    // Create a temporary link to download the canvas as PNG
+    const dataURL = fabricCanvas.toDataURL({
+      format: 'png',
+      quality: 1,
+      multiplier: 1, 
     });
-    const dataURL = canvas.toDataURL();
-    const link = document.createElement("a");
+    
+    const link = document.createElement('a');
     link.href = dataURL;
-    link.download = "element.png";
+    link.download = 'ad-design.png';
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
   };
-
   const lastFormData = useRef<FormData | null>(null);
 
   // Use the generate image hook
@@ -593,7 +619,7 @@ export default function AdCustomizer() {
             downloadFunction={() => {
               const element = document.getElementById("outputImg");
               if (element) {
-                downloadFunction(element);
+                downloadFunction();
               }
             }}
             status={
@@ -675,7 +701,9 @@ export default function AdCustomizer() {
 
               {finalImageUrl && !isFetchingStatus && (
                 <div className="w-full h-full">
-                  <ImageTextEditor
+                <FabricImageEditor
+                    canvasRef={canvasRef}
+                    fabricCanvas={fabricCanvas}
                     imageSrc={finalImageUrl}
                     imageId={adData?.data.image_id || ""}
                     initialTexts={[
