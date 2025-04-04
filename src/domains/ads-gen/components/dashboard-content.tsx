@@ -160,7 +160,7 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
               </motion.button>
             ))}
           </div>
-          {filter === "community" && (
+          {filter === "community" || filter === "user" && (
             <motion.div
               className="flex gap-2.5 items-center"
               initial={{ opacity: 0, x: 20 }}
