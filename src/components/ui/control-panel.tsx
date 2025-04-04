@@ -8,7 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { TextElement } from "./image-editor";
 import {
   Select,
@@ -34,6 +34,20 @@ export function ControlPanel({
   containerSize,
 }: ControlPanelProps) {
   const [showBackgroundPicker, setShowBackgroundPicker] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === "d") {
+        event.preventDefault(); // Prevent default browser behavior
+        onDuplicate(); // Call the onDuplicate function
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onDuplicate]);
 
   const toggleStyle = (style: keyof TextElement) => {
     onChange({ ...text, [style]: !text[style] });
