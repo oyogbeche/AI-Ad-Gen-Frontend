@@ -154,7 +154,8 @@ export default function AdCustomizer() {
   const adDescription = watch("adDescription");
   const adSize = watch("adSize");
   const productName = watch("productName");
-  const isFirstStepValid = adDescription && adSize && productName;
+  const isFirstStepValid =
+    adDescription && adSize && productName && adDescription.length <= 200;
 
   useEffect(() => {
     if (error) {
