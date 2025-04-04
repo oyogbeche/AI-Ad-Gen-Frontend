@@ -48,9 +48,6 @@ const adPlacementOptions = [
   { label: "Facebook", value: "Facebook Ad (4:5)" },
   { label: "Twitter", value: "Landscape (1.91:1)" },
   { label: "LinkedIn", value: "LinkedIn Profile Banner (4:1)" },
-  // { label: "Company Page", value: "Company Page Banner (1.91:1)" },
-  // { label: "Google Ads Leaderboard", value: "Google Ads Leaderboard (8:1)" },
-  // { label: "Google Ads Skyscraper", value: "Google Ads Skyscraper (1:3.75)" },
 ];
 
 const formSchema = z.object({
@@ -204,21 +201,6 @@ export default function AdCustomizer() {
     const option = options.find((opt) => opt.value === value);
     return option ? option.label : "";
   };
-
-  // const watchAllFields = watch();
-  // const handleNextStep = () => {
-  //   if (isFirstStepValid) {
-  //     console.log("First Step Values:", {
-  //       productName: watchAllFields.productName,
-  //       adDescription: watchAllFields.adDescription,
-  //       adSize: watchAllFields.adSize,
-  //     });
-  //     setFormStep(2);
-  //   } else {
-  //     // Show validation errors
-  //     form.trigger(["adDescription", "adSize", "productName"]);
-  //   }
-  // };
 
   const { submitAdGoal, isLoading, targetAudience } = useAdGoal();
   const [selectedAudiences, setSelectedAudiences] = useState<string[]>([]);

@@ -61,20 +61,20 @@ export default function FeaturesSection() {
         className="w-full lg:max-w-7xl relative"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.6 }}
       >
         <motion.div
           className="flex flex-col items-center justify-center gap-3 max-w-4xl mx-auto"
           initial={{ y: 50 }}
           animate={isInView ? { y: 0 } : { y: 50 }}
-          transition={{ duration: 0.5, delay: 0.15 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
         >
           <AnimatedTags isInView={isInView} />
           <motion.h2
             className="text-[#121316] text-2xl lg:text-[40px] max-w-[504px] text-center font-medium p-[24px]"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.25 }}
           >
             Who can benefit from genz.ad
           </motion.h2>
@@ -105,7 +105,7 @@ const AnimatedTags = ({ isInView }: any) => {
               ? { opacity: 1, x: 0 }
               : { opacity: 0, x: index % 2 === 0 ? -20 : 20 }
           }
-          transition={{ duration: 0.6, delay: 0.3 + index * 0.2 }}
+          transition={{ duration: 0.7, delay: 0.3 + index * 0.2 }}
           whileHover={{ scale: 1.05 }}
         >
           <motion.div
