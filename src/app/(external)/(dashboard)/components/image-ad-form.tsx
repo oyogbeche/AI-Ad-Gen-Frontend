@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useGenerateAdImage } from "@/domains/ads-gen/api/ad-image-generate";
+import { useAdGoal } from "@/domains/ads-gen/api/target-audience";
 import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useInpaintStore } from "@/store/inpaint-store";
@@ -203,17 +204,51 @@ export default function AdCustomizer() {
     return option ? option.label : "";
   };
 
-  // Handle next step
+  // const watchAllFields = watch();
+  // const handleNextStep = () => {
+  //   if (isFirstStepValid) {
+  //     console.log("First Step Values:", {
+  //       productName: watchAllFields.productName,
+  //       adDescription: watchAllFields.adDescription,
+  //       adSize: watchAllFields.adSize,
+  //     });
+  //     setFormStep(2);
+  //   } else {
+  //     // Show validation errors
+  //     form.trigger(["adDescription", "adSize", "productName"]);
+  //   }
+  // };
+
+  const { submitAdGoal, isLoading, targetAudience } = useAdGoal();
+  const [selectedAudiences, setSelectedAudiences] = useState<string[]>([]);
+
+  const handleAudienceSelect = (audience: string) => {
+    setSelectedAudiences((prev) => {
+      if (prev.includes(audience)) {
+        return prev.filter((item) => item !== audience);
+      } else {
+        return [...prev, audience];
+      }
+    });
+  };
+  useEffect(() => {
+    form.setValue("targetAudience", selectedAudiences.join(", "));
+  }, [selectedAudiences, form]);
+
   const handleNextStep = () => {
     if (isFirstStepValid) {
-      setFormStep(2);
+      submitAdGoal(watch("adDescription"), {
+        onSuccess: () => {
+          setFormStep(2);
+        },
+      });
     } else {
-      // Show validation errors
       form.trigger(["adDescription", "adSize", "productName"]);
     }
   };
 
   const onSubmit = async (data: FormData) => {
+    console.log("All Form Values:", data);
     lastFormData.current = data;
 
     if (!data.adDescription || data.adDescription.trim().length === 0) {
@@ -272,7 +307,7 @@ export default function AdCustomizer() {
 
   // Handle retry - restart the whole process
   const handleRetry = () => {
-    reset(); 
+    reset();
     resetInpainting();
     if (lastFormData.current) {
       onSubmit(lastFormData.current);
@@ -410,7 +445,7 @@ export default function AdCustomizer() {
               </div>
             ) : (
               <div className="space-y-6">
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="targetAudience"
                   render={({ field }) => (
@@ -425,6 +460,62 @@ export default function AdCustomizer() {
                           {...field}
                         />
                       </FormControl>
+                      <FormMessage className="text-red-500 text-xs mt-1" />
+                    </FormItem>
+                  )}
+                /> */}
+
+                <FormField
+                  control={form.control}
+                  name="targetAudience"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-base leading-6 font-normal text-[#2A2A2A]">
+                        Target Audience
+                      </FormLabel>
+                      <FormControl>
+                        <div className="space-y-2">
+                          {/* Display suggestions as badges */}
+                          {targetAudience.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mb-2">
+                              {targetAudience.map(
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                (audience: any, index: any) => (
+                                  <button
+                                    key={index}
+                                    type="button"
+                                    className={`px-3 py-1 text-xs rounded-full transition-colors ${
+                                      selectedAudiences.includes(audience)
+                                        ? "bg-[#B800B8] text-white"
+                                        : "bg-gray-100 hover:bg-gray-200"
+                                    }`}
+                                    onClick={() =>
+                                      handleAudienceSelect(audience)
+                                    }
+                                  >
+                                    {audience}
+                                  </button>
+                                )
+                              )}
+                            </div>
+                          )}
+                          <Textarea
+                            placeholder={
+                              isLoading
+                                ? "Generating target audience suggestions..."
+                                : "Select from suggestions above or type your own"
+                            }
+                            className="w-full min-h-[100px] max-h-[200px] border-[#E3E3E3] focus:ring-[#B800B8] focus:border-[#B800B8] text-base leading-6 text-[#1B1B1B] placeholder:text-gray-[#7D7D7D] bg-[#FCFCFC]"
+                            {...field}
+                            disabled={isLoading}
+                          />
+                        </div>
+                      </FormControl>
+                      {isLoading && (
+                        <div className="text-sm text-gray-500">
+                          Generating target audience suggestions...
+                        </div>
+                      )}
                       <FormMessage className="text-red-500 text-xs mt-1" />
                     </FormItem>
                   )}
