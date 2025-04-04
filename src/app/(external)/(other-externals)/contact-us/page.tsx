@@ -11,6 +11,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 import {
   Form,
@@ -71,19 +72,29 @@ const ContactPage = () => {
   return (
     <section className="container mx-auto py-8 md:py-16 relative">
       {/* Background Line */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+      <motion.div
+        className="absolute inset-0 overflow-hidden pointer-events-none -z-10"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
         <Image
           src={bgLine}
           alt="Background line"
           className="object-cover w-full h-auto md:h-full"
           priority
         />
-      </div>
+      </motion.div>
 
       <Card className="mx-4 md:mx-auto max-w-7xl rounded-2xl shadow-md overflow-hidden">
         <CardContent className="p-6 md:p-12">
           <div className="flex flex-col md:flex-row items-center gap-8">
-            <div className="w-full md:w-1/2 text-center md:text-left">
+            <motion.div
+              className="w-full md:w-1/2 text-center md:text-left"
+              initial={{ opacity: 0, scale: 0.9, x: -50 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
               <div className="mb-6 md:mb-8">
                 <h1 className="text-2xl md:text-4xl font-bold mb-2">
                   Contact Us
@@ -159,20 +170,23 @@ const ContactPage = () => {
                   </form>
                 </Form>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="w-full md:w-1/2 flex justify-center">
+            <motion.div
+              className="w-full md:w-1/2 flex justify-center"
+              initial={{ opacity: 0, scale: 0.9, x: 50 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
               <Image
                 src={contactAmico}
                 alt="Contact us illustration"
                 className="max-w-full h-auto"
               />
-            </div>
+            </motion.div>
           </div>
         </CardContent>
       </Card>
-
-      {/* Sonner toast is already added to the layout */}
     </section>
   );
 };
