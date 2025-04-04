@@ -234,24 +234,24 @@ export default function AdCustomizer() {
   // };
 
   const handleAudienceSelect = (audience: string) => {
-  setSelectedAudiences((prev) => {
-    const newSelection = prev.includes(audience)
-      ? prev.filter((item) => item !== audience)
-      : [...prev, audience];
-    
-    if (newSelection.length > 0) {
-      form.setValue("targetAudience", newSelection.join(", "), {
-        shouldValidate: true
-      });
-    } else {
-      form.setValue("targetAudience", "", {
-        shouldValidate: true
-      });
-    }
-    
-    return newSelection;
-  });
-};
+    setSelectedAudiences((prev) => {
+      const newSelection = prev.includes(audience)
+        ? prev.filter((item) => item !== audience)
+        : [...prev, audience];
+
+      if (newSelection.length > 0) {
+        form.setValue("targetAudience", newSelection.join(", "), {
+          shouldValidate: true,
+        });
+      } else {
+        form.setValue("targetAudience", "", {
+          shouldValidate: true,
+        });
+      }
+
+      return newSelection;
+    });
+  };
   useEffect(() => {
     form.setValue("targetAudience", selectedAudiences.join(", "));
   }, [selectedAudiences, form]);
@@ -789,6 +789,11 @@ export default function AdCustomizer() {
                   <ImageTextEditor
                     imageSrc={finalImageUrl}
                     imageId={adData?.data.image_id || ""}
+                    brandLogo={
+                      form.watch("brandLogo")
+                        ? URL.createObjectURL(form.watch("brandLogo") as Blob)
+                        : undefined
+                    }
                     initialTexts={[
                       {
                         id: "1",

@@ -4,6 +4,7 @@ import ImageSelectionTool from "@/domains/external/components/image-selector";
 import { useEffect, useRef, useState } from "react";
 import { ControlPanel } from "./control-panel";
 import { TextLayer } from "./text-layer";
+import Image from "next/image";
 
 export interface TextElement {
   id: string;
@@ -23,12 +24,14 @@ interface ImageTextEditorProps {
   imageSrc: string | null;
   imageId: string;
   initialTexts?: TextElement[];
+  brandLogo?: string; // Add prop for brand logo
 }
 
 export function ImageTextEditor({
   imageSrc,
   imageId,
   initialTexts = [],
+  brandLogo, 
 }: ImageTextEditorProps) {
   const [texts, setTexts] = useState<TextElement[]>(initialTexts);
   const [selectedTextId, setSelectedTextId] = useState<string | null>(null);
@@ -123,6 +126,19 @@ export function ImageTextEditor({
               onClick={() => setSelectedTextId(text.id)}
             />
           ))}
+          
+          {brandLogo && (
+            <div className="absolute bottom-4 left-4 z-10">
+              <div className="relative rounded-full h-8 w-8 overflow-hidden border-2 border-white shadow-md">
+                <Image 
+                  src={brandLogo}
+                  alt="Brand Logo"
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
