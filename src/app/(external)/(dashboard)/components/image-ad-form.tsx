@@ -479,6 +479,7 @@ export default function AdCustomizer() {
                           {targetAudience.length > 0 && (
                             <div className="flex flex-wrap gap-2 mb-2">
                               {targetAudience.map(
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 (audience: any, index: any) => (
                                   <button
                                     key={index}
