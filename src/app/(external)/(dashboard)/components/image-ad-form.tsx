@@ -78,7 +78,7 @@ const formSchema = z.object({
 
   targetAudience: z
     .string()
-    .min(10, "Target audience must be at least 10 characters")
+    .min(1, "Target audience must be at least 10 characters")
     .max(200, "Target audience cannot exceed 200 characters")
     .nonempty("Target audience is required"),
 
@@ -223,15 +223,35 @@ export default function AdCustomizer() {
   const { submitAdGoal, isLoading, targetAudience } = useAdGoal();
   const [selectedAudiences, setSelectedAudiences] = useState<string[]>([]);
 
+  // const handleAudienceSelect = (audience: string) => {
+  //   setSelectedAudiences((prev) => {
+  //     if (prev.includes(audience)) {
+  //       return prev.filter((item) => item !== audience);
+  //     } else {
+  //       return [...prev, audience];
+  //     }
+  //   });
+  // };
+
   const handleAudienceSelect = (audience: string) => {
-    setSelectedAudiences((prev) => {
-      if (prev.includes(audience)) {
-        return prev.filter((item) => item !== audience);
-      } else {
-        return [...prev, audience];
-      }
-    });
-  };
+  setSelectedAudiences((prev) => {
+    const newSelection = prev.includes(audience)
+      ? prev.filter((item) => item !== audience)
+      : [...prev, audience];
+    
+    if (newSelection.length > 0) {
+      form.setValue("targetAudience", newSelection.join(", "), {
+        shouldValidate: true
+      });
+    } else {
+      form.setValue("targetAudience", "", {
+        shouldValidate: true
+      });
+    }
+    
+    return newSelection;
+  });
+};
   useEffect(() => {
     form.setValue("targetAudience", selectedAudiences.join(", "));
   }, [selectedAudiences, form]);
