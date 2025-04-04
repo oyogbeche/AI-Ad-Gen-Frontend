@@ -37,6 +37,7 @@ export function ImageTextEditor({
   const [selectedTextId, setSelectedTextId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+  const [overlayOpacity, setOverlayOpacity] = useState(20); // Default opacity is 20%
 
   const selectedText = texts.find((text) => text.id === selectedTextId);
 
@@ -99,6 +100,12 @@ export function ImageTextEditor({
           className="relative w-full rounded-md p-0"
           id="containerRef"
         >
+          {/* Overlay opacity */}
+          <div
+            className="absolute inset-0 bg-black pointer-events-none"
+            style={{ zIndex: 1, opacity: overlayOpacity / 100 }} // Convert percentage to decimal
+          ></div>
+
           <ImageSelectionTool
             imageSrc={imageSrc ?? "/preview.png"}
             imageId={imageId}
@@ -140,6 +147,23 @@ export function ImageTextEditor({
             </div>
           )}
         </div>
+      </div>
+
+      {/* Slider to control overlay opacity */}
+      <div className="flex items-center gap-2 mt-4">
+        <label htmlFor="overlay-opacity" className="text-sm font-medium">
+          Overlay Opacity:
+        </label>
+        <input
+          id="overlay-opacity"
+          type="range"
+          min="0"
+          max="100"
+          value={overlayOpacity}
+          onChange={(e) => setOverlayOpacity(Number(e.target.value))}
+          className="w-40"
+        />
+        <span className="text-sm">{overlayOpacity}%</span>
       </div>
 
       {selectedText && (
