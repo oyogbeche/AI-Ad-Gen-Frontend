@@ -1,21 +1,21 @@
 import { postRequest } from "@/lib/axios-fetch";
 import { useMutation } from "@tanstack/react-query";
 
-// interface AdGoalResponse {
-//   status: string;
-//   status_code: number;
-//   message: string;
-//   data: {
-//     target_audience: string[];
-//   };
-// }
-
 export function useAdGoal() {
   const mutation = useMutation({
     mutationFn: async (adGoal: string) => {
       const response = await postRequest("/image/target-audience", {
         ad_goal: adGoal,
       });
+      if (response?.data?.target_audience?.length > 5) {
+        return {
+          ...response,
+          data: {
+            ...response.data,
+            target_audience: response.data.target_audience.slice(0, 5),
+          },
+        };
+      }
       return response;
     },
     onError: (error: Error) => {
