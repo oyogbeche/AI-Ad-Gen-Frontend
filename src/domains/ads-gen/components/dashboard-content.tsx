@@ -208,13 +208,11 @@ const DashboardContent = ({ filt }: { filt?: "user" | "community" }) => {
               adData[filter]
                 ?.sort((a, b) => {
                   if (sortOption === "most-recent") {
-                    // Assuming `created_at` is a timestamp or date field for sorting by most recent
                     return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
                   } else if (sortOption === "name") {
-                    // Sort alphabetically by product_name
                     return a.product_name.localeCompare(b.product_name);
                   }
-                  return 0; // Default case (no sorting)
+                  return 0;
                 })
                 .map((ad, i) => (
                   <motion.div
