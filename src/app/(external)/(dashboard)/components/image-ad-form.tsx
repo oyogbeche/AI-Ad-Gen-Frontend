@@ -485,7 +485,7 @@ export default function AdCustomizer() {
                                   <button
                                     key={index}
                                     type="button"
-                                    className={`px-3 py-1 text-xs rounded-full transition-colors ${
+                                    className={`px-3 py-1 text-xs rounded-full transition-colors cursor-pointer ${
                                       selectedAudiences.includes(audience)
                                         ? "bg-[#B800B8] text-white"
                                         : "bg-gray-100 hover:bg-gray-200"
