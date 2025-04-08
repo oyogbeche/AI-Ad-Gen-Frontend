@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description:
     "Privacy Policy for Genz.ad - Learn how we collect and use your information",
 };
-import { privacyData } from "@/app/(auth)/(terms-policu)/privacy/data";
+import { privacyData } from "@/app/(auth)/(terms-policy)/privacy/data";
 
 export default function PrivacyPolicy() {
   return (

@@ -1,4 +1,5 @@
-import Footer from "@/domains/external/components/footer";
+import Footer from "@/domains/external/components/secondary-footer";
+import Header from "@/domains/external/components/header";
 
 export default function AuthLayout({
   children,
@@ -7,6 +8,7 @@ export default function AuthLayout({
 }>) {
   return (
     <div className="flex flex-col min-h-screen items-center gap-8 bg-[#F9FAFB]">
+      <Header />
       <main className="">{children}</main>
 
       <Footer />

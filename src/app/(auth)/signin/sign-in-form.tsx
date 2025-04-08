@@ -8,8 +8,8 @@ import { LoadingButton } from "@/domains/auth/components/loading-button";
 import Image from "next/image";
 import googlelogo from "../../../../public/google.svg";
 import TermsModal from "./terms-modal";
-import { termsData } from "../(terms-policu)/terms/data";
-import { privacyData } from "../(terms-policu)/privacy/data";
+import { termsData } from "../(terms-policy)/terms/data";
+import { privacyData } from "../(terms-policy)/privacy/data";
 
 interface AuthFormProps {
   type: "signin" | "signup";

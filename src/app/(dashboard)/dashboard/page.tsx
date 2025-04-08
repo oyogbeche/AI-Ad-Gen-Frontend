@@ -1,6 +1,6 @@
 "use client";
 
-import { ImageAdCard } from "@/app/(external)/(dashboard)/components/dashboard-hero";
+import { ImageAdCard } from "@/app/(dashboard)/components/dashboard-hero";
 import DashboardContent from "@/domains/ads-gen/components/dashboard-content";
 import { useSearchParams } from "next/navigation";
 export default function Dashboard() {

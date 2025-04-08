@@ -40,7 +40,7 @@ const AdGenerationProgress: React.FC = () => {
           <h2 className="text-[28px] md:text-[32px] text-[#121316] leading-10 md:leading-12 font-semibold text-left">
             Generating Your Image Ad... {progress}%
           </h2>
-          <p className="text-[#5F5F5F] font-medium text-sm md:text-[18px] font-medium leading-7 pt-4 pb-6 text-left">
+          <p className="text-[#5F5F5F] font-medium text-sm md:text-[18px] leading-7 pt-4 pb-6 text-left">
             Our AI is working behind the scenes to craft the perfect ad for you.
             Sit tight, your ad is almost ready!
           </p>
