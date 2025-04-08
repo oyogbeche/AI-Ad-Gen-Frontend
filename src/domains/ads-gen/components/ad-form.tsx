@@ -2,7 +2,6 @@
 import React from "react";
 
 import { useSearchParams } from "next/navigation";
-import { ImageAdForm } from "./image-ad-form";
 import { VideoAdForm } from "./video-ad-form";
 
 export const AdForm = () => {
@@ -10,7 +9,7 @@ export const AdForm = () => {
   const adType = searchParams.get("type");
 
   if (adType === "image") {
-    return <ImageAdForm />;
+    return <></>;
   } else if (adType === "video") {
     return <VideoAdForm />;
   }
