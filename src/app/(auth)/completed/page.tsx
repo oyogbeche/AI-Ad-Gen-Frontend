@@ -3,7 +3,7 @@
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Nunito } from "next/font/google";
-import CheckIcon from "@/components/images/check.svg";
+import CheckIcon from "../../../../public/check.svg";
 import Link from "next/link";
 import Image from "next/image";
 

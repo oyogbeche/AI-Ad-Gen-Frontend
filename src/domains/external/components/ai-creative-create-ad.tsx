@@ -1,6 +1,6 @@
 "use client";
 import { CheckCircle } from "@/components/icons/icon";
-import createAdSVG from "@/components/images/newcreate.svg";
+import createAdSVG from "../../../../public/newcreate.svg";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
