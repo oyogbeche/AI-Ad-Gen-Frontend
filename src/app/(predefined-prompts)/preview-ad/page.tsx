@@ -16,7 +16,7 @@ const Page = () => {
 
   useEffect(() => {
     const storedImageUrl = localStorage.getItem("imageUrl");
-    const storedPromptData = localStorage.getItem("promptData");
+    const storedPromptData = localStorage.getItem("promp  tData");
     if (storedImageUrl) setImageUrl(storedImageUrl);
     if (storedPromptData) setPromptData(storedPromptData);
     setIsLoaded(true);
@@ -56,39 +56,7 @@ const Page = () => {
                 imageUrl={imageUrl}
                 type="demo"
               />
-              {/* <div className="p-[12px] flex items-center justify-between w-full bg-white sm:border-l">
-                <button className="flex items-center justify-center gap-2">
-                  <ArrowLeft />
-                  <span className="max-sm:hidden">Back</span>
-                </button>
-                <button
-                  onClick={async () => {
-                    try {
-                      if (imageUrl) {
-                        const response = await fetch(imageUrl);
-                        const blob = await response.blob();
-                        const blobUrl = URL.createObjectURL(blob);
 
-                        const link = document.createElement("a");
-                        link.href = blobUrl;
-                        link.setAttribute("download", "downloaded-image.jpg"); // Filename
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        URL.revokeObjectURL(blobUrl); // Cleanup
-                      } else {
-                        console.error("Image URL is null");
-                      }
-                    } catch (error) {
-                      console.error("Error downloading image:", error);
-                    }
-                  }}
-                  className="bg-[#EEF4FC] text-[#10509A] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center"
-                >
-                  <Download />
-                  <span className="max-sm:hidden">Export</span>
-                </button>
-              </div> */}
               <div className="max-md:bg-white max-md:px-4 flex items-center justify-center">
                 <div className="bg-[#F0F3F5]  rounded-lg p-4 md:p-6 sm:p-[32px] min-h-[274px] lg:min-w-[598px] max-w-[598px] w-full max-h-[350px] md:max-h-[598px] self-center overflow-hidden">
                   <Image
@@ -102,33 +70,6 @@ const Page = () => {
                   />
                 </div>
               </div>
-
-              {/* <div className="grid grid-cols-2 gap-4 ">
-                <div className="flex flex-col gap-1 font-normal text-base leading-6 py-1">
-                  <h4 className="text-[#121316] ">Product Name</h4>
-                  <p className="text-[#5F5F5F]">{details.productName}</p>
-                </div>
-                <div className="flex flex-col gap-1 font-normal text-base leading-6 py-1">
-                  <h4 className="text-[#121316] ">Aspect Ratio</h4>
-                  <p className="text-[#5F5F5F]">{details.aspectRatio}</p>
-                </div>
-                <div className="flex flex-col gap-1 font-normal text-base leading-6 py-1">
-                  <h4 className="text-[#121316] ">Language</h4>
-                  <p className="text-[#5F5F5F]">{details.language}</p>
-                </div>
-                <div className="flex flex-col gap-1 font-normal text-base leading-6 py-1">
-                  <h4 className="text-[#121316] ">Resolution</h4>
-                  <p className="text-[#5F5F5F]">{details.resolution}</p>
-                </div>
-                <div className="flex flex-col gap-1 font-normal text-base leading-6 py-1">
-                  <h4 className="text-[#121316] ">Target Audience</h4>
-                  <p className="text-[#5F5F5F]">{details.targetAudience}</p>
-                </div>
-                <div className="flex flex-col gap-1 font-normal text-base leading-6 py-1">
-                  <h4 className="text-[#121316] ">Region</h4>
-                  <p className="text-[#5F5F5F]">{details.region}</p>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
