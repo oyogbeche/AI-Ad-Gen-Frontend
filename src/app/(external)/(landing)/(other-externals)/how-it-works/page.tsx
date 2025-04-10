@@ -1,13 +1,13 @@
 import CtaHowItWorks from "@/domains/other-externals/components/how-it-works-cta";
 import HowWorksHero from "@/domains/other-externals/components/how-works-hero";
-import ShareAd from "@/domains/other-externals/components/step-eight";
-import GenerateSec from "@/domains/other-externals/components/step-five";
-import CustomizeSection from "@/domains/other-externals/components/step-four";
+import ShareAd from "@/domains/other-externals/components/share-ad-section";
+import GenerateSec from "@/domains/other-externals/components/generate-section";
+import CustomizeSection from "@/domains/other-externals/components/customize-section";
 import StepOne from "@/domains/other-externals/components/step-one";
-import DownloadAd from "@/domains/other-externals/components/step-seven";
-import PreviewAd from "@/domains/other-externals/components/step-six";
-import SignInSection from "@/domains/other-externals/components/step-two";
-import TryItNow from "@/domains/other-externals/components/step-three";
+import DownloadAd from "@/domains/other-externals/components/download-ad-section";
+import PreviewAd from "@/domains/other-externals/components/preview-ad-section";
+import SignInSection from "@/domains/other-externals/components/signin-section";
+import TryItNow from "@/domains/other-externals/components/try-in-now";
 
 const HowItWorksPage = () => {
   return (
