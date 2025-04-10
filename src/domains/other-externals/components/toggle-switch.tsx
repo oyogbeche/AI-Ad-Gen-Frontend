@@ -5,16 +5,13 @@ const ToggleSwitch: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center space-y-4">
-      {/* Toggle Container */}
       <div className="relative flex items-center bg-gray-200 rounded-full p-1 w-48">
-        {/* Background highlight */}
         <div
           className={`absolute top-0 left-0 h-full w-1/2 bg-white rounded-full shadow transition-transform duration-300 ${
             isYearly ? "translate-x-full" : "translate-x-0"
           }`}
         ></div>
 
-        {/* Monthly Button */}
         <button
           className={`relative w-1/2 text-center py-2 text-sm font-medium transition ${
             !isYearly ? "text-black" : "text-gray-500"
@@ -24,7 +21,6 @@ const ToggleSwitch: React.FC = () => {
           Monthly
         </button>
 
-        {/* Annual Button */}
         <button
           className={`relative w-1/2 text-center py-2 text-sm font-medium transition ${
             isYearly ? "text-black" : "text-gray-500"

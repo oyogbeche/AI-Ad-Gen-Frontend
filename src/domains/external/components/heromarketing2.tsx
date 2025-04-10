@@ -6,7 +6,6 @@ import Access from "./access";
 const Hero2 = () => {
   return (
     <div className="bg-white relative flex flex-col items-center justify-between overflow-hidden px-4 md:px-10">
-      {/* Hero Text Section */}
       <motion.div
         className="max-w-3xl text-center mt-16 md:mt-24"
         initial={{ opacity: 0, y: 20 }}
@@ -29,13 +28,12 @@ const Hero2 = () => {
           transition={{ delay: 0.6, duration: 0.8 }}
         >
           <span className="max-w-[587px] md:block font-normal mx-auto">
-             GenZ Ad your all-in-one AI marketing solution designed to empower
+            GenZ Ad your all-in-one AI marketing solution designed to empower
             you to navigate the busy world of marketing with confidence.
           </span>
         </motion.p>
       </motion.div>
 
-      {/* Laptop SVG Image */}
       <motion.div
         className="relative w-full flex justify-center "
         initial={{ opacity: 0, y: 50 }}

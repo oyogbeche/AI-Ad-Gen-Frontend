@@ -101,7 +101,6 @@ export default function OnboardingStep({
         </div>
 
         <div className={`max-md:mb-2 max-md:mt-[53px] ${containerClasses}`}>
-          {/* Text Side */}
           <motion.div
             className={`max-md:px-5 ${textContainerClasses}`}
             initial={{ opacity: 0, x: isLeftImage ? 50 : -50 }}
@@ -118,7 +117,6 @@ export default function OnboardingStep({
             </ul>
           </motion.div>
 
-          {/* Image Side */}
           <motion.div
             className={imageContainerClasses}
             initial={{ opacity: 0, x: isLeftImage ? -50 : 50 }}

@@ -1,8 +1,7 @@
-"use client"; // 1) Mark this file as a Client Component
+"use client";
 
 import Image from "next/image";
 import React from "react";
-// 2) Import from next/navigation in Next.js 13 App Router
 import { useRouter } from "next/navigation";
 
 const CtaHowItWorks: React.FC = () => {
@@ -36,7 +35,7 @@ const CtaHowItWorks: React.FC = () => {
           relative
         "
       >
-        {/* Left Side: Headline, Description, and Button */}
+        ={" "}
         <div className="md:pl-8 py-8">
           <h3 className="text-[20px] lg:text-[56px] font-semibold md:font-bold leading-7 md:leading-12 mb-4  text-center md:text-left">
             Simple &amp; Quick Ad Creation.
@@ -46,7 +45,6 @@ const CtaHowItWorks: React.FC = () => {
             complex tools. No expensive software. Just your vision!
           </p>
 
-          {/* CTA Button using onClick */}
           <button
             onClick={handleSignIn}
             className="
@@ -66,8 +64,6 @@ const CtaHowItWorks: React.FC = () => {
             Start Creating Your Ad
           </button>
         </div>
-
-        {/* Right Side: Man with Megaphone Image */}
         <div className="flex items-end justify-end overflow-hidden">
           <Image
             src="/man.svg"

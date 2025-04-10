@@ -4,9 +4,7 @@ import {
   Close,
   Copy,
   Facebook2,
-  // Insta,
   LinkedIn,
-  // Tiktok,
   Whatsapp,
   X,
 } from "@/components/icons/icon";
@@ -27,7 +25,7 @@ interface ShareModalProps {
   adUrl: string;
   onOpenChange?: (open: boolean) => void;
   defaultOpen?: boolean;
-  children: React.ReactNode; // Add this line
+  children: React.ReactNode;
   imageUrl: string;
 }
 
@@ -36,8 +34,7 @@ export default function ShareModal({
   onOpenChange,
   defaultOpen = false,
   children,
-}: // imageUrl,
-ShareModalProps) {
+}: ShareModalProps) {
   const [open, setOpen] = useState(defaultOpen);
 
   const handleOpenChange = (open: boolean) => {
@@ -85,20 +82,12 @@ ShareModalProps) {
       case "twitter":
         shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
         break;
-      case "instagram":
-        // Instagram doesn't have a direct web sharing API, typically would redirect to app
-        toast.warning("Open Instagram app and paste the copied link");
-        return;
       case "whatsapp":
         shareUrl = `https://wa.me/?text=${text}%20${url}`;
         break;
       case "linkedin":
         shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
         break;
-      case "tiktok":
-        // TikTok doesn't have a direct web sharing API, typically would redirect to app
-        toast.warning("Open TikTok app and paste the copied link");
-        return;
       default:
         return;
     }
@@ -154,18 +143,6 @@ ShareModalProps) {
                 </span>
               </button>
 
-              {/* <button
-                onClick={() => shareOnSocialMedia("instagram")}
-                className="flex flex-col items-center gap-2"
-              >
-                <div className="rounded-2xl bg-[rgba(219,65,133,0.08)] p-1 cursor-pointer">
-                  <Insta />
-                </div>
-                <span className="text-[#121316] text-center font-nunito text-[14px] font-medium leading-[20px]">
-                  Instagram
-                </span>
-              </button> */}
-
               <button
                 onClick={() => shareOnSocialMedia("whatsapp")}
                 className="flex flex-col items-center gap-2"
@@ -189,18 +166,6 @@ ShareModalProps) {
                   LinkedIn
                 </span>
               </button>
-
-              {/* <button
-                onClick={() => shareOnSocialMedia("tiktok")}
-                className="flex flex-col items-center gap-2"
-              >
-                <div className="rounded-2xl bg-[#F6F6F6] p-2 cursor-pointer">
-                  <Tiktok />
-                </div>
-                <span className="text-[#121316] text-center font-nunito text-[14px] font-medium leading-[20px]">
-                  TikTok
-                </span>
-              </button> */}
             </div>
           </div>
 

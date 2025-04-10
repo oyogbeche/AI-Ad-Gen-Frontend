@@ -3,7 +3,6 @@ import type React from "react";
 import { Nunito } from "next/font/google";
 import clsx from "clsx";
 import FeatureCard from "./key-features-card";
-// import { AiAnalytics } from "@/components/icons/icon";
 import { GeneratedVisual } from "@/components/icons/icon";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";

@@ -57,7 +57,6 @@ const Access = ({ heading, imageSrc }: AccessProps) => {
       }}
     >
       <div className="grid grid-cols-1 md:grid-cols-2">
-        {/* Left Column: Image */}
         <div className="flex items-center justify-center max-md:px-4 mt-8 sm:mt-12 md:mt-0">
           <Image
             src={imageSrc || "/early-access.svg"}
@@ -69,7 +68,6 @@ const Access = ({ heading, imageSrc }: AccessProps) => {
           />
         </div>
 
-        {/* Right Column: Form */}
         <motion.div
           className="flex flex-col items-center justify-center p-6 md:p-8"
           initial={{ opacity: 0, x: 30 }}
@@ -84,7 +82,6 @@ const Access = ({ heading, imageSrc }: AccessProps) => {
             )}
           </h2>
 
-          {/* Form */}
           <form
             onSubmit={handleSubmit}
             className="mt-6 flex flex-col gap-4 w-full max-w-[600px] self-start"

@@ -12,9 +12,8 @@ const BlogHeader: React.FC = () => {
   const pathname = usePathname();
 
   const activeLinkStyle = `!text-purple-700`;
-  const baseLinkStyle = `text-gray-600 hover:text-purple-700`; // Base style for links
+  const baseLinkStyle = `text-gray-600 hover:text-purple-700`; 
 
-  // Define nav links as an array for reusability
   const navLinks = [
     { href: "/features", label: "Features" },
     { href: "/how-it-works", label: "How it works" },
@@ -89,34 +88,3 @@ const BlogHeader: React.FC = () => {
 };
 
 export default BlogHeader;
-
-{
-  /* <Button
-          onClick={handleGoogleLogin}
-          className="flex items-center gap-[10px] rounded-md border border-[#B7D3F3] px-3 py-2 bg-white md:px-4 md:py-3  hover:bg-[#F6F6F6]"
-        >
-          <Google />
-          <span className="text-[#1F1F1F] font-roboto text-xs md:text-sm font-medium leading-normal text-nowrap">
-            {isLoading ? "Signing in..." : "Sign Up with Google"}
-          </span>
-          {isLoading && (
-            <span className="ml-2 w-4 h-4 border-2 border-gray-300 border-t-[#1F1F1F] rounded-full animate-spin"></span>
-          )}
-        </Button> */
-}
-
-{
-  /* <div className="hidden md:flex space-x-4 pr-4">
-          <Button variant="ghost" asChild>
-            <Link href="/signin" className="text-[#520052]">
-              Sign in
-            </Link>
-          </Button>
-          <Button
-            className="bg-[#520052] text-white px-4 py-2 rounded-md"
-            asChild
-          >
-            <Link href="/signup">Create account</Link>
-          </Button>
-        </div> */
-}

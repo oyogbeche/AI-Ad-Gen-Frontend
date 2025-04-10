@@ -1,17 +1,17 @@
 "use client";
 
 import {
-  Logo,
-  FooterFb,
-  FooterX,
-  FooterIg,
   FooterEmail,
+  FooterFb,
+  FooterIg,
+  FooterX,
+  Logo,
 } from "@/components/icons/icon";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const Footer = () => {
-  const pathname = usePathname(); 
+  const pathname = usePathname();
 
   const companyLinks = [
     { href: "/about-us", label: "About Us" },
@@ -22,14 +22,8 @@ const Footer = () => {
   const audienceLinks = [
     { href: "/ai-creative", label: "AI Creative" },
     { href: "/ai-marketing", label: "AI Marketing" },
-    // { href: "/ai-video-ads", label: "AI Video Ads" },
     { href: "/watch-video-ads", label: "Watch Video Ads" },
   ];
-
-  // const featuresLinks = [
-  //   { href: "/image-ads", label: "Image Ads" },
-  //   { href: "/community", label: "Community" },
-  // ];
 
   const supportLinks = [
     { href: "/contact-us", label: "Contact Us" },
@@ -134,24 +128,6 @@ const Footer = () => {
               ))}
             </ul>
           </div>
-
-          {/* <div className="flex flex-col gap-6">
-            <h3 className={headingStyle}>Features</h3>
-            <ul className="flex flex-col gap-6 text-left">
-              {featuresLinks.map((link, index) => (
-                <li key={index}>
-                  <Link
-                    href={link.href}
-                    className={`${linkStyle} ${
-                      pathname === link.href ? activeLinkStyle : ""
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div> */}
 
           <div className="flex flex-col gap-6">
             <h3 className={headingStyle}>Support & Resources</h3>

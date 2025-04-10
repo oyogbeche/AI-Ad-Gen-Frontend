@@ -8,8 +8,8 @@ interface VideoPlayerProps {
   videoLink: string;
   className?: string;
   heading?: string;
-  loop?: boolean; // Optional prop to enable looping
-  disableRelatedVideos?: boolean; // Optional prop to disable related videos
+  loop?: boolean; 
+  disableRelatedVideos?: boolean; 
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({
@@ -21,10 +21,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 }) => {
   const sectionRef = useRef(null);
 
-  // Construct the URL with optional parameters
   let url = videoLink;
   if (loop) {
-    const videoId = videoLink.split("/embed/")[1].split("?")[0]; // Extract video ID
+    const videoId = videoLink.split("/embed/")[1].split("?")[0]; 
     url += `?loop=1&playlist=${videoId}`;
   }
   if (disableRelatedVideos) {
