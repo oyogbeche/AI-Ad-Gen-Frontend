@@ -1,7 +1,3 @@
-//import Image from "next/image";
-
-//import Link from "next/link";
-
 const AuthFooter = () => {
   return (
     <div className="w-full flex z-10 bg-[#F9FAFB] justify-center items-center px-3 py-4 border-b-[1px] border-[#E8E9E9] pt-10">

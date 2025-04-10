@@ -13,7 +13,6 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 
-// Define the structure of a pricing tier
 interface Tier {
   name: string;
   id: string;
@@ -23,7 +22,6 @@ interface Tier {
   mostPopular: boolean;
 }
 
-// Pricing plans with their details
 const tiers: Tier[] = [
   {
     name: "Starter",
@@ -36,7 +34,7 @@ const tiers: Tier[] = [
       "Limited selection of templates",
       "Standard resolution only (720p)",
     ],
-    mostPopular: false, // Not the highlighted plan
+    mostPopular: false,
   },
   {
     name: "Basic",

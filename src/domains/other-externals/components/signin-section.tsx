@@ -10,7 +10,7 @@ const SignInSection = () => {
       content={
         <>
           <li>Use your Google account for fast and secure access</li>
-          <li> No long forms – just a one-click login!</li>
+          <li> No long forms - just a one-click login!</li>
         </>
       }
       image={

@@ -30,7 +30,6 @@ const AnimatedButton = ({
   };
   const buttonStyles = `${baseStyles} ${variantStyles[variant]} ${className}`;
 
-  // Split text into individual letters for animation
   const letters = text.split("");
 
   return (

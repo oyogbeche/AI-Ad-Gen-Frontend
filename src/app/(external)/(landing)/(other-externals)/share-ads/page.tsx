@@ -1,4 +1,4 @@
-import CtaHowItWorks from "@/domains/other-externals/community-cta";
+import CtaHowItWorks from "@/domains/other-externals/components/community-cta";
 import CreateAds from "@/domains/other-externals/components/key-features-ad";
 import FeaturesHero from "@/domains/other-externals/components/key-features-hero-section";
 

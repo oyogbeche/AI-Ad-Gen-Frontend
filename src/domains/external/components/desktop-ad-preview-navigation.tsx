@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 import ShareModal from "./share-modal";
-//import { useGenerateAdImage } from "@/domains/ads-gen/api/ad-image-generate";
 
 interface DesktopAdPreviewNavigationProps {
   className?: string;
@@ -36,9 +35,7 @@ export const DesktopAdPreviewNavigation: React.FC<
 > = ({
   className = "",
   isLoading,
-  // imageUrl,
   imageName = "ad",
-  // handleCopy,
   pageAdData,
   type,
   status,
@@ -49,23 +46,15 @@ export const DesktopAdPreviewNavigation: React.FC<
   isPublished = false,
   filter,
 }) => {
-  // console.log("DASHBOARD", pageAdData);
   const router = useRouter();
   const searchParams = new URLSearchParams(window.location.search);
   const queryType = searchParams.get("type");
   const [isDownloading, setIsDownloading] = useState(false);
   const [isSaveDropdownOpen, setIsSaveDropdownOpen] = useState(false);
   const [isExportDropdownOpen, setIsExportDropdownOpen] = useState(false);
-  // const [isCopying, setIsCopying] = useState(false);
   const saveDropdownRef = useRef<HTMLDivElement>(null);
   const exportDropdownRef = useRef<HTMLDivElement>(null);
-  // const urlInputRef = useRef<HTMLInputElement>(null);
 
-  // Use a fallback image URL when imageUrl is undefined or null
-  // const fallbackImageUrl = "d889a-153e-7e1f-8000-4dad23d69053";
-  // const effectiveImageUrl = imageUrl || fallbackImageUrl;
-
-  // Fixed back button handler for all types
   const handleBack = () => {
     if (type === "demo") {
       router.push("/generate-ad");
@@ -76,66 +65,16 @@ export const DesktopAdPreviewNavigation: React.FC<
   };
 
   const showSaveButton =
-  (!pageAdData?.author_info &&
-    !hideSaveButton &&
-    ((type === "image-form" && status === "completed") ||
-    (type === "community" && !isPublished))) ||
-  (type === "community" && !isPublished);
-
-  // get generated image id
-  //const { adData } = useGenerateAdImage();
+    (!pageAdData?.author_info &&
+      !hideSaveButton &&
+      ((type === "image-form" && status === "completed") ||
+        (type === "community" && !isPublished))) ||
+    (type === "community" && !isPublished);
 
   const downloadImage = async (format: "png" | "jpg") => {
-    // if (!effectiveImageUrl || isDownloading) return;
-    // setIsDownloading(true);
-
     try {
-      // const response = await fetch(imageUrl || fallbackImageUrl);
-
-      // const blob = await response.blob();
-
-      // const extension = format === "png" ? "png" : "jpg";
-      // const mimeType = `image/${extension === "png" ? "png" : "jpeg"}`;
-
-      // let imageBlob = blob;
-      // if (format === "png" && blob.type !== "image/png") {
-      //   imageBlob = new Blob([blob], { type: mimeType });
-      // } else if (format === "jpg" && blob.type !== "image/jpeg") {
-      //   imageBlob = new Blob([blob], { type: mimeType });
-      // }
-
-      // const blobUrl = URL.createObjectURL(imageBlob);
-
-      // const link = document.createElement("a");
-      // link.href = blobUrl;
-      // link.setAttribute("download", `${imageName}.${extension}`);
-      // link.click();
-
-      // setTimeout(() => {
-      //   URL.revokeObjectURL(blobUrl);
-      // }, 100);
-
-      // toast.custom(() => (
-      //   <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-      //     <div className="flex items-center justify-between w-full">
-      //       <div className="flex items-center">
-      //         <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-      //           <Check className="h-4 w-4 text-white" />
-      //         </div>
-      //         <div className="ml-3">
-      //           <p className="text-sm font-medium text-gray-900 mb-2">
-      //             Download Success!
-      //           </p>
-      //           <p className="text-xs text-gray-500">
-      //             Your Image Ad has been downloaded as {extension.toUpperCase()}
-      //           </p>
-      //         </div>
-      //       </div>
-      //     </div>
-      //   </div>
-      // ));
-      const element = document.getElementById('containerRef')
-      if(element){
+      const element = document.getElementById("containerRef");
+      if (element) {
         html2canvas(element, { useCORS: true, allowTaint: true })
           .then((canvas) => {
             const link = document.createElement("a");
@@ -211,7 +150,7 @@ export const DesktopAdPreviewNavigation: React.FC<
               .then((data) => {
                 if (data.secure_url) {
                   console.log("Uploaded Image URL:", data.secure_url);
-                  console.log(imageId)
+                  console.log(imageId);
                   const uploadedUrl = data.secure_url;
                   patchRequest(`/image/save/${imageId}`, {
                     edited_image_url: uploadedUrl,
@@ -260,7 +199,6 @@ export const DesktopAdPreviewNavigation: React.FC<
 
   const handleSaveAndPublish = async () => {
     try {
-      // console.log("IMAGEID",imageId)
       const newStatus = pageAdData.is_published ? "unpublished" : "published";
       await patchRequest(`/image/publish/${imageId}`, { status: newStatus });
 
@@ -297,42 +235,6 @@ export const DesktopAdPreviewNavigation: React.FC<
     }
   };
 
-  // const handleSaveAndPublish = async () => {
-  //   try {
-  //     const newStatus = pageAdData.is_published ? "unpublished" : "published";
-  //     await patchRequest(`/image/publish/${imageId}`, { status: newStatus });
-
-  //     toast.custom(() => (
-  //       <div className="max-w-md w-full bg-white rounded-lg shadow-lg pointer-events-auto flex items-center p-4">
-  //         <div className="flex items-center justify-between w-full">
-  //           <div className="flex items-center">
-  //             <div className="flex-shrink-0 bg-green-500 rounded-md shadow-lg p-0.5">
-  //               <Check className="h-4 w-4 text-white" />
-  //             </div>
-  //             <div className="ml-3">
-  //               <p className="text-sm font-medium text-gray-900 mb-2">
-  //                 {pageAdData.is_published
-  //                   ? "Ad Unpublished Successfully!"
-  //                   : "Ad Published Successfully!"}
-  //               </p>
-  //               <p className="text-xs text-gray-500">
-  //                 {pageAdData.is_published
-  //                   ? "Your ad is no longer live."
-  //                   : "Your ad is now live and ready to reach your audience."}
-  //               </p>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     ));
-
-  //     router.push("/dashboard");
-  //   } catch (error) {
-  //     console.error("Error updating publish status:", error);
-  //     toast.error("Failed to update publish status");
-  //   }
-  // };
-
   return (
     <div className={`w-full ${className}`}>
       <div className="flex justify-between items-center w-full pt-3">
@@ -348,7 +250,6 @@ export const DesktopAdPreviewNavigation: React.FC<
         </button>
 
         <div className="flex gap-4">
-          {/* Save button - Show only when type is image-form and status is completed */}
           {(showSaveButton || queryType == "community") && (
             <div className="relative" ref={saveDropdownRef}>
               <button
@@ -393,16 +294,12 @@ export const DesktopAdPreviewNavigation: React.FC<
             </div>
           )}
 
-          {/* Share button - Show only when type is image-form and status is completed */}
           {type === "image-form" && status === "completed" && (
             <ShareModal
               adUrl={`https://genz.ad/stand-alone/${imageId}`}
-              // Added image url for when we want to switch to sharing natively and not the link to the social
-              // media platforms using Web Share API
               imageUrl={generatedImageUrl}
               defaultOpen={false}
             >
-              {/* Custom Share Button */}
               <button className="bg-[#F8E6F8] py-1.5 px-4 rounded cursor-pointer flex gap-2 items-center justify-center">
                 <Share2 size={18} />
                 <span className="max-sm:hidden text-base leading-6 font-normal text-[#650065]">
@@ -412,7 +309,6 @@ export const DesktopAdPreviewNavigation: React.FC<
             </ShareModal>
           )}
 
-          {/* Export button - Show for demo type always, and for image-form only when status is completed */}
           {(type === "demo" ||
             (type === "image-form" && status === "completed")) && (
             <div className="relative" ref={exportDropdownRef}>
