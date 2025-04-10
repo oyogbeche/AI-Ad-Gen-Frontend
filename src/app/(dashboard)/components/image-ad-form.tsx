@@ -30,7 +30,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { useInpaintStore } from "@/store/inpaint-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import html2canvas from "html2canvas";
-import { ArrowRight, ImageIcon, RefreshCw, Upload } from "lucide-react";
+import { ArrowRight, ImageIcon, Upload } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -207,15 +207,7 @@ export default function AdCustomizer() {
   const { submitAdGoal, isLoading, targetAudience } = useAdGoal();
   const [selectedAudiences, setSelectedAudiences] = useState<string[]>([]);
 
-  // const handleAudienceSelect = (audience: string) => {
-  //   setSelectedAudiences((prev) => {
-  //     if (prev.includes(audience)) {
-  //       return prev.filter((item) => item !== audience);
-  //     } else {
-  //       return [...prev, audience];
-  //     }
-  //   });
-  // };
+
 
   const handleAudienceSelect = (audience: string) => {
   setSelectedAudiences((prev) => {
