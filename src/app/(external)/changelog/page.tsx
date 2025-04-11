@@ -172,11 +172,11 @@ const ChangeLogPage = () => {
         </button>
         <div className="max-w-[360px] md:max-w-[756px] m-auto flex flex-col gap-6">
           <h1 className="px-10 text-[28px] lg:text-[64px] font-medium text-center text-white">
-            What’s New? Changelog & Updates
+            What&quot;s New? Changelog & Updates
           </h1>
 
           <p className="text-[12px] md:text-[20px] text-center text-[#ECECEC] font-normal md:font-medium">
-            HCheck out everything we’ve been working on to make your ad creation
+            HCheck out everything we&quot;ve been working on to make your ad creation
             smoother, faster, and better!
           </p>
         </div>

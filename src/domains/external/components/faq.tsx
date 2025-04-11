@@ -81,13 +81,7 @@ export const FAQ = () => {
             </div>
           </div>
         ))}
-        {/* <p className="mt-4 text-gray-600">
-          Have more questions?{" "}
-          <a href="#" className="text-purple-600 font-medium">
-            See the full FAQ
-          </a>
-        </p> */}
       </div>
     </section>
   );
-}
+};

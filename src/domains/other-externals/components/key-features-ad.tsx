@@ -1,8 +1,8 @@
 "use client";
-import circle from "@/components/icons/circle.svg";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
+import circle from "../../../../public/circle.svg";
 
 interface CreateAdsProps {
   rowReverse?: boolean;

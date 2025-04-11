@@ -1,9 +1,9 @@
 "use client";
-import Link from "next/link";
-import Header from "@/domains/external/components/header";
-import arrowRight from "@/components/icons/arrow-right.svg";
+import Header from "@/domains/external/components/common/header";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
+import arrowRight from "../../public/arrow-right.svg";
 export default function NotFound() {
   return (
     <>
