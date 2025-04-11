@@ -18,7 +18,7 @@ export const useSubscriptionStatus = () => {
       setSubscriptionData(subscriptionData);
       return subscriptionData;
     },
-    staleTime: 1000 * 60 * 5, // Cache the data for 5 minutes
-    refetchOnWindowFocus: false, // Prevent refetching when window is focused
+    staleTime: 1000 * 60 * 5, 
+    refetchOnWindowFocus: false, 
   });
 };

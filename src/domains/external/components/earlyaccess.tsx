@@ -49,7 +49,6 @@ const EarlyAccess = () => {
       style={{ backgroundImage: "url('/Map.png')" }}
     >
       <div className="grid grid-cols-1 md:grid-cols-2">
-        {/* Left Column: Image */}
         <div className="flex items-center justify-center">
           <Image
             src="/early-access.svg"
@@ -61,7 +60,6 @@ const EarlyAccess = () => {
           />
         </div>
 
-        {/* Right Column: Form */}
         <motion.div
           className="flex flex-col justify-center p-6 md:p-8"
           initial={{ opacity: 0, x: 30 }}

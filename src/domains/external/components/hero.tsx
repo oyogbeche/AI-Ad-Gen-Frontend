@@ -6,7 +6,7 @@ import React from "react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
 import { useAuthStore } from "@/store/auth-store";
-import AnimatedButton from "@/domains/other-externals/components/animated-button";
+import AnimatedButton from "@/domains/external/components/animated-button";
 
 const heroImages = [
   {
@@ -53,7 +53,7 @@ const HeroSection = () => {
           className="text-3xl md:text-[64px] font-medium text-[#121316] tracking-tight mb-4 lg:max-w-5xl text-center lg:mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.15, duration: 0.5 }}
+          transition={{ delay: 0.25, duration: 0.6 }}
         >
           Generate High-converting, <br className="hidden xl:block" /> Smarter
           Adverts in minutes
@@ -63,7 +63,7 @@ const HeroSection = () => {
           className="text-lg text-gray-600 mb-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
         >
           AI generated ads that maximise engagement and revenue
         </motion.p>
@@ -96,7 +96,7 @@ const HeroSection = () => {
               className="outline-none flex items-center justify-center h-[200px] md:h-[450px] relative"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 * index, duration: 0.5 }}
+              transition={{ delay: 0.15 * index, duration: 0.8 }}
             >
               <Image
                 src={image.src}

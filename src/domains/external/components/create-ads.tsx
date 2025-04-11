@@ -1,10 +1,9 @@
 "use client";
+import { motion, useInView } from "framer-motion";
 import Image from "next/image";
-import createadImg from "@/components/images/createadsImg.svg";
-import circle from "@/components/icons/circle.svg";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
 import { useRef } from "react";
+import circle from "../../../../public/circle.svg";
+import createadImg from "../../../../public/createadsImg.svg";
 
 const notes = [
   {
@@ -41,7 +40,7 @@ const CreateAds = () => {
         className="w-full h-auto lg:max-w-[596px] bg-[#E5EEFF] pt-[105px]"
         initial={{ opacity: 0, x: -50 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.6 }}
         exit={{ opacity: 0, x: -50 }}
       >
         <Image
@@ -57,14 +56,14 @@ const CreateAds = () => {
         className="flex flex-col text-left"
         initial={{ opacity: 0, x: 50 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.6 }}
         exit={{ opacity: 0, x: 50 }}
       >
         <motion.p
           className="text-[#10509A] text-sm md:text-base font-semibold"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.4, delay: 0.15 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
         >
           HOW TO USE
         </motion.p>
@@ -72,7 +71,7 @@ const CreateAds = () => {
           className="text-[28px] md:text-[36px] lg:text-[48px] font-medium leading-tight"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.4, delay: 0.3 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
         >
           How to Create Ads in Seconds with Genz.ad
         </motion.h2>
@@ -81,7 +80,7 @@ const CreateAds = () => {
           className="mt-6 md:mt-10"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
+          transition={{ duration: 0.8, delay: 0.7 }}
         >
           {notes.map((note, index) => (
             <motion.div
@@ -89,7 +88,7 @@ const CreateAds = () => {
               className="flex items-start gap-4 md:gap-[30px] mb-6 md:mb-8"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.3, delay: 0.4 + index * 0.2 }}
+              transition={{ duration: 0.6, delay: 0.5 + index * 0.15 }}
               whileHover={{ x: 5 }}
             >
               <motion.h3

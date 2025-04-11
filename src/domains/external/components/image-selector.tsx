@@ -1,10 +1,8 @@
-
 import { useInpaintStore } from "@/store/inpaint-store";
 import { Send } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 
-// Define TypeScript interfaces for our props and state
 interface ImageSelectionToolProps {
   imageSrc: string;
   imageId: string;
@@ -42,21 +40,18 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
   const [containerSize, setContainerSize] = useState({ width, height });
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [currentImageSrc, setCurrentImageSrc] = useState(imageSrc);
- 
+
   const { startInpainting } = useInpaintStore();
 
   useEffect(() => {
     setCurrentImageSrc(imageSrc);
   }, [imageSrc]);
 
-  // Use proper TypeScript types for refs
-  // const imageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Handle responsive resizing and detect mobile
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768); // Standard breakpoint for mobile
+      setIsMobile(window.innerWidth < 768);
     };
 
     const updateSize = () => {
@@ -64,13 +59,10 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
         checkMobile();
         const parentWidth = containerRef.current.parentElement.clientWidth;
 
-        // Different max width behavior for mobile vs desktop
         let maxWidth;
         if (isMobile) {
-          // On mobile, use the full parent width with minimal padding
           maxWidth = parentWidth - 16;
         } else {
-          // On desktop, respect the max width of 650px
           maxWidth = Math.min(650, parentWidth - 40);
         }
 
@@ -84,18 +76,15 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
       }
     };
 
-    // Initial checks
     checkMobile();
     updateSize();
 
-    // Update on window resize
     window.addEventListener("resize", updateSize);
     return () => {
       window.removeEventListener("resize", updateSize);
     };
   }, [width, height, isMobile]);
 
-  // Handle mouse down to start selection
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
 
@@ -109,7 +98,6 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
     setShowPrompt(false);
   };
 
-  // Handle mouse move to update selection
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!isSelecting || !containerRef.current) return;
 
@@ -131,7 +119,6 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
     });
   };
 
-  // Handle touch events for mobile devices
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     if (!containerRef.current || e.touches.length !== 1) return;
 
@@ -147,7 +134,7 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
 
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
     if (!isSelecting || !containerRef.current || e.touches.length !== 1) return;
-    e.preventDefault(); // Prevent scrolling while selecting
+    e.preventDefault();
 
     const rect = containerRef.current.getBoundingClientRect();
     const currentX = Math.max(
@@ -181,14 +168,12 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
     }
   };
 
-  // Handle mouse up to end selection
   const handleMouseUp = () => {
     if (isSelecting && selection) {
       if (selection.width > 10 && selection.height > 10) {
         setIsSelecting(false);
-        setShowPrompt(true); // Ensure we're showing the prompt
+        setShowPrompt(true);
       } else {
-        // Reset if selection is too small
         setIsSelecting(false);
         setSelection(null);
       }
@@ -197,7 +182,6 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
     }
   };
 
-  // Add event listeners for mouse events outside the component
   useEffect(() => {
     const handleMouseUpOutside = () => {
       if (isSelecting) {
@@ -216,18 +200,15 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
     };
   }, [isSelecting, selection]);
 
-  // Render the corner circles for a given selection
   const renderCornerCircles = (sel: SelectionArea) => {
-    // Adjust circle size for mobile
-    const circleSize = isMobile ? 16 : 10; // Bigger circles on mobile for easier touch
+    const circleSize = isMobile ? 16 : 10;
     const offset = circleSize / 2;
 
-    // Calculate positions for each corner
     const corners = [
-      { left: sel.x - offset, top: sel.y - offset }, // Top-left
-      { left: sel.x + sel.width - offset, top: sel.y - offset }, // Top-right
-      { left: sel.x - offset, top: sel.y + sel.height - offset }, // Bottom-left
-      { left: sel.x + sel.width - offset, top: sel.y + sel.height - offset }, // Bottom-right
+      { left: sel.x - offset, top: sel.y - offset },
+      { left: sel.x + sel.width - offset, top: sel.y - offset },
+      { left: sel.x - offset, top: sel.y + sel.height - offset },
+      { left: sel.x + sel.width - offset, top: sel.y + sel.height - offset },
     ];
 
     return corners.map((corner, index) => (
@@ -257,17 +238,8 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
         try {
           await startInpainting({
             image_id: imageId,
-            prompt: prompt
+            prompt: prompt,
           });
-
-
-
-
- /*          if (inpaintData && response.image_url) {
-            // Update the image source with the new inpainted image
-            setCurrentImageSrc(response.image_url);
-            console.log("Inpainting successful:", response.image_url);
-          } */
         } catch (error) {
           console.error("Error during inpainting:", error);
         }
@@ -284,8 +256,6 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
         ref={containerRef}
         className="relative cursor-crosshair rounded-md"
         style={{
-          // width: `${containerSize.width}px`,
-          // height: `${containerSize.height}px`,
           width: "100%",
           height: "100%",
         }}
@@ -368,7 +338,6 @@ const ImageSelectionTool: React.FC<ImageSelectionToolProps> = ({
                   isMobile ? "px-4 py-4" : "px-3 py-3"
                 } hover:bg-slate-200 cursor-pointer focus:outline-none rounded-md`}
               >
-                {/* <Image src={send} alt="send" /> */}
                 <Send size={20} color="#121316" />
               </button>
             </div>

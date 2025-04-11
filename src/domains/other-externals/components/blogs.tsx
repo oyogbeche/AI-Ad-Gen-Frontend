@@ -13,10 +13,10 @@ export const blogData: BlogCardProps[] = [
       "The world of digital advertising is evolving rapidly, and AI-powered tools are revolutionizing the way marketers create high-converting ads.",
     fullDescription: [
       "The world of digital advertising is evolving rapidly, and AI-powered tools are revolutionizing the way marketers create high-converting ads. Gone are the days of spending hours designing creatives, now, AI can generate stunning ads in minutes. Whether you're a small business owner, a digital marketer, or an e-commerce entrepreneur, AI-driven ad creation tools can help you streamline your marketing efforts.",
-      "In this post, we’ll explore some of the top AI ad creation tools that every marketer should know about. Plus, we’ll introduce you to genz.ad, the newest AI-powered platform changing the game.",
+      "In this post, we'll explore some of the top AI ad creation tools that every marketer should know about. Plus, we'll introduce you to genz.ad, the newest AI-powered platform changing the game.",
     ],
     pOne: {
-      title: "1. genz.ad – The All-in-One AI Ad Creation Tool",
+      title: "1. genz.ad - The All-in-One AI Ad Creation Tool",
       content: [
         "If you're looking for a simple yet powerful AI ad creator, genz.ad is the perfect solution. Designed for marketers, small business owners, and content creators, genz.ad uses AI to generate scroll-stopping, high-quality ads in seconds.",
       ],
@@ -39,7 +39,7 @@ export const blogData: BlogCardProps[] = [
       },
     },
     pTwo: {
-      title: "2. AdCreative.ai – AI-Powered Ad Optimization",
+      title: "2. AdCreative.ai - AI-Powered Ad Optimization",
       content: [
         "AdCreative.ai is a great tool for brands that want to optimize their ad creatives for performance. It generates data-backed ads that help improve conversion rates.",
       ],
@@ -59,9 +59,9 @@ export const blogData: BlogCardProps[] = [
       },
     },
     pThree: {
-      title: "3. Canva – The Go-To Design Tool for Beginners",
+      title: "3. Canva - The Go-To Design Tool for Beginners",
       content: [
-        "Canva is one of the most popular design tools, offering both manual and AI-assisted ad creation. While it’s not fully AI-powered, Canva’s Magic Resize and Brand Kit features help marketers create ads faster.",
+        "Canva is one of the most popular design tools, offering both manual and AI-assisted ad creation. While it's not fully AI-powered, Canva's Magic Resize and Brand Kit features help marketers create ads faster.",
       ],
       sub1: {
         title: "Key Features:",
@@ -79,9 +79,9 @@ export const blogData: BlogCardProps[] = [
       },
     },
     pFour: {
-      title: "4. Jasper.ai – AI Copywriting for Ad Creatives",
+      title: "4. Jasper.ai - AI Copywriting for Ad Creatives",
       content: [
-        "While Jasper.ai isn’t an ad design tool, it’s one of the best AI copywriting platforms. It helps marketers craft engaging headlines, ad copy, and call-to-action phrases.",
+        "While Jasper.ai isn't an ad design tool, it's one of the best AI copywriting platforms. It helps marketers craft engaging headlines, ad copy, and call-to-action phrases.",
       ],
       sub1: {
         title: "Key Features:",
@@ -99,7 +99,7 @@ export const blogData: BlogCardProps[] = [
       },
     },
     pFive: {
-      title: "5. Sivi.ai – AI for Banner Ads",
+      title: "5. Sivi.ai - AI for Banner Ads",
       content: [
         "Sivi.ai specializes in AI-powered banner ads, making it an excellent choice for display advertising and retargeting campaigns.",
       ],
@@ -124,13 +124,13 @@ export const blogData: BlogCardProps[] = [
     image: Blogs2,
     title: "The Best 5 Free Ai Ad Creation Tools To Boost Your Campaigns",
     description:
-      "In today’s fast-paced digital landscape, marketers need high-quality, attention-grabbing ads to stand out.",
+      "In today's fast-paced digital landscape, marketers need high-quality, attention-grabbing ads to stand out.",
     fullDescription: [
       "The world of digital advertising is evolving rapidly, and AI-powered tools are revolutionizing the way marketers create high-converting ads. Gone are the days of spending hours designing creatives, now, AI can generate stunning ads in minutes. Whether you're a small business owner, a digital marketer, or an e-commerce entrepreneur, AI-driven ad creation tools can help you streamline your marketing efforts.",
-      "In this post, we’ll explore some of the top AI ad creation tools that every marketer should know about. Plus, we’ll introduce you to genz.ad, the newest AI-powered platform changing the game.",
+      "In this post, we'll explore some of the top AI ad creation tools that every marketer should know about. Plus, we'll introduce you to genz.ad, the newest AI-powered platform changing the game.",
     ],
     pOne: {
-      title: "1. genz.ad – The All-in-One AI Ad Creation Tool",
+      title: "1. genz.ad - The All-in-One AI Ad Creation Tool",
       content: [
         "If you're looking for a simple yet powerful AI ad creator, genz.ad is the perfect solution. Designed for marketers, small business owners, and content creators, genz.ad uses AI to generate scroll-stopping, high-quality ads in seconds.",
       ],
@@ -153,7 +153,7 @@ export const blogData: BlogCardProps[] = [
       },
     },
     pTwo: {
-      title: "2. AdCreative.ai – AI-Powered Ad Optimization",
+      title: "2. AdCreative.ai - AI-Powered Ad Optimization",
       content: [
         "AdCreative.ai is a great tool for brands that want to optimize their ad creatives for performance. It generates data-backed ads that help improve conversion rates.",
       ],
@@ -173,9 +173,9 @@ export const blogData: BlogCardProps[] = [
       },
     },
     pThree: {
-      title: "3. Canva – The Go-To Design Tool for Beginners",
+      title: "3. Canva - The Go-To Design Tool for Beginners",
       content: [
-        "Canva is one of the most popular design tools, offering both manual and AI-assisted ad creation. While it’s not fully AI-powered, Canva’s Magic Resize and Brand Kit features help marketers create ads faster.",
+        "Canva is one of the most popular design tools, offering both manual and AI-assisted ad creation. While it's not fully AI-powered, Canva's Magic Resize and Brand Kit features help marketers create ads faster.",
       ],
       sub1: {
         title: "Key Features:",
@@ -193,9 +193,9 @@ export const blogData: BlogCardProps[] = [
       },
     },
     pFour: {
-      title: "4. Jasper.ai – AI Copywriting for Ad Creatives",
+      title: "4. Jasper.ai - AI Copywriting for Ad Creatives",
       content: [
-        "While Jasper.ai isn’t an ad design tool, it’s one of the best AI copywriting platforms. It helps marketers craft engaging headlines, ad copy, and call-to-action phrases.",
+        "While Jasper.ai isn't an ad design tool, it's one of the best AI copywriting platforms. It helps marketers craft engaging headlines, ad copy, and call-to-action phrases.",
       ],
       sub1: {
         title: "Key Features:",

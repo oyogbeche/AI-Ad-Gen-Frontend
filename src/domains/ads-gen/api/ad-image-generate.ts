@@ -75,7 +75,6 @@ export function useGenerateAdImage() {
     },
   });
 
-  // Query to fetch the generated ad data
   const adDataQuery = useQuery({
     queryKey: ["adTask", taskId],
     queryFn: async (): Promise<TaskStatusResponse> => {
@@ -106,8 +105,8 @@ export function useGenerateAdImage() {
       ...data,
       data: {
         ...data.data,
-        image_id: taskId, // Add image_id as another property
-        product_name: data.data.product_name, // Ensure product_name is included
+        image_id: taskId, 
+        product_name: data.data.product_name, 
       },
     }),
   });
