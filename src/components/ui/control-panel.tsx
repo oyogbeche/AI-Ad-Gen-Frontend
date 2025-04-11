@@ -8,7 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { TextElement } from "./image-editor";
 import {
   Select,
@@ -83,35 +83,42 @@ export function ControlPanel({
 
   return (
     <div className="max-w-[609px] mb-4 md:mb-8 border rounded-lg flex flex-wrap items-center justify-between gap-2 bg-white box-border p-2">
-      <TooltipProvider>
+      <TooltipProvider delayDuration={300}>
         <div className="flex-[1] h-full gap-2 border rounded-[8px] p-2">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="w-full">
-                <Select onValueChange={handleFontChange}>
-                  <SelectTrigger className="w-full h-full border-none">
-                    <SelectValue placeholder="Select font" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Arial">Arial</SelectItem>
-                    <SelectItem value="Helvetica Neue">
-                      Helvetica Neue
-                    </SelectItem>
-                    <SelectItem value="Georgia">Georgia</SelectItem>
-                    <SelectItem value="Times New Roman">
-                      Times New Roman
-                    </SelectItem>
-                    <SelectItem value="Verdana">Verdana</SelectItem>
-                    <SelectItem value="Courier New">Courier New</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Change font family</p>
-            </TooltipContent>
-          </Tooltip>
+          <Select onValueChange={handleFontChange}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <SelectTrigger className="w-full h-full border-none cursor-pointer">
+                  <SelectValue placeholder="Select font" />
+                </SelectTrigger>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Change font family</p>
+              </TooltipContent>
+            </Tooltip>
+            <SelectContent>
+              <SelectItem value="Arial" className="cursor-pointer">
+                Arial
+              </SelectItem>
+              <SelectItem value="Helvetica Neue" className="cursor-pointer">
+                Helvetica Neue
+              </SelectItem>
+              <SelectItem value="Georgia" className="cursor-pointer">
+                Georgia
+              </SelectItem>
+              <SelectItem value="Times New Roman" className="cursor-pointer">
+                Times New Roman
+              </SelectItem>
+              <SelectItem value="Verdana" className="cursor-pointer">
+                Verdana
+              </SelectItem>
+              <SelectItem value="Courier New" className="cursor-pointer">
+                Courier New
+              </SelectItem>
+            </SelectContent>
+          </Select>
         </div>
+
         <div className="flex-[1]">
           <div className="flex gap-2 border rounded-[8px] p-2">
             <Tooltip>
@@ -138,7 +145,7 @@ export function ControlPanel({
                   </svg>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent side="bottom">
                 <p>Toggle bold text</p>
               </TooltipContent>
             </Tooltip>
@@ -184,7 +191,7 @@ export function ControlPanel({
                   </svg>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent side="bottom">
                 <p>Toggle italic text</p>
               </TooltipContent>
             </Tooltip>
@@ -223,7 +230,7 @@ export function ControlPanel({
                   </svg>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent side="bottom">
                 <p>Toggle underline text</p>
               </TooltipContent>
             </Tooltip>
@@ -236,7 +243,7 @@ export function ControlPanel({
               <Button
                 onClick={() => positionText("vertical")}
                 className={
-                  "bg-blue-500 hover:bg-blue-500 border-none shadow-none"
+                  "bg-light-purple hover:bg-light-purple border-none shadow-none"
                 }
               >
                 <svg
@@ -265,7 +272,7 @@ export function ControlPanel({
                 </svg>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="bottom">
               <p>Center text vertically</p>
             </TooltipContent>
           </Tooltip>
@@ -275,7 +282,7 @@ export function ControlPanel({
               <Button
                 onClick={() => positionText("center")}
                 className={
-                  "bg-blue-500 hover:bg-blue-500 border-none shadow-none"
+                  "bg-light-purple hover:bg-light-purple border-none shadow-none"
                 }
               >
                 <svg
@@ -304,7 +311,7 @@ export function ControlPanel({
                 </svg>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="bottom">
               <p>Center text horizontally and vertically</p>
             </TooltipContent>
           </Tooltip>
@@ -314,7 +321,7 @@ export function ControlPanel({
               <Button
                 onClick={() => positionText("horizontal")}
                 className={
-                  "bg-blue-500 hover:bg-blue-500 border-none shadow-none"
+                  "bg-light-purple hover:bg-light-purple border-none shadow-none"
                 }
               >
                 <svg
@@ -343,110 +350,118 @@ export function ControlPanel({
                 </svg>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="bottom">
               <p>Center text horizontally</p>
             </TooltipContent>
           </Tooltip>
         </div>
 
-        {/* Text Color Picker */}
         <div className="flex flex-[1] items-center justify-center gap-1 p-2 rounded-[8px] border">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="flex w-full gap-1">
+          <div className="flex w-full gap-1">
+            <Tooltip>
+              <TooltipTrigger asChild>
                 <Input
                   id="text-color"
                   type="color"
                   value={text.color}
                   onChange={(e) => onChange({ ...text, color: e.target.value })}
-                  className="w-2/5 border-none shadow-none m-0 p-0 aspect-square"
+                  className="w-2/5 border-none shadow-none m-0 p-0 aspect-square cursor-pointer"
                 />
-                <Input
-                  value={text.color}
-                  onChange={(e) => onChange({ ...text, color: e.target.value })}
-                  className="border-none shadow-none m-0 p-0"
-                />
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Change text color</p>
-            </TooltipContent>
-          </Tooltip>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Change text color</p>
+              </TooltipContent>
+            </Tooltip>
+            <Input
+              value={text.color}
+              onChange={(e) => onChange({ ...text, color: e.target.value })}
+              className="border-none shadow-none m-0 p-0"
+            />
+          </div>
         </div>
 
-        {/* Background Color Picker */}
         <div className="flex flex-[1] items-center justify-center gap-1 p-2 rounded-[8px] border">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="flex w-full gap-1 flex-col">
-                <div className="flex items-center mb-1">
-                  <span className="text-sm mr-2">Background:</span>
-                  <Select
-                    onValueChange={(value) => {
-                      if (value === "custom") {
-                        setShowBackgroundPicker(true);
-                        // Set a default color if none is selected yet
-                        if (
-                          !text.backgroundColor ||
-                          text.backgroundColor === "none"
-                        ) {
-                          handleBackgroundChange("#ffffff");
-                        }
-                      } else {
-                        setShowBackgroundPicker(false);
-                        handleBackgroundChange(value);
-                      }
-                    }}
-                    value={
-                      text.backgroundColor && text.backgroundColor !== "none"
-                        ? "custom"
-                        : "none"
+          <div className="flex w-full gap-1 flex-col">
+            <div className="flex items-center mb-1">
+              <span className="text-sm mr-2">Background:</span>
+              <Select
+                onValueChange={(value) => {
+                  if (value === "custom") {
+                    setShowBackgroundPicker(true);
+                    if (
+                      !text.backgroundColor ||
+                      text.backgroundColor === "none"
+                    ) {
+                      handleBackgroundChange("#ffffff");
                     }
-                  >
-                    <SelectTrigger className="h-8 flex-1">
+                  } else {
+                    setShowBackgroundPicker(false);
+                    handleBackgroundChange(value);
+                  }
+                }}
+                value={
+                  text.backgroundColor && text.backgroundColor !== "none"
+                    ? "custom"
+                    : "none"
+                }
+              >
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <SelectTrigger className="h-8 flex-1 cursor-pointer">
                       <SelectValue placeholder="None" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="none">None</SelectItem>
-                      <SelectItem value="custom">Custom</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">
+                    <p>Set background type</p>
+                  </TooltipContent>
+                </Tooltip>
+                <SelectContent>
+                  <SelectItem value="none" className="cursor-pointer">
+                    None
+                  </SelectItem>
+                  <SelectItem value="custom" className="cursor-pointer">
+                    Custom
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-                {showBackgroundPicker && (
-                  <div className="flex w-full gap-1">
+            {showBackgroundPicker && (
+              <div className="flex w-full gap-1">
+                <Tooltip>
+                  <TooltipTrigger asChild>
                     <Input
                       id="bg-color"
                       type="color"
                       value={text.backgroundColor || "#ffffff"}
                       onChange={(e) => handleBackgroundChange(e.target.value)}
-                      className="w-2/5 border-none shadow-none m-0 p-0 aspect-square"
+                      className="w-2/5 border-none shadow-none m-0 p-0 aspect-square cursor-pointer"
                     />
-                    <Input
-                      value={text.backgroundColor || "#ffffff"}
-                      onChange={handleBackgroundInputChange}
-                      className="border-none shadow-none m-0 p-0"
-                    />
-                  </div>
-                )}
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">
+                    <p>Select background color</p>
+                  </TooltipContent>
+                </Tooltip>
+                <Input
+                  value={text.backgroundColor || "#ffffff"}
+                  onChange={handleBackgroundInputChange}
+                  className="border-none shadow-none m-0 p-0"
+                />
               </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Change text background color</p>
-            </TooltipContent>
-          </Tooltip>
+            )}
+          </div>
         </div>
 
         <Tooltip>
           <TooltipTrigger asChild>
             <button
-              className="bg-blue-500 text-white px-4 py-2 rounded"
+              className="bg-light-purple hover:bg-light-purple text-white px-4 py-2 rounded-md cursor-pointer"
               onClick={() => onDuplicate()}
             >
               Duplicate Text
             </button>
           </TooltipTrigger>
-          <TooltipContent>
+          <TooltipContent side="top">
             <p>Create a copy of this text element</p>
           </TooltipContent>
         </Tooltip>
@@ -454,13 +469,13 @@ export function ControlPanel({
         <Tooltip>
           <TooltipTrigger asChild>
             <button
-              className="bg-red-500 text-white px-4 py-2 rounded"
+              className="bg-red-500 text-white px-4 py-2 rounded-md cursor-pointer"
               onClick={() => onDelete()}
             >
               Delete Text
             </button>
           </TooltipTrigger>
-          <TooltipContent>
+          <TooltipContent side="top">
             <p>Delete this text element</p>
           </TooltipContent>
         </Tooltip>
