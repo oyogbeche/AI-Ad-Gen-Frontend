@@ -29,14 +29,12 @@ export function TextLayer({
   const editRef = useRef<HTMLTextAreaElement>(null);
   const dragOffset = useRef({ x: 0, y: 0 });
 
-  // Focus the textarea when editing starts
   useEffect(() => {
     if (isEditing && editRef.current) {
       editRef.current.focus();
     }
   }, [isEditing]);
 
-  // Handle mouse down for dragging
   const handleMouseDown = (e: React.MouseEvent) => {
     e.stopPropagation();
     onSelect();
@@ -50,33 +48,27 @@ export function TextLayer({
     }
   };
 
-  // Handle resize start
   const handleResizeStart = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsResizing(true);
   };
 
-  // Handle mouse move for dragging and resizing
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (isDragging) {
-        // Calculate new position, ensuring text stays within container
         let newX = e.clientX - dragOffset.current.x;
         let newY = e.clientY - dragOffset.current.y;
 
-        // Boundary checks
         newX = Math.max(0, Math.min(newX, containerSize.width - 20));
         newY = Math.max(0, Math.min(newY, containerSize.height - 20));
 
         onChange({ ...text, x: newX, y: newY });
 
-        // Update drag offset to the new position
         dragOffset.current = {
           x: e.clientX - newX,
           y: e.clientY - newY,
         };
       } else if (isResizing && textRef.current) {
-        // Calculate new font size based on mouse movement
         const newSize = Math.max(10, text.fontSize + e.movementY * 0.5);
         onChange({ ...text, fontSize: newSize });
       }
@@ -98,23 +90,19 @@ export function TextLayer({
     };
   }, [isDragging, isResizing, text, onChange, containerSize]);
 
-  // Handle double click to edit
   const handleDoubleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsEditing(true);
   };
 
-  // Handle text change
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onChange({ ...text, content: e.target.value });
   };
 
-  // Handle blur to exit editing mode
   const handleBlur = () => {
     setIsEditing(false);
   };
 
-  // Determine background color style
   const backgroundStyle =
     text.backgroundColor && text.backgroundColor !== "none"
       ? { backgroundColor: text.backgroundColor }

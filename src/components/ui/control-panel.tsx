@@ -38,8 +38,8 @@ export function ControlPanel({
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.ctrlKey && event.key === "d") {
-        event.preventDefault(); // Prevent default browser behavior
-        onDuplicate(); // Call the onDuplicate function
+        event.preventDefault(); 
+        onDuplicate(); 
       }
     };
 
