@@ -1,6 +1,6 @@
 "use client";
 import { useAdsContext } from "@/domains/ads-gen/context/AdsContext";
-import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
+import { DesktopAdPreviewNavigation } from "@/domains/external/components/common/desktop-ad-preview-navigation";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";

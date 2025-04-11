@@ -11,7 +11,7 @@ import userFriendlyTools from "@/lottie/user-friendly-tools.json";
 import dynamic from "next/dynamic";
 
 const LottieComponent = dynamic(
-  () => import("@/domains/external/components/lottie-animation"),
+  () => import("@/domains/external/components/common/lottie-animation"),
   {
     ssr: false,
   }

@@ -6,9 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import iconLogo from "../../../../public/icon-logo.svg";
-import logoPng from "../../../../public/logo.png";
-import UpgradePlanModal from "./upgrade-plan-modal";
+import iconLogo from "../../../../../public/icon-logo.svg";
+import logoPng from "../../../../../public/logo.png";
+import UpgradePlanModal from "../upgrade-plan-modal";
 import { useSubscriptionStatus } from "@/hooks/use-subscription-status";
 
 const Header: React.FC = () => {

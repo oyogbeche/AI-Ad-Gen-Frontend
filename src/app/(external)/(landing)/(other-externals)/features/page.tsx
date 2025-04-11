@@ -1,16 +1,15 @@
 "use client";
 
-import Image from "next/image";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import { useAuthStore } from "@/store/auth-store";
+import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 const Features = () => {
   const user = useAuthStore((state) => state.user);
 
   return (
     <div className="relative">
-      {/* hero section */}
       <section className="text-center bg-[#F8E6F8] w-screen h-auto flex flex-col justify-between py-8 px-4 md:py-12 md:px-8 lg:py-16 lg:px-12">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-[#b800b8] font-[400] text-[24px] leading-[32px]  md:font-[700] lg:font-[700]  md:text-[40px]  lg:text-[40px]md:leading-[48px] lg:leading-[48px] tracking-[0%]">
@@ -32,7 +31,6 @@ const Features = () => {
         </div>
       </section>
 
-      {/* AI-powered ad section */}
       <section className="py-12 md:py-20 px-4 max-w-6xl mx-auto">
         <h2 className="font-[600] text-[28px] leading-[36px] md:text-[40px] lg:text-[40px] md:font-bold lg:font-bold text-center md:leading-[48px] lg:leading-[48px] tracking-[0%] text-[#16151E] mb-4">
           AI-Powered Ad Creation
@@ -55,7 +53,6 @@ const Features = () => {
         </div>
       </section>
 
-      {/* smart ad */}
       <section className="bg-[#E8F1FB] w-screen py-12 md:py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <h2 className="font-[600] text-[28px] leading-[36px] md:text-[40px] lg:text-[40px] md:font-bold lg:font-bold text-center md:leading-[48px] lg:leading-[48px] tracking-[0%] text-[#16151E] mb-4">
@@ -79,7 +76,6 @@ const Features = () => {
         </div>
       </section>
 
-      {/* community ad */}
       <section className="py-12 md:py-20 px-4 max-w-6xl mx-auto">
         <h2 className="font-[600] text-[28px] leading-[36px] md:text-[40px] lg:text-[40px] md:font-bold lg:font-bold text-center md:leading-[48px] lg:leading-[48px] tracking-[0%] text-[#16151E] mb-4">
           Community Inspiration & Success Stories
@@ -101,10 +97,8 @@ const Features = () => {
         </div>
       </section>
 
-      {/* wasting ad */}
       <section className="bg-[#F8EFFE] rounded-[16px] px-6 md:px-20 py-12 md:py-16 lg:py-20 mx-20">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
-          {/* Text Content */}
           <div className="w-full md:w-1/2 text-center md:text-left">
             <h1 className="font-[600] text-[24px] leading-[32px] md:text-[40px] lg:text-[40px] md:font-bold lg:font-bold md:leading-[48px] lg:leading-[48px] tracking-[0%] text-[#16151E]">
               Stop Wasting Time on Ad Design, Let AI Do It in Minutes
@@ -122,7 +116,6 @@ const Features = () => {
             </Link>
           </div>
 
-          {/* Image Section */}
           <div className="w-full md:w-1/2">
             <div className="relative w-full h-[300px] md:h-[427px] rounded-lg overflow-hidden">
               <Image

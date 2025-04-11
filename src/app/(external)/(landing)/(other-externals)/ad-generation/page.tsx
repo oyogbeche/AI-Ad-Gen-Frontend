@@ -1,7 +1,7 @@
 import CreateAds from "@/domains/external/components/create-ads";
 import Cta from "@/domains/external/components/cta";
 import Testimonials from "@/domains/external/components/testimonials";
-import VideoPlayer from "@/domains/external/components/video-player";
+import VideoPlayer from "@/domains/external/components/common/video-player";
 import FeaturesHero from "@/domains/other-externals/components/key-features-hero-section";
 import { SlidersHorizontal, WandSparkles } from "lucide-react";
 import Image from "next/image";

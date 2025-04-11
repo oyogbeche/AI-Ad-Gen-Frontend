@@ -24,7 +24,6 @@ import {
 import { toast } from "sonner";
 import { postRequest } from "@/lib/axios-fetch";
 
-// Define form schema with Zod
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -57,7 +56,6 @@ const ContactPage = () => {
       toast.success("Message sent!", {
         description: "Thank you for contacting us. We'll get back to you soon.",
       });
-      // Reset the form
       form.reset();
     } catch (error) {
       console.error("Failed to send message:", error);
@@ -71,7 +69,6 @@ const ContactPage = () => {
 
   return (
     <section className="container mx-auto py-8 md:py-16 relative">
-      {/* Background Line */}
       <motion.div
         className="absolute inset-0 overflow-hidden pointer-events-none -z-10"
         initial={{ opacity: 0, scale: 0.9 }}

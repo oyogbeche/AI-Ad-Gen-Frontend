@@ -8,7 +8,7 @@ import { ArrowLeft, Check, ChevronDown, Download, Share2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
-import ShareModal from "./share-modal";
+import ShareModal from "../share-modal";
 
 interface DesktopAdPreviewNavigationProps {
   className?: string;

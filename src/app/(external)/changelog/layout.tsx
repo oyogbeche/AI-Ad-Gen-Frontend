@@ -1,4 +1,4 @@
-import Footer from "@/domains/external/components/secondary-footer";
+import Footer from "@/domains/external/components/common/secondary-footer";
 
 export default function RootLayout({
   children,

@@ -1,5 +1,5 @@
 "use client";
-import Header from "@/domains/external/components/header";
+import Header from "@/domains/external/components/common/header";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";

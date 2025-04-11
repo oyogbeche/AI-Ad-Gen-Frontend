@@ -1,5 +1,5 @@
-import Footer from "@/domains/external/components/secondary-footer";
-import Header from "@/domains/external/components/header";
+import Footer from "@/domains/external/components/common/secondary-footer";
+import Header from "@/domains/external/components/common/header";
 
 export default function AuthLayout({
   children,
