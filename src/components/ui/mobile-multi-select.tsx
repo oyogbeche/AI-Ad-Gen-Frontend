@@ -54,12 +54,6 @@ const MobileMultiSelect = ({
     );
   };
 
-  //   const handleClose = () => {
-  //     // Apply changes only when explicitly closing
-  //     onChange(localSelected);
-  //     setOpen(false);
-  //   };
-
   const handleRemove = (value: string, e: React.MouseEvent) => {
     e.stopPropagation();
     const newSelected = selected.filter((item) => item !== value);
@@ -183,7 +177,7 @@ const MobileMultiSelect = ({
                       // Just prevent default behavior, let parent handle selection
                     }}
                     className="mr-3 data-[state=checked]:bg-[#B800B8] data-[state=checked]:border-[#B800B8]"
-                    onClick={(e) => e.stopPropagation()} // Prevent duplicate clicks
+                    onClick={(e) => e.stopPropagation()} 
                   />
                   <div className="flex-1">
                     <span className="text-[#121316]">{option.label}</span>
@@ -193,7 +187,6 @@ const MobileMultiSelect = ({
             )}
           </div>
 
-          {/* Bottom indicator bar for iOS style */}
           <div className="absolute bottom-1 left-0 right-0 flex justify-center">
             <div className="w-12 h-1 bg-gray-300 rounded-full"></div>
           </div>

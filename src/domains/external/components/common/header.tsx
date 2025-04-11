@@ -21,7 +21,7 @@ const Header: React.FC = () => {
   const predefinedPromptPages =
     pathname.startsWith("/preview-ad") || pathname.startsWith("/generate-ad");
   const isSpecialPage =
-    pathname.startsWith("/dashboard") || predefinedPromptPages;
+    pathname.startsWith("/dashboard") ||  pathname.startsWith("/stand-alone") || predefinedPromptPages;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalComplete, setIsModalComplete] = useState(false);
 

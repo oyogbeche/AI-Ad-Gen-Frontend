@@ -1,6 +1,7 @@
 "use client";
 
 import ImageSelectionTool from "@/domains/external/components/image-selector";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ControlPanel } from "./control-panel";
 import { TextLayer } from "./text-layer";
@@ -23,18 +24,20 @@ interface ImageTextEditorProps {
   imageSrc: string | null;
   imageId: string;
   initialTexts?: TextElement[];
+  brandLogo?: string;
 }
 
 export function ImageTextEditor({
   imageSrc,
   imageId,
   initialTexts = [],
+  brandLogo,
 }: ImageTextEditorProps) {
   const [texts, setTexts] = useState<TextElement[]>(initialTexts);
   const [selectedTextId, setSelectedTextId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
-  const [overlayOpacity, setOverlayOpacity] = useState(20); // Default opacity is 20%
+  const [overlayOpacity, setOverlayOpacity] = useState(20);
 
   const selectedText = texts.find((text) => text.id === selectedTextId);
 
@@ -97,10 +100,9 @@ export function ImageTextEditor({
           className="relative w-full rounded-md p-0"
           id="containerRef"
         >
-          {/* Overlay opacity */}
           <div
             className="absolute inset-0 bg-black pointer-events-none"
-            style={{ zIndex: 1, opacity: overlayOpacity / 100 }} // Convert percentage to decimal
+            style={{ zIndex: 1, opacity: overlayOpacity / 100 }}
           ></div>
 
           <ImageSelectionTool
@@ -130,11 +132,23 @@ export function ImageTextEditor({
               onClick={() => setSelectedTextId(text.id)}
             />
           ))}
+
+          {brandLogo && (
+            <div className="absolute bottom-4 left-4 z-10">
+              <div className="relative rounded-full h-10 w-10 overflow-hidden">
+                <Image
+                  src={"/genzz.svg"}
+                  alt="Brand Logo"
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Slider to control overlay opacity */}
-      <div className="flex items-center gap-2 mt-4">
+      <div className="flex items-center gap-2 my-4">
         <label htmlFor="overlay-opacity" className="text-sm font-medium">
           Overlay Opacity:
         </label>
@@ -145,7 +159,7 @@ export function ImageTextEditor({
           max="100"
           value={overlayOpacity}
           onChange={(e) => setOverlayOpacity(Number(e.target.value))}
-          className="w-40"
+          className="w-40 cursor-pointer"
         />
         <span className="text-sm">{overlayOpacity}%</span>
       </div>
