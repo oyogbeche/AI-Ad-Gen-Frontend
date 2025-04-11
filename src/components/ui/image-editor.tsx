@@ -137,7 +137,7 @@ export function ImageTextEditor({
             <div className="absolute bottom-4 left-4 z-10">
               <div className="relative rounded-full h-10 w-10 overflow-hidden">
                 <Image
-                  src={"/genzz.svg"}
+                  src={brandLogo}
                   alt="Brand Logo"
                   layout="fill"
                   objectFit="cover"
