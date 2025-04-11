@@ -4,8 +4,7 @@ import CreateAds from "@/domains/external/components/create-ads";
 import { FAQ } from "@/domains/external/components/faq";
 import CreateAd from "@/domains/external/components/create-ad";
 import Cta from "@/domains/external/components/cta";
-// import FeaturesSection from "@/domains/external/components/key-features";
-import VideoPlayer from "@/domains/external/components/video-player";
+import VideoPlayer from "@/domains/external/components/common/video-player";
 import Access from "@/domains/external/components/access";
 import clsx from "clsx";
 import { useRef } from "react";
@@ -47,7 +46,6 @@ const FeaturesSection = () => {
           animate={isInView ? { y: 0 } : { y: 50 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          {/* <AnimatedTags isInView={isInView} /> */}
           <motion.h1
             className="text-[#121316] text-2xl lg:text-[40px] max-w-[504px] text-center font-medium p-[24px]"
             initial={{ opacity: 0 }}
@@ -73,7 +71,6 @@ const Hero = () => {
   const videoLink = "https://www.youtube.com/embed/G2ztpIftOL4";
   return (
     <div className="bg-white relative flex flex-col items-center justify-between overflow-hidden px-4 md:px-10">
-      {/* Hero Text Section */}
       <motion.div
         className="max-w-3xl text-center mt-16 md:mt-24 "
         initial={{ opacity: 0, y: 20 }}

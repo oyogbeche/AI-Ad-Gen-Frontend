@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useImageContext } from "@/domains/ads-gen/context/ImageContext";
-import { DesktopAdPreviewNavigation } from "@/domains/external/components/desktop-ad-preview-navigation";
+import { DesktopAdPreviewNavigation } from "@/domains/external/components/common/desktop-ad-preview-navigation";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

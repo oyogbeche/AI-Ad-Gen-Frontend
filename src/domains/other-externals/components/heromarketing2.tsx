@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Access from "./access";
+import Access from "../../external/components/access";
 const Hero2 = () => {
   return (
     <div className="bg-white relative flex flex-col items-center justify-between overflow-hidden px-4 md:px-10">

@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="py-7 bg-white">
+    <footer className="py-7 bg-white w-full">
       <div className="flex flex-col items-center justify-center text-center gap-4">
         <Image
           width={200}

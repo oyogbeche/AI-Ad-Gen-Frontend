@@ -2,7 +2,7 @@
 import { useAuthStore } from "@/store/auth-store";
 import { motion } from "framer-motion";
 import React from "react";
-import AnimatedButton from "./animated-button";
+import AnimatedButton from "../../external/components/animated-button";
 
 interface HeroSectionProps {
   heading: React.ReactNode;

@@ -1,6 +1,6 @@
 "use client";
-import VideoPlayer from "@/domains/external/components/video-player";
-import AnimatedButton from "@/domains/other-externals/components/animated-button";
+import VideoPlayer from "@/domains/external/components/common/video-player";
+import AnimatedButton from "@/domains/external/components/animated-button";
 import { useAuthStore } from "@/store/auth-store";
 import React from "react";
 

@@ -6,7 +6,7 @@ import React from "react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
 import { useAuthStore } from "@/store/auth-store";
-import AnimatedButton from "@/domains/other-externals/components/animated-button";
+import AnimatedButton from "@/domains/external/components/animated-button";
 
 const heroImages = [
   {

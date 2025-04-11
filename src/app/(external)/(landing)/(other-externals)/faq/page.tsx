@@ -2,19 +2,16 @@
 
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
-//import Lottie from "lottie-react";
 import animationData from "@/lottie/faq.json";
 import dynamic from "next/dynamic";
 
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
-// Define the shape of FAQ items
 interface FAQItem {
   question: string;
   answer: string;
 }
 
-// Define FAQ sections as arrays of FAQItem
 const generalQuestions: FAQItem[] = [
   {
     question: "What is this AI-powered ad creator?",
@@ -90,15 +87,12 @@ const technical: FAQItem[] = [
   },
 ];
 
-// Type the component as a React functional component
 const FAQPage: React.FC = () => {
-  // Explicitly type state as number | null
   const [openGeneral, setOpenGeneral] = useState<number | null>(null);
   const [openFeatures, setOpenFeatures] = useState<number | null>(null);
   const [openPricing, setOpenPricing] = useState<number | null>(null);
   const [openTechnical, setOpenTechnical] = useState<number | null>(null);
 
-  // Type the setter parameter using React's SetStateAction
   const toggleAccordion = (
     setter: React.Dispatch<React.SetStateAction<number | null>>,
     index: number
@@ -130,7 +124,6 @@ const FAQPage: React.FC = () => {
           </div>
         </div>
 
-        {/* General Questions */}
         <div className="flex flex-col lg:flex-row justify-between pt-9 gap-6">
           <div className="lg:w-[266px]">
             <p className="text-[24px] md:text-[40px] font-[700] max-sm:pb-[22px] lg:max-w-[266px] lg:w-[266px]">
@@ -174,7 +167,6 @@ const FAQPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Features & Customization */}
         <div className="flex flex-col lg:flex-row  justify-between pt-9 gap-6">
           <p className="text-[24px] md:text-[40px] font-[700]  max-sm:pb-[22px] lg:w-[266px]">
             Features & Customization
@@ -216,7 +208,6 @@ const FAQPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Pricing & Subscription */}
         <div className="flex flex-col lg:flex-row  justify-between pt-9 gap-6">
           <div className="lg:w-[266px]">
             <p className="text-[24px] md:text-[40px] font-[700] lg:w-[266px] max-sm:pb-[22px]">
@@ -260,7 +251,6 @@ const FAQPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Technical & Support */}
         <div className="flex flex-col lg:flex-row  justify-between pt-9 gap-6">
           <div className="lg:w-[266px]">
             <p className="text-[24px] md:text-[40px] font-[700] lg:w-[266px] max-sm:pb-[22px]">

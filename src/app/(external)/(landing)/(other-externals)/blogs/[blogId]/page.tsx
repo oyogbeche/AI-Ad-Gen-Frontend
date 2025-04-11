@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 
 const BlogDetail = () => {
   const { blogId } = useParams();
-  const id = Number(blogId); // Ensure id is a number
+  const id = Number(blogId); 
   const blog = blogData.find((b) => b.id === id);
   const otherBlogs = blogData.filter((b) => b.id !== id);
 
@@ -80,7 +80,6 @@ const BlogDetail = () => {
               )}
             </div>
 
-            {/* Other Blogs Section */}
             <div className="flex flex-col md:flex-row gap-6 md:gap-8">
               {otherBlogs.map((b) => (
                 <div className="flex flex-col flex-[1]" key={b.id}>
@@ -165,7 +164,6 @@ const BlogDetail = () => {
               )}
             </div>
 
-            {/* Other Blogs Section */}
             <div className="flex flex-col md:flex-row gap-6 md:gap-8">
               {otherBlogs.map((b) => (
                 <div className="flex flex-col flex-[1]" key={b.id}>
@@ -250,7 +248,6 @@ const BlogDetail = () => {
               )}
             </div>
 
-            {/* Other Blogs Section */}
             <div className="flex flex-col md:flex-row gap-6 md:gap-8">
               {otherBlogs.map((b) => (
                 <div className="flex flex-col flex-[1]" key={b.id}>
@@ -335,7 +332,6 @@ const BlogDetail = () => {
               )}
             </div>
 
-            {/* Other Blogs Section */}
             <div className="flex flex-col md:flex-row gap-6 md:gap-8">
               {otherBlogs.map((b) => (
                 <div className="flex flex-col flex-[1]" key={b.id}>
