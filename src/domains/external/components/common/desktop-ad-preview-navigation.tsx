@@ -69,7 +69,6 @@ export const DesktopAdPreviewNavigation: React.FC<
   //     (type === "demo" || (type === "image-form" && status === "completed"))) ||
   //   (type === "image-form" && status === "completed" && !isPublished);
 
-  const showExportButton = type !== "community";
 
   const showSaveButton =
     (!pageAdData?.author_info &&
