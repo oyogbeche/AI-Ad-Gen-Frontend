@@ -139,7 +139,7 @@ export default function ShareModal({
                   <X />
                 </div>
                 <span className="text-[#121316] text-center font-nunito text-[14px] font-medium leading-[20px]">
-                  Twitter
+                  X
                 </span>
               </button>
 
