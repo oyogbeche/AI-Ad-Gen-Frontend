@@ -70,6 +70,9 @@ export function ImageTextEditor({
         const aspectRatio = 500 / 650;
         const newHeight = maxWidth * aspectRatio;
 
+
+        console.log("Container size updated:",  maxWidth)      
+        
         setContainerSize({
           width: maxWidth,
           height: newHeight,
@@ -144,7 +147,7 @@ export function ImageTextEditor({
       <div className="flex flex-col gap-4 flex-1 rounded-md items-center justify-center min-h-[50vh] mx-auto max-w-[699px] w-full max-md:px-4 md:p-8 bg-[#F0F3F5]">
         <div
           ref={containerRef}
-          className="relative w-full rounded-md p-0 cursor-default"
+          className="relative w-full rounded-md p-0 cursor-default bg-amber-500 opacity-25"
           id="containerRef"
           onClick={handleContainerClick}
           onMouseDown={() => setIsInteracting(true)}
