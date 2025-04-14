@@ -63,12 +63,6 @@ export const DesktopAdPreviewNavigation: React.FC<
       router.push(`/dashboard?type=${filter}`);
     }
   };
-  // const showExportButton =
-  //   (type !== "community" &&
-  //     !pageAdData?.author_info &&
-  //     (type === "demo" || (type === "image-form" && status === "completed"))) ||
-  //   (type === "image-form" && status === "completed" && !isPublished);
-
 
   const showSaveButton =
     (!pageAdData?.author_info &&
@@ -77,31 +71,44 @@ export const DesktopAdPreviewNavigation: React.FC<
         (type === "community" && !isPublished))) ||
     (type === "community" && !isPublished);
 
+
   const downloadImage = async (format: "png" | "jpg") => {
+    setIsDownloading(true);
     try {
       const element = document.getElementById("containerRef");
+      // console.log("Element found:", element);
+
       if (element) {
-        html2canvas(element, { useCORS: true, allowTaint: true })
-          .then((canvas) => {
-            const link = document.createElement("a");
-            link.download = `${imageName}.${format}`;
-            link.href = canvas.toDataURL(`image/${format}`);
-            link.click();
-          })
-          .catch((error) => {
-            console.error("Error generating canvas:", error);
-            toast.error("Failed to generate image for download");
-          });
+        const canvas = await html2canvas(element, {
+          useCORS: true,
+          allowTaint: true,
+          logging: true,
+        });
+
+        // console.log("Canvas created:", canvas);
+
+        const link = document.createElement("a");
+        const fileName = `${imageName}.${format}`;
+        link.download = fileName;
+        link.href = canvas.toDataURL(`image/${format}`);
+        // console.log("Data URL created:", link.href.substring(0, 50) + "...");
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+      } else {
+        // console.error("Element with ID 'containerRef' not found");
+        toast.error("Could not find the ad content to download");
       }
     } catch (error) {
-      console.error("Error downloading image:", error);
+      console.error("Error in downloadImage:", error);
       toast.error("Failed to download image");
     } finally {
       setIsDownloading(false);
       setIsExportDropdownOpen(false);
     }
   };
-
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -300,7 +307,7 @@ export const DesktopAdPreviewNavigation: React.FC<
             </div>
           )}
 
-          { status === "completed" && (
+          {status === "completed" && (
             <ShareModal
               adUrl={`https://genz.ad/stand-alone/${imageId}`}
               imageUrl={generatedImageUrl}
@@ -337,7 +344,7 @@ export const DesktopAdPreviewNavigation: React.FC<
                 >
                   <div className="py-1">
                     <button
-                      // onClick={() => downloadImage("png")}
+                      // onClick={() => console.log("Download as PNG")}
                       onClick={() => downloadImage("png")}
                       disabled={isDownloading || isLoading}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
