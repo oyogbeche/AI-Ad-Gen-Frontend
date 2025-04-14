@@ -63,6 +63,13 @@ export const DesktopAdPreviewNavigation: React.FC<
       router.push(`/dashboard?type=${filter}`);
     }
   };
+  // const showExportButton =
+  //   (type !== "community" &&
+  //     !pageAdData?.author_info &&
+  //     (type === "demo" || (type === "image-form" && status === "completed"))) ||
+  //   (type === "image-form" && status === "completed" && !isPublished);
+
+  const showExportButton = type !== "community";
 
   const showSaveButton =
     (!pageAdData?.author_info &&
@@ -250,7 +257,7 @@ export const DesktopAdPreviewNavigation: React.FC<
         </button>
 
         <div className="flex gap-4">
-          {(showSaveButton || queryType == "community") && (
+          {(showSaveButton || queryType !== "community") && (
             <div className="relative" ref={saveDropdownRef}>
               <button
                 onClick={() => setIsSaveDropdownOpen(!isSaveDropdownOpen)}
@@ -294,7 +301,7 @@ export const DesktopAdPreviewNavigation: React.FC<
             </div>
           )}
 
-          {type === "image-form" && status === "completed" && (
+          { status === "completed" && (
             <ShareModal
               adUrl={`https://genz.ad/stand-alone/${imageId}`}
               imageUrl={generatedImageUrl}
@@ -309,8 +316,7 @@ export const DesktopAdPreviewNavigation: React.FC<
             </ShareModal>
           )}
 
-          {(type === "demo" ||
-            (type === "image-form" && status === "completed")) && (
+          {queryType !== "community" && (
             <div className="relative" ref={exportDropdownRef}>
               <button
                 disabled={isDownloading || isLoading}
