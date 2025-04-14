@@ -207,8 +207,6 @@ export default function AdCustomizer() {
   const { submitAdGoal, isLoading, targetAudience } = useAdGoal();
   const [selectedAudiences, setSelectedAudiences] = useState<string[]>([]);
 
-
-
   const handleAudienceSelect = (audience: string) => {
     setSelectedAudiences((prev) => {
       const newSelection = prev.includes(audience)
@@ -236,6 +234,7 @@ export default function AdCustomizer() {
     if (isFirstStepValid) {
       submitAdGoal(watch("adDescription"), {
         onSuccess: () => {
+          setSelectedAudiences([]);
           setFormStep(2);
         },
       });
@@ -442,7 +441,6 @@ export default function AdCustomizer() {
               </div>
             ) : (
               <div className="space-y-6">
-             
                 <FormField
                   control={form.control}
                   name="targetAudience"
@@ -677,9 +675,7 @@ export default function AdCustomizer() {
           <button></button>
         </div>
 
-        {finalImageUrl && !isFetchingStatus && (
-        <ClickToMakeEdits />
-        )}
+        {finalImageUrl && !isFetchingStatus && <ClickToMakeEdits />}
         <div
           className={`${
             finalImageUrl && !isFetchingStatus
@@ -690,8 +686,7 @@ export default function AdCustomizer() {
           <div className={`${finalImageUrl ? "" : "bg-[#F2F2F2]"}`}>
             <div className="w-full mx-auto flex items-center justify-center rounded-sm">
               {error || inpaintError ? (
-          <FailedToDownload handleRetry={handleRetry} />
-            
+                <FailedToDownload handleRetry={handleRetry} />
               ) : isFetchingAd || isFetchingStatus ? (
                 <div className="max-w-[609px] w-full mx-auto flex items-center justify-center max-h-[648px] rounded-sm">
                   <div className="flex flex-col gap-6 items-center justify-center rounded-md">

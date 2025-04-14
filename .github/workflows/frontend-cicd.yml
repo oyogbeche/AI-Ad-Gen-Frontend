@@ -88,18 +88,18 @@ jobs:
           name: next-build-${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
           path: .
           
-      - name: Determine Deployment Environment
-        id: set-env
+      - name: Set Deployment Variables from GitHub Actions
         run: |
           if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-            echo "DEPLOY_PORT=5000" >> $GITHUB_ENV
-            echo "DEPLOY_NAME=ai-adgen-frontend-prod" >> $GITHUB_ENV
-            echo "DEPLOY_DIR=AI-Ad-Gen-Frontend-Prod" >> $GITHUB_ENV
+            echo "DEPLOY_PORT=${{ vars.PROD_DEPLOY_PORT }}" >> $GITHUB_ENV
+            echo "DEPLOY_NAME=${{ vars.PROD_DEPLOY_NAME }}" >> $GITHUB_ENV
+            echo "DEPLOY_DIR=${{ vars.PROD_DEPLOY_DIR }}" >> $GITHUB_ENV
           elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
-            echo "DEPLOY_PORT=5005" >> $GITHUB_ENV
-            echo "DEPLOY_NAME=ai-adgen-frontend-dev" >> $GITHUB_ENV
-            echo "DEPLOY_DIR=AI-Ad-Gen-Frontend-Dev" >> $GITHUB_ENV
+            echo "DEPLOY_PORT=${{ vars.STAGING_DEPLOY_PORT }}" >> $GITHUB_ENV
+            echo "DEPLOY_NAME=${{ vars.STAGING_DEPLOY_NAME }}" >> $GITHUB_ENV
+            echo "DEPLOY_DIR=${{ vars.STAGING_DEPLOY_DIR }}" >> $GITHUB_ENV
           fi
+    
           
       - name: Create Deployment Directory if Not Exists
         run: |
