@@ -13,6 +13,7 @@ export interface Ad {
   target_audience: string;
   updated_at: string;
   product_name: string;
+  ad_size: string;
 }
 interface Ads {
   user: Ad[];
