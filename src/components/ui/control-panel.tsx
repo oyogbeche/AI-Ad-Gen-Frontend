@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./select";
+import Image from "next/image";
 
 interface ControlPanelProps {
   text: TextElement;
@@ -57,13 +58,19 @@ export function ControlPanel({
     let newX = text.x;
     let newY = text.y;
 
-    if (position === "vertical" || position === "center") {
+    console.log("Container Size...", containerSize);
+    if (position === "vertical" ) {
       newY = (containerSize.height - text.fontSize) / 2;
+      newX = 0
     }
-    if (position === "horizontal" || position === "center") {
+    if (position === "horizontal" ) {
+      newX = (containerSize.width - text.fontSize * text.content.length) / 2;
+      newY = 0
+    }
+    if (position === "center" ) {
+      newY = (containerSize.height - text.fontSize) / 2;
       newX = (containerSize.width - text.fontSize * text.content.length) / 2;
     }
-
     onChange({ ...text, x: newX, y: newY });
   };
 
@@ -246,30 +253,7 @@ export function ControlPanel({
                   "bg-light-purple hover:bg-light-purple border-none shadow-none"
                 }
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                >
-                  <mask
-                    id="mask0_7239_20887"
-                    maskUnits="userSpaceOnUse"
-                    x="0"
-                    y="0"
-                    width="20"
-                    height="20"
-                  >
-                    <rect width="20" height="20" fill="currentColor" />
-                  </mask>
-                  <g mask="url(#mask0_7239_20887)">
-                    <path
-                      d="M6.12057 17.7078V5.44029H8.21974V17.7078H6.12057ZM11.7777 12.7078V5.44029H13.8768V12.7078H11.7777ZM2.08203 3.5332V2.2832H17.9154V3.5332H2.08203Z"
-                      fill="white"
-                    />
-                  </g>
-                </svg>
+               <Image src="/align-horizontal-center.svg" alt="Vertical Align" width={15} height={15} />
               </Button>
             </TooltipTrigger>
             <TooltipContent side="bottom">
@@ -324,7 +308,7 @@ export function ControlPanel({
                   "bg-light-purple hover:bg-light-purple border-none shadow-none"
                 }
               >
-                <svg
+          <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
                   height="20"
@@ -332,7 +316,7 @@ export function ControlPanel({
                   fill="none"
                 >
                   <mask
-                    id="mask0_7239_20895"
+                    id="mask0_7239_20887"
                     maskUnits="userSpaceOnUse"
                     x="0"
                     y="0"
@@ -341,10 +325,10 @@ export function ControlPanel({
                   >
                     <rect width="20" height="20" fill="currentColor" />
                   </mask>
-                  <g mask="url(#mask0_7239_20895)">
+                  <g mask="url(#mask0_7239_20887)">
                     <path
-                      d="M2.08203 17.7078V16.4578H17.9154V17.7078H2.08203ZM6.12057 14.5507V2.2832H8.21974V14.5507H6.12057ZM11.7777 14.5507V7.2832H13.8768V14.5507H11.7777Z"
-                      fill="currentColor"
+                      d="M6.12057 17.7078V5.44029H8.21974V17.7078H6.12057ZM11.7777 12.7078V5.44029H13.8768V12.7078H11.7777ZM2.08203 3.5332V2.2832H17.9154V3.5332H2.08203Z"
+                      fill="white"
                     />
                   </g>
                 </svg>
