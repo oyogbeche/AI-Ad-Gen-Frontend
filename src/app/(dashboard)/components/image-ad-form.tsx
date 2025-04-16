@@ -123,6 +123,9 @@ export default function AdCustomizer() {
 
   const [finalImageUrl, setFinalImageUrl] = useState<string | null>(null);
 
+  // console.log("Ad Data:", adData);
+  // console.log("Inpaint Data:", inpaintData);
+
   useEffect(() => {
     if (inpaintData?.data?.image_url) {
       setFinalImageUrl(inpaintData.data.image_url);
