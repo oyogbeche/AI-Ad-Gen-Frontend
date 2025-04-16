@@ -80,14 +80,20 @@ export function useGenerateAdImage() {
     queryFn: async (): Promise<TaskStatusResponse> => {
       if (!taskId) throw new Error("No task ID");
       const response = await getRequest(`/image/task/${taskId}`);
+      // console.log("Image generation status:", response);
 
       if (response.status_code === 200 && response.data.status === "pending") {
         setProgress((prev) => Math.min(prev + 30, 90));
-      } else if (response.status_code === 201) {
+      } else if (
+        response.status_code === 201 ||
+        response.data.status !== "pending"
+      ) {
+        // console.log("Image generation completed:", response);
         setCompletedData(response);
         setProgress(100);
       }
-  
+      // console.log("Image generation progress:", response.data.status);
+
       return response;
     },
     enabled: !!taskId && !completedData,
@@ -105,8 +111,8 @@ export function useGenerateAdImage() {
       ...data,
       data: {
         ...data.data,
-        image_id: taskId, 
-        product_name: data.data.product_name, 
+        image_id: taskId,
+        product_name: data.data.product_name,
       },
     }),
   });
