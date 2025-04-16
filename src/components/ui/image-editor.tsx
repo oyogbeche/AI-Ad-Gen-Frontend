@@ -153,7 +153,7 @@ export function ImageTextEditor({
           onMouseDown={() => setIsInteracting(true)}
         >
           <div
-            className="absolute inset-0 bg-black pointer-events-none"
+            className="absolute inset-0 pointer-events-none"
             style={{ zIndex: 1, opacity: overlayOpacity / 100 }}
           ></div>
 
