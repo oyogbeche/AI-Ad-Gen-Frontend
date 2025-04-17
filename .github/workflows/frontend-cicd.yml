@@ -59,7 +59,7 @@ jobs:
           compression-level: 6
 
   deploy:
-    runs-on: aiadgen
+    runs-on: ubuntu-latest
     needs: [test-and-build]
     strategy:
       matrix:
