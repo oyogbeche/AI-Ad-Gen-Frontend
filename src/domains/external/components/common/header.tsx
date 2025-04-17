@@ -1,7 +1,6 @@
 "use client";
 import { Logo } from "@/components/icons/icon";
 import { UserAvatar } from "@/domains/ads-gen/components/avatar";
-import { useSubscriptionStatus } from "@/hooks/use-subscription-status";
 import { useAuthStore } from "@/store/auth-store";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,6 +9,7 @@ import { useEffect, useState } from "react";
 import iconLogo from "../../../../../public/icon-logo.svg";
 import logoPng from "../../../../../public/logo.png";
 import UpgradePlanModal from "../upgrade-plan-modal";
+import { useSubscriptionStatus } from "@/hooks/use-subscription-status";
 
 const Header: React.FC = () => {
   const user = useAuthStore((state) => state.user);
@@ -21,9 +21,7 @@ const Header: React.FC = () => {
   const predefinedPromptPages =
     pathname.startsWith("/preview-ad") || pathname.startsWith("/generate-ad");
   const isSpecialPage =
-    pathname.startsWith("/dashboard") ||
-    pathname.startsWith("/stand-alone") ||
-    predefinedPromptPages;
+    pathname.startsWith("/dashboard") ||  pathname.startsWith("/stand-alone") || predefinedPromptPages;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalComplete, setIsModalComplete] = useState(false);
 
@@ -197,11 +195,7 @@ const Header: React.FC = () => {
               <div className="flex gap-3">
                 <Link
                   href={"/signin?type=signin"}
-                  className={`"cursor-pointer px-2 sm:px-6 py-1 sm:py-3 rounded-sm ${
-                    pathname.startsWith("/stand-alone")
-                      ? "text-white"
-                      : "text-[#520052]"
-                  }transition-colors justify-center items-center gap-2 border border-[#B800B8] hover:bg-[#cf54cf21] w-fit mx-auto flex"`}
+                  className="cursor-pointer px-2 sm:px-6 py-1 sm:py-3 rounded-sm text-[#520052] transition-colors justify-center items-center gap-2 border border-[#B800B8] hover:bg-[#cf54cf21] w-fit mx-auto flex"
                 >
                   Sign in
                 </Link>
