@@ -58,33 +58,10 @@ jobs:
           include-hidden-files: true
           compression-level: 6
 
-  deploy:
+  deploy-production:
     runs-on: ubuntu-latest
     needs: [test-and-build]
-    strategy:
-      matrix:
-        include:
-          - branch: refs/heads/main
-            environment: PRODUCTION
-            env_name: production
-            server_user_secret: SERVER_USER
-            server_ip_secret: SERVER_IP  
-            server_password_secret: SERVER_PASSWORD
-            deploy_port_var: PROD_DEPLOY_PORT
-            deploy_name_var: PROD_DEPLOY_NAME
-            deploy_dir_var: PROD_DEPLOY_DIR
-            artifact_suffix: prod
-          - branch: refs/heads/dev
-            environment: STAGING
-            env_name: staging
-            server_user_secret: STAGING_SERVER_USER
-            server_ip_secret: STAGING_SERVER_IP
-            server_password_secret: STAGING_SERVER_PASSWORD
-            deploy_port_var: STAGING_DEPLOY_PORT
-            deploy_name_var: STAGING_DEPLOY_NAME
-            deploy_dir_var: STAGING_DEPLOY_DIR
-            artifact_suffix: dev
-    if: github.ref == matrix.branch
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -92,73 +69,27 @@ jobs:
       - name: Download Build Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: next-build-${{ matrix.artifact_suffix }}
+          name: next-build-prod
           path: .
 
       - name: Set Environment Variables
         run: |
-          echo "ENV_NAME=${{ matrix.env_name }}" >> $GITHUB_ENV
-          echo "DEPLOY_PORT=${{ vars[matrix.deploy_port_var] }}" >> $GITHUB_ENV
-          echo "DEPLOY_NAME=${{ vars[matrix.deploy_name_var] }}" >> $GITHUB_ENV
-          echo "DEPLOY_DIR=${{ vars[matrix.deploy_dir_var] }}" >> $GITHUB_ENV
-          echo "SERVER_USER=${{ secrets[matrix.server_user_secret] }}" >> $GITHUB_ENV
-          echo "SERVER_IP=${{ secrets[matrix.server_ip_secret] }}" >> $GITHUB_ENV
-          echo "SERVER_PASSWORD=${{ secrets[matrix.server_password_secret] }}" >> $GITHUB_ENV
-          echo "BRANCH_NAME=${{ github.ref == 'refs/heads/main' && 'main' || 'dev' }}" >> $GITHUB_ENV
+          echo "ENV_NAME=production" >> $GITHUB_ENV
+          echo "DEPLOY_PORT=${{ vars.PROD_DEPLOY_PORT }}" >> $GITHUB_ENV
+          echo "DEPLOY_NAME=${{ vars.PROD_DEPLOY_NAME }}" >> $GITHUB_ENV
+          echo "DEPLOY_DIR=${{ vars.PROD_DEPLOY_DIR }}" >> $GITHUB_ENV
+          echo "SERVER_USER=${{ secrets.SERVER_USER }}" >> $GITHUB_ENV
+          echo "SERVER_IP=${{ secrets.SERVER_IP }}" >> $GITHUB_ENV
+          echo "SERVER_PASSWORD=${{ secrets.SERVER_PASSWORD }}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=main" >> $GITHUB_ENV
       
-      - name: Send Slack Notification
-        uses: slackapi/slack-github-action@v1.23.0
+      - name: Send Deployment Start Notification
+        uses: ./.github/actions/slack-notification
         with:
-          payload: |
-            {
-              "text": "🚀 *DEPLOYMENT STARTED*",
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "🚀 Frontend Deployment Started"
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Environment:*\n*${{ matrix.environment }}*"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Triggered by:*\n${{ github.actor }}"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Commit:*\n<${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch:*\n${{ env.BRANCH_NAME }}"
-                    }
-                  ]
-                },
-                {
-                  "type": "actions",
-                  "elements": [
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "View Workflow"
-                      },
-                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-                    }
-                  ]
-                }
-              ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          status: 'started'
+          environment: 'PRODUCTION'
+          branch_name: 'main'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
           
       - name: Create Deployment Directory if Not Exists
         run: |
@@ -175,7 +106,7 @@ jobs:
       - name: Deploy to Server
         id: deploy
         run: |
-          echo "Deploying .next build to ${{ matrix.environment }} server..."
+          echo "Deploying .next build to PRODUCTION server..."
           sshpass -p "${{ env.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml .env \
           "${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:/home/${{ env.SERVER_USER }}/${{ env.DEPLOY_DIR }}"
           
@@ -199,75 +130,112 @@ jobs:
         if: always()
         run: |
           if [ "${{ job.status }}" == "success" ]; then
-            echo "STATUS_EMOJI=✅" >> $GITHUB_OUTPUT
-            echo "STATUS_TEXT=Successful" >> $GITHUB_OUTPUT
+            echo "STATUS=success" >> $GITHUB_OUTPUT
             echo "INCLUDE_DETAILS=true" >> $GITHUB_OUTPUT
           else
-            echo "STATUS_EMOJI=❌" >> $GITHUB_OUTPUT
-            echo "STATUS_TEXT=Failed" >> $GITHUB_OUTPUT
+            echo "STATUS=failed" >> $GITHUB_OUTPUT
             echo "INCLUDE_DETAILS=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Send Deployment Status Notification
         if: always()
-        uses: slackapi/slack-github-action@v1.23.0
+        uses: ./.github/actions/slack-notification
         with:
-          payload: |
-            {
-              "text": "${{ steps.status.outputs.STATUS_EMOJI }} *DEPLOYMENT ${{ steps.status.outputs.STATUS_TEXT }}*",
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "${{ steps.status.outputs.STATUS_EMOJI }} Frontend Deployment ${{ steps.status.outputs.STATUS_TEXT }}"
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Environment:*\n*${{ matrix.environment }}*"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Triggered by:*\n${{ github.actor }}"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Commit:*\n<${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch:*\n${{ env.BRANCH_NAME }}"
-                    }${{ steps.status.outputs.INCLUDE_DETAILS == 'true' && format(',
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Port:*\n{0}"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*PM2 Service:*\n{1}"
-                    }', env.DEPLOY_PORT, env.DEPLOY_NAME) || '' }}
-                  ]
-                },
-                {
-                  "type": "actions",
-                  "elements": [
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "View Workflow"
-                      },
-                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-                    }
-                  ]
-                }
-              ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          status: ${{ steps.status.outputs.STATUS }}
+          environment: 'PRODUCTION'
+          branch_name: 'main'
+          include_details: ${{ steps.status.outputs.INCLUDE_DETAILS }}
+          deploy_port: ${{ env.DEPLOY_PORT }}
+          deploy_name: ${{ env.DEPLOY_NAME }}
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: [test-and-build]
+    if: github.ref == 'refs/heads/dev'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: next-build-dev
+          path: .
+
+      - name: Set Environment Variables
+        run: |
+          echo "ENV_NAME=staging" >> $GITHUB_ENV
+          echo "DEPLOY_PORT=${{ vars.STAGING_DEPLOY_PORT }}" >> $GITHUB_ENV
+          echo "DEPLOY_NAME=${{ vars.STAGING_DEPLOY_NAME }}" >> $GITHUB_ENV
+          echo "DEPLOY_DIR=${{ vars.STAGING_DEPLOY_DIR }}" >> $GITHUB_ENV
+          echo "SERVER_USER=${{ secrets.STAGING_SERVER_USER }}" >> $GITHUB_ENV
+          echo "SERVER_IP=${{ secrets.STAGING_SERVER_IP }}" >> $GITHUB_ENV
+          echo "SERVER_PASSWORD=${{ secrets.STAGING_SERVER_PASSWORD }}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=dev" >> $GITHUB_ENV
+      
+      - name: Send Deployment Start Notification
+        uses: ./.github/actions/slack-notification
+        with:
+          status: 'started'
+          environment: 'STAGING'
+          branch_name: 'dev'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
           
+      - name: Create Deployment Directory if Not Exists
+        run: |
+          sshpass -p "${{ env.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no \
+          "${{ env.SERVER_USER }}@${{ env.SERVER_IP }}" << EOF
+          if [ ! -d "/home/${{ env.SERVER_USER }}/${{ env.DEPLOY_DIR }}" ]; then
+            echo "Creating directory /home/${{ env.SERVER_USER }}/${{ env.DEPLOY_DIR }}"
+            mkdir -p /home/${{ env.SERVER_USER }}/${{ env.DEPLOY_DIR }}
+          else
+            echo "Directory /home/${{ env.SERVER_USER }}/${{ env.DEPLOY_DIR }} already exists"
+          fi
+          EOF
+          
+      - name: Deploy to Server
+        id: deploy
+        run: |
+          echo "Deploying .next build to STAGING server..."
+          sshpass -p "${{ env.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml .env \
+          "${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:/home/${{ env.SERVER_USER }}/${{ env.DEPLOY_DIR }}"
+          
+      - name: Start Application on Server
+        id: start
+        run: |
+          sshpass -p "${{ env.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no \
+          "${{ env.SERVER_USER }}@${{ env.SERVER_IP }}" << 'EOF'
+          set -e # Stop script on error
+          export DEPLOY_NAME="${{ env.DEPLOY_NAME }}"
+          export DEPLOY_PORT="${{ env.DEPLOY_PORT }}"
+          export DEPLOY_DIR="${{ env.DEPLOY_DIR }}"
+          cd /home/${{ env.SERVER_USER }}/$DEPLOY_DIR
+          pnpm install --frozen-lockfile
+          pm2 delete $DEPLOY_NAME || true
+          PORT=$DEPLOY_PORT pm2 start pnpm --name $DEPLOY_NAME -- start
+          EOF
+
+      - name: Prepare Status Details
+        id: status
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "STATUS=success" >> $GITHUB_OUTPUT
+            echo "INCLUDE_DETAILS=true" >> $GITHUB_OUTPUT
+          else
+            echo "STATUS=failed" >> $GITHUB_OUTPUT
+            echo "INCLUDE_DETAILS=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Send Deployment Status Notification
+        if: always()
+        uses: ./.github/actions/slack-notification
+        with:
+          status: ${{ steps.status.outputs.STATUS }}
+          environment: 'STAGING'
+          branch_name: 'dev'
+          include_details: ${{ steps.status.outputs.INCLUDE_DETAILS }}
+          deploy_port: ${{ env.DEPLOY_PORT }}
+          deploy_name: ${{ env.DEPLOY_NAME }}
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
