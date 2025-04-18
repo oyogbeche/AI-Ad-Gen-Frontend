@@ -123,7 +123,7 @@ jobs:
           export DEPLOY_DIR="${{ env.DEPLOY_DIR }}"
           cd /home/${{ env.SERVER_USER }}/$DEPLOY_DIR
           pnpm install --frozen-lockfile
-          pm2 delete $DEPLOY_NAME || true
+          pm2 describe $DEPLOY_NAME > /dev/null 2>&1 && pm2 delete $DEPLOY_NAME || echo "No existing process to delete"
           PORT=$DEPLOY_PORT pm2 start pnpm --name $DEPLOY_NAME -- start
           EOF
 
