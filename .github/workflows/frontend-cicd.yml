@@ -110,9 +110,10 @@ jobs:
         id: deploy
         run: |
           echo "Deploying .next build to PRODUCTION server..."
-          sshpass -p "${{ env.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no -r .next public/ package.json pnpm-lock.yaml .env \
+          sshpass -p "${{ env.SERVER_PASSWORD }}" rsync -az --delete --exclude='.next/cache' \
+          .next public package.json pnpm-lock.yaml .env \
           "${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:/home/${{ env.SERVER_USER }}/${{ env.DEPLOY_DIR }}"
-          
+
       - name: Start Application on Server
         id: start
         run: |
@@ -200,7 +201,7 @@ jobs:
       - name: Deploy to Server
         id: deploy
         run: |
-          echo "Deploying .next build to server..."
+          echo "Deploying .next build to SATAGING server..."
           sshpass -p "${{ env.SERVER_PASSWORD }}" rsync -az --delete --exclude='.next/cache' \
           .next public package.json pnpm-lock.yaml .env \
           "${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:/home/${{ env.SERVER_USER }}/${{ env.DEPLOY_DIR }}"
