@@ -81,9 +81,9 @@ jobs:
           echo "DEPLOY_PORT=${{ vars.PROD_DEPLOY_PORT }}" >> $GITHUB_ENV
           echo "DEPLOY_NAME=${{ vars.PROD_DEPLOY_NAME }}" >> $GITHUB_ENV
           echo "DEPLOY_DIR=${{ vars.PROD_DEPLOY_DIR }}" >> $GITHUB_ENV
-          echo "SERVER_USER=${{ secrets.SERVER_USER }}" >> $GITHUB_ENV
-          echo "SERVER_IP=${{ secrets.SERVER_IP }}" >> $GITHUB_ENV
-          echo "SERVER_PASSWORD=${{ secrets.SERVER_PASSWORD }}" >> $GITHUB_ENV
+          echo "SERVER_USER=${{ secrets.PROD_SERVER_USER }}" >> $GITHUB_ENV
+          echo "SERVER_IP=${{ secrets.PROD_SERVER_IP }}" >> $GITHUB_ENV
+          echo "SERVER_PASSWORD=${{ secrets.PROD_SERVER_PASSWORD }}" >> $GITHUB_ENV
           echo "BRANCH_NAME=main" >> $GITHUB_ENV
       
       - name: Send Deployment Start Notification
