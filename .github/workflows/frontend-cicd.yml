@@ -149,8 +149,6 @@ jobs:
           environment: 'PRODUCTION'
           branch_name: 'main'
           include_details: ${{ steps.status.outputs.INCLUDE_DETAILS }}
-          deploy_port: ${{ env.DEPLOY_PORT }}
-          deploy_name: ${{ env.DEPLOY_NAME }}
           webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   deploy-staging:
@@ -243,6 +241,4 @@ jobs:
           environment: 'STAGING'
           branch_name: 'dev'
           include_details: ${{ steps.status.outputs.INCLUDE_DETAILS }}
-          deploy_port: ${{ env.DEPLOY_PORT }}
-          deploy_name: ${{ env.DEPLOY_NAME }}
           webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
