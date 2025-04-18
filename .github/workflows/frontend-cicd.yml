@@ -26,6 +26,9 @@ jobs:
         uses: pnpm/action-setup@v3
         with:
           version: latest
+
+      - name: Install pm2
+        run: pnpm add -g pm2
           
       - name: Create Environment-Specific .env File
         run: |
@@ -212,6 +215,7 @@ jobs:
           export DEPLOY_DIR="${{ env.DEPLOY_DIR }}"
           cd /home/${{ env.SERVER_USER }}/$DEPLOY_DIR
           pnpm install --frozen-lockfile
+          export PATH=$PATH:/home/${{ env.SERVER_USER }}/.local/share/pnpm/pm2
           pm2 delete $DEPLOY_NAME || true
           PORT=$DEPLOY_PORT pm2 start pnpm --name $DEPLOY_NAME -- start
           EOF
