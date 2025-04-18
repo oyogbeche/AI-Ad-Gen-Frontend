@@ -11,18 +11,6 @@ inputs:
   branch_name:
     description: 'Branch name'
     required: true
-  deploy_port:
-    description: 'Deployment port'
-    required: false
-    default: ''
-  deploy_name:
-    description: 'PM2 service name'
-    required: false
-    default: ''
-  include_details:
-    description: 'Whether to include deployment details'
-    required: false
-    default: 'false'
   webhook_url:
     description: 'Slack webhook URL'
     required: true
@@ -62,15 +50,7 @@ runs:
                   {
                     "type": "mrkdwn",
                     "text": "*Branch:*\n${{ inputs.branch_name }}"
-                  }${{ inputs.include_details == 'true' && format(',
-                  {
-                    "type": "mrkdwn",
-                    "text": "*Port:*\n{0}"
-                  },
-                  {
-                    "type": "mrkdwn",
-                    "text": "*PM2 Service:*\n{1}"
-                  }', inputs.deploy_port, inputs.deploy_name) || '' }}
+                  }
                 ]
               },
               {
